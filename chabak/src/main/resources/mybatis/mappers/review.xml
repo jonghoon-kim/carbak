@@ -19,7 +19,7 @@
 	)
 	</insert>
 
-	<select id="selectReviewList" resultType="####">
+	<select id="selectReviewList" resultType="Review">
 		select saveName
 		from testUpload
 	</select>

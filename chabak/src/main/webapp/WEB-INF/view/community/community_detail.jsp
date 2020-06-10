@@ -7,7 +7,7 @@ prefix="c" %>
 <head>
     <meta charset="UTF-8">
     <title>슬기로운 차박생활</title>
-    <link href="css/community_detail.css" rel="stylesheet">
+    <link href="/css/community_detail.css" rel="stylesheet">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
     <script type="text/javascript" src=" http://code.jquery.com/jquery-latest.min.js"></script>
     <script>
@@ -55,7 +55,7 @@ prefix="c" %>
         </div>
         <div class="content">
             <div class="review-img">
-                <img src="img/index/banner_01.png">
+                <img src="/img/index/banner_01.png">
             </div>
             <div class="review-content">
                 <div class="content-title">

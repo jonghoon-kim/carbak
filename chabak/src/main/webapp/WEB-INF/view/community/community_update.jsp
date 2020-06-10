@@ -7,10 +7,10 @@
 <head>
     <meta charset="UTF-8">
     <title>슬기로운 차박생활</title>
-    <link href="css/community_write.css" rel="stylesheet">
+    <link href="/css/community_write.css" rel="stylesheet">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
     <script type="text/javascript" src=" http://code.jquery.com/jquery-latest.min.js"></script>
-    <script type="text/javascript" src="js/smarteditor2/js/HuskyEZCreator.js"></script>
+    <script type="text/javascript" src="/js/smarteditor2/js/HuskyEZCreator.js"></script>
 
     <script type="text/javascript">
         $('document').ready(function () {
@@ -85,7 +85,7 @@
                 var oEditors = []; nhn.husky.EZCreator.createInIFrame({
                     oAppRef: oEditors,
                     elPlaceHolder: "smartEditor", //저는 textarea의 id와 똑같이 적어줬습니다.
-                    sSkinURI : "js/smarteditor2/SmartEditor2Skin.html", //경로를 꼭 맞춰주세요!
+                    sSkinURI : "/js/smarteditor2/SmartEditor2Skin.html", //경로를 꼭 맞춰주세요!
                     fCreator : "createSEditor2"
                 });
             </script>
