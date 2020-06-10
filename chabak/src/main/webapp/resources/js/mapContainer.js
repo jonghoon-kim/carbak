@@ -1,8 +1,8 @@
-var mapContainer = document.getElementById('map'), // Áöµµ¸¦ Ç¥½ÃÇÒ div 
+var mapContainer = document.getElementById('map'), // ì§€ë„ë¥¼ í‘œì‹œí•  div 
     mapOption = { 
-        center: new kakao.maps.LatLng(33.450701, 126.570667), // ÁöµµÀÇ Áß½ÉÁÂÇ¥
-        level: 3 // ÁöµµÀÇ È®´ë ·¹º§
+        center: new kakao.maps.LatLng(33.450701, 126.570667), // ì§€ë„ì˜ ì¤‘ì‹¬ì¢Œí‘œ
+        level: 3 // ì§€ë„ì˜ í™•ëŒ€ ë ˆë²¨
     };
 
-// Áöµµ¸¦ Ç¥½ÃÇÒ div¿Í  Áöµµ ¿É¼ÇÀ¸·Î  Áöµµ¸¦ »ı¼ºÇÕ´Ï´Ù
+// ì§€ë„ë¥¼ í‘œì‹œí•  divì™€  ì§€ë„ ì˜µì…˜ìœ¼ë¡œ  ì§€ë„ë¥¼ ìƒì„±í•©ë‹ˆë‹¤
 var map = new kakao.maps.Map(mapContainer, mapOption); 

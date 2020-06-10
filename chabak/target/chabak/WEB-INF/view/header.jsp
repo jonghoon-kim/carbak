@@ -7,7 +7,7 @@
 <head>
     <meta charset="UTF-8">
     <title>슬기로운 차박생활</title>
-    <link href="/resources/css/header.css" rel="stylesheet">
+    <link href="css/header.css" rel="stylesheet">
 </head>
 
 <body>
@@ -29,7 +29,7 @@
         </div>
     </div>
     <div class="logo">
-        <a href="index.html"><img src="/resources/img/header/logo.png"></a>
+        <a href="index.html"><img src="img/header/logo.png"></a>
     </div>
 </header>
 

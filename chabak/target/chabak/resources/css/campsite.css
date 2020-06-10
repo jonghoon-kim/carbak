@@ -1,50 +1,50 @@
 @import url(https://fonts.googleapis.com/earlyaccess/jejugothic.css);
 
 .top_hr{
-	border: 1px solid rgb(105, 179, 149);
+    border: 1px solid rgb(105, 179, 149);
     width: 1535px;
     display: inline-block;
     margin: 70px 200px 0px 200px;
 }
-/* a≈¬±◊ ±‚∫ªº≥¡§ */
+/* aÌÉúÍ∑∏ Í∏∞Î≥∏ÏÑ§Ï†ï */
 a{
-	color: #000;
-	text-decoration:none;
+    color: #000;
+    text-decoration:none;
 }
 a:hover{
-	color: rgb(105, 179, 149);
-	text-decoration:none;
+    color: rgb(105, 179, 149);
+    text-decoration:none;
 }
 a:active{
-	color: rgb(105, 179, 149);
-	text-decoration:none;
+    color: rgb(105, 179, 149);
+    text-decoration:none;
 }
 a:visited{
-	color: #000;
-	text-decoration:none;
+    color: #000;
+    text-decoration:none;
 }
 
 /*campsite Container*/
 .container{
     margin-top: 50px;
-	display: inline-block;
-	width:1920px;
+    display: inline-block;
+    width:1920px;
 }
 
-/* ≈∏¿Ã∆≤ */
+/* ÌÉÄÏù¥ÌãÄ */
 .top {
-	margin-right: 45px;
+    margin-right: 45px;
     text-align: center;
     margin-bottom: 50px;
     font-family: 'Jeju Gothic', sans-serif;
 }
-/* ¡ˆø™∞Àªˆ */
+/* ÏßÄÏó≠Í≤ÄÏÉâ */
 .campsite_section{
-	margin-left:140px;
+    margin-left:140px;
 }
-/* ¡ˆø™º±≈√ */
+/* ÏßÄÏó≠ÏÑ†ÌÉù */
 .address_select{
-	margin-left: 200px;
+    margin-left: 200px;
     margin-bottom: 30px;
 }
 .address_select select {
@@ -70,272 +70,272 @@ a:visited{
 .address_select button{
     font-family: 'Jeju Gothic', sans-serif;
     color:white;
-	background-color:rgb(105, 179, 149);
+    background-color:rgb(105, 179, 149);
     border-radius: 10px;
     width: 100px;
     height: 30px;
 }
 #map{
-	margin-left:200px;
-	float:left;
+    margin-left:200px;
+    float:left;
 }
 #map img{
     width: 570px;
     height: 570px;
 }
 
-/*æﬂøµ¡ˆ ∞Àªˆ*/
+/*ÏïºÏòÅÏßÄ Í≤ÄÏÉâ*/
 .campsite_aticle{
-	display:block;
-	width:600px;
-	height:570px;
-	margin-left:980px;
+    display:block;
+    width:600px;
+    height:570px;
+    margin-left:980px;
 }
 .campsite_aticle h2{
     font-family: 'Jeju Gothic', sans-serif;
-	text-align:center;
-	margin-right:30px;
+    text-align:center;
+    margin-right:30px;
 }
-/*æﬂøµ¡ˆ ∞Àªˆ¡§∫∏*/
+/*ÏïºÏòÅÏßÄ Í≤ÄÏÉâÏ†ïÎ≥¥*/
 .campsite_info{
-	margin-top:50px;
-	width:590px;
-	height:490px;
+    margin-top:50px;
+    width:590px;
+    height:490px;
     border: 3px solid rgb(105, 179, 149);
     border-radius: 10px;
-	overflow:auto;
+    overflow:auto;
 }
 .campsite_info ul li{
-	margin-top: 50px;
-	margin-left: 50px;
+    margin-top: 50px;
+    margin-left: 50px;
     font-family: 'Jeju Gothic', sans-serif;
-	font-weight:
-	font-size:22px;
-	list-style: none;
+    font-weight:
+    font-size:22px;
+    list-style: none;
 }
 .campsite_info ul li p a{
-	color: #000;
-	text-decoration:none;
+    color: #000;
+    text-decoration:none;
 }
 .campsite_info ul li p a:hover{
-	color: rgb(105, 179, 149);
-	text-decoration:none;
+    color: rgb(105, 179, 149);
+    text-decoration:none;
 }
 .campsite_info ul li .address{
-	margin-top: 10px;
-	font-size:14px;
+    margin-top: 10px;
+    font-size:14px;
 }
 
-/*ƒøπ¬¥œ∆º*/
+/*Ïª§ÎÆ§ÎãàÌã∞*/
 .community_aticle{
-	margin-top:50px;
-	margin-bottom:50px;
+    margin-top:50px;
+    margin-bottom:50px;
 }
 .community_aticle h2{
     font-family: 'Jeju Gothic', sans-serif;
-	text-align:center;
-	margin-right:30px;
-	margin-bottom:30px;
+    text-align:center;
+    margin-right:30px;
+    margin-bottom:30px;
 }
 
 .community_aticle ul{
-  margin-left:203px;
-  height:420px;
+    margin-left:203px;
+    height:420px;
 }
 .community_aticle ul li{
-  width:260px;
-  height:400px;
-  margin-right:51px;
-  list-style:none;
-  float:left;
-  border-radius: 25px;
-  border: 1px solid rgba(255, 255, 255, .4);
-  box-shadow: 0px 5px 10px #609367;
+    width:260px;
+    height:400px;
+    margin-right:51px;
+    list-style:none;
+    float:left;
+    border-radius: 25px;
+    border: 1px solid rgba(255, 255, 255, .4);
+    box-shadow: 0px 5px 10px #609367;
 }
 .community_aticle ul li .best_img{
-  margin: 10px 9px 5px 9px;
-  width:240px;
-  height:200px;
-  
-  border: 1px solid black;
-  border-radius: 18px;
+    margin: 10px 9px 5px 9px;
+    width:240px;
+    height:200px;
+
+    border: 1px solid black;
+    border-radius: 18px;
 }
 .community_aticle ul li .best_img img{
-  width:240px;
-  height:200px;
-  border-radius: 18px;
+    width:240px;
+    height:200px;
+    border-radius: 18px;
 }
 .community_aticle ul li p{
-  margin-left:9px;
-  font-family: 'Jeju Gothic', sans-serif;
+    margin-left:9px;
+    font-family: 'Jeju Gothic', sans-serif;
 }
 .community_aticle ul li .best_title{
-  margin-top:7px;
+    margin-top:7px;
 }
 .community_aticle ul li .best_views{
-  width:240px;
-  font-family: 'Roboto', sans-serif;
-  font-size: 12px;
+    width:240px;
+    font-family: 'Roboto', sans-serif;
+    font-size: 12px;
 }
 
-/*∏Æ∫‰ ≥ªøÎ*/
+/*Î¶¨Î∑∞ ÎÇ¥Ïö©*/
 .community_aticle ul li .best_content{
-  font-family: 'Jeju Gothic', sans-serif;
-  font-size:11px;
-  margin: 10px 9px 5px 9px;
-  resize:none;
-  width:240px;
-  height:70px;
-  text-overflow: ellipsis;
-  overflow:hidden;
-  outline:0;
-  border:0;
+    font-family: 'Jeju Gothic', sans-serif;
+    font-size:11px;
+    margin: 10px 9px 5px 9px;
+    resize:none;
+    width:240px;
+    height:70px;
+    text-overflow: ellipsis;
+    overflow:hidden;
+    outline:0;
+    border:0;
 }
 .community_aticle ul li .best_id{
-  margin:15px 9px 5px 14px;
-  font-family: 'Jeju Gothic', sans-serif;
-  font-size:12px;
+    margin:15px 9px 5px 14px;
+    font-family: 'Jeju Gothic', sans-serif;
+    font-size:12px;
 }
 
-/*∫Ì∑Œ±◊*/
+/*Î∏îÎ°úÍ∑∏*/
 .blog_aticle{
-	margin-top:50px;
-	margin-bottom:50px;
+    margin-top:50px;
+    margin-bottom:50px;
 }
 .blog_aticle h2{
     font-family: 'Jeju Gothic', sans-serif;
-	text-align:center;
-	margin-right:30px;
-	margin-bottom:30px;
+    text-align:center;
+    margin-right:30px;
+    margin-bottom:30px;
 }
 
 .blog_aticle ul{
-  margin-left:203px;
-  height:420px;
+    margin-left:203px;
+    height:420px;
 }
 .blog_aticle ul li{
-  width:260px;
-  height:400px;
-  margin-right:51px;
-  list-style:none;
-  float:left;
-  border-radius: 25px;
-  border: 1px solid rgba(255, 255, 255, .4);
-  box-shadow: 0px 5px 10px #609367;
+    width:260px;
+    height:400px;
+    margin-right:51px;
+    list-style:none;
+    float:left;
+    border-radius: 25px;
+    border: 1px solid rgba(255, 255, 255, .4);
+    box-shadow: 0px 5px 10px #609367;
 }
 .blog_aticle ul li .best_img{
-  margin: 10px 9px 5px 9px;
-  width:240px;
-  height:200px;
-  
-  border: 1px solid black;
-  border-radius: 18px;
+    margin: 10px 9px 5px 9px;
+    width:240px;
+    height:200px;
+
+    border: 1px solid black;
+    border-radius: 18px;
 }
 .blog_aticle ul li .best_img img{
-  width:240px;
-  height:200px;
-  border-radius: 18px;
+    width:240px;
+    height:200px;
+    border-radius: 18px;
 }
 .blog_aticle ul li p{
-  margin-left:9px;
-  font-family: 'Jeju Gothic', sans-serif;
+    margin-left:9px;
+    font-family: 'Jeju Gothic', sans-serif;
 }
 .blog_aticle ul li .best_title{
-  margin-top:7px;
+    margin-top:7px;
 }
 .blog_aticle ul li .best_views{
-  width:240px;
-  font-family: 'Roboto', sans-serif;
-  font-size: 12px;
+    width:240px;
+    font-family: 'Roboto', sans-serif;
+    font-size: 12px;
 }
 
-/*∏Æ∫‰ ≥ªøÎ*/
+/*Î¶¨Î∑∞ ÎÇ¥Ïö©*/
 .blog_aticle ul li .best_content{
-  font-family: 'Jeju Gothic', sans-serif;
-  font-size:11px;
-  margin: 10px 9px 5px 9px;
-  resize:none;
-  width:240px;
-  height:70px;
-  text-overflow: ellipsis;
-  overflow:hidden;
-  outline:0;
-  border:0;
+    font-family: 'Jeju Gothic', sans-serif;
+    font-size:11px;
+    margin: 10px 9px 5px 9px;
+    resize:none;
+    width:240px;
+    height:70px;
+    text-overflow: ellipsis;
+    overflow:hidden;
+    outline:0;
+    border:0;
 }
 .blog_aticle ul li .best_id{
-  margin:15px 9px 5px 14px;
-  font-family: 'Jeju Gothic', sans-serif;
-  font-size:12px;
+    margin:15px 9px 5px 14px;
+    font-family: 'Jeju Gothic', sans-serif;
+    font-size:12px;
 }
 .select_community{
-  float:right;
-  margin-right:20px;
-  margin-top:3px;
-  font-family: 'Jeju Gothic', sans-serif;
-  font-size:9px;
+    float:right;
+    margin-right:20px;
+    margin-top:3px;
+    font-family: 'Jeju Gothic', sans-serif;
+    font-size:9px;
 }
 .community_link{
-  margin-top:20px;
-  margin-bottom:35px;
-  margin-right:20px;
-  text-align:center;
-  font-family: 'Jeju Gothic', sans-serif;
+    margin-top:20px;
+    margin-bottom:35px;
+    margin-right:20px;
+    text-align:center;
+    font-family: 'Jeju Gothic', sans-serif;
 }
 .community_link button{
-  background-color:#fff;
-  font-size:20px;
+    background-color:#fff;
+    font-size:20px;
 }
 .community_link .fa-angle-left{
-  color:rgb(105, 179, 149);
-  margin-right:15px;
-  font-size:24px;
+    color:rgb(105, 179, 149);
+    margin-right:15px;
+    font-size:24px;
 }
 .community_link .fa-angle-left:hover{
-  color:#000;
+    color:#000;
 }
 .community_link .fa-angle-right{
-  color:rgb(105, 179, 149);
-  margin-left:15px;
-  font-size:24px;
+    color:rgb(105, 179, 149);
+    margin-left:15px;
+    font-size:24px;
 }
 .community_link .fa-angle-right:hover{
-  color:#000;
+    color:#000;
 }
 .community_link .fa-circle{
-  color:rgb(105, 179, 149);
+    color:rgb(105, 179, 149);
 }
 
-/*æﬂøµ¡ˆ º±≈√ »ƒ*/
-/*æﬂøµ¡ˆ ∞Àªˆ¡§∫∏*/
+/*ÏïºÏòÅÏßÄ ÏÑ†ÌÉù ÌõÑ*/
+/*ÏïºÏòÅÏßÄ Í≤ÄÏÉâÏ†ïÎ≥¥*/
 .campsite_select{
-	margin-top:50px;
-	width:590px;
-	height:490px;
+    margin-top:50px;
+    width:590px;
+    height:490px;
     border: 3px solid rgb(105, 179, 149);
     border-radius: 10px;
-	overflow:auto;
+    overflow:auto;
 }
 .campsite_select ul li{
-	margin-top: 50px;
-	margin-left: 50px;
+    margin-top: 50px;
+    margin-left: 50px;
     font-family: 'Jeju Gothic', sans-serif;
-	font-size:18px;
-	list-style: none;
+    font-size:18px;
+    list-style: none;
 }
 .campsite_select ul li p{
-	margin-bottom: 25px;
-	font-size:14px;
+    margin-bottom: 25px;
+    font-size:14px;
 }
 .campsite_select ul li p a{
-	color: #000;
-	text-decoration:none;
+    color: #000000;
+    text-decoration:none;
 }
 .campsite_select ul li p a:hover{
-	color: rgb(105, 179, 149);
-	text-decoration:none;
+    color: rgb(105, 179, 149);
+    text-decoration:none;
 }
 .campsite_select ul li .name{
-	margin-bottom:50px;
-	font-size:24px;
-	font-weight:bold;
+    margin-bottom:50px;
+    font-size:24px;
+    font-weight:bold;
 }
