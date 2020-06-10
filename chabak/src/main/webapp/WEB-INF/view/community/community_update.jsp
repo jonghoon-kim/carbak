@@ -63,7 +63,7 @@
 <hr><br>
 <div class="container">
     <div class="top">
-        <h1>커뮤니티 리뷰 쓰기</h1>
+        <h1>커뮤니티 리뷰 수정</h1>
     </div>
     <div class="second">
         <div class="set">
