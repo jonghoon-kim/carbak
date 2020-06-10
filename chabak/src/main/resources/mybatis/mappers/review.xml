@@ -2,22 +2,26 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 	<!-- SQL Mapping 설정 -->
-	<mapper namespace="member">
+	<mapper namespace="review">
 	<!-- SQL 객체 --><!-- 게시물 추가 sql parameterType은 이미 alias를 설정했으므로 전체경로를 쓸 필요 없다-->
 	<!-- insert,update,delete 객체는 영향받은 레코드의 카운트를 정수로 반환 -->
-	<insert id="insertMember" parameterType="Member">
-	INSERT INTO Member(id,password,name,gender,state,city,email,uploadKey,uploadYes)
+	<insert id="insertReview" parameterType="Review">
+	INSERT INTO Review(reviewNo,id,title,state,city,content,uploadKey,uploadYes)
 	VALUES(
-	#{password},
-    #{name},
-    #{gender},
-    #{state},
-    #{city},
-    #{email},
-    UPLOADKEY_SEQ.nextval,
-   #{uploadYes}
-
+	#{reviewNo},
+	#{id},
+	#{title},
+	#{state},
+	#{city},
+	#{content},
+	UPLOADKEY_SEQ.nextval,
+	#{uploadYes}
 	)
 	</insert>
+
+	<select id="selectReviewList" resultType="####">
+		select saveName
+		from testUpload
+	</select>
 
 	</mapper>
