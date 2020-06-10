@@ -1,0 +1,14 @@
+<component name="ArtifactManager">
+  <artifact type="war" name="chabak:war">
+    <output-path>$PROJECT_DIR$/chabak/target</output-path>
+    <properties id="maven-jee-properties">
+      <options>
+        <module>chabak</module>
+        <packaging>war</packaging>
+      </options>
+    </properties>
+    <root id="archive" name="chabak.war">
+      <element id="artifact" artifact-name="chabak:war exploded" />
+    </root>
+  </artifact>
+</component>
