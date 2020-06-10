@@ -21,17 +21,4 @@
 	)
 	</insert>
 
-	<!-- 이메일 중복 체크용 select -->
-	<select id="selectByEmail" parameterType="String" resultType="Member">
-	select email
-	from users
-	WHERE email=#{email}
-	</select>
-	    
-	<select id="selectByEmailAndPassword" parameterType="map" resultType="Member">
-	select no, name, email, gender
-	from users
-	WHERE email=#{email} AND password=#{password}
-	</select>
-		
 	</mapper>
