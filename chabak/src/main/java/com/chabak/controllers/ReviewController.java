@@ -24,11 +24,11 @@ public class ReviewController {
     }
 
     @RequestMapping(value ="/write", method=RequestMethod.POST)
-    public String writeReview(@RequestParam String title,String sido,String gugun){
+    public String writeReview(@RequestParam String title,@RequestParam String sido,String gugun,@RequestParam String content){
         //TODO:로직 작성
 
 
-        String testString = String.format("title: %s sido: %s gugun: %s",title,sido,gugun);
+        String testString = String.format("title: %s sido: %s gugun: %s content: %s",title,sido,gugun,content);
         System.out.println(testString);
         return "community/community";//이동 주소는 수정할 것
     }
