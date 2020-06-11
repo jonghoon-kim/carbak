@@ -11,8 +11,8 @@
 	#{password},
     #{name},
     #{gender},
-    #{state},
-    #{city},
+    #{sido},
+    #{gugun},
     #{email},
     UPLOADKEY_SEQ.nextval,
    #{uploadYes}
