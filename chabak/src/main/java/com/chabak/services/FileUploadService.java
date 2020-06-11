@@ -1,8 +1,7 @@
 package com.chabak.services;
 
 import com.chabak.repositories.FileUploadDao;
-import com.chabak.vo.TestFileVo;
-import org.apache.ibatis.session.SqlSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;

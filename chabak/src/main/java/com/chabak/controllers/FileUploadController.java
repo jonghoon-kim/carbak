@@ -3,7 +3,8 @@ package com.chabak.controllers;
 
 import com.chabak.repositories.FileUploadDao;
 import com.chabak.services.FileUploadService;
-import com.chabak.vo.TestFileVo;
+
+import com.chabak.vo.FileUpload;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -36,14 +37,14 @@ public class FileUploadController {
         for (MultipartFile file : files) {
 
             saveFileName = fileUploadService.store(file);
-            TestFileVo testFileVo = new TestFileVo();
-            testFileVo.setSaveName(saveFileName);
+            FileUpload fileUpload = new FileUpload();
+            fileUpload.setSaveName(saveFileName);
 
-            fileUploadDao.insertFile(testFileVo);
+            fileUploadDao.insertFile(fileUpload);
         }
-            List<TestFileVo> fileList = fileUploadDao.selectFileList();
+            List<FileUpload> fileList = fileUploadDao.selectFileList();
             model.addAttribute("fileList", fileList);
-            return "result";
+            return "주소 설정 필요";
         }
     }
 

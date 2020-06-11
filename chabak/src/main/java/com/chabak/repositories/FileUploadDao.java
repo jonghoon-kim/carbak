@@ -1,6 +1,7 @@
 package com.chabak.repositories;
 
-import com.chabak.vo.TestFileVo;
+
+import com.chabak.vo.FileUpload;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -12,15 +13,15 @@ public class FileUploadDao {
     @Autowired
     SqlSession sqlSession;
 
-    public int insertFile(TestFileVo testFileVo){
+    public int insertFile(FileUpload fileUpload){
 
-        int intCount = sqlSession.insert("fileUpload.insertSaveName",testFileVo);
+        int intCount = sqlSession.insert("fileUpload.insertUpload",fileUpload);
 
         return intCount;
     }
 
-    public List<TestFileVo> selectFileList(){
-        List<TestFileVo> fileList = null;
+    public List<FileUpload> selectFileList(){
+        List<FileUpload> fileList = null;
         fileList = sqlSession.selectList("fileUpload.selectFileList");
         return fileList;
 
