@@ -61,7 +61,7 @@
 
     <div id="header_right_but">
         <div class="info_but">
-            <button onclick="location.href ='#'">&nbsp;MyPage</button>
+            <button onclick="location.href ='/mypage/myInfo'">MyPage</button>
         </div>
         <div class="login_but">
             <button onclick="location.href ='/member/login'">Login</button>

@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 @RequestMapping("/member")
 public class MemberController {
 
-    @RequestMapping(value= {"", "/", "login"}, method= RequestMethod.GET)
+    @RequestMapping(value= {"","/","login"}, method= RequestMethod.GET)
     public String loginForm() {
         return "member/login";
     }
@@ -18,6 +18,7 @@ public class MemberController {
     public String loginAction(@RequestParam String id,@RequestParam String password){
         System.out.println("id:"+id);
         System.out.println("password:"+password);
-        return "community/community";//이동 주소는 수정할 것
+        return "/community/community";//이동 주소는 수정할 것
     }
+
 }
