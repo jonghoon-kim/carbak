@@ -42,6 +42,7 @@
     </div>
     <div style="margin-top: 170px;"></div>
     <!-- 게시글 리스트 -->
+    <c:forEach var="review" items="${reviewList}">
     <div class="review">
         <div class="profile">
             <div class="thumbnail-wrapper">
@@ -52,18 +53,23 @@
             </div>
             <div class="writer">
                     <span class="writer-id">
-                        id
+                        id:${review.id}
                     </span>
             </div>
         </div>
         <div class="content">
+
             <div class="review-img">
-                <img src="/img/index/banner_01.png">
+<%--                <img src="/img/index/banner_01.png">--%>
+
+
+                <img src="/upload-images/${review.titleImageSrc}" onclick="location.href='/review/detail?reviewNo=${review.reviewNo}'">
             </div>
             <div class="review-content">
                 <div class="content-title">
-                    &nbsp;&nbsp;
-                    [강원도][동해시] 망상 오토 캠핑장
+
+<%--                    [강원도][동해시] 망상 오토 캠핑장--%>
+                    [${review.sido}][${review.gugun}] ${review.title}
                 </div>
                 <div class="content-icon">
                     <button class="like-img"><img id="like-img" src="/img/community/heart.png"
@@ -71,8 +77,10 @@
                     <button class="comment-img"><img src="/img/community/comment.png"></button>
                 </div>
             </div>
+
         </div>
     </div>
+    </c:forEach>
 </div>
 
 </div>

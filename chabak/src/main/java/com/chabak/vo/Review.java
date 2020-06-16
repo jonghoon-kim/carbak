@@ -12,10 +12,9 @@ public class Review {
     private String sido;
     private String gugun;
     private String content;
+    private String titleImageSrc;
     private int readCount;
     private int likeCount;
-    private int uploadKey;
-    private String uploadYes;
     private Date regDate;
     private Date modifyDate;
 

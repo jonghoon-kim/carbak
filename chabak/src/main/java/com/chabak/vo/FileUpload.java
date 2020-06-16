@@ -6,6 +6,7 @@ import lombok.Data;
 public class FileUpload {
     private int fileNo;
     private int uploadKey;
+    private String filePath;
     private String originalName;
     private String saveName;
 

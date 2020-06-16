@@ -35,6 +35,6 @@ public class WelcomeController {
 
 
 
-        return "campsite/campsite";
+        return "index";
     }
 }

@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-pageEncoding="UTF-8"%>
+         pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core"
-prefix="c" %>
+           prefix="c" %>
 <!DOCTYPE html>
 
 <head>
@@ -10,7 +10,13 @@ prefix="c" %>
     <link href="/css/community_detail.css" rel="stylesheet">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
     <script type="text/javascript" src=" http://code.jquery.com/jquery-latest.min.js"></script>
-    <script>
+    <script type="text/javascript" charset="UTF-8">
+        $('document').ready(function () {
+            <%--$("#content").innerHTML=${review.content};--%>
+            // $("#content").innerHTML='<p>testCode in content</p>';
+            // $("#content").html('<p>testCode in content</p>');
+            <%--$("#content").html(${review.content});--%>
+        });
         function like() {
             var img = document.getElementById("like-img");
             img.src = "/img/community/heart2.png"
@@ -19,27 +25,14 @@ prefix="c" %>
 
 <body>
 <!-- header -->
+
 <hr><br>
 <div class="container">
     <div class="top">
         <h1>커뮤니티 리뷰 상세보기</h1>
     </div>
-    <!-- 글쓰기, 정렬 버튼 -->
+    <!-- 상세 내용 -->
     <div class="second">
-        <div class="insert">
-            <button type="submit" onclick="location.href='community_write.html'">글쓰기</button>
-        </div>
-        <div class="sort">
-            <select>
-                <option>최신 순</option>
-                <option>좋아요 순</option>
-                <option>댓글 많은 순</option>
-            </select>
-        </div>
-    </div>
-    <div style="margin-top: 170px;"></div>
-    <!-- 게시글 리스트 -->
-    <div class="review">
         <div class="profile">
             <div class="thumbnail-wrapper">
                 <div class="thumbnail">
@@ -49,30 +42,88 @@ prefix="c" %>
             </div>
             <div class="writer">
                     <span class="writer-id">
-                        id
+                        je309
                     </span>
             </div>
-        </div>
-        <div class="content">
-            <div class="review-img">
-                <img src="/img/index/banner_01.png">
+            <div class="title">
+                [강원도][동해시] 망상 오토 캠핑장
             </div>
-            <div class="review-content">
-                <div class="content-title">
-                    &nbsp;&nbsp;
-                    [강원도][동해시] 망상 오토 캠핑장
-                </div>
-                <div class="content-icon">
-                    <button class="like-img"><img id="like-img" src="/img/community/heart.png"
-                                                  onclick="like()"></button>
-                    <button class="comment-img"><img src="/img/community/comment.png"></button>
-                </div>
+            <div class="content-icon">
+                <span>999+</span>
+                <button class="like-img"><img id="like-img" src="/img/community/heart.png"
+                                              onclick="like()"></button>
             </div>
         </div>
     </div>
+    <!-- 게시글 내용 -->
+    <div class="main">
+        <div class="content" id="content">
+<%--            ${review.content}--%>
+        </div>
+    </div>
+    <!-- 댓글 -->
+    <div class="reply">
+        <div class="reply-input">
+            <input type="text" placeholder="댓글 입력">
+            <button type="submit">등록</button>
+        </div>
+        <div class="reply-list">
+            <div class="thumbnail-wrapper">
+                <div class="reply-thumbnail">
+                    <div class="centered">
+                    </div>
+                </div>
+            </div>
+            <div class="writer">
+                    <span class="writer-id">
+                        je309
+                    </span>
+            </div>
+            <div class="reply-date">
+                댓글 단 날짜
+            </div>
+            <div class="button">
+                <button class="update">수정</button>
+                <button class="delete">삭제</button>
+            </div>
+            <div class="reply-content">
+                와! <br>
+                너무 좋아요!
+            </div>
+        </div>
+        <!--대댓글 생성시-->
+        <div class="re-reply">
+            <img src="/img/community/re-reply3.png">
+            <div class="thumbnail-wrapper">
+                <div class="reply-thumbnail">
+                    <div class="centered">
+                    </div>
+                </div>
+            </div>
+            <div class="writer">
+                    <span class="writer-id">
+                        je309
+                    </span>
+            </div>
+            <div class="reply-date">
+                댓글 단 날짜
+            </div>
+            <div class="button">
+                <button class="update">수정</button>
+                <button class="delete">삭제</button>
+            </div>
+            <div class="re-reply-content">
+                대박<br>
+                대박<br>
+            </div>
+        </div>
+
+    </div>
+</div>
 </div>
 
 </div>
 </div>
 </body>
+
 </html>

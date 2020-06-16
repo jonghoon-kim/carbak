@@ -6,22 +6,27 @@
 	<!-- SQL 객체 --><!-- 게시물 추가 sql parameterType은 이미 alias를 설정했으므로 전체경로를 쓸 필요 없다-->
 	<!-- insert,update,delete 객체는 영향받은 레코드의 카운트를 정수로 반환 -->
 	<insert id="insertReview" parameterType="Review">
-	INSERT INTO Review(reviewNo,id,title,sido,gugun,content,uploadKey,uploadYes)
+	INSERT INTO Review(reviewNo,id,title,sido,gugun,content,titleImageSrc)
 	VALUES(
-	#{reviewNo},
+	REVIEWNO_SEQ.nextval,
 	#{id},
 	#{title},
 	#{sido},
 	#{gugun},
 	#{content},
-	UPLOADKEY_SEQ.nextval,
-	#{uploadYes}
+	#{titleImageSrc}
 	)
 	</insert>
 
 	<select id="selectReviewList" resultType="Review">
-		select saveName
-		from testUpload
+		select reviewNo,id,title,sido,gugun,content,titleImageSrc,readCount,likeCount,regDate,modifyDate
+		from Review
+	</select>
+
+	<select id="selectReviewDetail" parameterType="int" resultType="Review">
+		select reviewNo,id,title,sido,gugun,content,titleImageSrc,readCount,likeCount,regDate,modifyDate
+		from Review
+		where REVIEWNO = #{reviewNo}
 	</select>
 
 	</mapper>

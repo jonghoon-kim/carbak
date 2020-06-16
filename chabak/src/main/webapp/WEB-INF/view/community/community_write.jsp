@@ -67,6 +67,7 @@
     </div>
     <form method="POST" action="/review/write" onsubmit=" return checkValidate()">
     <div class="second">
+        <input type="hidden" name="id">
 
         <div class="set">
             <span class="title">제목</span><br>
