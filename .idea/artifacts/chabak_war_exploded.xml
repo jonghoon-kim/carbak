@@ -1,6 +1,6 @@
 <component name="ArtifactManager">
   <artifact type="exploded-war" name="chabak:war exploded">
-    <output-path>$PROJECT_DIR$/chabak/src/main/webapp</output-path>
+    <output-path>$PROJECT_DIR$/chabak/target/chabak</output-path>
     <properties id="maven-jee-properties">
       <options>
         <exploded>true</exploded>
@@ -61,6 +61,9 @@
           <element id="library" level="project" name="Maven: commons-fileupload:commons-fileupload:1.4" />
           <element id="library" level="project" name="Maven: commons-io:commons-io:2.6" />
           <element id="library" level="project" name="Maven: javax.servlet:jstl:1.2" />
+          <element id="library" level="project" name="Maven: com.fasterxml.jackson.core:jackson-core:2.11.0" />
+          <element id="library" level="project" name="Maven: com.fasterxml.jackson.core:jackson-databind:2.11.0" />
+          <element id="library" level="project" name="Maven: com.fasterxml.jackson.core:jackson-annotations:2.11.0" />
         </element>
       </element>
       <element id="directory" name="META-INF">
