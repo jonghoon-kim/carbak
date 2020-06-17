@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-         pageEncoding="UTF-8"%>
+pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core"
-           prefix="c" %>
+prefix="c" %>
 <!DOCTYPE html>
 
 <head>
@@ -10,13 +10,7 @@
     <link href="/css/community_detail.css" rel="stylesheet">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
     <script type="text/javascript" src=" http://code.jquery.com/jquery-latest.min.js"></script>
-    <script type="text/javascript" charset="UTF-8">
-        $('document').ready(function () {
-            <%--$("#content").innerHTML=${review.content};--%>
-            // $("#content").innerHTML='<p>testCode in content</p>';
-            // $("#content").html('<p>testCode in content</p>');
-            <%--$("#content").html(${review.content});--%>
-        });
+    <script>
         function like() {
             var img = document.getElementById("like-img");
             img.src = "/img/community/heart2.png"
@@ -25,7 +19,6 @@
 
 <body>
 <!-- header -->
-
 <hr><br>
 <div class="container">
     <div class="top">
@@ -57,8 +50,8 @@
     </div>
     <!-- 게시글 내용 -->
     <div class="main">
-        <div class="content" id="content">
-<%--            ${review.content}--%>
+        <div class="content">
+
         </div>
     </div>
     <!-- 댓글 -->
@@ -93,7 +86,7 @@
         </div>
         <!--대댓글 생성시-->
         <div class="re-reply">
-            <img src="/img/community/re-reply3.png">
+            <img src="/img/community/re_reply3.png">
             <div class="thumbnail-wrapper">
                 <div class="reply-thumbnail">
                     <div class="centered">
