@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+	<!-- SQL Mapping 설정 -->
+	<mapper namespace="reply">
+	<!-- SQL 객체 --><!-- 게시물 추가 sql parameterType은 이미 alias를 설정했으므로 전체경로를 쓸 필요 없다-->
+	<!-- insert,update,delete 객체는 영향받은 레코드의 카운트를 정수로 반환 -->
+
+	<!-- 댓글  -->
+
+	<insert id="insertReply" parameterType="Reply">
+		insert into reply(REPLYNO,ID,CONTENT,REVIEWNO,GROUPNO)
+		values
+		(REPLYNO_SEQ.nextval,#{id},#{content},#{reviewNo},GROUPNO_SEQ.nextval)
+	</insert>
+
+	<select id="selectReplyList" parameterType="int" resultType="Reply">
+		SELECT * FROM REPLY
+		WHERE REVIEWNO = #{reviewNo}
+		ORDER BY GROUPNO ASC, groupOrder ASC
+	</select>
+
+	<!-- 대댓글  -->
+	<!-- 1번 쿼리 -->
+	<select id="checkReReplyCondition" parameterType="Reply" resultType="int">
+
+		SELECT NVL(MIN(groupOrder),0) FROM REPLY
+		WHERE  REVIEWNO = #{reviewNo} AND GROUPNO = #{groupNo}
+		AND groupOrder > #{groupOrder}
+		AND LV <![CDATA[<=]]> #{lv}
+
+	</select>
+
+	<!-- 3번 쿼리 -->
+	<select id="selectGroupOrder" parameterType="Reply" resultType="int">
+
+		SELECT NVL(MAX(groupOrder),0) + 1 FROM REPLY
+		WHERE REVIEWNO = #{reviewNo} AND GROUPNO = #{groupNo}
+
+	</select>
+
+
+
+	<insert id="insertReReply" parameterType="Reply">
+		INSERT INTO REPLY(REPLYNO,ID,CONTENT,REVIEWNO,GROUPNO,GROUPORDER,LV)
+		VALUES
+		(REPLYNO_SEQ.nextval,#{id},#{content},#{reviewNo},#{groupNo},#{groupOrder},#{lv})
+	</insert>
+
+	<update id="updateGroupOrder" parameterType="Reply">
+		UPDATE REPLY SET GROUPORDER = GROUPORDER + 1
+		WHERE GROUPNO =  #{groupNo}  AND GROUPORDER >= #{groupOrder}
+	</update>
+
+	<update id="updateReply" parameterType="Reply">
+		UPDATE REPLY SET CONTENT=#{content},MODIFYDATE=sysdate
+		WHERE REPLYNO = #{replyNo}
+	</update>
+
+	</mapper>

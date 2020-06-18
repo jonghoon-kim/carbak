@@ -63,7 +63,7 @@
 <%--                <img src="/img/index/banner_01.png">--%>
 
 
-                <img src="/upload-images/${review.titleImageSrc}" onclick="location.href='/review/detail?reviewNo=${review.reviewNo}'">
+                <img src="${review.titleImageSrc}" onclick="location.href='/review/detail?reviewNo=${review.reviewNo}'">
             </div>
             <div class="review-content">
                 <div class="content-title">

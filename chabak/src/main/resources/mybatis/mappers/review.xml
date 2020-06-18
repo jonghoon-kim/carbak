@@ -29,4 +29,20 @@
 		where REVIEWNO = #{reviewNo}
 	</select>
 
+	<update id="updateReview" parameterType="Review">
+		UPDATE REVIEW SET TITLE = #{title},
+		                  SIDO = #{sido},
+		                  GUGUN = #{gugun},
+		                  CONTENT = #{content},
+		                  TITLEIMAGESRC = #{titleImageSrc},
+		                  MODIFYDATE = sysdate
+		WHERE REVIEWNO = #{reviewNo}
+	</update>
+
+	<delete id="deleteReview" parameterType="int">
+		delete REVIEW
+		where REVIEWNO = #{reviewNo}
+
+	</delete>
+
 	</mapper>

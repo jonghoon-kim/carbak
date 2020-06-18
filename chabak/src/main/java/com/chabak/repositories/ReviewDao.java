@@ -1,5 +1,6 @@
 package com.chabak.repositories;
 
+import com.chabak.vo.Reply;
 import com.chabak.vo.Review;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,5 +27,15 @@ public class ReviewDao {
 
         Review review = sqlSession.selectOne("review.selectReviewDetail",reviewNo);
         return review;
+    }
+
+    public int updateReview(Review review) {
+        int updateCount = sqlSession.update("review.updateReview",review);
+        return updateCount;
+    }
+
+    public int deleteReview(int reviewNo){
+        int deleteCount = sqlSession.delete("review.deleteReview",reviewNo);
+        return deleteCount;
     }
 }

@@ -6,9 +6,7 @@ import com.chabak.services.FileUploadService;
 
 import com.chabak.vo.FileUpload;
 import com.chabak.vo.SmartEditorVo;
-import com.chabak.vo.TitleImg;
 import lombok.SneakyThrows;
-import org.apache.maven.shared.utils.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -19,12 +17,9 @@ import org.springframework.web.multipart.MultipartFile;
 
 
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.io.File;
-import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.UUID;
@@ -119,9 +114,6 @@ public class FileUploadController {
                     SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMddHHmmss");
                     String today= formatter.format(new java.util.Date());
                     realFileNm = today+UUID.randomUUID().toString() + name.substring(name.lastIndexOf("."));
-
-                    System.out.println("realFileNm:"+realFileNm);
-                    TitleImg.getInstance().setTitleImageSrc(realFileNm);  ////////////////
 
                     String rlFileNm = filePath + realFileNm;
                     ///////////////// 서버에 파일쓰기 /////////////////

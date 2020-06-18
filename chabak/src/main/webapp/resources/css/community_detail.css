@@ -100,6 +100,12 @@
     height: 700px;
     border-top: 2px solid rgb(105, 179, 149);
     border-bottom: 2px solid rgb(105, 179, 149);
+    overflow-y: scroll;
+}
+.main .content img{
+    position: relative;
+    width: 90%;
+    height: auto;
 }
 /* 댓글 입력 */
 .reply {
@@ -146,28 +152,25 @@
     margin-top : 20px;
     border-top : 1px solid rgb(105, 179, 149);
 }
-.reply-list .thumbnail-wrapper {
+
+.reply-list .reply-one {
+    height: 100px;
+}
+.reply-list .reply-one .thumbnail-wrapper {
     float: left;
     width: 50px;
     height: 50px;
     margin-bottom: 10px;
     margin-top:20px;
 }
-.reply-list .reply-thumbnail {
+.reply-list .reply-one .reply-thumbnail {
     border : 2px solid rgb(105, 179, 149);
     border-radius: 50px;
     position: relative;
     padding-top : 100%;
     overflow: hidden;
 }
-.reply-list .reply-thumbnail {
-    border : 2px solid rgb(105, 179, 149);
-    border-radius: 40px;
-    position: relative;
-    padding-top : 100%;
-    overflow: hidden;
-}
-.reply-list .reply-thumbnail .centered {
+.reply-list .reply-one .reply-thumbnail .centered {
     position: absolute;
     top: 0;
     right : 0;
@@ -175,7 +178,7 @@
     bottom :0;
     transform: translate(50%,50%);
 }
-.reply-list .reply-thumbnail .centered img {
+.reply-list .reply-one .reply-thumbnail .centered img {
     overflow: hidden;
     display: flex;
     align-items: center;
@@ -201,7 +204,7 @@
     font-size: 13px;
     font-family: 'Jeju Gothic', sans-serif;
     float :left;
-    margin: 20px 0px 0px 430px;
+    margin: 20px 0px 0px 380px;
     background-color: rgb(105, 179, 149);
     border : 2px solid rgb(105, 179, 149);
     border-radius: 10px;
@@ -221,6 +224,63 @@
     color : white;
     transition : .35s;
 }
+
+.reply-list .button .re{
+    width: 40px;
+    height : 30px;
+    font-size: 13px;
+    font-family: 'Jeju Gothic', sans-serif;
+    float :left;
+    margin: 20px 0px 0px 0px;
+    background-color: rgb(105, 179, 149);
+    border : 2px solid rgb(105, 179, 149);
+    border-radius: 10px;
+    color : white;
+    transition : .35s;
+}
+
+.reply-list .button .replyButton{
+    width: 40px;
+    height : 30px;
+    font-size: 13px;
+    font-family: 'Jeju Gothic', sans-serif;
+    float :left;
+    margin: 20px 0px 0px 0px;
+    background-color: rgb(105, 179, 149);
+    border : 2px solid rgb(105, 179, 149);
+    border-radius: 10px;
+    color : white;
+    transition : .35s;
+}
+
+.reply-list .button .cancel{
+    width: 40px;
+    height : 30px;
+    font-size: 13px;
+    font-family: 'Jeju Gothic', sans-serif;
+    float :left;
+    margin: 20px 0px 0px 0px;
+    background-color: rgb(105, 179, 149);
+    border : 2px solid rgb(105, 179, 149);
+    border-radius: 10px;
+    color : white;
+    transition : .35s;
+}
+
+.reply-list .button .save{
+    width: 40px;
+    height : 30px;
+    font-size: 13px;
+    font-family: 'Jeju Gothic', sans-serif;
+    float :left;
+    margin: 20px 0px 0px 0px;
+    background-color: rgb(105, 179, 149);
+    border : 2px solid rgb(105, 179, 149);
+    border-radius: 10px;
+    color : white;
+    transition : .35s;
+}
+
 .reply-list .button button:hover {
     background-color: transparent;
     color : gray;
@@ -314,7 +374,7 @@
     transition : .35s;
 }
 .re-reply .button .delete{
-    width: 40px;
+    width: 100px;
     height : 30px;
     font-size: 13px;
     font-family: 'Jeju Gothic', sans-serif;
@@ -327,6 +387,52 @@
     color : white;
     transition : .35s;
 }
+
+.re-reply .button .replyButton{
+    width: 100px;
+    height : 30px;
+    font-size: 13px;
+    font-family: 'Jeju Gothic', sans-serif;
+    float: left;
+    position: absolute;
+    margin: 20px 0px 0px 375px;
+    background-color: rgb(105, 179, 149);
+    border : 2px solid rgb(105, 179, 149);
+    border-radius: 10px;
+    color : white;
+    transition : .35s;
+}
+
+.re-reply .button .cancel{
+    width: 100px;
+    height : 30px;
+    font-size: 13px;
+    font-family: 'Jeju Gothic', sans-serif;
+    float: left;
+    position: absolute;
+    margin: 20px 0px 0px 375px;
+    background-color: rgb(105, 179, 149);
+    border : 2px solid rgb(105, 179, 149);
+    border-radius: 10px;
+    color : white;
+    transition : .35s;
+}
+
+.re-reply .button .save{
+    width: 100px;
+    height : 30px;
+    font-size: 13px;
+    font-family: 'Jeju Gothic', sans-serif;
+    float: left;
+    position: absolute;
+    margin: 20px 0px 0px 375px;
+    background-color: rgb(105, 179, 149);
+    border : 2px solid rgb(105, 179, 149);
+    border-radius: 10px;
+    color : white;
+    transition : .35s;
+}
+
 .re-reply .button button:hover {
     background-color: transparent;
     color : gray;
