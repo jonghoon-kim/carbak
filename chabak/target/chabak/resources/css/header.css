@@ -1,0 +1,145 @@
+@import url(//fonts.googleapis.com/earlyaccess/jejugothic.css);
+
+/*헤더*/
+header{
+  border:0px;
+  margin:0px 200px 0px 200px;
+  padding:0px;
+}
+
+/*버튼*/
+#header1_but{
+  float:left;
+  width:300px;
+  margin-top: 40px;
+}
+#header2_but{
+  float:right;
+  width:300px;
+  margin-top: 40px;
+}
+
+/* 야영지 검색 버튼 */
+.camp_but button{
+  width: 140px;
+  height: 45px;
+  font-family: 'Jeju Gothic', sans-serif;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 2.5px;
+  font-weight: 500;
+  color: #000;
+  background-color: #ECF8E0;
+  border: none;
+  border-radius: 45px;
+  box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease 0s;
+  cursor: pointer;
+  outline: none;
+}
+.camp_but button:hover {
+  background-color: rgb(105, 179, 149);
+  box-shadow: 0px 15px 20px rgba(46, 229, 157, 0.4);
+  color: #fff;
+  transform: translateY(-7px);
+}
+/*커뮤니티 버튼*/
+.comm_but{
+  float:right;
+  margin-left:20px;
+  margin-top: -45px;
+}
+.comm_but button {
+  vertical-align:middle;
+  width: 140px;
+  height: 45px;
+  font-family: 'Jeju Gothic', sans-serif;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 2.5px;
+  font-weight: 500;
+  color: #000;
+  background-color: #fff;
+  border: none;
+  border-radius: 45px;
+  box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease 0s;
+  cursor: pointer;
+  outline: none;
+  }
+.comm_but button:hover {
+  background-color: rgb(105, 179, 149);;
+  box-shadow: 0px 15px 20px rgba(46, 229, 157, 0.4);
+  color: #fff;
+  transform: translateY(-7px);
+}
+
+/*회원정보 버튼*/
+.info_but{
+  float:left;
+  margin-right:20px;
+}
+.info_but button {
+  vertical-align:middle;
+  width: 140px;
+  height: 45px;
+  font-family: 'Roboto', sans-serif;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 2.5px;
+  font-weight: 500;
+  color: #000;
+  background-color: #fff;
+  border: none;
+  border-radius: 45px;
+  box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease 0s;
+  cursor: pointer;
+  outline: none;
+  }
+.info_but button:hover {
+  background-color: rgb(105, 179, 149);;
+  box-shadow: 0px 15px 20px rgba(46, 229, 157, 0.4);
+  color: #fff;
+  transform: translateY(-7px);
+}
+
+/*로그인 버튼*/
+.login_but button {
+  width: 140px;
+  height: 45px;
+  font-family: 'Roboto', sans-serif;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 2.5px;
+  font-weight: 500;
+  color: #000;
+  background-color: #ECF8E0;
+  border: none;
+  border-radius: 45px;
+  box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease 0s;
+  cursor: pointer;
+  outline: none;
+  }
+.login_but button:hover {
+  background-color: rgb(105, 179, 149);
+  box-shadow: 0px 15px 20px rgba(46, 229, 157, 0.4);
+  color: #fff;
+  transform: translateY(-7px);
+}
+
+/*로고*/
+.logo{
+position:absolute;
+margin:100px 0px 0px 550px;
+}
+
+/* 구분선 */
+hr {
+  width : 80%;
+  color : lightgray;
+  size : 1px;
+  text-align : center;
+
+}

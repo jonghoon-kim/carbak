@@ -12,9 +12,6 @@ public class Member {
     private String state;
     private String city;
     private String email;
-    private int uploadKey;
-    private String uploadYes;
+    private String saveName;
     private Date regDate;
-
-
 }

@@ -14,8 +14,15 @@ public class MemberDao {
     @Autowired
     SqlSession sqlSession;
 
-    public int insertMember(String id){
-        int insertedCount = sqlSession.insert("member.insertMember",id);
+    public int insertMember(Member member){
+        int insertedCount = sqlSession.insert("member.insertMember", member);
         return insertedCount;
     }
+
+    public Member getMember(Member member) {
+        Member getMember= sqlSession.selectOne("member.getMember", member);
+        return getMember;
+    }
+
+
 }

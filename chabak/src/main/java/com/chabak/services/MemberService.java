@@ -10,9 +10,10 @@ public class MemberService {
     @Autowired
     MemberDao memberDao;
 
-
-    public int insert(String id){
-        return memberDao.insertMember(id);
-
+    public int insert(Member member){
+        return memberDao.insertMember(member);
     }
+
+
+
 }

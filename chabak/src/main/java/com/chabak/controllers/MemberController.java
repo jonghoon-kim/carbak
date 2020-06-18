@@ -21,4 +21,6 @@ public class MemberController {
         return "/community/community";//이동 주소는 수정할 것
     }
 
+
+
 }
