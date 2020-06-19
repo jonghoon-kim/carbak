@@ -7,7 +7,7 @@
 <head>
     <meta charset="UTF-8">
     <title>슬기로운 차박생활</title>
-    <link href="css/header.css" rel="stylesheet">
+    <link href="/css/header.css" rel="stylesheet">
 </head>
 
 <body>
@@ -25,11 +25,11 @@
             <button>&nbsp;MyPage</button>
         </div>
         <div class="login_but">
-            <button>Login</button>
+            <button onclick="location.href='/member/login'">Login</button>
         </div>
     </div>
     <div class="logo">
-        <a href="index.html"><img src="img/header/logo.png"></a>
+        <a href="/"><img src="/img/header/logo.png"></a>
     </div>
 </header>
 

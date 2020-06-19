@@ -29,12 +29,14 @@ public class WelcomeController {
 //
 //    }
     @SneakyThrows
-    @RequestMapping(value="/")
-    public String upload(){
+    @RequestMapping("/")
+    public String index(){
         System.out.println("Controller");
+        return "index";
+    }
 
-
-
-        return "campsite/campsite";
+    @RequestMapping("/header")
+    public String header() {
+        return "header";
     }
 }

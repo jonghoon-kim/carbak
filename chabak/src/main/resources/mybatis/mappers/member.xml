@@ -6,18 +6,26 @@
 	<!-- SQL 객체 --><!-- 게시물 추가 sql parameterType은 이미 alias를 설정했으므로 전체경로를 쓸 필요 없다-->
 	<!-- insert,update,delete 객체는 영향받은 레코드의 카운트를 정수로 반환 -->
 	<insert id="insertMember" parameterType="Member">
-	INSERT INTO Member(id,password,name,gender,sido,gugun,email,uploadKey,uploadYes)
+	INSERT INTO Member(id,password,name,gender,sido,gugun,email,saveName)
 	VALUES(
+	#{id},
 	#{password},
     #{name},
     #{gender},
     #{sido},
     #{gugun},
     #{email},
-    UPLOADKEY_SEQ.nextval,
-   #{uploadYes}
-
+    #{saveName}
 	)
 	</insert>
 
+	<select id="idCheck" resultType="Member">
+	SELECT id from Member
+	WHERE id = #{id}
+	</select>
+
+	<select id="emailCheck" resultType="Member">
+		SELECT email from Member
+		WHERE email = #{email}
+	</select>
 	</mapper>

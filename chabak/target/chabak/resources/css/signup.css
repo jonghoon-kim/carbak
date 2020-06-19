@@ -1,10 +1,22 @@
 @import url(//fonts.googleapis.com/earlyaccess/jejugothic.css);
 
+#wrap {
+
+    font-family: 'Jeju Gothic', sans-serif;
+}
+/* 헤더 */
+#header {
+    padding-bottom: 200px;
+}
+hr {
+    margin-top: 100px;
+    width: 1000px;
+}
 /* 전체 */
 .container {
     text-align: center;
-    margin: 0 auto;
-    font-family: 'Jeju Gothic', sans-serif;
+    margin-top:70px;
+    margin-bottom:70px;
 }
 
 /* 타이틀 */
@@ -18,12 +30,12 @@
     border: 2px solid rgb(105, 179, 149);
 }
 .sign-up-content {
-    margin : 40px 0px 40px 0px;
+    margin : 60px 0px 40px 0px;
 }
 /* 프로필 사진 설정 */
 .thumbnail-wrapper {
     margin: 0 auto;
-   width: 25%;
+    width: 25%;
 }
 .thumbnail {
     border : 2px solid rgb(105, 179, 149);
@@ -39,8 +51,16 @@
     left : 0;
     bottom :0;
     transform: translate(50%,50%);
+    -webkit-transform: translate(50%, 50%);
+    -ms-transform: translate(50%, 50%);
 }
 .thumbnail .centered img {
+    max-height: 100%;
+    position: absolute;
+    top: 0;
+    right : 0;
+    left : 0;
+    bottom :0;
     overflow: hidden;
     display: flex;
     align-items: center;
@@ -83,7 +103,8 @@
     border: 0;
   }
 /* input */
-#name, #pw, #pw_check {
+/* input */
+#name {
     width: 210px;
     height: 42px;
     padding-left: 15px;
@@ -92,10 +113,30 @@
     border-left:none;
     border-bottom: 2px solid rgb(105, 179, 149);
     font-family: 'Jeju Gothic', sans-serif;
-    
+
 }
-#name:focus, #pw:focus, #pw_check:focus {
+#password::placeholder, #password2::placeholder {
+    width: 210px;
+    height: 42px;
+    border-top : none;
+    border-right :none;
+    border-left:none;
+    border-bottom: 2px solid rgb(105, 179, 149);
+    font-family: 'Jeju Gothic', sans-serif;
+}
+
+#name:focus, #password:focus, #password2:focus {
     outline :none;
+}
+input[type=password] {
+    width: 210px;
+    height: 42px;
+    padding-left: 15px;
+    border-top : none;
+    border-right :none;
+    border-left:none;
+    border-bottom: 2px solid rgb(105, 179, 149);
+    font-family: 'pass', 'Roboto', Helvetica, Arial, sans-serif;
 }
 
 .in-line {
@@ -185,6 +226,7 @@
 }
 select {
     margin-top: 10px;
+    margin-bottom: 10px;
     font-family: 'Jeju Gothic', sans-serif;
     border : 2px solid rgb(105, 179, 149);
     border-radius: 10px;
