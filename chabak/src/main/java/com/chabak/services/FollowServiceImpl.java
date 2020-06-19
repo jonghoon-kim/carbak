@@ -13,7 +13,13 @@ public class FollowServiceImpl implements FollowService {
     FollowDao followDao;
 
     @Override
-    public List<Follow> getFollower(Follow follow) {
-        return followDao.getFollower(follow);
+    public List<Follow> selectDataHashMapServiceList() throws Exception {
+        return followDao.selectDataHashMapServiceList();
     }
+
+    //    //팔로워 정보 갖고오는 매서드    <- 수정전 코드
+//    @Override
+//    public List<Follow> getFollower(Follow follow) {
+//        return followDao.getFollower(follow);
+//    }
 }

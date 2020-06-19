@@ -9,7 +9,10 @@
     <meta name="Description" content="">
     <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
     <script type="text/javascript" src="/js/myInfo.js" charset="UTF-8"></script>
-    <title>Document</title>
+    <script language=JavaScript>
+        var getFollowerArray = new Array()
+        <c:forEach var="getFollowerData"=${HashMapList}
+    </script>
     <style>
         button{
             float:left;
@@ -47,5 +50,10 @@ mypage
     <li>리뷰글3</li>
     <li>리뷰글4</li>
 </ul>
+
+<c:forEach var="getFollowerData" items="${HashMapList}" varStatus="status">
+    ${getFollowerData.FOLLOWERID}
+    ${getFollowerData.FOLLOWINGID}
+</c:forEach>
 </body>
 </html>

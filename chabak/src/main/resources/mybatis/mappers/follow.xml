@@ -3,10 +3,16 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <!-- SQL Mapping 설정 -->
 <mapper namespace="follow">
-    <select id="getFollower" resultType="Map">
-    select followerId
-    from follow
-    WHERE followingId=#{followingId}
+    <select id="selectDataHashMapServiceList" resultType="map">
+        SELECT followingId, followerId
+        from follow
     </select>
+
+
+<!--    <select id="getFollower" resultType="Map">   수정전 코드 -->
+<!--    select followerId-->
+<!--    from follow-->
+<!--    WHERE followingId=#{followingId}-->
+<!--    </select>-->
 
 </mapper>

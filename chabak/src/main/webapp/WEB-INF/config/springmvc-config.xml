@@ -36,4 +36,6 @@
     <mvc:resources mapping="/js/**" location="resources/js/" />
     <mvc:resources mapping="/upload-images/**" location="file:/upload/" />
 
+
+
 </beans>

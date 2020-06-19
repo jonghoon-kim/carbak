@@ -1,14 +1,18 @@
+// 스크립트 파일
+console.log(getFollowerData);
 
 $(document).ready(function() {
-    //follower 정보 갖고오기
+    //follower click event -> getted follower information
     $("#follower").click(function () {
         $.ajax({
             type: 'get',
             datatype: 'json',
             url: 'follower',
-            data: {'datatype':'String'},
+            data: {'follower': getFollowerData.FOLLOWERID}, // 수정할것
             success : function(data) {
-                alert(data);
+                for(var i=0; )
+            }, error: function (data) {
+
             }
         })
     });

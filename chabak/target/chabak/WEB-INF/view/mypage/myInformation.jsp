@@ -47,5 +47,11 @@ mypage
     <li>리뷰글3</li>
     <li>리뷰글4</li>
 </ul>
+
+
+<c:forEach var="test" items="${HashMapList}" varStatus="status">
+    ${test.FOLLOWERID}
+    ${test.FOLLOWINGID}
+</c:forEach>
 </body>
 </html>

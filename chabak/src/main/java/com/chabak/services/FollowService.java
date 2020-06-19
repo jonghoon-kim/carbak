@@ -6,6 +6,8 @@ import java.util.List;
 
 public interface FollowService {
 
-    public List<Follow> getFollower(Follow follow);
+   List<Follow> selectDataHashMapServiceList() throws Exception;
+
+//    public List<Follow> getFollower(Follow follow); 수정전 코드
 
 }

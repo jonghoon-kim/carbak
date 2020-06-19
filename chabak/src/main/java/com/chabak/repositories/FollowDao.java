@@ -13,18 +13,22 @@ import java.util.List;
 
     // 게시글 갖고오기 + 뿌리기
 
-    // 팔로워 정보 갖고오기 + 뿌리기
+
     @Repository("MyPageDao")
     public class FollowDao {
         @Autowired
         SqlSession sqlSession;
 
-        public List<Follow> getFollower(Follow follow){
-           // int insertedCount = sqlSession.insert("member.insertMember", member);
-            return sqlSession.selectList("follow.getFollower", follow);
-        }
+        // 팔로워 정보 갖고오기 + 뿌리기  <- 수정전 코드
+//        public List<Follow> getFollower(Follow follow){
+//            // follow.getFllower는 follow.xml에 있는 매서드
+//            return sqlSession.selectList("follow.getFollower", follow);
+//        }
 
     // 팔로잉 정보 갖고오기 + 뿌리기
+        public List<Follow> selectDataHashMapServiceList() throws Exception {
+            return sqlSession.selectList("follow.selectDataHashMapServiceList");
+        }
 }
 
 

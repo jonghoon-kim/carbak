@@ -30,10 +30,7 @@ public class WelcomeController {
     @SneakyThrows
     @RequestMapping(value="/") // 기존값 "/"
     public String upload(){
-        System.out.println("Controller");
-
-
-
+        //System.out.println("Controller");
         return "index";
     }
 }

@@ -20,6 +20,12 @@
 	)
 	</insert>
 
+	<select id="getMember" parameterType="String" resultType="Member">
+	select *
+	from Member
+	WHERE id=#{id}
+	</select>
+
 	<!-- 이메일 중복 체크용 select -->
 	<select id="selectByEmail" parameterType="String" resultType="Member">
 	select email
@@ -32,5 +38,5 @@
 	from users
 	WHERE email=#{email} AND password=#{password}
 	</select>
-		
+
 	</mapper>
