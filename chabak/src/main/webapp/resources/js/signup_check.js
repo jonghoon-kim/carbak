@@ -49,7 +49,7 @@ function emailCheck() {
             } else if( data== 0 ){
                 if(emailCheck.test($('#email').val())) {
                     alert("이메일 인증 코드를 발송했습니다.");
-                    window.open("sendEmail",'emailCheck', 'width=400, height=300, scrollbars = yes, resizable=yes')
+                    //window.open("sendEmail",'emailCheck', 'width=400, height=300, scrollbars = yes, resizable=yes')
                     emailChk = true;
                 }else {
                     alert("이메일 형식에 맞게 입력해 주세요.\n ex)aa01@aa.aa");
@@ -59,23 +59,6 @@ function emailCheck() {
             console.log(emailChk);
         }
     });  // ajax 끝
-}
-
-/* 이메일 전송 */
-function sendMail(email) {
-    var xhttp = new XMLHttpRequest();
-    xhttp.onreadystatechange = function () {
-        if(xhttp.readyState == 4) {
-            if (xhttp.status == 200)
-                alert("메일을 정상적으로 보냈습니다.");
-            else
-                alert("올바른 메일 형식이 아닙니다.");
-        }
-    };
-    xhttp.open("POST", '/member/sendMail', true);
-    xhttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded;charset=UTF-8");
-    xhttp.send('email=' + email);
-    return false;
 }
 
 /* 회원정보 체크*/

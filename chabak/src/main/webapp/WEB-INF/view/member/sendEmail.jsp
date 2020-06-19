@@ -13,11 +13,11 @@
 <div id="wrap">
     <div class="container">
         <div class="top">
-            <h3>이메일 인증</h3>
+            <h3>이메일 인증 코드</h3>
         </div>
         <div class="in-line">
-            <input type="email" name="email" id="email" placeholder="이메일">
-            <input type="button" onclick="return emailCheck()" value="인증">
+            <input type="text" name="code" id="code" placeholder="인증 코드">
+            <input type="button" value="인증">
         </div>
         <br>
 

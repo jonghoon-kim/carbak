@@ -1,58 +1,38 @@
 package com.chabak.services;
 
-import com.chabak.repositories.MemberDao;
 import com.sun.org.apache.xpath.internal.operations.String;
-import org.apache.ibatis.session.SqlSession;
-import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 
-import javax.servlet.http.HttpServletRequest;
-import java.util.Random;
+import javax.mail.MessagingException;
+import javax.mail.internet.MimeMessage;
 
 @Service
 public class MailSendService {
     @Autowired
     private JavaMailSender javaMailSender;
 
-    @Autowired
-    private SqlSessionTemplate sqlSessionTemplate;
-    private MemberDao memberDao;
+    public void setJavaMailSender(JavaMailSender javaMailSender) {
+        this.javaMailSender = javaMailSender;
+    }
 
-    // 이메일 난수 생성
-    private String init() {
-        Random ran = new Random();
-        StringBuffer sb = new StringBuffer();
-        int num = 0;
+    public boolean send(String subject, String text, String from, String to, String filePath) {
+        MimeMessage message = javaMailSender.createMimeMessage();
 
-        do {
-            num = ran.nextInt(75) + 48;
-            if((num >= 48 && num <= 57) || (num >= 65 && num <= 90) || (num >= 97 && num <= 122)) {
-                sb.append((char) num);
-            } else {
-                continue;
-            }
-        }while (sb.length() < size);
-        if(lowerCheck) {
-            return sb.toString().toLowerCase();
+        try {
+            MimeMessageHelper helper = new MimeMessageHelper(message, true, "UTF-8");
+            helper.setSubject(subject);
+            helper.setText(text, true);
+            helper.setFrom(from);
+            helper.setTo(to);
+
+            javaMailSender.send(message);
+            return true;
+        } catch (MessagingException e) {
+            e.printStackTrace();
         }
-        return sb.toString();
-    }
-
-    // 난수를 이용한 키 생성
-    private boolean lowerCheck;
-    private int size;
-
-    public String getKey(boolean lowerCheck, int size) {
-        this.lowerCheck = lowerCheck;
-        this.size = size;
-        return init();
-    }
-
-    // 회원가입 발송 이메일(인증키 발송)
-    public void mailSendWithUserKey(String email, String id, HttpServletRequest request) {
-        String key = getKey(false, 20);
-        memberDao = sqlSessionTemplate.getMapper(memberDao.class);
+        return false;
     }
 }

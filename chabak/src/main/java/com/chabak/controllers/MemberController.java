@@ -105,18 +105,6 @@ public class MemberController {
     public String sendEmail() {
         return "/member/sendEmail";
     }
-    @ResponseBody
-    @PostMapping(value= "/sendEmail", produces = "application/json")
-    public boolean sendEmail(HttpSession session, @RequestParam String email) {
-        int randomCode = new Random().nextInt(10000) + 1000;
-        String checkCode = String.valueOf(randomCode);
-        session.setAttribute("checkCode", checkCode);
-
-        String subject="'슬기로운 차박생활', 이메일 인증 코드입니다.";
-        StringBuilder sb = new StringBuilder();
-        sb.append("이메일 인증 코드는 ").append(checkCode).append(" 입니다.");
-        return memberService.send(subject, sb.toString(), "zxxexn@gmail.com", email);
-    }
 
     /* 아이디 비밀번호 찾기*/
     @GetMapping("/idpw_find")
