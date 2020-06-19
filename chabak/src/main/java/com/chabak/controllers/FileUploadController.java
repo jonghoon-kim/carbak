@@ -33,52 +33,6 @@ public class FileUploadController {
     @Autowired
     FileUploadDao fileUploadDao;
 
-//    @SneakyThrows
-//    @RequestMapping(value="/single",method=RequestMethod.POST)
-//    public String singleUpload(HttpServletRequest req, SmartEditorVo smarteditorVO){
-//        String callback = smarteditorVO.getCallback();
-//        String callback_func = smarteditorVO.getCallback_func();
-//        String file_result = "";
-//        String result = "";
-//        FileUpload fileUpload = new FileUpload();
-//        System.out.println("fileName:"+req.getHeader("file-name"));////////////////////
-//
-//        MultipartFile multiFile = smarteditorVO.getFiledata();
-//        try{
-//            if(multiFile != null && multiFile.getSize() > 0 &&
-//                    StringUtils.isNotBlank(multiFile.getName())){
-//                if(multiFile.getContentType().toLowerCase().startsWith("image/")){
-//                    String oriName = multiFile.getName();
-//                    String uploadPath = req.getServletContext().getRealPath("/img");
-//                    String path = uploadPath + "/smarteditor/";
-//                    System.out.println("path:"+path);//must delete
-//                    fileUpload.setFilePath(path); ////////////////////////////
-//                    File file = new File(path);
-//                    if(!file.exists()){
-//                        file.mkdirs();
-//                    }
-//                    String fileName = UUID.randomUUID().toString();
-//                    fileUpload.setSaveName(fileName);
-//                    smarteditorVO.getFiledata().transferTo(new File(path + fileName));
-//                    file_result += "&bNewLine=true&sFileName=" + oriName +
-//                            "&sFileURL=/img/smarteditor/" + fileName;
-//                }else{
-//                    file_result += "&errstr=error";
-//                }
-//            }else{
-//                file_result += "&errstr=error";
-//            }
-//        } catch (Exception e){
-//            e.printStackTrace();
-//        }
-//        fileUpload.setUploadKey(21);
-//        //fileUploadDao.insertFile(fileUpload);
-//        result = "redirect:" + callback +
-//                "?callback_func=" + URLEncoder.encode(callback_func,"UTF-8") + file_result;
-//        return result;
-//
-//    }
-
     @SneakyThrows
     @RequestMapping(value="/single",method=RequestMethod.POST)
     public String singleUpload(HttpServletRequest request, SmartEditorVo smarteditorVO){
@@ -132,31 +86,9 @@ public class FileUploadController {
             e.printStackTrace();
         }
         return "redirect:"+return1+return2+return3;
-    }
+    } //스마트 에디터 단일 파일 업로드 기능
 
-//    @SneakyThrows
-//    @RequestMapping(value="/single",method=RequestMethod.POST)
-//    public void singleUpload(MultipartHttpServletRequest multiRequest, HttpServletResponse response){
-//        try {
-//            String callback = multiRequest.getParameter("callback");
-//            String callback_func = "?callback_func="+multiRequest.getParameter("callback_func");
-//            String return_url = "";
-//
-//            response.setCharacterEncoding("UTF-8");
-//            response.setContentType("text/html;charset=UTF-8");
-//
-//            //fileUpload
-//
-//            return_url += "&bNewLine=true";
-//            return_url += "&sFileName="+multiRequest.getFileNames().next();
-//            return_url += "&sFileURL=/upload/"+"date"+"/"+"newName"+ "."+"fileExt";
-//            System.out.println("return_url:"+return_url);//////must delete
-//            response.sendRedirect(callback+callback_func+return_url);
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-//        return;
-//    }
+
     @RequestMapping(value="/upload",method=RequestMethod.POST)
     public String upload(@RequestParam(required=false) List<MultipartFile> files, Model model) {
         String saveFileName = "";

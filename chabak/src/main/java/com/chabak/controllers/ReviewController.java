@@ -23,22 +23,28 @@ public class ReviewController {
 
     @RequestMapping(value ={"", "/", "/list"}, method=RequestMethod.GET)
     public ModelAndView reviewList(){
+        //리뷰 리스트 select
         List<Review> reviewList = reviewDao.selectReviewList();
+
         ModelAndView mv = new ModelAndView();
         mv.setViewName("community/community");
         mv.addObject("reviewList",reviewList);
 
-        System.out.println("reviewList:"+reviewList);
+        System.out.println("(/review/list)reviewList:"+reviewList);
         return mv;
-    }
+    } //리뷰 리스트 출력
 
     @RequestMapping(value ="/writeForm", method=RequestMethod.GET)
     public String writeReviewForm(){
         return "community/community_write";
-    }
+    } //리뷰 작성폼 이동
 
     @RequestMapping(value ="/write", method=RequestMethod.POST)
     public ModelAndView writeReview(@ModelAttribute Review review){
+
+        //TODO:세션에서 id 가져오기
+        //임시 코드(나중에 수정)
+        review.setId("id1");
 
         System.out.println("review:"+review);
 
@@ -65,20 +71,19 @@ public class ReviewController {
         mv.setViewName("redirect:/review");
 
         return mv;
-    }
+    } //리뷰 저장
 
     @RequestMapping(value ="/modify", method=RequestMethod.POST)
     public ModelAndView modifyReview(@ModelAttribute Review review){
-        //TODO:
+
+        //TODO:세션에서 id 가져오기
+        //임시 코드(나중에 수정)
+        review.setId("id1");
+
+        //TODO:로직 확인
 
         System.out.println("review:"+review);
-        ////////////////
-        //TODO:기존 스마트 에디터의 이미지를 삭제할 경우 대표 이미지를 어떻게 해야 하지?
-//        String titleImage = TitleImg.getInstance().getTitleImageSrc();
-//        if(titleImage!=null){
-//            review.setTitleImageSrc(titleImage);
-//        }
-        //////////////////////
+
         reviewDao.updateReview(review);
 
 
@@ -90,7 +95,8 @@ public class ReviewController {
 
     @RequestMapping(value ="/delete", method=RequestMethod.POST)
     public ModelAndView deleteReview(@RequestParam int reviewNo){
-        //TODO:
+
+        //TODO:로직 확인
         reviewDao.deleteReview(reviewNo);
 
         ModelAndView mv = new ModelAndView();
@@ -108,8 +114,9 @@ public class ReviewController {
         System.out.println("review:"+review);
         
         //해당 리뷰에 달린 댓글들
-        List<Reply> replyList = null;
-        replyList = replyDao.selectReplyList(reviewNo);
+
+        List<Reply> replyList = replyDao.selectReplyList(reviewNo);
+
         System.out.println("replyList:"+replyList);
         ModelAndView mv = new ModelAndView();
         mv.addObject("review",review);
