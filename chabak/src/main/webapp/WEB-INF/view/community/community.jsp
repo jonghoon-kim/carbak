@@ -9,6 +9,7 @@
     <link href="/css/community.css" rel="stylesheet">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
     <script type="text/javascript" src=" http://code.jquery.com/jquery-latest.min.js"></script>
+    <script type="text/javascript" src="/js/reviewScript.js" charset='UTF-8'></script>
     <script>
         function like() {
             var img = document.getElementById("like-img");
@@ -32,11 +33,11 @@
         <div class="insert">
             <button type="submit" onclick="location.href='/review/writeForm'">글쓰기</button>
         </div>
-        <div class="sort">
+        <div class="sort" name="sortType" onchange="ajaxReviewList()">
             <select>
-                <option>최신 순</option>
-                <option>좋아요 순</option>
-                <option>댓글 많은 순</option>
+                <option value="regDate">최신 순</option>
+                <option value="like">좋아요 순</option>
+                <option value="reply">댓글 많은 순</option>
             </select>
         </div>
     </div>

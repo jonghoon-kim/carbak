@@ -36,6 +36,20 @@ public class ReviewController {
         return mv;
     } //리뷰 리스트 출력
 
+    @ResponseBody
+    @RequestMapping("/listAjax")
+    public int listAjax(){
+        //TODO:아직 작성중
+        List<Review> reviewList = reviewDao.selectReviewList();
+        int result =0;
+
+        if(reviewList != null) {
+            result = 1;
+        }
+
+        return result;
+    }
+
     @RequestMapping(value ="/writeForm", method=RequestMethod.GET)
     public String writeReviewForm(){
         return "community/community_write";
@@ -43,6 +57,7 @@ public class ReviewController {
 
     @RequestMapping(value ="/write", method=RequestMethod.POST)
     public ModelAndView writeReview(@ModelAttribute Review review){
+
 
         //TODO:세션에서 id 가져오기
         //임시 코드(나중에 수정)
