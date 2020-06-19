@@ -19,6 +19,8 @@ public class ReviewController {
 
     @Autowired
     ReviewDao reviewDao;
+
+    @Autowired
     ReplyDao replyDao;
 
     @RequestMapping(value ={"", "/", "/list"}, method=RequestMethod.GET)
