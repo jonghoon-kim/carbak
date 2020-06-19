@@ -65,7 +65,6 @@
 			</props>
 		</property>
 	</bean>
-	<bean id="memberService" class="com.chabak.services.MemberService"></bean>
 </beans>
 
 
