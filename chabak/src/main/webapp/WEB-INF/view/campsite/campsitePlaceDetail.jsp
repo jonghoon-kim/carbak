@@ -1,14 +1,12 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-pageEncoding="UTF-8"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core"
-prefix="c" %>
-<!DOCTYPE html>
-
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <title>슬기로운 차박생활</title>
     <link href="/resources/css/index.css" rel="stylesheet">
-    <link href="/resources/css/campsite.css" rel="stylesheet">
+    <link href="/resources/css/campsitePlaceDetail.css" rel="stylesheet">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
     <script type="text/javascript" src=" http://code.jquery.com/jquery-latest.min.js"></script>
     <script type="text/javascript" src="/resources/js/address_select.js"></script>
@@ -16,6 +14,18 @@ prefix="c" %>
     <script src='https://kit.fontawesome.com/a076d05399.js'></script>
 </head>
 <body>
+<!-- campsiteController 에서 가져온 선택된 야영지 데이터 -->
+<c:forEach var="row" items="${lstSelectCampsitePlace}" varStatus="status">
+    <input type="hidden" id="campsitename" value="${row.campsitename}">
+    <input type="hidden" id="category" value="${row.category}">
+    <input type="hidden" id="latitude" value="${row.latitude}">
+    <input type="hidden" id="longitude" value="${row.longitude}">
+    <input type="hidden" id="sido" value="${row.sido}">
+    <input type="hidden" id="gugun" value="${row.gugun}">
+    <input type="hidden" id="address" value="${row.address}">
+    <input type="hidden" id="convenience1" value="${row.convenience1}">
+    <input type="hidden" id="convenience2" value="${row.convenience2}">
+</c:forEach>
 <!-- 헤더(인클루드 적용) -->
 <header>
     <!-- nav바 -->
@@ -53,77 +63,76 @@ prefix="c" %>
     <div class="campsite_section">
 
         <!-- 지역 선택-->
-            <div class="address_select">
-                <form onsubmit="searchPlaces(); return false;">
-                    <select name="sido" id="sido"></select>
-                    <select name="gugun" id="gugun"></select>
-                    <div class="option">
-                        <div>
-                                <input type="text" value=${keyword} id="keyword" size="15">
-                                <button type="submit">검색하기</button>
-                        </div>
+        <div class="address_select">
+            <form form id="campsiteSearch">
+                <select name="sido" id="sido"></select>
+                <select name="gugun" id="gugun"></select>
+                <div class="option">
+                    <div>
+                        <input type="text" name="keyword" id="keyword" size="15">
+                        <button onclick="selectPlace()">검색하기</button>
                     </div>
-                </form>
-            </div>
-
-    <!-- 지도 생성 -->
-    <!-- 카카오맵 -->
-    <div class="map_wrap">
-        <div id="map" style="width:100%;height:100%;position:relative;overflow:hidden;"></div>
-
-        <div id="menu_wrap" class="bg_white">
-            <hr>
-            <ul id="placesList"></ul>
-            <div id="pagination"></div>
-        </div>
-    </div>
-
-    <hr class="top_hr">
-
-    <!-- 커뮤니티리뷰 -->
-    <div class="blog_aticle">
-        <h2>커뮤니티 리뷰</h2>
-        <ul>
-            <li>
-                <p class="best_id">ID:차박차박</p>
-                <div class="best_img">
-                    <img src="/resources/img/reviews/01.jpg">
                 </div>
-                </p>
-                <p class="best_title">슬기로운 차박생활♥</p>
-                <p class="best_content">이날은 우리 하동여행 갔던날 설레고 긴장되는 첫 차박을 꿈꾸며...
-                    이날은 우리 하동여행 갔던날 설레고 긴장되는 첫 차박을 꿈꾸며...
-                    이날은 우리 하동여행 갔던날 설레고 긴장되는 첫 차박을 꿈꾸며...
-                    이날은 우리 하동여행 갔던날 설레고 긴장되는 첫 차박을 꿈꾸며...
-                    이날은 우리 하동여행 갔던날 설레고 긴장되는 첫 차박을 꿈꾸며...
-                    이날은 우리 하동여행 갔던날 설레고 긴장되는 첫 차박을 꿈꾸며...
-                    이날은 우리 하동여행 갔던날 설레고 긴장되는 첫 차박을 꿈꾸며...
-                    이날은 우리 하동여행 갔던날 설레고 긴장되는 첫 차박을 꿈꾸며...
-                    이날은 우리 하동여행 갔던날 설레고 긴장되는 첫 차박을 꿈꾸며...
-                    이날은 우리 하동여행 갔던날 설레고 긴장되는 첫 차박을 꿈꾸며
-                </p>
-                <p class="select_community"><a href="community.html">자세히보기</a></p>
-            </li>
-            <li><img><p>영역 나누기2</p></li>
-            <li><img><p>영역 나누기3</p></li>
-            <li><img><p>영역 나누기4</p></li>
-            <li><img><p>영역 나누기5</p></li>
-        </ul>
-        <!-- 페이지 버튼 -->
-        <div class="community_link">
-            <button class='fas fa-angle-left'></button>
-            <button class='fas fa-circle'></button>
-            <button class='far fa-circle'></button>
-            <button class='far fa-circle'></button>
-            <button class='fas fa-angle-right'></button>
+            </form>
+        </div>
+
+        <!-- 지도 생성 -->
+        <!-- 카카오맵 -->
+        <div class="map_wrap">
+            <div id="map" style="width:100%;height:100%;position:relative;overflow:hidden;"></div>
+
+            <div id="menu_wrap" class="bg_white">
+                <hr>
+                <ul id="placesList"></ul>
+            </div>
+        </div>
+
+        <hr class="top_hr">
+
+        <!-- 커뮤니티리뷰 -->
+        <div class="blog_aticle">
+            <h2>커뮤니티 리뷰</h2>
+            <ul>
+                <li>
+                    <p class="best_id">ID:차박차박</p>
+                    <div class="best_img">
+                        <img src="/resources/img/reviews/01.jpg">
+                    </div>
+                    </p>
+                    <p class="best_title">슬기로운 차박생활♥</p>
+                    <p class="best_content">이날은 우리 하동여행 갔던날 설레고 긴장되는 첫 차박을 꿈꾸며...
+                        이날은 우리 하동여행 갔던날 설레고 긴장되는 첫 차박을 꿈꾸며...
+                        이날은 우리 하동여행 갔던날 설레고 긴장되는 첫 차박을 꿈꾸며...
+                        이날은 우리 하동여행 갔던날 설레고 긴장되는 첫 차박을 꿈꾸며...
+                        이날은 우리 하동여행 갔던날 설레고 긴장되는 첫 차박을 꿈꾸며...
+                        이날은 우리 하동여행 갔던날 설레고 긴장되는 첫 차박을 꿈꾸며...
+                        이날은 우리 하동여행 갔던날 설레고 긴장되는 첫 차박을 꿈꾸며...
+                        이날은 우리 하동여행 갔던날 설레고 긴장되는 첫 차박을 꿈꾸며...
+                        이날은 우리 하동여행 갔던날 설레고 긴장되는 첫 차박을 꿈꾸며...
+                        이날은 우리 하동여행 갔던날 설레고 긴장되는 첫 차박을 꿈꾸며
+                    </p>
+                    <p class="select_community"><a href="community.html">자세히보기</a></p>
+                </li>
+                <li><img><p>영역 나누기2</p></li>
+                <li><img><p>영역 나누기3</p></li>
+                <li><img><p>영역 나누기4</p></li>
+                <li><img><p>영역 나누기5</p></li>
+            </ul>
+            <!-- 페이지 버튼 -->
+            <div class="community_link">
+                <button class='fas fa-angle-left'></button>
+                <button class='fas fa-circle'></button>
+                <button class='far fa-circle'></button>
+                <button class='far fa-circle'></button>
+                <button class='fas fa-angle-right'></button>
+            </div>
+        </div>
+
+        <!--footer-->
+        <div class="footer">
+            <img src="/resources/img/footer/footer.png">
         </div>
     </div>
-
-    <!--footer-->
-    <div class="footer">
-        <img src="/resources/img/footer/footer.png">
-    </div>
-</div>
 
 <!-- 카카오 MAP -->
 <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=9613dfdd64d6afc0ba0dc90bfcd01cf3&libraries=services"></script>
@@ -131,14 +140,23 @@ prefix="c" %>
     // 마커를 담을 배열입니다
     var markers = [];
 
+    var campsitename = document.getElementById('campsitename').value;   //야영지 이름
+    var category = document.getElementById('category').value;           //야영지 종류
+    var latitude = document.getElementById('latitude').value;           //위도
+    var longitude = document.getElementById('longitude').value;         //경도
+    var sido = document.getElementById('sido').value;                   //도/시
+    var gugun = document.getElementById('gugun').value;                 //구/군
+    var address = document.getElementById('address').value;             //상세 주소
+    var convenience1 = document.getElementById('convenience1').value;   //편의 시설
+    var convenience2 = document.getElementById('convenience2').value;   //부가 시설
+
     var mapContainer = document.getElementById('map'), // 지도를 표시할 div
         mapOption = {
-            center: new kakao.maps.LatLng(37.566826, 126.9786567), // 지도의 중심좌표
+            center: new kakao.maps.LatLng(latitude, longitude), // 지도의 중심좌표
             level: 3 // 지도의 확대 레벨
         };
 
-    // 지도를 생성합니다
-    var map = new kakao.maps.Map(mapContainer, mapOption);
+    var map = new kakao.maps.Map(mapContainer, mapOption); // 지도를 생성합니다
 
     // 장소 검색 객체를 생성합니다
     var ps = new kakao.maps.services.Places();
@@ -146,63 +164,34 @@ prefix="c" %>
     // 검색 결과 목록이나 마커를 클릭했을 때 장소명을 표출할 인포윈도우를 생성합니다
     var infowindow = new kakao.maps.InfoWindow({zIndex:1});
 
-    // 키워드로 장소를 검색합니다
-    searchPlaces();
-
     // 키워드 검색을 요청하는 함수입니다
-    function searchPlaces() {
+    function selectPlace() {
 
         var keyword = document.getElementById('keyword').value;
-        var sido = document.getElementById('sido').value;
-        var gugun = document.getElementById('gugun').value;
-
-        if(keyword=='자동차'){
-            if(sido=='시/도 선택'){
-                sido=' ';
-            }
-            if(gugun=='구/군 선택'){
-                gugun=' ';
-            }
-            keyword = sido+" "+gugun+" "+'자동차야영장';
-        }
-        else if(keyword=='차박'){
-            if(sido=='시/도 선택'){
-                sido=' ';
-            }
-            if(gugun=='구/군 선택'){
-                gugun=' ';
-            }
-            keyword = sido+" "+gugun+" "+'자동차야영장';
-        }
-        else{
-            if(sido=='시/도 선택'){
-                sido=' ';
-            }
-            if(gugun=='구/군 선택'){
-                gugun=' ';
-            }
-            keyword = sido+" "+gugun+" "+keyword;
-        }
 
         if (!keyword.replace(/^\s+|\s+$/g, '')) {
             alert('키워드를 입력해주세요!');
             return false;
         }
 
-        // 장소검색 객체를 통해 키워드로 장소검색을 요청합니다
-        ps.keywordSearch( keyword, placesSearchCB);
+        var campsiteSearch=document.getElementById("campsiteSearch");   //검색 FORM
+        console.log(keyword);
+        campsiteSearch.keyword.value = keyword;
+        campsiteSearch.action="campsite";
+        campsiteSearch.method="post"; //POST방식
+        campsiteSearch.submit();
     }
 
+    // 장소검색 객체를 통해 키워드로 장소검색을 요청합니다
+    ps.keywordSearch( campsitename, placesSearchCB);
+
     // 장소검색이 완료됐을 때 호출되는 콜백함수 입니다
-    function placesSearchCB(data, status, pagination) {
+    function placesSearchCB(data, status) {
         if (status === kakao.maps.services.Status.OK) {
 
             // 정상적으로 검색이 완료됐으면
             // 검색 목록과 마커를 표출합니다
             displayPlaces(data);
-
-            // 페이지 번호를 표출합니다
-            displayPagination(pagination);
 
         } else if (status === kakao.maps.services.Status.ZERO_RESULT) {
 
@@ -232,7 +221,7 @@ prefix="c" %>
         // 지도에 표시되고 있는 마커를 제거합니다
         removeMarker();
 
-        for ( var i=0; i<places.length; i++ ) {
+        var i=0;
 
             // 마커를 생성하고 지도에 표시합니다
             var placePosition = new kakao.maps.LatLng(places[i].y, places[i].x),
@@ -265,7 +254,7 @@ prefix="c" %>
             })(marker, places[i].place_name);
 
             fragment.appendChild(itemEl);
-        }
+
 
         // 검색결과 항목들을 검색결과 목록 Elemnet에 추가합니다
         listEl.appendChild(fragment);
@@ -297,29 +286,36 @@ prefix="c" %>
 
         itemStr += '  <span class="tel">' + places.phone  + '</span>' +
             '</form></div>';
-
+        if(convenience1 == null || convenience1=='' || convenience1==' '){
+            convenience1 = "정보없음";
+        }
+        itemStr += ' <br><span class="convenience"><h2>편의 시설</h2> <br>' + convenience1  + '</span>';
+        if(convenience2 == null || convenience2=='' || convenience2==' '){
+            convenience2 = "정보없음";
+        }
+        itemStr += ' <br><span class="convenience"><h2>부가 시설</h2> <br>' + convenience2  + '</span>';
         el.innerHTML = itemStr;
         el.className = 'item';
-
+        console.log("convenience2 : " + convenience2);
         return el;
 
     }
 
     // 장소 선택하고 난 후 위도,경도 가져오는 함수
-          function selectPlaces(obj) {
-              var lat = $(obj).data("ha"), //위도
-                  long = $(obj).data("ga");//경도
-              console.log("success1"+lat);
-              console.log("success2"+long);
+    function selectPlaces(obj) {
+        var lat = $(obj).data("ha"), //위도
+            long = $(obj).data("ga");//경도
+        console.log("success1"+lat);
+        console.log("success2"+long);
 
-              var campsiteTest=document.getElementById("campsitePlacseDetail");
-              campsiteTest.latitude.value = lat;
-              campsiteTest.longitude.value = long;
-              campsiteTest.action="campsitePlaceDetail";
-              campsiteTest.method="post"; //POST방식
-              campsiteTest.submit();
+        var campsiteTest=document.getElementById("campsitePlacseDetail");
+        campsiteTest.latitude.value = lat;
+        campsiteTest.longitude.value = long;
+        campsiteTest.action="campsitePlaceDetail";
+        campsiteTest.method="post"; //POST방식
+        campsiteTest.submit();
 
-          }
+    }
 
     // 마커를 생성하고 지도 위에 마커를 표시하는 함수입니다
     function addMarker(position, idx, title) {
@@ -350,37 +346,6 @@ prefix="c" %>
         markers = [];
     }
 
-    // 검색결과 목록 하단에 페이지번호를 표시는 함수입니다
-    function displayPagination(pagination) {
-        var paginationEl = document.getElementById('pagination'),
-            fragment = document.createDocumentFragment(),
-            i;
-
-        // 기존에 추가된 페이지번호를 삭제합니다
-        while (paginationEl.hasChildNodes()) {
-            paginationEl.removeChild (paginationEl.lastChild);
-        }
-
-        for (i=1; i<=pagination.last; i++) {
-            var el = document.createElement('a');
-            el.href = "#";
-            el.innerHTML = i;
-
-            if (i===pagination.current) {
-                el.className = 'on';
-            } else {
-                el.onclick = (function(i) {
-                    return function() {
-                        pagination.gotoPage(i);
-                    }
-                })(i);
-            }
-
-            fragment.appendChild(el);
-        }
-        paginationEl.appendChild(fragment);
-    }
-
     // 검색결과 목록 또는 마커를 클릭했을 때 호출되는 함수입니다
     // 인포윈도우에 장소명을 표시합니다
     function displayInfowindow(marker, title) {
@@ -397,6 +362,6 @@ prefix="c" %>
         }
     }
 </script>
-
 </body>
+
 </html>

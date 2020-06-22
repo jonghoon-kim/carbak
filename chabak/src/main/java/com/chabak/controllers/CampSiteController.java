@@ -1,6 +1,5 @@
 package com.chabak.controllers;
 
-import com.chabak.repositories.CampSiteDao;
 import com.chabak.services.CampSiteService;
 import com.chabak.vo.Campsite;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,42 +16,39 @@ import java.util.List;
 @RequestMapping("/campsite")
 public class CampSiteController {
     @Autowired
-    CampSiteService CampSiteService;
+    CampSiteService campSiteService;
 
     //campsite 경로 지정
-    @RequestMapping(value= {"", "/", "campsite"}, method= RequestMethod.GET)
-    public String campSite()
+    @RequestMapping(value= {"", "/", "campsite"}, method= {RequestMethod.GET,RequestMethod.POST})
+    public String campSite(HttpServletRequest request, Model model)
     {
+        String keyword = request.getParameter("keyword");
+        if(keyword == null || keyword == " " || keyword == ""){
+            keyword = "차박";
+        }
+        model.addAttribute("keyword", keyword);
+        System.out.println(keyword);
         return "campsite/campsite";
     }
 
-    //야영지 검색(select,text 데이터 가져오기)
-    @RequestMapping(value ="/campsiteSearchPlaces", method= {RequestMethod.GET, RequestMethod.POST})
-    public ModelAndView campsiteSearchPlaces(HttpServletRequest request, Model model) throws Exception{
-        ModelAndView campsiteSearchPlaces = new ModelAndView();
+    //야영지 선택 경로 지정(selectPlaceDetail)
+    @RequestMapping(value = "campsitePlaceDetail", method= {RequestMethod.GET,RequestMethod.POST})
+    public ModelAndView campsitePlaceDetail(HttpServletRequest request) {
+        ModelAndView campsitePlaceDetail = new ModelAndView();
+        String lat = request.getParameter("latitude"); //위도
+        String lon = request.getParameter("longitude");//경도
 
-        String sido = request.getParameter("sido");
-        String gugun = request.getParameter("gugun");
-        String campsitename = request.getParameter("campsitename");
+        String latitude = lat.substring(0, 7);
+        String longitude = lon.substring(0, 8);
 
-        System.out.println("test3"+sido);
-        System.out.println("test4"+gugun);
-        System.out.println("campsitename:"+campsitename);
+        List<Campsite> lstSelectCampsitePlace = campSiteService.getlstSelectCampsitePlace(latitude,longitude);
 
-        List<Campsite> campSiteList = CampSiteService.campSiteList(campsitename, sido, gugun);
+        System.out.println("lstSelectCampsitePlace :" + lstSelectCampsitePlace.toString());
 
-        System.out.println("test1"+sido);
-        System.out.println("test2"+gugun);
-        System.out.println("campsitename:"+campsitename);
-
-        campsiteSearchPlaces.addObject("campsitename",campsitename);
-        campsiteSearchPlaces.addObject("sido",sido);
-        campsiteSearchPlaces.addObject("gugun",gugun);
-
-        System.out.println("campSiteList = "+ campSiteList);
-
-        campsiteSearchPlaces.setViewName("campsite/campsite");
-        return campsiteSearchPlaces;
+        campsitePlaceDetail.addObject("latitude",latitude);
+        campsitePlaceDetail.addObject("longitude",longitude);
+        campsitePlaceDetail.addObject("lstSelectCampsitePlace",lstSelectCampsitePlace);
+        campsitePlaceDetail.setViewName("campsite/campsitePlaceDetail");
+        return campsitePlaceDetail;
     }
-
 }

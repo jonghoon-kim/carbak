@@ -9,11 +9,13 @@
 	<typeAliases>
 	<typeAlias alias="Member" type="com.chabak.vo.Member"/>
 	<typeAlias alias="TestFileVo" type="com.chabak.vo.TestFileVo"/>
+	<typeAlias alias="Campsite" type="com.chabak.vo.Campsite"/>
 	</typeAliases>
 	
 	<!-- 실제 SQL과 객체 매핑을 위한 매핑 정보 xml -->
 	<mappers>
 		<mapper resource = "/mybatis/mappers/member.xml"/>
 		<mapper resource = "/mybatis/mappers/fileUpload.xml"/>
+		<mapper resource = "/mybatis/mappers/campSite.xml"/>
 	</mappers>
 </configuration>
