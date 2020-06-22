@@ -34,17 +34,17 @@ public class MyPageController {
     @ResponseBody
     @RequestMapping(value={"", "/", "follower"}, method=RequestMethod.GET) //
     public String followerList(ModelMap model) throws Exception{ // return된 List<Follow> 데이터 형을 model에 넣음
-        ModelAndView test = new ModelAndView();
+        ModelAndView getFollowerId = new ModelAndView();
         System.out.println("controller info");
 
         //HashMap<String, Object> hashMap = new HashMap<>();
 /*        List<Follow> list = new ArrayList<>();*/
 
-        List<Follow> list = followService.selectDataHashMapServiceList();
+        List<Follow> list = followService.selectDataHashMapServiceList(); // 세션 아이디가 갖고 있는 데이터
         //hashMap.put("HashMapList", list);
 
         System.out.println(list);
-        test.addObject("HashMapList", list);
+        getFollowerId.addObject("HashMapList", list); // addObject는 (key, value) 형태로 데이터 담아 보내는 매서드
         return "/mypage/myInformation";
     }
 

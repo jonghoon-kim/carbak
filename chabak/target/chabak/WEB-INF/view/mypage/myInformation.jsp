@@ -7,9 +7,7 @@
     <meta name="Author" content="">
     <meta name="Keywords" content="">
     <meta name="Description" content="">
-    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
-    <script type="text/javascript" src="/js/myInfo.js" charset="UTF-8"></script>
-    <title>Document</title>
+<%--    session--%>
     <style>
         button{
             float:left;
@@ -17,11 +15,19 @@
     </style>
 </head>
 
-
-
 <body>
 mypage
 <hr>
+<c:forEach var="getFollowerId" items="${HashMapList}" varStatus="status">
+    ${items.FOLLOWERID}
+    ${items.FOLLOWINGID}
+</c:forEach>
+
+
+
+
+
+
 <!-- 클릭 시 프로필 수정 페이지 이동-->
 <button onclick="location='/member/'">프로필 수정</button>
 
@@ -40,18 +46,15 @@ mypage
 <a href="#" onclick="#">11</a>
 <hr>
 
-<!-- 위에 버튼 클릭 시, 화면단에서 비동기 처리(ajax 활용) -->
-<ul>
-    <li>리뷰글1</li>
-    <li>리뷰글2</li>
-    <li>리뷰글3</li>
-    <li>리뷰글4</li>
+<!-- 위에 버튼 클릭 시, 화면단에서 비동기 처리(ajax 활용) input hidden -->
+<ul id="result" class="mypage_board">
+    <li>result AJAX</li> <!-- 버튼 클릭시 결과가 나오는 라인 -->
 </ul>
 
 
-<c:forEach var="test" items="${HashMapList}" varStatus="status">
-    ${test.FOLLOWERID}
-    ${test.FOLLOWINGID}
-</c:forEach>
+
+
+<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+<script type="text/javascript" src="/js/myInfo.js" charset="UTF-8"></script>
 </body>
 </html>
