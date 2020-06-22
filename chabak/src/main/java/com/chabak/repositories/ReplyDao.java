@@ -49,4 +49,9 @@ public class ReplyDao {
         int updateCount = sqlSession.update("reply.updateReply",reply);
         return updateCount;
     }
+
+    public int deleteReply(int reviewNo){
+        int deleteCount = sqlSession.delete("reply.deleteReply",reviewNo);
+        return deleteCount;
+    }
 }

@@ -16,6 +16,7 @@ public class Review {
     private String titleImageSrc;
     private int readCount;
     private int likeCount;
+    private int replyCount;
     private Date regDate;
     private Date modifyDate;
 

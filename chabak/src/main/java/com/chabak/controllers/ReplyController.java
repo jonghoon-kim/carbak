@@ -19,6 +19,7 @@ public class ReplyController {
 
     @Autowired
     ReviewDao reviewDao;
+    @Autowired
     ReplyDao replyDao;
 
     //댓글 달기
@@ -33,8 +34,11 @@ public class ReplyController {
 
 
         replyDao.insertReply(reply);
+        //리뷰 댓글 수 증가
+        reviewDao.updateReplyCount(reply.getReviewNo());
 
         ModelAndView mv = new ModelAndView();
+        //TODO:리다이렉트 시 조회수가 증가하므로 ajax로 변경을 고민 중...
         mv.setViewName("redirect:/review/detail?reviewNo="+reply.getReviewNo());
         return mv;//이동 주소는 수정할 것
     }
@@ -77,6 +81,11 @@ public class ReplyController {
         }
         //대댓글 insert
         replyDao.insertReReply(reply);
+
+        //리뷰 댓글 수 증가
+        reviewDao.updateReplyCount(reply.getReviewNo());
+
+        //TODO:리다이렉트 시 조회수가 증가하므로 ajax로 변경을 고민 중...
 
         ModelAndView mv = new ModelAndView();
         mv.setViewName("redirect:/review/detail?reviewNo="+reply.getReviewNo());

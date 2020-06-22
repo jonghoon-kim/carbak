@@ -4,11 +4,15 @@ import com.chabak.repositories.ReplyDao;
 import com.chabak.repositories.ReviewDao;
 import com.chabak.vo.Reply;
 import com.chabak.vo.Review;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import jdk.nashorn.internal.objects.NativeJSON;
+import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -26,7 +30,9 @@ public class ReviewController {
     @RequestMapping(value ={"", "/", "/list"}, method=RequestMethod.GET)
     public ModelAndView reviewList(){
         //리뷰 리스트 select
-        List<Review> reviewList = reviewDao.selectReviewList();
+        String sortType="regDate";
+        System.out.println("sortType:"+sortType);
+        List<Review> reviewList = reviewDao.selectReviewList(sortType);
 
         ModelAndView mv = new ModelAndView();
         mv.setViewName("community/community");
@@ -36,18 +42,24 @@ public class ReviewController {
         return mv;
     } //리뷰 리스트 출력
 
+    @SneakyThrows
     @ResponseBody
     @RequestMapping("/listAjax")
-    public int listAjax(){
+    public String listAjax(HttpServletRequest request,ModelAndView mv){
         //TODO:아직 작성중
-        List<Review> reviewList = reviewDao.selectReviewList();
-        int result =0;
+        String sortType = request.getParameter("sortType");
+        System.out.println("sortType:"+sortType);
 
-        if(reviewList != null) {
-            result = 1;
-        }
+        List<Review> reviewList = reviewDao.selectReviewList(sortType);
 
-        return result;
+        //Jacson 라이브러리로 자바->json 변환
+       ObjectMapper mapper = new ObjectMapper();
+       String jsonString = mapper.writeValueAsString(reviewList);
+
+        System.out.println("in listAjax(reviewList):"+reviewList);
+        System.out.println("jsonString:"+jsonString);
+
+        return jsonString;
     }
 
     @RequestMapping(value ="/writeForm", method=RequestMethod.GET)
@@ -75,7 +87,7 @@ public class ReviewController {
         while(matcher.find()){
             titleImage = matcher.group(1);
         }
-        
+
         if(titleImage!=null){
             review.setTitleImageSrc(titleImage);
         }
@@ -115,6 +127,7 @@ public class ReviewController {
 
         //TODO:로직 확인
         reviewDao.deleteReview(reviewNo);
+        replyDao.deleteReply(reviewNo);
 
         ModelAndView mv = new ModelAndView();
         mv.setViewName("redirect:/review");
@@ -125,11 +138,13 @@ public class ReviewController {
     @RequestMapping(value ="/detail", method=RequestMethod.GET)
     public ModelAndView detailReview(@RequestParam int reviewNo){
         System.out.println("reviewNo:"+reviewNo);
-        
+
+        //조회수 1 증가
+        reviewDao.updateReadCount(reviewNo);
         //리뷰 선택
         Review review = reviewDao.selectReviewDetail(reviewNo);
         System.out.println("review:"+review);
-        
+
         //해당 리뷰에 달린 댓글들
 
         List<Reply> replyList = replyDao.selectReplyList(reviewNo);

@@ -69,27 +69,51 @@ function ajaxReviewList() {
         url : "/review/listAjax",
         type : "post",
         dataType:'json',
-        data :{"id":id},
+        data :{"sortType":$("#sortType option:selected").val()}, //서버로 전송하는 데이터
         success : function(data) {
-            if(data == 1) {
 
-                var ts = data;
-                new(ts);
-                idChk = false;
+            var reviewListDiv = $("#reviewListDiv"); //리뷰가 추가되는 영역
+            reviewListDiv.empty();  //리뷰 추가 영역 초기화
+            
+            $.each(data, function() {
+                var newReview = $("#dummy-review").clone(true);
 
-            } else if( data== 0 ){
-                if(idcheckreg.test($('#id').val())) {
-                    alert("사용 가능한 아이디입니다.");
-                    idChk = true;
+                //            원형 복사시 수정할 부분: #dummy-review(id),  .writer-id(value),    .review-img img(src,onclick) .content-title(value)
 
-                }else {
-                    alert("아이디는 영어와 숫자의 조합이어야합니다.\n 영어로 시작하는 아이디, 길이는 5~15자");
-                    idChk = false;
+                var reviewNo = this["reviewNo"];
+                var reviewId = "review"+reviewNo;
 
-                }
-            }
+                newReview.attr("id",reviewId);
 
-            console.log(idChk);
+
+                var writer = newReview.find(".writer-id");  //작성자
+                writer.html(this["id"]);  //작성자 설정
+
+                var reviewImg =  newReview.find(".review-img img")  //리뷰 이미지
+                reviewImg.attr("src",this["titleImageSrc"]);  //리뷰 타이틀이미지 src
+
+                var onclickLink =  "location.href='/review/detail?reviewNo="+ reviewNo+"'"; //리뷰 타이틀 이미지 링크
+                reviewImg.attr("onclick",onclickLink);
+
+                var title = newReview.find(".content-title");   //리뷰 타이틀
+                title.text(this["title"]);                      //리뷰 타이틀 설정
+                newReview.show();
+                reviewListDiv.append(newReview);
+
+
+
+
+
+
+
+
+
+
+            });
+
+        },
+        error:function(error){
+            alert('error');
         }
     });  // ajax 끝
 

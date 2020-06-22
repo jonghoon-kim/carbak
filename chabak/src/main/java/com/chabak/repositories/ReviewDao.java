@@ -18,9 +18,9 @@ public class ReviewDao {
         return insertedCount;
     }
 
-    public List<Review> selectReviewList(){
+    public List<Review> selectReviewList(String sortType){
         List<Review> reviewList = null;
-        reviewList = sqlSession.selectList("review.selectReviewList",null);
+        reviewList = sqlSession.selectList("review.selectReviewList",sortType);
         return reviewList;
     }
     public Review selectReviewDetail(int reviewNo){
@@ -31,6 +31,21 @@ public class ReviewDao {
 
     public int updateReview(Review review) {
         int updateCount = sqlSession.update("review.updateReview",review);
+        return updateCount;
+    }
+
+    public int updateReadCount(int reviewNo){
+        int updateCount = sqlSession.update("review.updateReadCount",reviewNo);
+        return updateCount;
+    }
+
+    public int updateLikeCount(int reviewNo){
+        int updateCount = sqlSession.update("review.updateLikeCount",reviewNo);
+        return updateCount;
+    }
+
+    public int updateReplyCount(int reviewNo){
+        int updateCount = sqlSession.update("review.updateReplyCount",reviewNo);
         return updateCount;
     }
 
