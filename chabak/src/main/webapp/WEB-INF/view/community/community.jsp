@@ -26,8 +26,11 @@
         <h1>커뮤니티</h1>
     </div>
     <div class="search">
-        <input type="text" class="search_text" placeholder=" 지역 검색">
+       <form action="/review" method="POST" <%--onsubmit="beforeSearch()" --%> >
+        <input type="text" class="search_text" placeholder=" 지역 검색" name="search_text">
+<%--        <input type="hidden" name="sortType" id="searchSortType"> 검색시 새로고침되므로 일단 보류--%>
         <button type="submit" class="search_but"></button>
+       </form>
     </div>
     <!-- 글쓰기, 정렬 버튼 -->
     <div class="second">
@@ -97,7 +100,7 @@
                     </div>
                     <div class="writer">
                     <span class="writer-id">
-                        id:${review.id}
+                        ${review.id}
                     </span>
                     </div>
                 </div>

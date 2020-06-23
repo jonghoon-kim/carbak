@@ -42,7 +42,7 @@
         <div class="set">
             <span class="title">본문</span><br><br>
             <!-- editor -->
-            <textarea class="form-control" id="smartEditor" name="content" id="content" rows="30" cols="110"
+            <textarea class="form-control" id="smartEditor" name="content" rows="30" cols="110"
                       placeholder="리뷰를 작성해주세요!">
             </textarea>
             <script type="text/javascript">

@@ -19,9 +19,12 @@
 	</insert>
 
 <!--	변수값이 칼럼명일 경우 ${}를 사용한다.-->
-	<select id="selectReviewList" parameterType="String" resultType="Review">
+	<select id="selectReviewList" parameterType="Map" resultType="Review">
 		select reviewNo,id,title,sido,gugun,content,titleImageSrc,readCount,likeCount,replyCount,regDate,modifyDate
 		from Review
+		<if test="search_text !=null and search_text !=''">
+			where sido||' '||gugun LIKE '%'||#{search_text}||'%'
+		</if>
 		<if test="sortType !=null and sortType !=''">
 			order by ${sortType} desc
 		</if>

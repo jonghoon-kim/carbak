@@ -80,15 +80,76 @@
     height:35px;
     border: none;
     background-color: transparent;
-    margin-right: 10px;
+    margin-right: 20px;
+    padding-right:10px;
     outline: none;
 }
-
 .content-icon img {
     width:35px;
     height:35px;
 }
 
+/* 수정하기 삭제하기 드롭다운*/
+.dropdown {
+    position: absolute;
+    display: inline-block;
+    width:35px;
+    height:35px;
+    outline: none;
+    border:none;
+    background-color: transparent;
+}
+.dropdown .dropbtn {
+    margin-top: 5px;
+    margin-left: 45px;
+    padding-left:60px;
+    width:35px;
+    height:35px;
+    outline: none;
+    border:none;
+    background-color: transparent;
+}
+
+
+.dropdown img:hover {
+    cursor: pointer;
+    text-decoration: none;
+    border: none;
+    outline: none;
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    margin-left:150px;
+    background-color:white;
+    color:black;
+    font-size:12px;
+    min-width: 80px;
+    box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+    z-index: 1;
+    -webkit-transition: opacity .3s ease-in;
+    -moz-transition: opacity .3s ease-in;
+    -o-transition: opacity .3s ease-in;
+    transition: opacity .3s ease-in;
+}
+
+.dropdown-content a {
+    float: none;
+    color: black;
+    padding: 10px 10px;
+    text-decoration: none;
+    display: block;
+}
+
+.dropdown-content a:hover {
+    background-color: rgb(105, 179, 149);
+    color:white;
+}
+.show {
+    display: block;
+    z-index: 11;
+}
 /* 본문 */
 .main {
     width: 700px;

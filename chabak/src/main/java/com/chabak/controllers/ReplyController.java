@@ -93,9 +93,9 @@ public class ReplyController {
     }
 
     //댓글/대댓글 수정
-    @RequestMapping(value ="/modifyReply", method=RequestMethod.POST)
+    @RequestMapping(value ="/modify", method=RequestMethod.POST)
     public String modifyReply(@ModelAttribute Reply reply){
-
+        System.out.println("reply/modify");
         //TODO:세션에서 id 가져오기
         //임시 코드(나중에 수정)
         reply.setId("id1");

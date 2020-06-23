@@ -32,7 +32,59 @@
             }
 
         }
+        function myFunction(flag,idValue) {
+            if(flag=='review'){
+                document.getElementById("myDropdown").classList.toggle("show");
+            }
+            else{
+                document.getElementById("myDropdown"+idValue).classList.toggle("show");
+            }
+        }
 
+        window.onclick = function (event) {
+            if (!event.target.matches('.dropbtn')) {
+                var dropdowns = document.getElementsByClassName("dropdown-content");
+                ////////////
+                //var dropdowns = document.getElementById()
+                var i;
+                for (i = 0; i < dropdowns.length; i++) {
+                    var openDropdown = dropdowns[i];
+                    if (openDropdown.classList.contains('show')) {
+                        openDropdown.classList.remove('show');
+                    }
+                }
+            }
+        }
+
+        //리플 수정 클릭하면 입력폼으로 변환
+        function changeReplyForm(replyNo){
+            //댓글 class="reply-one" id="reply-one리플번호"
+            //댓글 수정폼 class="reply-one-modify" id="reply-one-modify리플번호"
+            //대댓글 class="reply-child" id="reply-one리플번호"
+            //대댓글 수정폼 class="reply-one-modify" id="reply-one-modify리플번호"
+     ;
+            // var isVisible =  $("#reply-one-modify"+replyNo).is(":visible");
+            //
+            // //상태:show/hide
+            //
+            // $(".reply-one").show();
+            // $(".reply-child").show();
+            //
+            // $(".reply-one-modify").hide();
+            //
+            //
+            // if (isVisible == false) { //숨김 상태이면
+            //     $("#reply-one-modify" + replyNo).show();
+            //     $("#reply-one"+replyNo).hide();
+            // }
+            var cnt=1;
+            var defaultReply = document.getElementById("reply-one${reply.replyNo}");
+            var modifyReply = document.getElementById("reply-one-modify${reply.replyNo}");
+
+            if(cnt%2==1){
+
+            }
+        }
 
     </script>
 
@@ -61,10 +113,19 @@
             <div class="title">
                 [${review.sido}][${review.gugun}] ${review.title}
             </div>
+
             <div class="content-icon">
                 <span>${review.likeCount}+</span>
                 <button class="like-img"><img id="like-img" src="/img/community/heart.png"
                                               onclick="like()"></button>
+            </div>
+            <div class="dropdown">
+                <button class="dropbtn"><img class="dropbtn" src="/img/community/menu.png"
+                                             onclick="myFunction('review',null)"></button>
+                <div class="dropdown-content" id="myDropdown">
+                    <a href="/review/modify?reviewNo=${review.reviewNo}">수정하기</a>
+                    <a href="/review/delete?reviewNo=${review.reviewNo}">삭제하기</a>
+                </div>
             </div>
         </div>
     </div>
@@ -91,7 +152,7 @@
 
 <%--                 댓글 시작       --%>
 
-                        <div class="reply-one">
+                        <div class="reply-one" id="reply-one${reply.replyNo}">
                             <div class="thumbnail-wrapper">
                                 <div class="reply-thumbnail">
                                     <div class="centered">
@@ -106,12 +167,24 @@
                             <div class="reply-date">
                                     ${reply.regDate}
                             </div>
- <%--          수정 버튼에 따라 변경됨 시작--%>
-                            <div class="button">
-                                <button class="update" >수정</button>
-                                <button class="delete" onclick="">삭제</button>
-                                <button class="replyButton" onclick="createReplyBox(${reply.replyNo})">댓글달기</button>
+ <%--          댓글 드롭다운 시작--%>
+
+                            <div class="dropdown">
+                                <button class="dropbtn"><img class="dropbtn" src="/img/community/menu.png"
+                                                             onclick="myFunction('reply',${reply.replyNo})"></button>
+                                <div class="dropdown-content" id="myDropdown${reply.replyNo}">
+                                    <a onclick="changeReplyForm(${reply.replyNo})">수정하기</a>
+                                    <a href="/reply/delete?replyNo=${reply.replyNo}">삭제하기</a>
+                                    <a onclick="createReplyBox(${reply.replyNo})">댓글달기</a>
+                                </div>
                             </div>
+<%--                          댓글 드롭다운 끝  --%>
+
+<%--                            <div class="button">--%>
+<%--                                <button class="update" >수정</button>--%>
+<%--                                <button class="delete" onclick="">삭제</button>--%>
+<%--                                <button class="replyButton" onclick="createReplyBox(${reply.replyNo})">댓글달기</button>--%>
+<%--                            </div>--%>
 
                             <div class="button" style="display: none">
                                 <button class="cancel">취소</button>
@@ -123,15 +196,11 @@
                                     ${reply.content}
                             </div>
 
-                            <div class="reply-content" style="display: none">
-                                    ${reply.content}
-                            </div>
+
   <%--          수정 버튼에 따라 변경됨 끝--%>
 
                         </div>
 <%--          댓글 끝--%>
-
-
 
 <%--       대댓글 폼 시작--%>
                         <div class="re-reply-input" id="re-reply-input${reply.replyNo}" style="display:none">
@@ -152,7 +221,7 @@
 
 <%--       대댓글 폼 끝--%>
  <!--대댓글 시작-->
-                        <div class="reply-child">
+                        <div class="reply-child" id="reply-one${reply.replyNo}">
                             <div class="re-reply">
                                 <img src="/img/community/re_reply3.png">
                                 <div class="thumbnail-wrapper">
@@ -169,25 +238,30 @@
                                 <div class="reply-date">
                                         ${reply.regDate}
                                 </div>
-                                <div class="button">
-                                    <button class="update">수정</button>
-                                    <button class="delete">삭제</button>
-                                    <button class="replyButton" onclick="createReplyBox(${reply.replyNo})">댓글달기</button>
-                                </div>
 
-                                <div class="button" style="display: none">
-                                    <button class="cancel">취소</button>
-                                    <button type="submit" class="save" onclick="">저장</button>
+<%--                                대댓글 드롭다운 시작--%>
+                                <div class="dropdown">
+                                    <button class="dropbtn"><img class="dropbtn" src="/img/community/menu.png"
+                                                                 onclick="myFunction('reply',${reply.replyNo})"></button>
+                                    <div class="dropdown-content" id="myDropdown${reply.replyNo}">
+                                        <a onclick="changeReplyForm(${reply.replyNo})">수정하기</a>
+                                        <a href="/reply/delete?replyNo=${reply.replyNo}">삭제하기</a>
+                                        <a onclick="createReplyBox(${reply.replyNo})">댓글달기</a>
+                                    </div>
+                                </div>
+<%--             대댓글 드롭다운 끝          --%>
+
 
                                 <div class="re-reply-content">
                                         ${reply.content}
                                 </div>
 
-                                <div class="re-reply-content" style="display: none">
-                                     ${reply.content}
-                                </div>
+
                             </div>
                         </div>
+
+
+
                         <%--                        대댓글 폼--%>
                         <div class=re-reply-input" id="re-reply-input${reply.replyNo}" style="display:none">
 

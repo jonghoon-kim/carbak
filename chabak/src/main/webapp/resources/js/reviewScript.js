@@ -60,16 +60,14 @@ function checkLengthValidate(obj, maxByte) {
     }
 
 }
-function ts(a) {
-    id = a;
 
-}
 function ajaxReviewList() {
     $.ajax({
         url : "/review/listAjax",
         type : "post",
         dataType:'json',
-        data :{"sortType":$("#sortType option:selected").val()}, //서버로 전송하는 데이터
+        data :{"sortType": $("#sortType option:selected").val(),//서버로 전송하는 데이터(정렬방식)
+               "search_text":$(".search_text").val()   }, //검색창의 텍스트값
         success : function(data) {
 
             var reviewListDiv = $("#reviewListDiv"); //리뷰가 추가되는 영역
@@ -96,17 +94,9 @@ function ajaxReviewList() {
                 reviewImg.attr("onclick",onclickLink);
 
                 var title = newReview.find(".content-title");   //리뷰 타이틀
-                title.text(this["title"]);                      //리뷰 타이틀 설정
+                title.text('['+this["sido"]+']'+'['+this["gugun"]+']'+this["title"]);                      //리뷰 타이틀 설정 [sido][gugun][title]
                 newReview.show();
                 reviewListDiv.append(newReview);
-
-
-
-
-
-
-
-
 
 
             });
@@ -118,3 +108,7 @@ function ajaxReviewList() {
     });  // ajax 끝
 
 }
+
+// function beforeSearch(){
+//     $("#searchSortType").val($("#sortType option:selected").val());  //정렬 select의 값을 search 폼 hidden input에 집어넣기,검색시 새로고침되므로 일단 넣는건 보류
+// }

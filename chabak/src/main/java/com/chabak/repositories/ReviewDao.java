@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Map;
 
 @Repository("reviewDao")
 public class ReviewDao {
@@ -18,9 +19,9 @@ public class ReviewDao {
         return insertedCount;
     }
 
-    public List<Review> selectReviewList(String sortType){
+    public List<Review> selectReviewList(Map map){
         List<Review> reviewList = null;
-        reviewList = sqlSession.selectList("review.selectReviewList",sortType);
+        reviewList = sqlSession.selectList("review.selectReviewList",map);
         return reviewList;
     }
     public Review selectReviewDetail(int reviewNo){
