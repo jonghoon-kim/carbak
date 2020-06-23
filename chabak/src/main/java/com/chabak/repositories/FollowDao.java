@@ -14,7 +14,7 @@ import java.util.List;
     // 게시글 갖고오기 + 뿌리기
 
 
-    @Repository("MyPageDao")
+    @Repository("FollowDao")
     public class FollowDao {
         @Autowired
         SqlSession sqlSession;

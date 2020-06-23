@@ -8,6 +8,10 @@ import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+
+import javax.servlet.http.HttpServletResponse;
+import java.io.PrintWriter;
 
 
 @Controller
@@ -28,9 +32,14 @@ public class WelcomeController {
 //
 //    }
     @SneakyThrows
-    @RequestMapping(value="/") // 기존값 "/"
-    public String upload(){
-        //System.out.println("Controller");
-        return "index";
+    @RequestMapping(value= {"", "/", "index"})
+    public String index(HttpServletResponse response){
+        System.out.println("Controller");
+        return "/index";
+    }
+
+    @RequestMapping("/header")
+    public String header() {
+        return "header";
     }
 }

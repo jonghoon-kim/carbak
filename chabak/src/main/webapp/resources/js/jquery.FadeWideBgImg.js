@@ -1,7 +1,7 @@
 ;(function($,exports,undefined){
 	"use strict";
 	// console.log(!$.fn.FadeWideBgImg)
-	if (!$.fn.FadeWideBgImg){
+	if (!$.fn.jquery.FadeWideBgImg){
 		// 기본 설정값 정의
  		var defaultSettings = {			
 			minwidth : 1920, //이미지 쇼 최소 넓이
