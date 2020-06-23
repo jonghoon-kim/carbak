@@ -9,8 +9,8 @@ public class Review {
     private int reviewNo;
     private String id;
     private String title;
-    private String state;
-    private String city;
+    private String sido;
+    private String gugun;
     private String content;
     private int readCount;
 

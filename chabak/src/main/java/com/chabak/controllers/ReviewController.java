@@ -3,14 +3,33 @@ package com.chabak.controllers;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+
+import java.net.URLDecoder;
 
 @Controller
 @RequestMapping("/review")
 public class ReviewController {
 
-    @RequestMapping(value ="/write", method=RequestMethod.POST)
-    public String writeReview(){
+    @RequestMapping(value ={"", "/", "/list"}, method=RequestMethod.GET)
+    public String reviewList(){
         //TODO:로직 작성
+        System.out.println("review/list");
+        return "community/community";//이동 주소는 수정할 것
+    }
+
+    @RequestMapping(value ="/writeForm", method=RequestMethod.GET)
+    public String writeReviewForm(){
+        return "community/community_write";
+    }
+
+    @RequestMapping(value ="/write", method=RequestMethod.POST)
+    public String writeReview(@RequestParam String title,@RequestParam String sido,String gugun,@RequestParam String content){
+        //TODO:로직 작성
+
+
+        String testString = String.format("title: %s sido: %s gugun: %s content: %s",title,sido,gugun,content);
+        System.out.println(testString);
         return "community/community";//이동 주소는 수정할 것
     }
 

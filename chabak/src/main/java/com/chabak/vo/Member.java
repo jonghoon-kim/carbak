@@ -9,8 +9,8 @@ public class Member {
     private String password;
     private String name;
     private String gender;
-    private String state;
-    private String city;
+    private String sido;
+    private String gugun;
     private String email;
     private String saveName;
     private Date regDate;

@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-pageEncoding="UTF-8"%>
+         pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core"
-prefix="c" %>
+           prefix="c" %>
 <!DOCTYPE html>
 
 <head>
@@ -10,8 +10,8 @@ prefix="c" %>
     <link href="css/community_write.css" rel="stylesheet">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
     <script type="text/javascript" src=" http://code.jquery.com/jquery-latest.min.js"></script>
-    <script src="https://cdn.ckeditor.com/ckeditor5/19.1.1/classic/ckeditor.js"></script>
-    <script src="https://ckeditor.com/apps/ckfinder/3.5.0/ckfinder.js"></script>
+    <script type="text/javascript" src="js/smarteditor2/js/HuskyEZCreator.js"></script>
+
     <script type="text/javascript">
         $('document').ready(function () {
             var area0 = ["시/도 선택", "서울특별시", "인천광역시", "대전광역시", "광주광역시", "대구광역시", "울산광역시", "부산광역시", "경기도", "강원도", "충청북도", "충청남도", "전라북도", "전라남도", "경상북도", "경상남도", "제주도"];
@@ -79,10 +79,16 @@ prefix="c" %>
         <div class="set">
             <span class="title">본문</span><br><br>
             <!-- editor -->
-            <textarea class="content" id="content" placeholder="  리뷰를 작성해주세요!" name="editor">
-
-                </textarea>
-            <script src="js/ckeditor.js"></script>
+            <textarea class="form-control" id="smartEditor" name="smartEditor" rows="30" cols="110"
+                      placeholder="리뷰를 작성해주세요!"></textarea>
+            <script type="text/javascript">
+                var oEditors = []; nhn.husky.EZCreator.createInIFrame({
+                    oAppRef: oEditors,
+                    elPlaceHolder: "smartEditor", //저는 textarea의 id와 똑같이 적어줬습니다.
+                    sSkinURI : "js/smarteditor2/SmartEditor2Skin.html", //경로를 꼭 맞춰주세요!
+                    fCreator : "createSEditor2"
+                });
+            </script>
         </div>
     </div>
     <div class="bottom">

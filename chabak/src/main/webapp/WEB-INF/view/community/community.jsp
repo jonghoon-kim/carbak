@@ -1,8 +1,12 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+         pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core"
+           prefix="c" %>
 <!DOCTYPE html>
 <head>
     <meta charset="UTF-8">
     <title>슬기로운 차박생활</title>
-    <link href="css/community.css" rel="stylesheet">
+    <link href="/css/community.css" rel="stylesheet">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
     <script type="text/javascript" src=" http://code.jquery.com/jquery-latest.min.js"></script>
     <script>
@@ -26,7 +30,7 @@
     <!-- 글쓰기, 정렬 버튼 -->
     <div class="second">
         <div class="insert">
-            <button type="submit" onclick="location.href='community_write.html'">글쓰기</button>
+            <button type="submit" onclick="location.href='/review/writeForm'">글쓰기</button>
         </div>
         <div class="sort">
             <select>
@@ -54,7 +58,7 @@
         </div>
         <div class="content">
             <div class="review-img">
-                <img src="img/index/banner_01.png">
+                <img src="/img/index/banner_01.png">
             </div>
             <div class="review-content">
                 <div class="content-title">

@@ -32,7 +32,7 @@
 	from users
 	WHERE email=#{email}
 	</select>
-	    
+
 	<select id="selectByEmailAndPassword" parameterType="map" resultType="Member">
 	select no, name, email, gender
 	from users
