@@ -4,8 +4,19 @@
 <!-- SQL Mapping 설정 -->
 <mapper namespace="follow">
     <select id="selectDataHashMapServiceList" resultType="map">
-        SELECT followingId, followerId
+        select blog, name
+        from member
+        whrere id =
+        (SELECT *
         from follow
+        where followingId)
+        and id = #{id}
+    </select>
+
+    <select id="selectDataHashMapServiceList" resultType="map">
+        SELECT *
+        from follow
+        where followerId = #{loginId}
     </select>
 
 

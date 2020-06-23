@@ -14,6 +14,7 @@ import org.springframework.web.servlet.ModelAndView;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 @RequestMapping("/mypage")
@@ -31,23 +32,24 @@ public class MyPageController {
     }
 
     // mypage화면에서 follow를 클릭했을 때
-    @ResponseBody
-    @RequestMapping(value={"", "/", "follower"}, method=RequestMethod.GET) //
-    public String followerList(ModelMap model) throws Exception{ // return된 List<Follow> 데이터 형을 model에 넣음
-        ModelAndView getFollowerId = new ModelAndView();
+  /*  @ResponseBody
+    @RequestMapping(value={"", "/", "follower"}, method={RequestMethod.GET,RequestMethod.POST}) //
+    public Map<String, Object> followerList(HttpserveltRequest request)throws Exception{ // return된 List<Follow> 데이터 형을 model에 넣음
+
+
+
+        Map<String, Object> map = new Map<String, Object>();
+        List<Follow> list = followService.selectDataHashMapServiceList();
         System.out.println("controller info");
 
-        //HashMap<String, Object> hashMap = new HashMap<>();
-/*        List<Follow> list = new ArrayList<>();*/
-
-        List<Follow> list = followService.selectDataHashMapServiceList(); // 세션 아이디가 갖고 있는 데이터
-        //hashMap.put("HashMapList", list);
+        //todo: 세션 아이디가 갖고 있는 데이터
+        map.put("HashMapList", list);
 
         System.out.println(list);
-        getFollowerId.addObject("HashMapList", list); // addObject는 (key, value) 형태로 데이터 담아 보내는 매서드
-        return "/mypage/myInformation";
+        //getFollowerId.addObject("HashMapList", list); // addObject는 (key, value) 형태로 데이터 담아 보내는 매서드
+        return map;
     }
-
+*/
     // mypage화면에서 follow를 클릭했을 때 // 수정 전 소스코드
 //    @ResponseBody
 //    @RequestMapping(value="follower", method=RequestMethod.GET) //
