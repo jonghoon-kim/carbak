@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 
+import javax.servlet.http.HttpServletResponse;
 import javax.swing.plaf.metal.MetalMenuBarUI;
 
 @Repository("memberDao")
@@ -26,7 +27,13 @@ public class MemberDao {
         return sqlSession.selectOne("member.idCheck", id);
     }
 
+    public void logout(HttpServletResponse response) throws Exception {}
+
     public Member emailCheck(String email) throws Exception {
         return sqlSession.selectOne("member.emailCheck", email);
+    }
+
+    public Member getMember(String id) {
+        return sqlSession.selectOne("member.getMember", id);
     }
 }

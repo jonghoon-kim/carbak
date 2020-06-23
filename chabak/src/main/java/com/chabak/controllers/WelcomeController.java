@@ -10,6 +10,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import javax.servlet.http.HttpServletResponse;
+import java.io.PrintWriter;
+
 
 @Controller
 public class WelcomeController {
@@ -29,10 +32,10 @@ public class WelcomeController {
 //
 //    }
     @SneakyThrows
-    @RequestMapping("/")
-    public String index(){
+    @RequestMapping(value= {"", "/", "index"})
+    public String index(HttpServletResponse response){
         System.out.println("Controller");
-        return "index";
+        return "/index";
     }
 
     @RequestMapping("/header")

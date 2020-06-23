@@ -13,8 +13,6 @@
     <script type="text/javascript" src="/js/profile_preview.js" charset='UTF-8'></script>
     <!-- 아이디 및 이메일 중복 체크, 유효성 검사 -->
     <script type="text/javascript" src="/js/signup_check.js" charset='UTF-8'></script>
-    <!-- 이메일 인증 -->
-    <script type="text/javascript" src="/js/email_check.js" charset='UTF-8'></script>
 </head>
 <body>
 <div id="wrap">
@@ -23,7 +21,7 @@
     <div id="header">
         <jsp:include page="/header"/>
     </div>
-    <hr>
+    <hr class="top_hr"><br>
     <div class="container">
         <div class="top">
             <h1>회원가입</h1>

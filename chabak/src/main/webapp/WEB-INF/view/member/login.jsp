@@ -12,15 +12,19 @@
     <script type="text/javascript" src=" http://code.jquery.com/jquery-latest.min.js"></script>
 <body>
 <!-- header -->
-<hr><br>
-<div>
+<div id="header">
+    <jsp:include page="/header"/>
+</div>
+<hr class="top_hr"><br>
+<br>
+<div class="container">
     <div class = "top">
         <h1>로그인</h1>
     </div>
     <div class="login">
         <form method="POST" action="/member/loginAction">
             <input type="text" class="login_id" name="id" placeholder="ID"> <BR><BR>
-            <input type="text" class="login_pw" name="password" placeholder="PASSWORD"><bR><BR>
+            <input type="password" class="login_pw" name="password" placeholder="PASSWORD"><bR><BR>
             <button type="submit" class="login_but"><span>LOGIN</span></button> <BR>
         </form>
     </div>
@@ -28,6 +32,10 @@
         <button id="id_pw_find_but" onclick="location.href='/member/idpw_find'">아이디/비밀번호 찾기</button>
         <button id="sign_up_but" onclick="location.href='/member/signup'">회원가입</button>
     </div>
+</div>
+
+<div class="footer">
+    <img src="/img/footer/footer.png">
 </div>
 </body>
 

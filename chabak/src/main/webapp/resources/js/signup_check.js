@@ -48,8 +48,9 @@ function emailCheck() {
                 emailChk = false;
             } else if( data== 0 ){
                 if(emailCheck.test($('#email').val())) {
-                    alert("이메일 인증 코드를 발송했습니다.");
-                    //window.open("sendEmail",'emailCheck', 'width=400, height=300, scrollbars = yes, resizable=yes')
+                    alert("사용 가능한 이메일 입니다.");
+                    alert("이메일 인증 번호를 전송하였습니다. \n인증 번호를 작성하고 확인해주십시오.")
+                    window.open("sendEmail?email="+encodeURI($("#email").val()),'emailCheck', 'top=200, left=500, width=400, height=300, scrollbars = yes, resizable=yes')
                     emailChk = true;
                 }else {
                     alert("이메일 형식에 맞게 입력해 주세요.\n ex)aa01@aa.aa");
