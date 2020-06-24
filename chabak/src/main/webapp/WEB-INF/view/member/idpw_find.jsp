@@ -10,6 +10,7 @@
     <link href="/css/idpw_find.css" rel="stylesheet">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
     <script type="text/javascript" src=" http://code.jquery.com/jquery-latest.min.js"></script>
+    <script type="text/javascript" src="/js/idpw_find.js" charset='UTF-8'></script>
     <script>
         $(document).ready(function () {
 
@@ -44,19 +45,20 @@
             <li class="tab-link" data-tab="tab-2">비밀번호 찾기</li>
         </ul>
         <div id="tab-1" class="tab-content current">
+            <form method="post" >
             <div class="content-input">
-                <input type="text" id="name" placeholder="이름"><BR><BR>
+                <input type="text" name="name" id="name" placeholder="이름"><BR><BR>
                 <div class="in-line">
-                    <input type="email" placeholder="이메일">
-                    <input type="button" value="인증"></button>
+                    <input type="email" name="email" id="email" placeholder="이메일">
                 </div>
             </div>
-            <button type="submit" class="find"><span>아이디 찾기</span></button> <BR>
+            <button class="find" type="submit" onclick="return idpw_find()"><span>아이디 찾기</span></button> <BR>
+            </form>
         </div>
         <div id="tab-2" class="tab-content">
             <div class="content-input">
                 <input type="text" id="id" placeholder="아이디"> <BR><BR>
-                <input type="text" id="name" placeholder="이름"> <BR><BR>
+                <input type="text" name="name" placeholder="이름"> <BR><BR>
                 <div class="in-line">
                     <input type="email" placeholder="이메일">
                     <input type="button" value="인증"></button>

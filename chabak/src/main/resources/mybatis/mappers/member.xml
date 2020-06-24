@@ -34,4 +34,10 @@
 		FROM Member
 		WHERE id = #{id}
 	</select>
+
+	<select id="id_find" parameterType="Member" resultType="Member">
+		SELECT *
+		FROM Member
+		WHERE email = #{email}
+	</select>
 	</mapper>
