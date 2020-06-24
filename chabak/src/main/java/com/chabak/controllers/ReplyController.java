@@ -8,6 +8,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
@@ -88,14 +89,18 @@ public class ReplyController {
         //TODO:리다이렉트 시 조회수가 증가하므로 ajax로 변경을 고민 중...
 
         ModelAndView mv = new ModelAndView();
+
+
         mv.setViewName("redirect:/review/detail?reviewNo="+reply.getReviewNo());
-        return mv;//이동 주소는 수정할 것
+        System.out.println(mv.getViewName());
+        return mv;
     }
 
     //댓글/대댓글 수정
     @RequestMapping(value ="/modify", method=RequestMethod.POST)
-    public String modifyReply(@ModelAttribute Reply reply){
-        System.out.println("reply/modify");
+    public ModelAndView modifyReply(@ModelAttribute Reply reply){
+        System.out.println("reply/modify reply:"+reply);
+
         //TODO:세션에서 id 가져오기
         //임시 코드(나중에 수정)
         reply.setId("id1");
@@ -103,9 +108,38 @@ public class ReplyController {
         //TODO:로직 작성
         replyDao.updateReply(reply);
 
-        return "community/community";//이동 주소는 수정할 것
+        ModelAndView mv = new ModelAndView();
+
+
+        mv.setViewName("redirect:/review/detail?reviewNo="+reply.getReviewNo());
+        System.out.println(mv.getViewName());
+        return mv;
     }
 
+    //댓글 삭제(댓글,대댓글 공통)
+    @RequestMapping(value ="/delete", method=RequestMethod.GET)
+    public ModelAndView deleteReply(@RequestParam int replyNo){
+        System.out.println("reply/delete replyNo:"+replyNo);
+
+        //TODO:로직 작성
+        //replyNo로 해당 리플 select
+        Reply reply = replyDao.selectReply(replyNo);
+        //reviewNo 얻어오기
+        int reviewNo = reply.getReviewNo();
+
+        //replyNo로 리플 삭제
+        replyDao.deleteReplyWithReplyNo(replyNo);
+
+
+
+
+        ModelAndView mv = new ModelAndView();
+
+
+        mv.setViewName("redirect:/review/detail?reviewNo="+reviewNo);
+        System.out.println(mv.getViewName());
+        return mv;
+    }
 
 
 }

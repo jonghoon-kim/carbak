@@ -14,6 +14,13 @@ public class ReplyDao {
     SqlSession sqlSession;
 
     //댓글
+
+    //댓글 1개 select
+
+    public Reply selectReply(int replyNo){
+        Reply reply = sqlSession.selectOne("reply.selectReply",replyNo);
+        return reply;
+    }
     public int insertReply(Reply reply) {
         int insertCount = sqlSession.insert("reply.insertReply",reply);
         return insertCount;
@@ -50,8 +57,14 @@ public class ReplyDao {
         return updateCount;
     }
 
-    public int deleteReply(int reviewNo){
-        int deleteCount = sqlSession.delete("reply.deleteReply",reviewNo);
+    public int deleteReplyWithReviewNo(int reviewNo){
+        int deleteCount = sqlSession.delete("reply.deleteReplyWithReviewNo",reviewNo);
         return deleteCount;
     }
+
+    public int deleteReplyWithReplyNo(int replyNo){
+        int deleteCount = sqlSession.delete("reply.deleteReplyWithReplyNo",replyNo);
+        return deleteCount;
+    }
+
 }

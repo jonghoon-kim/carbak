@@ -174,8 +174,10 @@ public ModelAndView searchReviewList(@RequestParam String search_text){
     public ModelAndView deleteReview(@RequestParam int reviewNo){
 
         //TODO:로직 확인
+        //리뷰 삭제
         reviewDao.deleteReview(reviewNo);
-        replyDao.deleteReply(reviewNo);
+        //해당 리뷰에 달린 리플 전부 삭제
+        replyDao.deleteReplyWithReviewNo(reviewNo);
 
         ModelAndView mv = new ModelAndView();
         mv.setViewName("redirect:/review");

@@ -9,10 +9,11 @@
     <title>슬기로운 차박생활</title>
     <link href="/css/community_detail.css" rel="stylesheet">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
-    <script type="text/javascript" src=" http://code.jquery.com/jquery-latest.min.js"></script>
+    <script type="text/javascript" src="http://code.jquery.com/jquery-latest.min.js">
+    </script>
     <script>
         $('document').ready(function () {
-
+            initializeForm();
         });
 
         function like() {
@@ -20,35 +21,38 @@
             img.src = "/img/community/heart2.png"
         }
 
-        function createReplyBox(replyNo) {
-            var isVisible =  $("#re-reply-input" + replyNo).is(":visible");
 
-            //상태:show/hide
-            //모든 대댓글 폼 숨기기
-            $(".re-reply-input").hide();  // 대댓글 폼 클래스 :숨김
+        //
+        function initializeForm() {
+            //토글 영역 초기화
+            $(".reply-content").css('display', 'block');
+            $(".reply-modify-content").css('display', 'none');
 
-            if (isVisible == false) { //숨김 상태이면
-                $("#re-reply-input" + replyNo).show();
-            }
+            //리리플 입력 폼 초기화(안 보이게)
+            $(".re-reply-input").css('display', 'none');
 
         }
-        function myFunction(flag,idValue) {
-            if(flag=='review'){
+        function myFunction(flag, replyNo) {
+
+            if (flag == 'review') {
                 document.getElementById("myDropdown").classList.toggle("show");
-            }
-            else{
-                document.getElementById("myDropdown"+idValue).classList.toggle("show");
+            } else {
+                document.getElementById("myDropdown" + replyNo).classList.toggle("show");
+
+
             }
         }
 
         window.onclick = function (event) {
             if (!event.target.matches('.dropbtn')) {
+
                 var dropdowns = document.getElementsByClassName("dropdown-content");
-                ////////////
-                //var dropdowns = document.getElementById()
+
                 var i;
+
                 for (i = 0; i < dropdowns.length; i++) {
                     var openDropdown = dropdowns[i];
+
                     if (openDropdown.classList.contains('show')) {
                         openDropdown.classList.remove('show');
                     }
@@ -56,35 +60,54 @@
             }
         }
 
-        //리플 수정 클릭하면 입력폼으로 변환
-        function changeReplyForm(replyNo){
-            //댓글 class="reply-one" id="reply-one리플번호"
-            //댓글 수정폼 class="reply-one-modify" id="reply-one-modify리플번호"
-            //대댓글 class="reply-child" id="reply-one리플번호"
-            //대댓글 수정폼 class="reply-one-modify" id="reply-one-modify리플번호"
-     ;
-            // var isVisible =  $("#reply-one-modify"+replyNo).is(":visible");
-            //
-            // //상태:show/hide
-            //
-            // $(".reply-one").show();
-            // $(".reply-child").show();
-            //
-            // $(".reply-one-modify").hide();
-            //
-            //
-            // if (isVisible == false) { //숨김 상태이면
-            //     $("#reply-one-modify" + replyNo).show();
-            //     $("#reply-one"+replyNo).hide();
-            // }
-            var cnt=1;
-            var defaultReply = document.getElementById("reply-one${reply.replyNo}");
-            var modifyReply = document.getElementById("reply-one-modify${reply.replyNo}");
 
-            if(cnt%2==1){
+        //리플 수정
+        function createModifyReplyForm(replyNo) {
 
-            }
+            initializeForm();
+
+            //리플 수정 모드
+            $("#defaultReplyContent"+replyNo).css('display', 'none');
+            $("#modifyReplyContent"+replyNo).css('display', 'block');
+                //리플 수정,삭제 등의 버튼 안 보이게
+            // $("#replyModifyBtn"+replyNo).css('display', 'none');
+            // $("#replyDeleteBtn"+replyNo).css('display', 'none');
+            // $("#replyReReplyBtn"+replyNo).css('display', 'none');
+            //리플 등록 취소,등록 버튼 보이게
+            // $("#replyCancelBtn"+replyNo).css('display', 'block');
+            // $("#replySubmitBtn"+replyNo).css('display', 'block');
+
+
+            //db에 설정된 $(reply.content}값
+            var originalValue = $("#hiddenReplyContent"+replyNo).val()
+            //댓글 수정폼의 input 값 재설정
+
+            $("#reply-modify-input"+replyNo).val(originalValue);
+
+
         }
+
+        //리플 수정 submit
+        function submitModifyReplyForm(replyNo) {
+            alert('submitModifyReplyForm')
+            $("#modifyReplyForm"+replyNo).submit();
+
+        }
+
+        //대댓글 입력 폼 보이게
+        function createReReplyBox(replyNo) {
+
+            initializeForm();
+
+            $("#re-reply-input" + replyNo).css('display', 'block');
+        }
+
+        //대댓글 등록
+        function submitReReplyForm(replyNo) {
+          $("#ReReplyForm"+replyNo).submit();
+
+        }
+
 
     </script>
 
@@ -150,7 +173,7 @@
                 <c:choose>
                     <c:when test="${reply.lv eq 0}">
 
-<%--                 댓글 시작       --%>
+                        <%--                 댓글 시작       --%>
 
                         <div class="reply-one" id="reply-one${reply.replyNo}">
                             <div class="thumbnail-wrapper">
@@ -161,50 +184,55 @@
                             </div>
                             <div class="writer">
                             <span class="writer-id">
-                                 id:${reply.id}
+                                    ${reply.id}
                             </span>
                             </div>
                             <div class="reply-date">
                                     ${reply.regDate}
                             </div>
- <%--          댓글 드롭다운 시작--%>
+                                <%--          댓글 드롭다운 시작--%>
 
                             <div class="dropdown">
                                 <button class="dropbtn"><img class="dropbtn" src="/img/community/menu.png"
                                                              onclick="myFunction('reply',${reply.replyNo})"></button>
                                 <div class="dropdown-content" id="myDropdown${reply.replyNo}">
-                                    <a onclick="changeReplyForm(${reply.replyNo})">수정하기</a>
-                                    <a href="/reply/delete?replyNo=${reply.replyNo}">삭제하기</a>
-                                    <a onclick="createReplyBox(${reply.replyNo})">댓글달기</a>
+                                    <a class="dropdown-mode-default" id="replyModifyBtn${reply.replyNo}" onclick="createModifyReplyForm(${reply.replyNo})">수정하기</a>
+                                    <a class="dropdown-mode-default" id="replyDeleteBtn${reply.replyNo}" href="/reply/delete?replyNo=${reply.replyNo}">삭제하기</a>
+                                    <a class="dropdown-mode-default" id="replyReReplyBtn${reply.replyNo}" onclick="createReReplyBox(${reply.replyNo})">댓글달기</a>
+
                                 </div>
                             </div>
-<%--                          댓글 드롭다운 끝  --%>
+                                <%--                            댓글 드롭다운 끝  --%>
 
-<%--                            <div class="button">--%>
-<%--                                <button class="update" >수정</button>--%>
-<%--                                <button class="delete" onclick="">삭제</button>--%>
-<%--                                <button class="replyButton" onclick="createReplyBox(${reply.replyNo})">댓글달기</button>--%>
-<%--                            </div>--%>
 
-                            <div class="button" style="display: none">
-                                <button class="cancel">취소</button>
-                                <button class="save" onclick="">저장</button>
+                                <%-- 두 영역이 토글되는 부분 시작                            --%>
+                            <div class="reply-content" id="defaultReplyContent${reply.replyNo}" style="display: block">${reply.content}</div>
+<%--이 input의 값을 가져와 수정폼의 값으로 넣기                             --%>
+                            <input type="hidden" id="hiddenReplyContent${reply.replyNo}" value="${reply.content}">
+                            <div class="reply-modify-content" id="modifyReplyContent${reply.replyNo}" style="display: none">
+                                <form method="POST" action="/reply/modify" id="modifyReplyForm${reply.replyNo}">
 
+                                    <input type="hidden" name="replyNo" value="${reply.replyNo}">
+                                    <input type="hidden" name="id" value="${reply.id}">
+                                    <input type="hidden" name="reviewNo" value="${reply.reviewNo}">
+                                    <input class="reply-modify-input" id="reply-modify-input${reply.replyNo}" type="text" name="content">
+
+
+                                </form>
+                                <button onclick="submitModifyReplyForm(${reply.replyNo})">등록</button>
+                                <button onclick="initializeForm()">취소</button>
                             </div>
-
-                            <div class="reply-content">
-                                    ${reply.content}
-                            </div>
+                                <%--두 영역이 토글되는 부분 끝--%>
 
 
-  <%--          수정 버튼에 따라 변경됨 끝--%>
+                                <%--          수정 버튼에 따라 변경됨 끝--%>
 
                         </div>
-<%--          댓글 끝--%>
+                        <%--          댓글 끝--%>
 
-<%--       대댓글 폼 시작--%>
+                        <%--       대댓글 폼 시작--%>
                         <div class="re-reply-input" id="re-reply-input${reply.replyNo}" style="display:none">
-                            <form method="POST" action="/reply/writeReReply">
+                            <form method="POST" action="/reply/writeReReply" id="ReReplyForm${reply.replyNo}">
                                 <input type="hidden" name="reviewNo" value="${reply.reviewNo}">
                                 <input type="hidden" name="replyNo" value="${reply.replyNo}">
                                 <input type="hidden" name="groupNo" value="${reply.groupNo}">
@@ -212,15 +240,19 @@
                                 <input type="hidden" name="lv" value="${reply.lv}">
                                 <input type="hidden" name="id">
                                 <input type="text" placeholder="댓글 입력" name="content">
-                                <button type="submit">등록</button>
-                            </form>
-                        </div>
 
+                            </form>
+                                <button onclick="submitReReplyForm(${reply.replyNo})">등록</button>
+                                <button onclick="initializeForm()">취소</button>
+
+
+                        </div>
+                        <%--       대댓글 폼 끝--%>
                     </c:when>
                     <c:otherwise>
 
-<%--       대댓글 폼 끝--%>
- <!--대댓글 시작-->
+
+                        <!--대댓글 시작-->
                         <div class="reply-child" id="reply-one${reply.replyNo}">
                             <div class="re-reply">
                                 <img src="/img/community/re_reply3.png">
@@ -239,33 +271,46 @@
                                         ${reply.regDate}
                                 </div>
 
-<%--                                대댓글 드롭다운 시작--%>
+                                    <%--                              대댓글 드롭다운 시작--%>
                                 <div class="dropdown">
                                     <button class="dropbtn"><img class="dropbtn" src="/img/community/menu.png"
                                                                  onclick="myFunction('reply',${reply.replyNo})"></button>
                                     <div class="dropdown-content" id="myDropdown${reply.replyNo}">
-                                        <a onclick="changeReplyForm(${reply.replyNo})">수정하기</a>
-                                        <a href="/reply/delete?replyNo=${reply.replyNo}">삭제하기</a>
-                                        <a onclick="createReplyBox(${reply.replyNo})">댓글달기</a>
+                                        <a class="dropdown-mode-default" id="replyModifyBtn${reply.replyNo}" onclick="createModifyReplyForm(${reply.replyNo})">수정하기</a>
+                                        <a class="dropdown-mode-default" id="replyDeleteBtn${reply.replyNo}" href="/reply/delete?replyNo=${reply.replyNo}">삭제하기</a>
+                                        <a class="dropdown-mode-default" id="replyReReplyBtn${reply.replyNo}" onclick="createReReplyBox(${reply.replyNo})">댓글달기</a>
+
                                     </div>
                                 </div>
-<%--             대댓글 드롭다운 끝          --%>
+                                    <%--             대댓글 드롭다운 끝          --%>
 
 
-                                <div class="re-reply-content">
-                                        ${reply.content}
+                                    <%-- 두 영역이 토글되는 부분 시작                            --%>
+                                <div class="reply-content" id="defaultReplyContent${reply.replyNo}" style="display: block">${reply.content}</div>
+                                    <%--이 input의 값을 가져와 수정폼의 값으로 넣기                             --%>
+                                <input type="hidden" id="hiddenReplyContent${reply.replyNo}" value="${reply.content}">
+                                <div class="reply-modify-content" id="modifyReplyContent${reply.replyNo}" style="display: none">
+                                    <form method="POST" action="/reply/modify" id="modifyReplyForm${reply.replyNo}">
+
+                                        <input type="hidden" name="replyNo" value="${reply.replyNo}">
+                                        <input type="hidden" name="id" value="${reply.id}">
+                                        <input type="hidden" name="reviewNo" value="${reply.reviewNo}">
+                                        <input class="reply-modify-input" id="reply-modify-input${reply.replyNo}" type="text" name="content">
+
+
+                                    </form>
+                                    <button onclick="submitModifyReplyForm(${reply.replyNo})">등록</button>
+                                    <button onclick="initializeForm()">취소</button>
                                 </div>
+                                    <%--두 영역이 토글되는 부분 끝--%>
 
 
-                            </div>
                         </div>
 
 
-
-                        <%--                        대댓글 폼--%>
-                        <div class=re-reply-input" id="re-reply-input${reply.replyNo}" style="display:none">
-
-                            <form method="POST" action="/reply/writeReReply">
+                        <%--       대댓글 폼 시작--%>
+                        <div class="re-reply-input" id="re-reply-input${reply.replyNo}" style="display:none">
+                            <form method="POST" action="/reply/writeReReply" id="ReReplyForm${reply.replyNo}">
                                 <input type="hidden" name="reviewNo" value="${reply.reviewNo}">
                                 <input type="hidden" name="replyNo" value="${reply.replyNo}">
                                 <input type="hidden" name="groupNo" value="${reply.groupNo}">
@@ -273,9 +318,14 @@
                                 <input type="hidden" name="lv" value="${reply.lv}">
                                 <input type="hidden" name="id">
                                 <input type="text" placeholder="댓글 입력" name="content">
-                                <button type="submit">등록</button>
+
                             </form>
+                            <button onclick="submitReReplyForm(${reply.replyNo})">등록</button>
+                            <button onclick="initializeForm()">취소</button>
+
+
                         </div>
+                        <%--       대댓글 폼 끝--%>
                     </c:otherwise>
                 </c:choose>
 

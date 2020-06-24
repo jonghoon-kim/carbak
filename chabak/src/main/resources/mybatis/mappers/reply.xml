@@ -8,6 +8,11 @@
 
 	<!-- 댓글  -->
 
+	<select id="selectReply" parameterType="int" resultType="Reply">
+		SELECT * FROM REPLY
+		WHERE REPLYNO = #{replyNo}
+	</select>
+
 	<insert id="insertReply" parameterType="Reply">
 		insert into reply(REPLYNO,ID,CONTENT,REVIEWNO,GROUPNO)
 		values
@@ -57,9 +62,13 @@
 		WHERE REPLYNO = #{replyNo}
 	</update>
 
-	<delete id="deleteReply" parameterType="int">
+	<delete id="deleteReplyWithReviewNo" parameterType="int">
 		DELETE  REPLY
 		where REVIEWNO = #{reviewNo}
 	</delete>
 
+	<delete id="deleteReplyWithReplyNo" parameterType="int">
+		DELETE  REPLY
+		where REPLYNO = #{replyNo}
+	</delete>
 </mapper>
