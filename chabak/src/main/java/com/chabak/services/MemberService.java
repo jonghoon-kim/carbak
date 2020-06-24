@@ -50,6 +50,9 @@ public class MemberService {
 
         if(dbMember != null) {
             if(dbMember.getPassword().contentEquals(member.getPassword())) {
+                System.out.println(dbMember.getSavePath());
+//                String saveName = (memberDao.getMember(member.getId())).getSaveName();
+//                String savePath = (memberDao.getMember(member.getId())).getSavePath();
                 return true;
             }else {
                 return false;

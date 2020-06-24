@@ -2,18 +2,25 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <!-- SQL Mapping 설정 -->
-<mapper namespace="follow">
+    <mapper namespace="follow">
+
+
     <select id="selectDataHashMapServiceList" resultType="map">
-        SELECT *
+        SELECT followerId
         from follow
-        where followingId
-        and id = #{id}
+        where followingId = #{id}
     </select>
 
-<!--    <select id="getFollower" resultType="Map">   수정전 코드 -->
-<!--    select followerId-->
-<!--    from follow-->
-<!--    WHERE followingId=#{followingId}-->
+    <select id="followerIdAndProfileTest" resultType="map">
+        select member.id , member.savename
+        from follow, member
+        where follow.followingid = #{id} and follow.followerid = member.id
+    </select>
+
+<!--    <select id="followerIdAndProfileTest" resultType="map">-->
+<!--        select member.id, member.savename-->
+<!--        from follow, member-->
+<!--        where follow.followingid = #{id} and follow.followerid = member.id;-->
 <!--    </select>-->
 
-</mapper>
+    </mapper>

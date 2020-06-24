@@ -52,8 +52,12 @@ public class MemberController {
             session.setAttribute("id", member.getId());
             session.setAttribute("password", member.getPassword());
             session.setAttribute("name", member.getName());
+            session.setAttribute("profile", (memberService.getMember(member.getId())).getSavePath()+(memberService.getMember(member.getId())).getSaveName());
+            session.setAttribute("path", (memberService.getMember(member.getId())).getSavePath());
 
-            System.out.println(member.getName());
+
+            System.out.println("id : " + member.getId());
+            System.out.println((memberService.getMember(member.getId())).getSavePath() +(memberService.getMember(member.getId())).getSaveName());
 
             return "redirect:/index";
         } else {
@@ -89,13 +93,13 @@ public class MemberController {
         MultipartFile f = member.getFile();
 
         if(!f.isEmpty()) {
-            String path = servletContext.getRealPath("/profileImages");
-            String saveName = f.getOriginalFilename() + System.currentTimeMillis() + f.getSize();
+            String path = servletContext.getRealPath("/");
+            System.out.println(path);
+            String saveName = System.currentTimeMillis() + f.getSize()+f.getOriginalFilename();
             member.setSaveName(saveName);
-            member.setSavePath(path);
+            member.setSavePath("/profileImages/");
 
-
-            File file = new File(path + File.separator + saveName);
+            File file = new File(path+"resources/img/profileImages"+ File.separator + saveName);
 
             f.transferTo(file);
         }

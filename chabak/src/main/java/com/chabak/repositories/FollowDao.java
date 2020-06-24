@@ -25,10 +25,18 @@ import java.util.List;
 //            return sqlSession.selectList("follow.getFollower", follow);
 //        }
 
-    // 팔로잉 정보 갖고오기 + 뿌리기
-        public List<Follow> selectDataHashMapServiceList() throws Exception {
-            return sqlSession.selectList("follow.selectDataHashMapServiceList");
+        // 팔로워 정보 갖고오기 + 뿌리기
+        public List<Follow> selectDataHashMapServiceList(String id) throws Exception {
+            return sqlSession.selectList("follow.selectDataHashMapServiceList", id);
         }
+
+        public List<Follow> followingIdAndProfileTest(String id) throws Exception {
+            System.out.println("----------------------------");
+            return sqlSession.selectList("followerIdAndProfileTest", id);
+        }
+
+        // 팔로잉 정보 갖고오기 + 뿌리기
+
 }
 
 

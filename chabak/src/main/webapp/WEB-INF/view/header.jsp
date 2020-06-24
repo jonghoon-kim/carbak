@@ -13,12 +13,12 @@
 <%
     // 로그인한 회원 정보 담기
     String id = null;
-    String name = null;
+    String profile = null;
 
     // 세션이 존재하면 아이디값을 받아 관리
     if(session.getAttribute("id") != null) {
         id = (String)session.getAttribute("id");
-        name = (String)session.getAttribute("name");
+        profile = (String)session.getAttribute("profile");
     }
 %>
 <header>
