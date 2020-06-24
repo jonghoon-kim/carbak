@@ -1,4 +1,4 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" language="java" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <html>
@@ -86,11 +86,11 @@
                 <ul id="placesList"></ul>
             </div>
         </div>
-
+    </div>
         <hr class="top_hr">
 
-        <!-- 커뮤니티리뷰 -->
-        <div class="blog_aticle">
+        <!-- 커뮤니티 리뷰 -->
+        <div class="community_aticle">
             <h2>커뮤니티 리뷰</h2>
             <ul>
                 <li>
@@ -128,12 +128,43 @@
             </div>
         </div>
 
+        <hr class="top_hr">
+
+        <!-- 블로그 -->
+         <div class="blog_aticle">
+            <h2>블로그</h2>
+            <ul>
+
+                    <c:forEach var="bl" items="${blogInfo}" varStatus="status" begin="0" end="4">
+                <li>
+                    <p class="best_id">ID : <a href="${bl.bloggerlink}">${bl.bloggername}</a></p>
+                    <div class="best_img">
+                        <img src="${imgInfo[status.index].thumbnail}">
+                    </div>
+                    </p>
+                    <p class="best_title">${bl.title}</p>
+                    <p class="best_content">${bl.description}</p>
+                    <p class="select_community"><a href="${bl.link}" target="_blank">자세히보기</a></p>
+                </li>
+                    </c:forEach>
+
+            </ul>
+
+            <!-- 페이지 버튼 -->
+            <div class="community_link">
+                <button class='fas fa-angle-left'></button>
+                <button class='fas fa-circle'></button>
+                <button class='far fa-circle'></button>
+                <button class='far fa-circle'></button>
+                <button class='fas fa-angle-right'></button>
+            </div>
+        </div>
+
         <!--footer-->
         <div class="footer">
             <img src="/resources/img/footer/footer.png">
         </div>
     </div>
-
 <!-- 카카오 MAP -->
 <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=9613dfdd64d6afc0ba0dc90bfcd01cf3&libraries=services"></script>
 <script>
@@ -286,6 +317,7 @@
 
         itemStr += '  <span class="tel">' + places.phone  + '</span>' +
             '</form></div>';
+        itemStr += ' <br><span class="convenience"><h2>카테 고리</h2> <br>' + category  + '</span>';
         if(convenience1 == null || convenience1=='' || convenience1==' '){
             convenience1 = "정보없음";
         }

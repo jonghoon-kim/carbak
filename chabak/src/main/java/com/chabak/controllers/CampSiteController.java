@@ -1,7 +1,11 @@
 package com.chabak.controllers;
 
+import com.chabak.services.BlogService;
 import com.chabak.services.CampSiteService;
+import com.chabak.services.ImageService;
+import com.chabak.vo.Blog;
 import com.chabak.vo.Campsite;
+import com.chabak.vo.Image;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -17,6 +21,10 @@ import java.util.List;
 public class CampSiteController {
     @Autowired
     CampSiteService campSiteService;
+    @Autowired
+    BlogService blogService;
+    @Autowired
+    ImageService imageService;
 
     //campsite 경로 지정
     @RequestMapping(value= {"", "/", "campsite"}, method= {RequestMethod.GET,RequestMethod.POST})
@@ -43,8 +51,23 @@ public class CampSiteController {
 
         List<Campsite> lstSelectCampsitePlace = campSiteService.getlstSelectCampsitePlace(latitude,longitude);
 
-        System.out.println("lstSelectCampsitePlace :" + lstSelectCampsitePlace.toString());
+        String keyword = lstSelectCampsitePlace.get(0).getCampsitename();
 
+        System.out.println("lstSelectCampsitePlace :" + keyword);
+        //
+        BlogService service = new BlogService();
+        ImageService serviceTest = new ImageService();
+        List<Blog> b = service.searchBlog(keyword, 20, 1);
+        List<Image> a = serviceTest.searchImage(keyword, 20, 1);
+        //for(Blog b : service.searchBlog("어반슬로우시티", 20, 1))
+            for(int i=0; i<a.size(); i++) {
+                System.out.println(i+1 +"test : "+ a);
+            }
+        //    System.out.println(b.title);
+
+        //
+        campsitePlaceDetail.addObject("blogInfo",b);
+        campsitePlaceDetail.addObject("imgInfo",a);
         campsitePlaceDetail.addObject("latitude",latitude);
         campsitePlaceDetail.addObject("longitude",longitude);
         campsitePlaceDetail.addObject("lstSelectCampsitePlace",lstSelectCampsitePlace);

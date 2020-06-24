@@ -286,6 +286,7 @@ prefix="c" %>
                 "<h5><a href='#' onclick='selectPlaces(this.parentNode.parentNode)'>" +
                 "<input type='hidden' name='latitude'><input type='hidden' name='longitude'>"
 
+
                 + places.place_name + '</a></h5>';
 
         if (places.road_address_name) {
@@ -313,6 +314,7 @@ prefix="c" %>
               console.log("success2"+long);
 
               var campsiteTest=document.getElementById("campsitePlacseDetail");
+
               campsiteTest.latitude.value = lat;
               campsiteTest.longitude.value = long;
               campsiteTest.action="campsitePlaceDetail";
