@@ -173,7 +173,9 @@
     width: 700px;
     text-align: center;
     margin: 0 auto;
-    margin-top: 20px;
+    /* margin-top: 20px; */
+    /* margin-bottom: 250px; */
+    display: flex;
 }
 .reply input {
     width: 550px;
@@ -358,8 +360,7 @@
     color : gray;
 }
 .reply-list .reply-content {
-    position : absolute;
-    float: left;
+    position: relative;
     margin: 55px 0px 0px 65px;
     text-align: left;
     border: 2px solid rgb(105, 179, 149);
@@ -373,9 +374,10 @@
 
 /* 대댓글 */
 .re-reply {
-    margin: 120px 0px 0px 65px;
+    margin: 10px 0px 0px 65px;
     float: left;
-    position: absolute;
+    display: block;
+    position: relative;
 }
 .re-reply img {
     width: 30px;
@@ -436,8 +438,8 @@
     height : 30px;
     font-size: 13px;
     float: left;
-    position: absolute;
-    margin: 20px 0px 0px 335px;
+    /* position: absolute; */
+    margin: 20px 0px 0px 340px;
     font-family: 'Jeju Gothic', sans-serif;
     background-color: rgb(105, 179, 149);
     border : 2px solid rgb(105, 179, 149);
@@ -446,13 +448,13 @@
     transition : .35s;
 }
 .re-reply .button .delete{
-    width: 100px;
+    /* width: 100px; */
     height : 30px;
     font-size: 13px;
     font-family: 'Jeju Gothic', sans-serif;
     float: left;
     position: absolute;
-    margin: 20px 0px 0px 375px;
+    margin: 20px 0px 0px;
     background-color: rgb(105, 179, 149);
     border : 2px solid rgb(105, 179, 149);
     border-radius: 10px;
@@ -510,7 +512,7 @@
     color : gray;
 }
 .re-reply .re-reply-content {
-    position : absolute;
+    /* position : absolute; */
     margin: 55px 0px 10px 95px;
     padding-right: 15px;
     padding-left: 15px;
