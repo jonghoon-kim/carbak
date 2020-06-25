@@ -13,11 +13,16 @@ $(document).ready(function() {
                     var HashMapList = data.HashMapList;
                     console.log(data);
 
-                    for (i = 0; i < HashMapList.length; i++) {
+                    $('.content_info').children().remove();
+                    $('.content_info').text(' ');
+                    for (var i = 0; i < HashMapList.length; i++) {
                         console.log(HashMapList[i]);
+                        var row =  i+1+'<br>보여주는 ID : '+HashMapList[i].ID+'<br>보여주는 savename : '+HashMapList[i].SAVENAME+'<br>';
+                        $('.content_info').append("test : "+row);
                     }
 
-                    alert("ss");
+                    alert("good");
+
                 }, error: function (data) {
 
                 }
@@ -33,12 +38,20 @@ $(document).ready(function() {
             datatype: "json",   // ex) {"name":"age":"address"} 와 같은 형식
             url: "following",
             success : function(data) { // 보내는
+                var test = data.HashMapList[0].ID;
+                console.log("test : "+ test);
+
                 var HashMapList = data.HashMapList;
                 console.log(data);
-
-                for (i = 0; i < HashMapList.length; i++) {
+                $('.content_info').children().remove();
+                $('.content_info').text(' ');
+                for (var i = 0; i < HashMapList.length; i++) {
                     console.log(HashMapList[i]);
+                    var row =  i+1+'<br><a href="#">보여주는 ID : '+HashMapList[i].ID+'<br>보여주는 savename : '+HashMapList[i].SAVENAME+'</a>'
+                    + '<input type="submit" value="삭제" id="deleteFollow"></input><br>';
+                    $('.content_info').append("test : "+row);
                 }
+
                 alert("good");
             }, error: function (data) {
 
@@ -46,3 +59,39 @@ $(document).ready(function() {
         })
     });
 })
+
+function test(d) {
+ var t = d;
+}
+
+//myInformation에서 팔로잉을 click 했을 때 발생하는 event
+// $(document).ready(function() {
+//     var deleteFollowUserId = test;
+//     $("#deleteFollow").click(function () {
+//         $.ajax({//받는
+//             type: "post",
+//             datatype: "json",   // ex) {"name":"age":"address"} 와 같은 형식
+//             url: "following",
+//             data: "deleteFollowUserId": deleteFollowUserId,
+//             success : function(data) { // 보내는
+//                 var test = data.HashMapList[0].ID;
+//                 console.log("test : "+ test);
+//
+//                 var HashMapList = data.HashMapList;
+//                 console.log(data);
+//                 $('.content_info').children().remove();
+//                 $('.content_info').text(' ');
+//                 for (var i = 0; i < HashMapList.length; i++) {
+//                     console.log(HashMapList[i]);
+//                     var row =  i+1+'<br><a href="#">보여주는 ID : '+HashMapList[i].ID+'<br>보여주는 savename : '+HashMapList[i].SAVENAME+'</a>'
+//                         + '<button onclick="test(HashMapList[i].ID)"></button><br>';
+//                     $('.content_info').append("test : "+row);
+//                 }
+//
+//                 alert("good");
+//             }, error: function (data) {
+//
+//             }
+//         })
+//     });
+// })

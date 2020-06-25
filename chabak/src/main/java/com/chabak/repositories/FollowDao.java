@@ -1,13 +1,16 @@
 package com.chabak.repositories;
 
 import com.chabak.vo.Follow;
-import com.chabak.vo.Member;
-import oracle.jdbc.pool.OracleDataSource;
+import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import javax.print.DocFlavor;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 // 프로필 수정(사진 수정 + 개인정보 창 링크 이동)
 
@@ -30,13 +33,36 @@ import java.util.List;
             return sqlSession.selectList("follow.selectDataHashMapServiceList", id);
         }
 
-        public List<Follow> followingIdAndProfileTest(String id) throws Exception {
-            System.out.println("----------------------------");
-            return sqlSession.selectList("followerIdAndProfileTest", id);
+        public List<Follow> followingIdAndProfile(String id) throws Exception {
+
+            return sqlSession.selectList("followingIdAndProfile", id);
         }
 
-        // 팔로잉 정보 갖고오기 + 뿌리기
+        public List<Follow> followerIdAndProfile(String id) throws Exception {
+            return sqlSession.selectList("followerIdAndProfile", id);
+        }
 
+        public int deleteFollowingUser(String id, String e)  throws Exception {
+            Map<String , String> map = new HashMap<String, String>();
+            map.put("id" , id);
+            map.put("e", e);
+            System.out.println("map test :" + map);
+            return sqlSession.delete("deleteFollowingUser", map);
+        }
+
+        /*
+        @Mapper
+        public int deleteFollowingUser(@Param("deleteId")String id, @Param("followingUser")String followingUser)  throws Exception {
+//            HashMap map = new HashMap();
+//            map.put("id", id);
+//            map.put("followingUser", followingUser);
+            System.out.println("here is dao");
+            return sqlSession.delete("deleteFollowingUser");
+        }
+*/
+
+
+        // 팔로잉 정보 갖고오기 + 뿌리기
 }
 
 

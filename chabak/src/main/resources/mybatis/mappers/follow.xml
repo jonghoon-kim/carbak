@@ -11,16 +11,21 @@
         where followingId = #{id}
     </select>
 
-    <select id="followerIdAndProfileTest" resultType="map">
+    <select id="followingIdAndProfile" resultType="map">
         select member.id , member.savename
         from follow, member
         where follow.followingid = #{id} and follow.followerid = member.id
     </select>
 
-<!--    <select id="followerIdAndProfileTest" resultType="map">-->
-<!--        select member.id, member.savename-->
-<!--        from follow, member-->
-<!--        where follow.followingid = #{id} and follow.followerid = member.id;-->
-<!--    </select>-->
+    <select id="followerIdAndProfile" resultType="map">
+        select member.id , member.savename
+        from follow, member
+        where follow.followerid=#{id} and follow.followingid = id
+    </select>
+
+    <delete id="deleteFollowingUser" parameterType="map">
+        DELETE FROM follow
+        WHERE followingid=#{id} and followerid=#{e}
+    </delete>
 
     </mapper>

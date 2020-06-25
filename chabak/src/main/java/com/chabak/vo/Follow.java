@@ -11,17 +11,6 @@ public class Follow {
     private String followingId;
     private String followerId;
 
-    private String id;
-    private String password;
-    private String name;
-    private String gender;
-    private String sido;
-    private String gugun;
-    private String email;
-    private String saveName;
-    private String savePath;
-    private Date regDate;
-
     public String getFollowingId() {
         return followingId;
     }

@@ -3,6 +3,7 @@
 <!DOCTYPE html>
 <head>
     <link href="/css/myInformation.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Oldenburg&display=swap" rel="stylesheet">
     <meta charset="UTF-8">
     <meta name="Generator" content="EditPlus®">
     <meta name="Author" content="">
@@ -27,50 +28,56 @@
     <br>
     <div class="container">
         <div class="top">
-            <h1><img src="${sessionScope.profile}">
-                ${sessionScope.id}'s MY PAGE</h1>
+            <h1>MY PAGE</h1>
         </div>
-
         <div class="content">
+            <!-- 클릭 시 프로필 수정 페이지 이동-->
+            <div class="thumbnail-wrapper">
+                <div class="thumbnail">
+                    <div id="View_area" class="centered">
+                        <img src="${sessionScope.profile}">
+                    </div>
+                </div>
+                <div class="sessionId">
+                    ${sessionScope.id}
+                </div>
+            </div>
+<%--
             <c:forEach var="getFollowerId" items="${HashMapList}" varStatus="status">
                 ${items.FOLLOWERID}
                 ${items.FOLLOWINGID}
 
             </c:forEach>
-
-            <!-- 클릭 시 프로필 수정 페이지 이동-->
-            <button onclick="location='/member/'">프로필 수정</button>
-
-            <!--게시글 수 보이게, 클릭시 자기가 작성한 리뷰글 조회-->
-            <button onclick="#">게시글</button>
-            <span>555</span>
-
-            <!--팔로워 수 보이게, 클릭시 팔로워 리뷰글 조회-->
-            <button type="button" id="follower">
+--%>
+            <div class="button_menu">
+                <!--게시글 수 보이게, 클릭시 자기가 작성한 리뷰글 조회 + 게시글 수 추가-->
+                <button onclick="#">게시글</button>
+                <!--팔로워 수 보이게, 클릭시 팔로워 리뷰글 조회 + 팔로워 수 추가-->
+                <button type="button" id="follower">
                 팔로워
-            </button>
-            <!--숫자 클릭시 팔로워한 id 조회 리스트(팔로워 수 1000단위 k표현 100000단위 m표현-->
-            <a href="#" onclick="#">4k</a>
+                </button>
+                <!--숫자 클릭시 팔로워한 id 조회 리스트(팔로워 수 1000단위 k표현 100000단위 m표현-->
 
-            <!--팔로잉 수 보이게, 클릭시 팔로잉 리뷰글 조회-->
-            <button type="button" id="following">
-                팔로잉
-            </button>
-            <!--숫자 클릭시 팔로잉한 id 조회 리스트(팔로워 수 1000단위 k표현 1000000단위 m표현-->
-            <a href="#" onclick="#">11</a>
+                <!--팔로잉 수 보이게, 클릭시 팔로잉 리뷰글 조회 + 팔로잉 수 추가-->
+                <img class="but_img" src="/img/mypage/following.png">
 
+                <button type="button" id="following">
 
-            <!-- 위에 버튼 클릭 시, 화면단에서 비동기 처리(ajax 활용) todo:input hidden -->
-            <ul id="result" class="mypage_board">
-                <li class="active"></li> <!-- 버튼 클릭시 결과가 나오는 라인 -->
-            </ul>
+                <span>팔로잉</span>
+                </button>
+                <!--숫자 클릭시 팔로잉한 id 조회 리스트(팔로워 수 1000단위 k표현 1000000단위 m표현-->
 
-            <p><c:out value="${getFollowerId}" escapeXml="false"/></p>
+                <%--    <!-- 위에 버튼 클릭 시, 화면단에서 비동기 처리(ajax 활용) todo:input hidden -->
+                    <ul id="result" class="mypage_board">
+                        <li class="active"></li> <!-- 버튼 클릭시 결과가 나오는 라인 -->
+                    </ul>--%>
+            </div>
         </div>
     </div>
-    <div class="result">
-       test <input type="text" name="followerid" id="followerid">
+    <div class="content_info"> <!-- follower, following 리스트 출력 -->
+        follow List Test
     </div>
+
     <div class="footer">
         <img src="/img/footer/footer.png">
     </div>
