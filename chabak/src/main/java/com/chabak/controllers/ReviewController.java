@@ -2,6 +2,8 @@ package com.chabak.controllers;
 
 import com.chabak.repositories.ReplyDao;
 import com.chabak.repositories.ReviewDao;
+import com.chabak.services.MemberService;
+import com.chabak.services.ReviewService;
 import com.chabak.vo.Reply;
 import com.chabak.vo.Review;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -12,6 +14,8 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -23,10 +27,16 @@ import java.util.regex.Pattern;
 public class ReviewController {
 
     @Autowired
+    ReviewService reviewService;
+
+    @Autowired
     ReviewDao reviewDao;
 
     @Autowired
     ReplyDao replyDao;
+
+    @Autowired
+    MemberService memberService;
 
     @RequestMapping(value ={"", "/", "/list"}, method=RequestMethod.GET)
     public ModelAndView reviewList(){
@@ -69,7 +79,7 @@ public ModelAndView searchReviewList(@RequestParam String search_text){
     @ResponseBody
     @RequestMapping("/listAjax")
     public String listAjax(HttpServletRequest request,ModelAndView mv){
-        //TODO:아직 작성중
+
         String sortType = request.getParameter("sortType");
         String search_text = request.getParameter("search_text");
 
@@ -91,40 +101,41 @@ public ModelAndView searchReviewList(@RequestParam String search_text){
     }
 
     @RequestMapping(value ="/writeForm", method=RequestMethod.GET)
-    public String writeReviewForm(){
-        return "community/community_write";
+    public ModelAndView writeReviewForm(HttpSession session,HttpServletResponse response){
+
+        ModelAndView mv = new ModelAndView();
+        //세션에서 로그인한 아이디 가져와 설정(return: id or null)
+        String id = memberService.getIdForSessionOrMoveIndex(mv,session,response);
+        if(id==null)
+            return mv;
+
+        mv.setViewName("community/community_write");
+        return mv;
     } //리뷰 작성폼 이동
 
     @RequestMapping(value ="/write", method=RequestMethod.POST)
-    public ModelAndView writeReview(@ModelAttribute Review review){
+    public ModelAndView writeReview(@ModelAttribute Review review, HttpSession session, HttpServletResponse response){
+
+        ModelAndView mv = new ModelAndView();
+
+        //세션에서 로그인한 아이디 가져와 설정(return: id or null)
+        String id = memberService.getIdForSessionOrMoveIndex(mv,session,response);
+        if(id==null)
+            return mv;
 
 
-        //TODO:세션에서 id 가져오기
-        //임시 코드(나중에 수정)
-        review.setId("id1");
+        review.setId(id);
+
 
         System.out.println("review:"+review);
 
-        //대표 이미지 저장
-        Pattern pattern = Pattern.compile("<img[^>]*src=[\"']?([^>\"']+)[\"']?[^>]*>"); //img 태그 src 추출 정규표현식
-        Matcher matcher = pattern.matcher(review.getContent());
-
-        //리뷰 대표이미지 디폴트 이미지(이미지 등록 안 했을때 보여줄 이미지)
-        String titleImage = "/reviewImages/reviewTitleDefault.png";
-
-        while(matcher.find()){
-            titleImage = matcher.group(1);
-        }
-
-        if(titleImage!=null){
-            review.setTitleImageSrc(titleImage);
-        }
+        reviewService.setTitleImg(review);
 
         //리뷰 저장
         reviewDao.insertReview(review);
 
 
-        ModelAndView mv = new ModelAndView();
+
         mv.setViewName("redirect:/review");
 
         return mv;
@@ -132,18 +143,18 @@ public ModelAndView searchReviewList(@RequestParam String search_text){
 
     //리뷰 수정 페이지로 이동
     @RequestMapping(value ="/modify", method=RequestMethod.GET)
-    public ModelAndView modifyForm(@RequestParam int reviewNo){
+    public ModelAndView modifyForm(@RequestParam int reviewNo,HttpSession session,HttpServletResponse response){
 
-        //TODO:세션에서 id 가져오기
-        //임시 코드(나중에 수정)
+        ModelAndView mv = new ModelAndView();
+        //세션에서 로그인한 아이디 가져와 설정(return: id or null)
+        String id = memberService.getIdForSessionOrMoveIndex(mv,session,response);
+        if(id==null)
+            return mv;
 
 
-        //TODO:로직 확인
         System.out.println("/modify(GET) reviewNo:"+reviewNo);
         Review review = reviewDao.selectReviewDetail(reviewNo);
 
-
-        ModelAndView mv = new ModelAndView();
         mv.addObject("review",review);
         mv.setViewName("community/community_update");
 
@@ -151,42 +162,57 @@ public ModelAndView searchReviewList(@RequestParam String search_text){
     }
 
     @RequestMapping(value ="/modify", method=RequestMethod.POST)
-    public ModelAndView modifyReview(@ModelAttribute Review review){
+    public ModelAndView modifyReview(@ModelAttribute Review review,HttpSession session,HttpServletResponse response){
         System.out.println("review/modify(POST)");
-        //TODO:세션에서 id 가져오기
-        //임시 코드(나중에 수정)
-        review.setId("id1");
-
-        //TODO:로직 확인
-
-        System.out.println("review:"+review);
-
-        reviewDao.updateReview(review);
-
 
         ModelAndView mv = new ModelAndView();
+        //세션에서 로그인한 아이디 가져와 설정(return: id or null)
+        String id = memberService.getIdForSessionOrMoveIndex(mv,session,response);
+        if(id==null)
+            return mv;
+
+
+
+        reviewService.setTitleImg(review);
+
+        System.out.println("review:"+review);
+        reviewDao.updateReview(review);
+
         mv.setViewName("redirect:/review");
 
         return mv;
     }
 
-    @RequestMapping(value ="/delete", method=RequestMethod.POST)
-    public ModelAndView deleteReview(@RequestParam int reviewNo){
-
-        //TODO:로직 확인
-        //리뷰 삭제
-        reviewDao.deleteReview(reviewNo);
-        //해당 리뷰에 달린 리플 전부 삭제
-        replyDao.deleteReplyWithReviewNo(reviewNo);
+    @RequestMapping(value ="/delete", method=RequestMethod.GET)
+    public ModelAndView deleteReview(@RequestParam int reviewNo,HttpSession session,HttpServletResponse response){
 
         ModelAndView mv = new ModelAndView();
+        //세션에서 로그인한 아이디 가져와 설정(return: id or null)
+        String id = memberService.getIdForSessionOrMoveIndex(mv,session,response);
+        if(id==null)
+            return mv;
+
+
+        //리뷰 삭제
+        reviewDao.deleteReview(reviewNo);
+
+        //해당 리뷰에 달린 리플 전부 삭제(제약조건때문에 불필요)
+        //replyDao.deleteReplyWithReviewNo(reviewNo);
+
         mv.setViewName("redirect:/review");
 
         return mv;
     }
 
     @RequestMapping(value ="/detail", method=RequestMethod.GET)
-    public ModelAndView detailReview(@RequestParam int reviewNo){
+    public ModelAndView detailReview(@RequestParam int reviewNo,HttpSession session,HttpServletResponse response){
+
+        ModelAndView mv = new ModelAndView();
+        //세션에서 로그인한 아이디 가져와 설정(return: id or null)
+        String id = memberService.getIdForSessionOrMoveIndex(mv,session,response);
+        if(id==null)
+            return mv;
+
         System.out.println("reviewNo:"+reviewNo);
 
         //조회수 1 증가
@@ -200,7 +226,7 @@ public ModelAndView searchReviewList(@RequestParam String search_text){
         List<Reply> replyList = replyDao.selectReplyList(reviewNo);
 
         System.out.println("replyList:"+replyList);
-        ModelAndView mv = new ModelAndView();
+
         mv.addObject("review",review);
         mv.addObject("replyList",replyList);
 

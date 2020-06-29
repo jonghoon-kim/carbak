@@ -25,6 +25,15 @@
 		ORDER BY GROUPNO ASC, groupOrder ASC
 	</select>
 
+<!--	댓글에 자녀 댓글이 있는지 확인-->
+	<select id="countChildReply" parameterType="Reply" resultType="int">
+		SELECT count(*) FROM REPLY
+		WHERE REVIEWNO = #{reviewNo}
+		and GROUPNO = #{groupNo}
+		and LV <![CDATA[>]]> #{lv}
+
+	</select>
+
 	<!-- 대댓글  -->
 	<!-- 1번 쿼리 -->
 	<select id="checkReReplyCondition" parameterType="Reply" resultType="int">

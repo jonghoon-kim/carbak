@@ -31,6 +31,7 @@ public class ReviewDao {
     }
 
     public int updateReview(Review review) {
+        System.out.println("review in ReviewDao:"+review);
         int updateCount = sqlSession.update("review.updateReview",review);
         return updateCount;
     }

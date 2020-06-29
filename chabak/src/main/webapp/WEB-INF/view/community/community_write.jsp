@@ -70,7 +70,7 @@
     </div>
     <div class="bottom">
         <button type="submit">작성 완료</button>
-        <button type="reset">취소</button>
+        <button type="button" class="cancelButton" onclick="cancelFunction('/review')">취소</button>
 
     </div>
 

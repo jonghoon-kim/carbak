@@ -12,13 +12,11 @@
     <script type="text/javascript" src=" http://code.jquery.com/jquery-latest.min.js"></script>
     <script type="text/javascript" src="/js/smarteditor2/js/HuskyEZCreator.js"></script>
     <script type="text/javascript" src="/js/address_select.js" charset='UTF-8'></script>
+    <script type="text/javascript" src="/js/reviewScript.js" charset='UTF-8'></script>
     <script>
-        $("document").ready(function(){
-            // db에서 가져온 값으로 select 설정
-            var varSido = "'"+${review.sido};
-            varSido = varSido+"'";
-            $("#sido").val(varSido);
-            $("#gugun").val(${review.gugun});
+        $(document).ready(function(){
+
+
         });
     </script>
 
@@ -71,7 +69,7 @@
     </div>
     <div class="bottom">
         <button type="submit">작성 완료</button>
-        <button type="reset">취소</button>
+        <button type="button" class="cancelButton" onclick="cancelFunction('/review/detail?reviewNo=${review.reviewNo}')">취소</button>
     </div>
     </form>
 </div>

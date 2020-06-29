@@ -3,16 +3,19 @@ package com.chabak.controllers;
 import com.chabak.repositories.ReplyDao;
 import com.chabak.repositories.ReviewDao;
 import com.chabak.vo.Reply;
+import com.chabak.vo.Review;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @Controller
 @RequestMapping("/reply")
@@ -115,6 +118,26 @@ public class ReplyController {
         System.out.println(mv.getViewName());
         return mv;
     }
+
+    //하위 댓글의 수 count
+    @SneakyThrows
+    @ResponseBody
+    @RequestMapping("/checkChildReply")
+    public int checkChildReply(HttpServletRequest request,ModelAndView mv){
+
+
+        int replyNo = Integer.parseInt(request.getParameter("replyNo"));
+
+        //ReplyNo로 Reply 1개 확정
+        Reply reply = replyDao.selectReply(replyNo);
+
+        int countChild = replyDao.countChildReply(reply);
+
+        System.out.println("countChild:"+countChild);
+        return countChild;
+
+    }
+
 
     //댓글 삭제(댓글,대댓글 공통)
     @RequestMapping(value ="/delete", method=RequestMethod.GET)

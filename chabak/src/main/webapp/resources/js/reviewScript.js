@@ -109,6 +109,15 @@ function ajaxReviewList() {
 
 }
 
+function cancelFunction(link) {
+    var option = confirm("작성을 종료하고 나가시겠습니까?");
+    if(option==true){
+        location.href=link;
+
+    }
+
+
+}
 // function beforeSearch(){
 //     $("#searchSortType").val($("#sortType option:selected").val());  //정렬 select의 값을 search 폼 hidden input에 집어넣기,검색시 새로고침되므로 일단 넣는건 보류
 // }

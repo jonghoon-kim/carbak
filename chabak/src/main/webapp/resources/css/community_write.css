@@ -98,3 +98,23 @@
 .bottom button[type="reset"]:focus {
     outline: none;
 }
+
+/*button type="reset" 대신button 사용. 별도의 class로 지정*/
+
+.bottom .cancelButton {
+    width: 100px;
+    height : 40px;
+    font-size: 18px;
+    font-family: 'Jeju Gothic', sans-serif;
+    border : 2px solid rgb(105, 179, 149);
+    border-radius: 10px;
+    background-color: transparent;
+    color :gray;
+    transition : .35s;
+}
+.bottom .cancelButton:hover{
+    font-size: 20px;
+}
+.bottom .cancelButton:focus {
+    outline: none;
+}

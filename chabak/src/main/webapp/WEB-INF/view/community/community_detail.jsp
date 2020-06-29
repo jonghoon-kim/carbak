@@ -3,17 +3,26 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core"
            prefix="c" %>
 <!DOCTYPE html>
-
+<%--<%--%>
+<%--    String userId;--%>
+<%--    if (session.getAttribute("id")!=null){--%>
+<%--        userId=(String)session.getAttribute("id");--%>
+<%--    }else{--%>
+<%--        userId="세션 값 없음.";--%>
+<%--    }--%>
+<%--%>--%>
 <head>
     <meta charset="UTF-8">
     <title>슬기로운 차박생활</title>
     <link href="/css/community_detail.css" rel="stylesheet">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
     <script type="text/javascript" src=" http://code.jquery.com/jquery-latest.min.js"></script>
-    <script>
+    <script type="text/javascript">
 
-        $('document').ready(function () {
+        $(document).ready(function () {
             initializeForm();
+
+
         });
 
         function like() {
@@ -58,6 +67,31 @@
             }
         }
 
+        //리플 삭제시 하위 댓글 존재 확인(있으면 삭제 불가능)
+        function checkChildReplyAjax(replyNo) {
+            $.ajax({
+                url : "/reply/checkChildReply",
+                type : "post",
+                data :{"replyNo": replyNo  },
+                success : function(data) {
+
+                    if(data > 0){
+                        alert("하위 댓글이 존재할 경우 삭제할 수 없습니다.");
+                    }
+                    else{
+                        location.href="/reply/delete?replyNo="+replyNo;
+                    }
+
+
+
+                },
+                error:function(error){
+                    alert('error');
+                }
+            });  // ajax 끝
+
+        }
+
 
         //리플 수정
         function createModifyReplyForm(replyNo) {
@@ -80,7 +114,6 @@
 
         //리플 수정 submit
         function submitModifyReplyForm(replyNo) {
-            alert('submitModifyReplyForm')
             $("#modifyReplyForm"+replyNo).submit();
 
         }
@@ -98,6 +131,8 @@
             $("#ReReplyForm"+replyNo).submit();
 
         }
+
+
     </script>
 
 <body>
@@ -134,8 +169,10 @@
                 <button class="dropbtn"><img class="dropbtn" src="/img/community/menu.png"
                                              onclick="myFunction('review',null)"></button>
                 <div class="dropdown-content" id="myDropdown">
+                <c:if test="${sessionScope.id != null and sessionScope.id !='' and sessionScope.id == review.id}">
                     <a href="/review/modify?reviewNo=${review.reviewNo}">수정하기</a>
                     <a href="/review/delete?reviewNo=${review.reviewNo}">삭제하기</a>
+                </c:if>
                 </div>
             </div>
 
@@ -149,12 +186,14 @@
     </div>
 
     <div class="reply-input">
+<c:if test="${sessionScope.id != null and sessionScope.id !=''}">
         <form method="POST" action="/reply/writeReply">
             <input type="hidden" name="reviewNo" value="${review.reviewNo}">
             <input type="hidden" name="id">
             <input type="text" placeholder="댓글 입력" name="content">
             <button type="submit">등록</button>
         </form>
+</c:if>
     </div>
 
     <c:forEach var="list" items="${replyList}">
@@ -183,8 +222,10 @@
                 <button class="dropbtn"><img class="dropbtn" src="/img/community/menu.png"
                                              onclick="myFunction('reply',${list.replyNo})"></button>
                 <div class="dropdown-content" id="myDropdown${list.replyNo}">
+                <c:if test="${sessionScope.id != null and sessionScope.id !='' and sessionScope.id == list.id}">
                     <a onclick="createModifyReplyForm(${list.replyNo})">수정하기</a>
-                    <a href="/reply/delete?replyNo=${list.replyNo}">삭제하기</a>
+                    <a onclick="checkChildReplyAjax(${list.replyNo})">삭제하기</a>
+                </c:if>
                     <a onclick="createReReplyBox(${list.replyNo})">댓글달기</a>
 
                 </div>
@@ -256,8 +297,10 @@
                     <button class="dropbtn"><img class="dropbtn" src="/img/community/menu.png"
                                                  onclick="myFunction('reply',${relist.replyNo})"></button>
                     <div class="dropdown-content" id="myDropdown${relist.replyNo}">
+                <c:if test="${sessionScope.id != null and sessionScope.id !='' and sessionScope.id == list.id}">
                         <a onclick="createModifyReplyForm(${relist.replyNo})">수정하기</a>
-                        <a href="/reply/delete?replyNo=${relist.replyNo}">삭제하기</a>
+                        <a onclick="checkChildReplyAjax(${relist.replyNo})">삭제하기</a>
+                </c:if>
                         <a onclick="createReReplyBox(${relist.replyNo})">댓글달기</a>
 
                     </div>

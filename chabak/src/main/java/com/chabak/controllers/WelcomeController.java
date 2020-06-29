@@ -10,6 +10,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import javax.servlet.http.HttpSession;
+
 
 @Controller
 public class WelcomeController {
@@ -30,10 +32,12 @@ public class WelcomeController {
 //    }
     @SneakyThrows
     @RequestMapping(value="/")
-    public String upload(){
+    public String upload(HttpSession session){
         System.out.println("Controller");
 
-
+        //session.setAttribute("id","fakeId");
+       session.setAttribute("id","id1");
+        System.out.println((String)(session.getAttribute("id")));
 
         return "index";
     }

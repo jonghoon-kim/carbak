@@ -31,6 +31,11 @@ public class ReplyDao {
         return replyList;
     }
 
+    public int countChildReply(Reply reply){
+        int count = sqlSession.selectOne("reply.countChildReply",reply);
+        return count;
+    }
+
     //대댓글
     public int insertReReply(Reply reply) {
         int insertCount = sqlSession.insert("reply.insertReReply",reply);
