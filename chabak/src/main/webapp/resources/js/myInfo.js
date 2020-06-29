@@ -21,7 +21,7 @@ $(document).ready(function() {
                         $('.content_info').append("test : "+row);
                     }
 
-                    alert("good");
+                    alert("follower");
 
                 }, error: function (data) {
 
@@ -33,26 +33,27 @@ $(document).ready(function() {
 //myInformation에서 팔로잉을 click 했을 때 발생하는 event
 $(document).ready(function() {
     $("#following").click(function () {
-        $.ajax({//받는
+        $.ajax({// ajax가 controller로 보내는
             type: "get",
             datatype: "json",   // ex) {"name":"age":"address"} 와 같은 형식
             url: "following",
-            success : function(data) { // 보내는
+            success : function(data) { // ajax가 controller로 부터 받는
                 var test = data.HashMapList[0].ID;
                 console.log("test : "+ test);
 
-                var HashMapList = data.HashMapList;
+                var HashMapList = data.HashMapList; // data.HashMapList.ID == HashMapList.ID
                 console.log(data);
                 $('.content_info').children().remove();
                 $('.content_info').text(' ');
                 for (var i = 0; i < HashMapList.length; i++) {
-                    console.log(HashMapList[i]);
-                    var row =  i+1+'<br><a href="#">보여주는 ID : '+HashMapList[i].ID+'<br>보여주는 savename : '+HashMapList[i].SAVENAME+'</a>'
-                    + '<input type="submit" value="삭제" id="deleteFollow"></input><br>';
+                    console.log(HashMapList[i]); // todo: delete button click -> btnDeleteFollowing event run
+
+                    var row =  (i+1)+'<br><a href="#">profile : '+HashMapList[i].SAVENAME+'<br>id : '+HashMapList[i].ID+'</a>'
+                    + '<input type="button" value="삭제" id="btnDeleteFollowing"><br>';
                     $('.content_info').append("test : "+row);
                 }
 
-                alert("good");
+                alert("following");
             }, error: function (data) {
 
             }
@@ -60,9 +61,25 @@ $(document).ready(function() {
     });
 })
 
-function test(d) {
- var t = d;
-}
+$(document).ready(function () {
+    $("btnDeleteFollowing").click(function(){
+        var test = ;
+        console.log(test);
+        $.ajax({
+            type: "post",
+            datatype: "json",   // ex) {"name":"age":"address"} 와 같은 형식
+            url: "deleteFollowing",
+            data: {"deleteId" : test},
+            success : function (data) {
+
+
+                alert("delete test success");
+
+        }
+
+        })
+    })
+})
 
 //myInformation에서 팔로잉을 click 했을 때 발생하는 event
 // $(document).ready(function() {

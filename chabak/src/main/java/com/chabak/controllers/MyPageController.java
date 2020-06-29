@@ -28,7 +28,7 @@ public class MyPageController {
         return "/mypage/myInformation";
     }
 
-    // mypage화면에서 follower를 클릭했을 때 Controller
+    // mypage화면에서 follower를 클릭 이벤트 : print follower
     @ResponseBody
     @RequestMapping(value={"", "/", "follower"}, method={RequestMethod.GET,RequestMethod.POST}) //
     public HashMap<String, List<Follow>> followerList(HttpServletRequest request, HttpSession session)throws Exception{ // return된 List<Follow> 데이터 형을 model에 넣
@@ -41,7 +41,7 @@ public class MyPageController {
         System.out.println(list);
 
         //todo: 세션 아이디가 갖고 있는 데이터
-        map.put("HashMapList", list); // put -> ajax로 보내기
+        map.put("HashMapList", list); // key-value 추가
 
         System.out.println(list);
         //getFollowerId.addObject("HashMapList", list); // addObject는 (key, value) 형태로 데이터 담아 보내는 매서드
@@ -49,11 +49,11 @@ public class MyPageController {
     }
 
 
-    // mypage화면에서 following를 클릭했을 때 Controller
+    // mypage화면에서 following를 클릭 이벤트 : print following
     @ResponseBody
-    @RequestMapping(value={"", "/", "following2"}, method={RequestMethod.GET,RequestMethod.POST}) //
+    @RequestMapping(value={"", "/", "following"}, method={RequestMethod.GET,RequestMethod.POST}) //
     public HashMap<String, List<Follow>> followingList(HttpServletRequest request, HttpSession session)throws Exception{
-    //public HashMap<String, HashMap<String, List<Follow>>> followerProfile(HttpServletRequest request, HttpSession session)throws Exception{ // return된 List<Follow> 데이터 형을 model에 넣
+        //public HashMap<String, HashMap<String, List<Follow>>> followerProfile(HttpServletRequest request, HttpSession session)throws Exception{ // return된 List<Follow> 데이터 형을 model에 넣
         String id = (String)session.getAttribute("id");
 
         System.out.println("following controller -- "+id);
@@ -70,10 +70,11 @@ public class MyPageController {
         return map;
     }
 
+
+    // following 항목죽 삭제 버튼 이벤트 : unfollow controller
     @ResponseBody
-    @RequestMapping(value={"", "/", "following"}, method={RequestMethod.GET,RequestMethod.POST}) //
+    @RequestMapping(value={"", "/", "deleteFollowing"}, method={RequestMethod.GET,RequestMethod.POST}) //
     public HashMap<String, List<Follow>> deleteFollowingUser(HttpServletRequest request, HttpSession session)throws Exception{
-        //public HashMap<String, HashMap<String, List<Follow>>> followerProfile(HttpServletRequest request, HttpSession session)throws Exception{ // return된 List<Follow> 데이터 형을 model에 넣
         String id = (String)session.getAttribute("id");
         String e = "e";
 

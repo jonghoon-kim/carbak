@@ -51,7 +51,9 @@
 --%>
             <div class="button_menu">
                 <!--게시글 수 보이게, 클릭시 자기가 작성한 리뷰글 조회 + 게시글 수 추가-->
-                <button onclick="#">게시글</button>
+                <button type="button" id="">
+                    게시글
+                </button>
                 <!--팔로워 수 보이게, 클릭시 팔로워 리뷰글 조회 + 팔로워 수 추가-->
                 <button type="button" id="follower">
                 팔로워
@@ -62,8 +64,7 @@
                 <img class="but_img" src="/img/mypage/following.png">
 
                 <button type="button" id="following">
-
-                <span>팔로잉</span>
+                    <span>팔로잉</span>
                 </button>
                 <!--숫자 클릭시 팔로잉한 id 조회 리스트(팔로워 수 1000단위 k표현 1000000단위 m표현-->
 

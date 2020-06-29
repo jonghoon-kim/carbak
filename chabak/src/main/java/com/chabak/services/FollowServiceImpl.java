@@ -12,8 +12,8 @@ import java.util.List;
 public class FollowServiceImpl implements FollowService {
     @Autowired
     FollowDao followDao;
-    @Autowired
-    MemberDao memberDao;
+//    @Autowired
+//    MemberDao memberDao;
 
     @Override
     public List<Follow> selectDataHashMapServiceList(String id) throws Exception {
