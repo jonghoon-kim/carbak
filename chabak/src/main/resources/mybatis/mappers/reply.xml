@@ -29,8 +29,7 @@
 	<select id="countChildReply" parameterType="Reply" resultType="int">
 		SELECT count(*) FROM REPLY
 		WHERE REVIEWNO = #{reviewNo}
-		and GROUPNO = #{groupNo}
-		and LV <![CDATA[>]]> #{lv}
+		and parentReplyNo = #{replyNo}
 
 	</select>
 
@@ -56,9 +55,9 @@
 
 
 	<insert id="insertReReply" parameterType="Reply">
-		INSERT INTO REPLY(REPLYNO,ID,CONTENT,REVIEWNO,GROUPNO,GROUPORDER,LV)
+		INSERT INTO REPLY(REPLYNO,ID,PARENTID, parentReplyNo,CONTENT,REVIEWNO,GROUPNO,GROUPORDER,LV)
 		VALUES
-		(REPLYNO_SEQ.nextval,#{id},#{content},#{reviewNo},#{groupNo},#{groupOrder},#{lv})
+		(REPLYNO_SEQ.nextval,#{id},#{parentId},#{parentReplyNo},#{content},#{reviewNo},#{groupNo},#{groupOrder},#{lv})
 	</insert>
 
 	<update id="updateGroupOrder" parameterType="Reply">

@@ -61,6 +61,9 @@ function checkLengthValidate(obj, maxByte) {
 
 }
 
+
+
+// 리뷰 리스트를 ajax로 출력
 function ajaxReviewList() {
     $.ajax({
         url : "/review/listAjax",

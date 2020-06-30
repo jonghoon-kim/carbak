@@ -2,6 +2,7 @@ package com.chabak.controllers;
 
 import com.chabak.repositories.ReplyDao;
 import com.chabak.repositories.ReviewDao;
+import com.chabak.services.MemberService;
 import com.chabak.vo.Reply;
 import com.chabak.vo.Review;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.util.HashMap;
 import java.util.List;
@@ -26,14 +28,21 @@ public class ReplyController {
     @Autowired
     ReplyDao replyDao;
 
+    @Autowired
+    MemberService memberService;
+
     //댓글 달기
     @RequestMapping(value ="/writeReply", method=RequestMethod.POST)
-    public ModelAndView writeReply(HttpServletRequest request,@ModelAttribute Reply reply){
-        HttpSession session = request.getSession();
+    public ModelAndView writeReply(HttpServletRequest request, @ModelAttribute Reply reply, HttpSession session,HttpServletResponse response){
 
-        //TODO:세션에서 id 가져오기
-        //임시 코드(나중에 수정)
-        reply.setId("id1");
+        ModelAndView mv = new ModelAndView();
+
+        //세션에서 로그인한 아이디 가져와 설정(return: id or null)
+        String id = memberService.getIdForSessionOrMoveIndex(mv,session,response);
+        if(id==null)
+            return mv;
+
+        reply.setId(id);
         System.out.println("reply:"+reply);
 
 
@@ -41,7 +50,6 @@ public class ReplyController {
         //리뷰 댓글 수 증가
         reviewDao.updateReplyCount(reply.getReviewNo());
 
-        ModelAndView mv = new ModelAndView();
         //TODO:리다이렉트 시 조회수가 증가하므로 ajax로 변경을 고민 중...
         mv.setViewName("redirect:/review/detail?reviewNo="+reply.getReviewNo());
         return mv;//이동 주소는 수정할 것
@@ -49,12 +57,17 @@ public class ReplyController {
 
     //대댓글 달기
     @RequestMapping(value ="/writeReReply", method=RequestMethod.POST)
-    public ModelAndView writeReReply(HttpServletRequest request,@ModelAttribute Reply reply){
-        HttpSession session = request.getSession();
+    public ModelAndView writeReReply(HttpSession session,HttpServletResponse response,@ModelAttribute Reply reply){
 
-        //TODO:세션에서 id 가져오기
-        //임시 코드(나중에 수정)
-        reply.setId("id1");
+        ModelAndView mv = new ModelAndView();
+
+        //세션에서 로그인한 아이디 가져와 설정(return: id or null)
+        String id = memberService.getIdForSessionOrMoveIndex(mv,session,response);
+        if(id==null)
+            return mv;
+
+        reply.setId(id);
+
         System.out.println("checkReReplyCondition reply:"+reply);
 
         //1번 쿼리: 대댓글 들어갈 위치 조건 결정(댓글 사이에 끼워넣을지,끝에 넣을지)
@@ -91,9 +104,6 @@ public class ReplyController {
 
         //TODO:리다이렉트 시 조회수가 증가하므로 ajax로 변경을 고민 중...
 
-        ModelAndView mv = new ModelAndView();
-
-
         mv.setViewName("redirect:/review/detail?reviewNo="+reply.getReviewNo());
         System.out.println(mv.getViewName());
         return mv;
@@ -101,18 +111,21 @@ public class ReplyController {
 
     //댓글/대댓글 수정
     @RequestMapping(value ="/modify", method=RequestMethod.POST)
-    public ModelAndView modifyReply(@ModelAttribute Reply reply){
-        System.out.println("reply/modify reply:"+reply);
+    public ModelAndView modifyReply(HttpSession session,HttpServletResponse response,@ModelAttribute Reply reply){
 
-        //TODO:세션에서 id 가져오기
-        //임시 코드(나중에 수정)
-        reply.setId("id1");
-
-        //TODO:로직 작성
-        replyDao.updateReply(reply);
 
         ModelAndView mv = new ModelAndView();
 
+        //세션에서 로그인한 아이디 가져와 설정(return: id or null)
+        String id = memberService.getIdForSessionOrMoveIndex(mv,session,response);
+        if(id==null)
+            return mv;
+
+        reply.setId(id);
+
+        System.out.println("reply/modify reply:"+reply);
+        //TODO:로직 작성
+        replyDao.updateReply(reply);
 
         mv.setViewName("redirect:/review/detail?reviewNo="+reply.getReviewNo());
         System.out.println(mv.getViewName());

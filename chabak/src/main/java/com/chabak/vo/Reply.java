@@ -8,6 +8,8 @@ import java.sql.Date;
 public class Reply {
     private int replyNo;
     private String id;
+    private String parentId;
+    private int parentReplyNo;
     private String content;
     private Date regDate;
     private Date modifyDate;

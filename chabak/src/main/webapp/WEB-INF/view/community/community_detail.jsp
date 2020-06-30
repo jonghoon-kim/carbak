@@ -22,12 +22,12 @@
         $(document).ready(function () {
             initializeForm();
 
-
         });
 
         function like() {
             var img = document.getElementById("like-img");
             img.src = "/img/community/heart2.png"
+
         }
 
         function initializeForm() {
@@ -124,6 +124,7 @@
             initializeForm();
 
             $("#re-reply-input" + replyNo).css('display', 'block');
+
         }
 
         //대댓글 등록
@@ -222,6 +223,7 @@
                 <button class="dropbtn"><img class="dropbtn" src="/img/community/menu.png"
                                              onclick="myFunction('reply',${list.replyNo})"></button>
                 <div class="dropdown-content" id="myDropdown${list.replyNo}">
+                    session:${sessionScope.id}writerId:${list.id}
                 <c:if test="${sessionScope.id != null and sessionScope.id !='' and sessionScope.id == list.id}">
                     <a onclick="createModifyReplyForm(${list.replyNo})">수정하기</a>
                     <a onclick="checkChildReplyAjax(${list.replyNo})">삭제하기</a>
@@ -260,6 +262,8 @@
                     <input type="hidden" name="groupOrder" value="${list.groupOrder}">
                     <input type="hidden" name="lv" value="${list.lv}">
                     <input type="hidden" name="id">
+                    <input type="hidden" name="parentId" value="${list.id}">
+                    <input type="hidden" name="parentReplyNo" value="${list.replyNo}">
                     <input type="text" placeholder="댓글 입력" name="content">
 
                 </form>
@@ -297,7 +301,8 @@
                     <button class="dropbtn"><img class="dropbtn" src="/img/community/menu.png"
                                                  onclick="myFunction('reply',${relist.replyNo})"></button>
                     <div class="dropdown-content" id="myDropdown${relist.replyNo}">
-                <c:if test="${sessionScope.id != null and sessionScope.id !='' and sessionScope.id == list.id}">
+                        session:${sessionScope.id}writerId:${relist.id}
+                        <c:if test="${sessionScope.id != null and sessionScope.id !='' and sessionScope.id == relist.id}">
                         <a onclick="createModifyReplyForm(${relist.replyNo})">수정하기</a>
                         <a onclick="checkChildReplyAjax(${relist.replyNo})">삭제하기</a>
                 </c:if>
@@ -308,7 +313,7 @@
 
 
                     <%-- 두 영역이 토글되는 부분 시작                            --%>
-                <div class="reply-content" id="defaultReplyContent${relist.replyNo}">${relist.content}</div>
+                <div class="reply-content" id="defaultReplyContent${relist.replyNo}"><span class="reply-parent-id"><a href="#">${relist.parentId}</a></span>${relist.content}</div>
                     <%--이 input의 값을 가져와 수정폼의 값으로 넣기                             --%>
                 <input type="hidden" id="hiddenReplyContent${relist.replyNo}" value="${relist.content}">
                 <div class="reply-modify-content" id="modifyReplyContent${relist.replyNo}" style="display: none">
@@ -334,6 +339,8 @@
                         <input type="hidden" name="groupOrder" value="${relist.groupOrder}">
                         <input type="hidden" name="lv" value="${relist.lv}">
                         <input type="hidden" name="id">
+                        <input type="hidden" name="parentId" value="${relist.id}">
+                        <input type="hidden" name="parentReplyNo" value="${relist.replyNo}">
                         <input type="text" placeholder="댓글 입력" name="content">
 
                     </form>

@@ -11,12 +11,31 @@
     <script type="text/javascript" src=" http://code.jquery.com/jquery-latest.min.js"></script>
     <script type="text/javascript" src="/js/reviewScript.js" charset='UTF-8'></script>
     <script>
-        function like() {
-            var img = document.getElementById("like-img");
-            img.src = "/img/community/heart2.png"
+
+        // 별도의 js 파일로 빼면 작동 안 함 ㅠㅠ
+        function ajaxReviewLikeToggle(reviewNo){
+
+            $.ajax({
+                url:"/reviewLike/toggleAjax",
+                type : "post",
+                data :{"reviewNo": reviewNo},
+                success : function(data) {
+                    if(data==1){
+                        alert("좋아요");
+                    }
+                    else{
+                        alert("안 좋아요.");
+                    }
+                },
+                error:function(error){
+                    // alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+
+                }
+            });
+
+
         }
     </script>
-
 <body>
 <!-- header -->
 <hr>
@@ -75,7 +94,7 @@
                 </div>
                 <div class="content-icon">
                     <button class="like-img"><img id="like-img" src="/img/community/heart.png"
-                                                  onclick="like()"></button>
+                                                  onclick=""></button>
                     <button class="comment-img"><img src="/img/community/comment.png"></button>
                 </div>
             </div>
@@ -119,8 +138,8 @@
                         </div>
                         <div class="content-icon">
                             <button class="like-img"><img id="like-img${review.reviewNo}" src="/img/community/heart.png"
-                                                          onclick="like()"></button>
-                            <button class="comment-img"><img src="/img/community/comment.png"></button>
+                                                          onclick="ajaxReviewLikeToggle('${review.reviewNo}')"></button>
+                            <button class="comment-img"><img src="/img/community/comment.png" onclick="ajaxReviewLikeToggle('${review.reviewNo}')"></button>
                         </div>
                     </div>
 

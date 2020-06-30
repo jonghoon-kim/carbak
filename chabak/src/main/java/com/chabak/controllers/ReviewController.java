@@ -2,6 +2,7 @@ package com.chabak.controllers;
 
 import com.chabak.repositories.ReplyDao;
 import com.chabak.repositories.ReviewDao;
+import com.chabak.repositories.ReviewLikeDao;
 import com.chabak.services.MemberService;
 import com.chabak.services.ReviewService;
 import com.chabak.vo.Reply;
@@ -38,6 +39,9 @@ public class ReviewController {
     @Autowired
     MemberService memberService;
 
+    @Autowired
+    ReviewLikeDao reviewLikeDao;
+
     @RequestMapping(value ={"", "/", "/list"}, method=RequestMethod.GET)
     public ModelAndView reviewList(){
 
@@ -46,6 +50,8 @@ public class ReviewController {
         map.put("sortType","regDate");
         //리뷰 리스트 select
         List<Review> reviewList = reviewDao.selectReviewList(map);
+
+
 
         ModelAndView mv = new ModelAndView();
         mv.setViewName("community/community");

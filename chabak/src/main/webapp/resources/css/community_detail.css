@@ -528,3 +528,12 @@
 .reply-child {
     display: block;
 }
+
+.reply-content .reply-parent-id a{
+    text-decoration: none;
+    color : gray;
+    padding-right: 10px ;
+}
+.reply-content .reply-parent-id a:hover{
+
+}

@@ -22,6 +22,7 @@
 		<mapper resource = "/mybatis/mappers/member.xml"/>
 		<mapper resource = "/mybatis/mappers/fileUpload.xml"/>
 		<mapper resource = "/mybatis/mappers/review.xml"/>
+		<mapper resource = "/mybatis/mappers/reviewLike.xml"/>
 		<mapper resource = "/mybatis/mappers/reply.xml"/>
 	</mappers>
 </configuration>
