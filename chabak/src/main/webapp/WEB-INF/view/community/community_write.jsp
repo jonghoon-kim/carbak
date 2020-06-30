@@ -23,7 +23,7 @@
     </div>
     <form method="POST" action="/review/write" onsubmit="return checkReviewValidate()">
     <div class="second">
-        <input type="hidden" name="id">
+
 
         <div class="set">
 

@@ -104,10 +104,6 @@ public ModelAndView searchReviewList(@RequestParam String search_text){
     public ModelAndView writeReviewForm(HttpSession session,HttpServletResponse response){
 
         ModelAndView mv = new ModelAndView();
-        //세션에서 로그인한 아이디 가져와 설정(return: id or null)
-        String id = memberService.getIdForSessionOrMoveIndex(mv,session,response);
-        if(id==null)
-            return mv;
 
         mv.setViewName("community/community_write");
         return mv;
@@ -123,7 +119,7 @@ public ModelAndView searchReviewList(@RequestParam String search_text){
         if(id==null)
             return mv;
 
-
+        //작성자 설정
         review.setId(id);
 
 
@@ -143,14 +139,9 @@ public ModelAndView searchReviewList(@RequestParam String search_text){
 
     //리뷰 수정 페이지로 이동
     @RequestMapping(value ="/modify", method=RequestMethod.GET)
-    public ModelAndView modifyForm(@RequestParam int reviewNo,HttpSession session,HttpServletResponse response){
+    public ModelAndView modifyForm(@RequestParam int reviewNo){
 
         ModelAndView mv = new ModelAndView();
-        //세션에서 로그인한 아이디 가져와 설정(return: id or null)
-        String id = memberService.getIdForSessionOrMoveIndex(mv,session,response);
-        if(id==null)
-            return mv;
-
 
         System.out.println("/modify(GET) reviewNo:"+reviewNo);
         Review review = reviewDao.selectReviewDetail(reviewNo);
@@ -171,7 +162,8 @@ public ModelAndView searchReviewList(@RequestParam String search_text){
         if(id==null)
             return mv;
 
-
+        //작성자 설정
+        review.setId(id);
 
         reviewService.setTitleImg(review);
 

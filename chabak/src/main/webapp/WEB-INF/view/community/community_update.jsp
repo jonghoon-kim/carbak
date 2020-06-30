@@ -31,6 +31,7 @@
     <div class="second">
         <div class="set">
             <span class="title">제목</span><br>
+            <input type="hidden" name="reviewNo" value="${review.reviewNo}">
             <input type="text" class="content" id="title" name="title" value="${review.title}" onkeyup="checkLengthValidate(this, 20)">
         </div>
         <div class="set">
