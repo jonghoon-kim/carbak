@@ -24,9 +24,10 @@ public class MemberService {
 
     @SneakyThrows
     public String getIdForSessionOrMoveIndex(ModelAndView mv, HttpSession session,HttpServletResponse response){
-        //region session check
+        //세션에서 아이디 가져오기
         String id = (String)(session.getAttribute("id"));
         if(id==null){
+            //아이디 없으면 alert 띄우고 로그인 페이지로 이동
             System.out.println("no session");
             mv.setViewName("member/login");
 
@@ -38,6 +39,20 @@ public class MemberService {
             out.flush();
 
             return null;
+        }
+        System.out.println("id from session:"+id);
+        return id;
+    }
+
+    @SneakyThrows
+    public String getIdForSessionNotMoveIndex(ModelAndView mv, HttpSession session){
+        //region session check
+        String id = (String)(session.getAttribute("id"));
+        System.out.println("in getIdForSessionNotMoveIndex id:"+id);
+        if(id==null){
+
+            return null;
+
         }
         System.out.println("id from session:"+id);
         return id;

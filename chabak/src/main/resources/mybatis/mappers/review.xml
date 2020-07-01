@@ -31,10 +31,21 @@
 <!--	</select>-->
 
 	<select id="selectReviewList" parameterType="Map" resultType="ReviewAndLike">
-		select reviewNo,id,title,sido,gugun,content,titleImageSrc,readCount,likeCount,replyCount,regDate,modifyDate
+		select r.reviewNo,r.id,r.title,r.sido,r.gugun,r.content,r.titleImageSrc,r.readCount,r.likeCount,r.replyCount,r.regDate,r.modifyDate,
+		       nvl2(l.reviewNo,1,0) as likeYn
 		from Review r,ReviewLike l
+		where r.reviewNo = l.reviewNo(+)
+		<if test="id != null and id != ''">
+		and #{id} = l.id(+)
+		</if>
+
+<!-- 		id==null 일 경우 제대로 해당 쿼리가 실행되지 않아서 스크립트로 쿼리 실행을 차단
+                <if test="id == null and id == ''">-->
+<!--		and null = l.id(+)-->
+<!--		</if>-->
+
 		<if test="search_text !=null and search_text !=''">
-			where sido||' '||gugun LIKE '%'||#{search_text}||'%'
+			and sido||' '||gugun LIKE '%'||#{search_text}||'%'
 		</if>
 		<if test="sortType !=null and sortType !=''">
 			order by ${sortType} desc
@@ -62,13 +73,23 @@
 		WHERE REVIEWNO = #{reviewNo}
 	</update>
 
-	<update id="updateLikeCount" parameterType="int">
+	<update id="increaseLikeCount" parameterType="int">
 		UPDATE REVIEW SET LIKECOUNT = LIKECOUNT+1
 		WHERE REVIEWNO = #{reviewNo}
 	</update>
 
-	<update id="updateReplyCount" parameterType="int">
+	<update id="decreaseLikeCount" parameterType="int">
+		UPDATE REVIEW SET LIKECOUNT = LIKECOUNT-1
+		WHERE REVIEWNO = #{reviewNo}
+	</update>
+
+	<update id="increaseReplyCount" parameterType="int">
 		UPDATE REVIEW SET REPLYCOUNT = REPLYCOUNT+1
+		WHERE REVIEWNO = #{reviewNo}
+	</update>
+
+	<update id="decreaseReplyCount" parameterType="int">
+		UPDATE REVIEW SET REPLYCOUNT = REPLYCOUNT-1
 		WHERE REVIEWNO = #{reviewNo}
 	</update>
 

@@ -10,9 +10,9 @@ public class ReviewLikeDao {
     @Autowired
     SqlSession sqlSession;
 
-    public ReviewLike selectReviewLike(ReviewLike reviewLike) {
-        ReviewLike resultReviewLike = sqlSession.selectOne("reviewLike.selectReviewLike",reviewLike);
-        return resultReviewLike;
+    public int checkReviewLike(ReviewLike reviewLike) {
+        int likeCount = sqlSession.selectOne("reviewLike.checkReviewLike",reviewLike);
+        return likeCount;
     }
 
     public int insertReviewLike(ReviewLike reviewLike) {
@@ -24,4 +24,6 @@ public class ReviewLikeDao {
         int deleteCount = sqlSession.insert("reviewLike.deleteReviewLike",reviewLike);
         return deleteCount;
     }
+
+
 }

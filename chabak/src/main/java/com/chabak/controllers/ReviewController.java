@@ -7,6 +7,8 @@ import com.chabak.services.MemberService;
 import com.chabak.services.ReviewService;
 import com.chabak.vo.Reply;
 import com.chabak.vo.Review;
+import com.chabak.vo.ReviewAndLike;
+import com.chabak.vo.ReviewLike;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,17 +45,19 @@ public class ReviewController {
     ReviewLikeDao reviewLikeDao;
 
     @RequestMapping(value ={"", "/", "/list"}, method=RequestMethod.GET)
-    public ModelAndView reviewList(){
+    public ModelAndView reviewList(HttpSession session){
+
+        ModelAndView mv = new ModelAndView();
 
         //파라미터를 저장할 맵 생성+값(정렬타입)
         Map map = new HashMap<String,String>();
         map.put("sortType","regDate");
+        map.put("id",memberService.getIdForSessionNotMoveIndex(mv,session));//세션에서 가져온 id map에 넣기
         //리뷰 리스트 select
-        List<Review> reviewList = reviewDao.selectReviewList(map);
+        List<ReviewAndLike> reviewList = reviewDao.selectReviewList(map);
 
+        System.out.println("/list map:"+map);
 
-
-        ModelAndView mv = new ModelAndView();
         mv.setViewName("community/community");
         mv.addObject("reviewList",reviewList);
 
@@ -63,17 +67,21 @@ public class ReviewController {
 
     //검색 버튼 클릭시
 @RequestMapping(value ={"", "/", "/list"}, method=RequestMethod.POST)
-public ModelAndView searchReviewList(@RequestParam String search_text){
+public ModelAndView searchReviewList(@RequestParam String search_text,HttpSession session){
 
+    ModelAndView mv = new ModelAndView();
+    
     //파라미터를 저장할 맵 생성+값(정렬타입,검색텍스트)
     Map map = new HashMap<String,String>();
     map.put("sortType","regDate");
     map.put("search_text",search_text);
+    map.put("id",memberService.getIdForSessionNotMoveIndex(mv,session));//세션에서 가져온 id map에 넣기
 
+    System.out.println("/list map:"+map);
     //리뷰 리스트 select
-    List<Review> reviewList = reviewDao.selectReviewList(map);
+    List<ReviewAndLike> reviewList = reviewDao.selectReviewList(map);
 
-    ModelAndView mv = new ModelAndView();
+    
     mv.setViewName("community/community");
     mv.addObject("reviewList",reviewList);
 
@@ -84,17 +92,19 @@ public ModelAndView searchReviewList(@RequestParam String search_text){
     @SneakyThrows
     @ResponseBody
     @RequestMapping("/listAjax")
-    public String listAjax(HttpServletRequest request,ModelAndView mv){
+    public String listAjax(HttpServletRequest request,ModelAndView mv,HttpSession session){
 
         String sortType = request.getParameter("sortType");
         String search_text = request.getParameter("search_text");
+
 
         //파라미터를 저장할 맵 생성+값(정렬타입,검색텍스트)
         Map map = new HashMap<String,String>();
         map.put("sortType",sortType);
         map.put("search_text",search_text);
+        map.put("id",memberService.getIdForSessionNotMoveIndex(mv,session));//세션에서 가져온 id map에 넣기
 
-        List<Review> reviewList = reviewDao.selectReviewList(map);
+        List<ReviewAndLike> reviewList = reviewDao.selectReviewList(map);
 
         //Jacson 라이브러리로 자바->json 변환
        ObjectMapper mapper = new ObjectMapper();
@@ -111,6 +121,12 @@ public ModelAndView searchReviewList(@RequestParam String search_text){
 
         ModelAndView mv = new ModelAndView();
 
+        //region checkLogin(세션에서 로그인한 아이디 가져와 설정+비로그인시 로그인 페이지로 이동(return: id or null))
+        String id = memberService.getIdForSessionOrMoveIndex(mv,session,response);
+        if(id==null)
+            return mv;
+        //endregion
+
         mv.setViewName("community/community_write");
         return mv;
     } //리뷰 작성폼 이동
@@ -120,10 +136,11 @@ public ModelAndView searchReviewList(@RequestParam String search_text){
 
         ModelAndView mv = new ModelAndView();
 
-        //세션에서 로그인한 아이디 가져와 설정(return: id or null)
+        //region checkLogin(세션에서 로그인한 아이디 가져와 설정+비로그인시 로그인 페이지로 이동(return: id or null))
         String id = memberService.getIdForSessionOrMoveIndex(mv,session,response);
         if(id==null)
             return mv;
+        //endregion
 
         //작성자 설정
         review.setId(id);
@@ -145,9 +162,15 @@ public ModelAndView searchReviewList(@RequestParam String search_text){
 
     //리뷰 수정 페이지로 이동
     @RequestMapping(value ="/modify", method=RequestMethod.GET)
-    public ModelAndView modifyForm(@RequestParam int reviewNo){
+    public ModelAndView modifyForm(@RequestParam int reviewNo,HttpSession session,HttpServletResponse response){
 
         ModelAndView mv = new ModelAndView();
+
+        //region checkLogin(세션에서 로그인한 아이디 가져와 설정+비로그인시 로그인 페이지로 이동(return: id or null))
+        String id = memberService.getIdForSessionOrMoveIndex(mv,session,response);
+        if(id==null)
+            return mv;
+        //endregion
 
         System.out.println("/modify(GET) reviewNo:"+reviewNo);
         Review review = reviewDao.selectReviewDetail(reviewNo);
@@ -163,10 +186,12 @@ public ModelAndView searchReviewList(@RequestParam String search_text){
         System.out.println("review/modify(POST)");
 
         ModelAndView mv = new ModelAndView();
-        //세션에서 로그인한 아이디 가져와 설정(return: id or null)
+
+        //region checkLogin(세션에서 로그인한 아이디 가져와 설정+비로그인시 로그인 페이지로 이동(return: id or null))
         String id = memberService.getIdForSessionOrMoveIndex(mv,session,response);
         if(id==null)
             return mv;
+        //endregion
 
         //작성자 설정
         review.setId(id);
@@ -174,6 +199,7 @@ public ModelAndView searchReviewList(@RequestParam String search_text){
         reviewService.setTitleImg(review);
 
         System.out.println("review:"+review);
+
         reviewDao.updateReview(review);
 
         mv.setViewName("redirect:/review");
@@ -185,10 +211,12 @@ public ModelAndView searchReviewList(@RequestParam String search_text){
     public ModelAndView deleteReview(@RequestParam int reviewNo,HttpSession session,HttpServletResponse response){
 
         ModelAndView mv = new ModelAndView();
-        //세션에서 로그인한 아이디 가져와 설정(return: id or null)
+
+        //region checkLogin(세션에서 로그인한 아이디 가져와 설정+비로그인시 로그인 페이지로 이동(return: id or null))
         String id = memberService.getIdForSessionOrMoveIndex(mv,session,response);
         if(id==null)
             return mv;
+        //endregion
 
 
         //리뷰 삭제
@@ -206,10 +234,12 @@ public ModelAndView searchReviewList(@RequestParam String search_text){
     public ModelAndView detailReview(@RequestParam int reviewNo,HttpSession session,HttpServletResponse response){
 
         ModelAndView mv = new ModelAndView();
-        //세션에서 로그인한 아이디 가져와 설정(return: id or null)
+
+        //region checkLogin(세션에서 로그인한 아이디 가져와 설정+비로그인시 로그인 페이지로 이동(return: id or null))
         String id = memberService.getIdForSessionOrMoveIndex(mv,session,response);
         if(id==null)
             return mv;
+        //endregion
 
         System.out.println("reviewNo:"+reviewNo);
 
@@ -217,7 +247,18 @@ public ModelAndView searchReviewList(@RequestParam String search_text){
         reviewDao.updateReadCount(reviewNo);
         //리뷰 선택
         Review review = reviewDao.selectReviewDetail(reviewNo);
+
+        //리뷰의 좋아요
+
+        //좋아요 bean 값 설정(아이디는 세션 로그인 아이디)
+        ReviewLike reviewLike = new ReviewLike();
+        reviewLike.setReviewNo(reviewNo);
+        reviewLike.setId(id);
+
+        int likeYn = reviewLikeDao.checkReviewLike(reviewLike);
+
         System.out.println("review:"+review);
+
 
         //해당 리뷰에 달린 댓글들
 
@@ -227,6 +268,7 @@ public ModelAndView searchReviewList(@RequestParam String search_text){
 
         mv.addObject("review",review);
         mv.addObject("replyList",replyList);
+        mv.addObject("likeYn",likeYn);
 
         mv.setViewName("community/community_detail");
         return mv;

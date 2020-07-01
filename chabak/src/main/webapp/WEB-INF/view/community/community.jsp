@@ -11,30 +11,37 @@
     <script type="text/javascript" src=" http://code.jquery.com/jquery-latest.min.js"></script>
     <script type="text/javascript" src="/js/reviewScript.js" charset='UTF-8'></script>
     <script>
+        function ajaxReviewLikeToggle(reviewNo,imgTag,sessionId){
 
-        // 별도의 js 파일로 빼면 작동 안 함 ㅠㅠ
-        function ajaxReviewLikeToggle(reviewNo){
+            if(sessionId == ""){
 
-            $.ajax({
-                url:"/reviewLike/toggleAjax",
-                type : "post",
-                data :{"reviewNo": reviewNo},
-                success : function(data) {
-                    if(data==1){
-                        alert("좋아요");
+                var confirmYn = confirm("로그인이 필요한 서비스입니다.로그인 하시겠습니까?") ;
+                if(confirmYn)
+                    location.href="/member/login";
+            }
+            else{
+
+                $.ajax({
+                    url:"/reviewLike/toggleAjax",
+                    type : "post",
+                    data :{"reviewNo": reviewNo},
+                    success : function(data) {
+                        if(data==1){
+                            $(imgTag).attr("src","/img/community/heart2.png");
+                        }
+                        else{
+                            $(imgTag).attr("src","/img/community/heart.png");
+                        }
+                    },
+                    error:function(error){
+                        alert(error)
+
                     }
-                    else{
-                        alert("안 좋아요.");
-                    }
-                },
-                error:function(error){
-                    // alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
-
-                }
-            });
-
-
+                });
+            }
         }
+
+
     </script>
 <body>
 <!-- header -->
@@ -56,7 +63,7 @@
         <div class="insert">
             <button type="submit" onclick="location.href='/review/writeForm'">글쓰기</button>
         </div>
-        <div class="sort" onchange="ajaxReviewList()">
+        <div class="sort" onchange="ajaxReviewList('<%=session.getAttribute("id")%>')">
             <select id="sortType" name="sortType">
                 <option value="regDate">최신 순</option>
                 <option value="likeCount">좋아요 순</option>
@@ -93,7 +100,7 @@
 
                 </div>
                 <div class="content-icon">
-                    <button class="like-img"><img id="like-img" src="/img/community/heart.png"
+                    <button class="like-img"><img class="toggle-like-img" src="/img/community/heart.png"
                                                   onclick=""></button>
                     <button class="comment-img"><img src="/img/community/comment.png"></button>
                 </div>
@@ -137,9 +144,18 @@
                             [${review.sido}][${review.gugun}] ${review.title}
                         </div>
                         <div class="content-icon">
-                            <button class="like-img"><img id="like-img${review.reviewNo}" src="/img/community/heart.png"
-                                                          onclick="ajaxReviewLikeToggle('${review.reviewNo}')"></button>
-                            <button class="comment-img"><img src="/img/community/comment.png" onclick="ajaxReviewLikeToggle('${review.reviewNo}')"></button>
+                            <c:choose>
+                                <c:when test="${sessionScope.id != null and review.likeYn==1}">
+                                    <button class="like-img"><img class="toggle-like-img" id="like-img${review.reviewNo}" src="/img/community/heart2.png"
+                                                                  onclick="ajaxReviewLikeToggle('${review.reviewNo}',this,'<%=session.getAttribute("id")%>')"></button>
+                                </c:when>
+                                <c:otherwise>
+                                    <button class="like-img"><img class="toggle-like-img" id="like-img${review.reviewNo}" src="/img/community/heart.png"
+                                                                  onclick="ajaxReviewLikeToggle('${review.reviewNo}',this,'<%=session.getAttribute("id")%>')"></button>
+                                </c:otherwise>
+                            </c:choose>
+
+                            <button class="comment-img"><img src="/img/community/comment.png" onclick=""></button>
                         </div>
                     </div>
 

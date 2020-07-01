@@ -48,7 +48,7 @@ public class ReplyController {
 
         replyDao.insertReply(reply);
         //리뷰 댓글 수 증가
-        reviewDao.updateReplyCount(reply.getReviewNo());
+        reviewDao.increaseReplyCount(reply.getReviewNo());
 
         //TODO:리다이렉트 시 조회수가 증가하므로 ajax로 변경을 고민 중...
         mv.setViewName("redirect:/review/detail?reviewNo="+reply.getReviewNo());
@@ -100,7 +100,7 @@ public class ReplyController {
         replyDao.insertReReply(reply);
 
         //리뷰 댓글 수 증가
-        reviewDao.updateReplyCount(reply.getReviewNo());
+        reviewDao.increaseReplyCount(reply.getReviewNo());
 
         //TODO:리다이렉트 시 조회수가 증가하므로 ajax로 변경을 고민 중...
 
@@ -165,7 +165,8 @@ public class ReplyController {
 
         //replyNo로 리플 삭제
         replyDao.deleteReplyWithReplyNo(replyNo);
-
+        //리뷰 댓글 수 증가
+        reviewDao.decreaseReplyCount(reply.getReviewNo());
 
 
 

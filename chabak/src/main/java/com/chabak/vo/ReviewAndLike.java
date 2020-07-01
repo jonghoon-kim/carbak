@@ -18,6 +18,6 @@ public class ReviewAndLike {
     private int replyCount;
     private Date regDate;
     private Date modifyDate;
-    private int likeYn;
+    private int likeYn; //1이면 이미 좋아요 누름,0 이면 아직 안 누름
 
 }

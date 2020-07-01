@@ -64,7 +64,7 @@ function checkLengthValidate(obj, maxByte) {
 
 
 // 리뷰 리스트를 ajax로 출력
-function ajaxReviewList() {
+function ajaxReviewList(sessionId) {
     $.ajax({
         url : "/review/listAjax",
         type : "post",
@@ -72,7 +72,10 @@ function ajaxReviewList() {
         data :{"sortType": $("#sortType option:selected").val(),//서버로 전송하는 데이터(정렬방식)
                "search_text":$(".search_text").val()   }, //검색창의 텍스트값
         success : function(data) {
-
+            
+            //받은 sessionId 값이 문자열이 아니므로(따옴표로 감싸이지 않았음) 따옴표 추가
+            sessionId = "'"+sessionId+"'";
+            
             var reviewListDiv = $("#reviewListDiv"); //리뷰가 추가되는 영역
             reviewListDiv.empty();  //리뷰 추가 영역 초기화
             
@@ -98,6 +101,25 @@ function ajaxReviewList() {
 
                 var title = newReview.find(".content-title");   //리뷰 타이틀
                 title.text('['+this["sido"]+']'+'['+this["gugun"]+']'+this["title"]);                      //리뷰 타이틀 설정 [sido][gugun][title]
+
+                //좋아요 토글될 이미지 선택
+                var toggleImage = newReview.find(".toggle-like-img");
+                //좋아요 토글될 이미지 id 설정
+                toggleImage.attr("id","like-img"+reviewNo);
+
+                //onclick 속성 추가(함수 실행)
+                toggleImage.attr("onclick","ajaxReviewLikeToggle('"+reviewNo+"',this,"+sessionId+")");
+
+                console.log(sessionId);
+
+                if(sessionId=="" || this["likeYn"]==0){
+
+                    toggleImage.attr("src","/img/community/heart.png");
+               }
+                else{
+                    toggleImage.attr("src","/img/community/heart2.png");
+                }
+
                 newReview.show();
                 reviewListDiv.append(newReview);
 
@@ -118,9 +140,9 @@ function cancelFunction(link) {
         location.href=link;
 
     }
-
-
 }
+
+
 // function beforeSearch(){
 //     $("#searchSortType").val($("#sortType option:selected").val());  //정렬 select의 값을 search 폼 hidden input에 집어넣기,검색시 새로고침되므로 일단 넣는건 보류
 // }

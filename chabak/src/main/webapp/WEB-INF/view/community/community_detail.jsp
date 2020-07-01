@@ -24,11 +24,6 @@
 
         });
 
-        function like() {
-            var img = document.getElementById("like-img");
-            img.src = "/img/community/heart2.png"
-
-        }
 
         function initializeForm() {
             //토글 영역 초기화
@@ -134,6 +129,35 @@
         }
 
 
+        function ajaxReviewLikeToggle(reviewNo,imgTag,sessionId){
+
+            if(sessionId == ""){
+
+                var confirmYn = confirm("로그인이 필요한 서비스입니다.로그인 하시겠습니까?") ;
+                if(confirmYn)
+                    location.href="/member/login";
+            }
+            else{
+
+                $.ajax({
+                    url:"/reviewLike/toggleAjax",
+                    type : "post",
+                    data :{"reviewNo": reviewNo},
+                    success : function(data) {
+                        if(data==1){
+                            $(imgTag).attr("src","/img/community/heart2.png");
+                        }
+                        else{
+                            $(imgTag).attr("src","/img/community/heart.png");
+                        }
+                    },
+                    error:function(error){
+                        alert(error)
+
+                    }
+                });
+            }
+        }
     </script>
 
 <body>
@@ -162,8 +186,17 @@
             </div>
             <div class="content-icon">
                 <span>${review.likeCount}+</span>
-                <button class="like-img"><img id="like-img" src="/img/community/heart.png"
-                                              onclick="like()"></button>
+                <button class="like-img">
+                    <c:choose>
+                        <c:if test="${sessionScope.id != null and likeYn==1}">
+                            <img id="like-img" src="/img/community/heart.png" onclick="ajaxReviewLikeToggle('${review.reviewNo}',this,'<%=session.getAttribute("id")%>')">
+                        </c:if>
+                        <c:otherwise>
+                            <img id="like-img" src="/img/community/heart.png" onclick="ajaxReviewLikeToggle('${review.reviewNo}',this,'<%=session.getAttribute("id")%>')">
+                        </c:otherwise>
+                    </c:choose>
+
+                </button>
             </div>
 
             <div class="dropdown">
