@@ -22,8 +22,10 @@ public class MyPageController {
     @Autowired
     MemberService memberService;
 
+    // main 화면에서 mypage 클릭 경로 이동
     @RequestMapping(value="/myInfo", method = RequestMethod.GET)
     public String myPageForm(){
+
         System.out.println("controller mypage");
         return "/mypage/myInformation";
     }
@@ -33,18 +35,15 @@ public class MyPageController {
     @RequestMapping(value={"", "/", "follower"}, method={RequestMethod.GET,RequestMethod.POST}) //
     public HashMap<String, List<Follow>> followerList(HttpServletRequest request, HttpSession session)throws Exception{ // return된 List<Follow> 데이터 형을 model에 넣
         String id = (String)session.getAttribute("id");
-
         System.out.println("follower controller---"+id);
 
         HashMap<String, List<Follow>> map  = new HashMap<>();
         List<Follow> list = followService.followerIdAndProfile(id);
         System.out.println(list);
 
-        //todo: 세션 아이디가 갖고 있는 데이터
         map.put("HashMapList", list); // key-value 추가
 
         System.out.println(list);
-        //getFollowerId.addObject("HashMapList", list); // addObject는 (key, value) 형태로 데이터 담아 보내는 매서드
         return map;
     }
 
@@ -53,16 +52,13 @@ public class MyPageController {
     @ResponseBody
     @RequestMapping(value={"", "/", "following"}, method={RequestMethod.GET,RequestMethod.POST}) //
     public HashMap<String, List<Follow>> followingList(HttpServletRequest request, HttpSession session)throws Exception{
-        //public HashMap<String, HashMap<String, List<Follow>>> followerProfile(HttpServletRequest request, HttpSession session)throws Exception{ // return된 List<Follow> 데이터 형을 model에 넣
         String id = (String)session.getAttribute("id");
-
         System.out.println("following controller -- "+id);
 
         HashMap<String, List<Follow>> map  = new HashMap<>();
         List<Follow> list = followService.followingIdAndProfile(id);
-
         System.out.println("following controller -- " +list);
-        //todo: 세션 아이디가 갖고 있는 데이터
+
         map.put("HashMapList", list);
 
         System.out.println(list);
@@ -74,26 +70,30 @@ public class MyPageController {
     // following 항목죽 삭제 버튼 이벤트 : unfollow controller
     @ResponseBody
     @RequestMapping(value={"", "/", "deleteFollowing"}, method={RequestMethod.GET,RequestMethod.POST}) //
-    public HashMap<String, List<Follow>> deleteFollowingUser(HttpServletRequest request, HttpSession session)throws Exception{
+    public HashMap<String, List<Follow>> deleteFollowingUser(HttpServletRequest request, HttpSession session, @RequestParam String followerId)throws Exception{
         String id = (String)session.getAttribute("id");
-        String e = "e";
+        String deleteFollowerId = followerId;
 
         System.out.println("following controller -- "+id);
-
-        System.out.println("test controller -- "+followService.deleteFollowingUser(id, e));
+        System.out.println("test controller -- "+followService.deleteFollowingUser(id, deleteFollowerId));
 
         HashMap<String, List<Follow>> map  = new HashMap<>();
         List<Follow> list = followService.followingIdAndProfile(id);
 
         System.out.println("following controller -- " +list);
-        //todo: 세션 아이디가 갖고 있는 데이터
         map.put("HashMapList", list);
 
         System.out.println(list);
-        //getFollowerId.addObject("HashMapList", list); // addObject는 (key, value) 형태로 데이터 담아 보내는 매서드
         return map;
     }
 
+    @RequestMapping(value={"", "/", "visitHome"}, method = {RequestMethod.GET, RequestMethod.POST})
+    public String visitUserHome(HttpServletRequest request, @RequestParam String visitUserId){
+        String UserId = visitUserId;
+        System.out.println(UserId);
 
+        System.out.println("controller visitPage");
+        return "/mypage/guestVisitHome";
+    }
 
 }

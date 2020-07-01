@@ -21,6 +21,9 @@
         profile = (String)session.getAttribute("profile");
     }
 %>
+<script>
+
+</script>
 <header>
     <!-- nav바 -->
     <div id="header_left_but">

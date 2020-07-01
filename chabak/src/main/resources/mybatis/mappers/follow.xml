@@ -25,7 +25,7 @@
 
     <delete id="deleteFollowingUser" parameterType="map">
         DELETE FROM follow
-        WHERE followingid=#{id} and followerid=#{e}
+        WHERE followingid=#{id} and followerid=#{followUserId}
     </delete>
 
     </mapper>

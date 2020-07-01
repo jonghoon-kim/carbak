@@ -1,114 +1,116 @@
-// 스크립트 파일
-// console.log(testOne);
+//follow 관련 매서드 파일
+includeFollowMethod("follow_method.js");
+
 
 //myInformation에서 팔로워를 click 했을 때 발생하는 event
 $(document).ready(function() {
     $("#follower").click(function () {
-        console.log();
             $.ajax({//controller로 보내는
                 type: "get",
                 datatype: "json",   // ex) {"name":"age":"address"} 와 같은 형식
                 url: "follower",
                 success : function(data) { // 가져온데이타
                     var HashMapList = data.HashMapList;
-                    console.log(data);
 
-                    $('.content_info').children().remove();
-                    $('.content_info').text(' ');
-                    for (var i = 0; i < HashMapList.length; i++) {
-                        console.log(HashMapList[i]);
-                        var row =  i+1+'<br>보여주는 ID : '+HashMapList[i].ID+'<br>보여주는 savename : '+HashMapList[i].SAVENAME+'<br>';
-                        $('.content_info').append("test : "+row);
+                    $('.listUl').empty();
+
+                    var length = HashMapList.length;
+                    // htmlframe 가져오는 매서드
+                    for (var i = 0; i < length; i++) { // 팔로워 프로필사진, 아이디 리스트로 출력
+                        console.log(i);
+
+                        var test = $('#selectPosition').clone(true);
+                        $('.listUl').append(test);
+
+                        // $('.listUl').append($('#selectPosition').html($(data).find('#selectPosition').html()));
+
+                        var userProfileImage = "/profileImages/" +HashMapList[i].SAVENAME;
+                        var followerId = HashMapList[i].ID;
+
+                        console.log(userProfileImage);
+                        console.log(followerId);
+
+                        $('#imageId').attr('id', "imageId"+i);
+                        $('#userIdId').attr('id', "userIdId"+i);
+                        $('#buttonId').attr('id', "buttonId"+i);
+                        $('#selectPosition').attr('id', "selectPosition"+i);
+
+                        $('#imageId'+i).attr('src', userProfileImage);
+                        $('#userIdId'+i).text(followerId);
+                        $('#buttonId'+i).text("삭제");
+
+                        test.show();
                     }
 
                     alert("follower");
 
                 }, error: function (data) {
-
+                    alert("error ---- #follower");
                 }
             })
     });
 })
 
 //myInformation에서 팔로잉을 click 했을 때 발생하는 event
-$(document).ready(function() {
+$(document).ready(function() { // todo: 1) sessionId와 게시판홈 주인 id와 비교 2-1)같으면 팔로잉 삭제기능 보이게 2-2)아니면 유저만 보이게
     $("#following").click(function () {
         $.ajax({// ajax가 controller로 보내는
             type: "get",
             datatype: "json",   // ex) {"name":"age":"address"} 와 같은 형식
             url: "following",
             success : function(data) { // ajax가 controller로 부터 받는
-                var test = data.HashMapList[0].ID;
-                console.log("test : "+ test);
+                var HashMapList = data.HashMapList;
 
-                var HashMapList = data.HashMapList; // data.HashMapList.ID == HashMapList.ID
-                console.log(data);
-                $('.content_info').children().remove();
-                $('.content_info').text(' ');
-                for (var i = 0; i < HashMapList.length; i++) {
-                    console.log(HashMapList[i]); // todo: delete button click -> btnDeleteFollowing event run
+                $('.listUl').empty();
 
-                    var row =  (i+1)+'<br><a href="#">profile : '+HashMapList[i].SAVENAME+'<br>id : '+HashMapList[i].ID+'</a>'
-                    + '<input type="button" value="삭제" id="btnDeleteFollowing"><br>';
-                    $('.content_info').append("test : "+row);
+                var length = HashMapList.length;
+                // htmlframe 가져오는 매서드
+                for (var i = 0; i < length; i++) { // 팔로워 프로필사진, 아이디 리스트로 출력
+                    console.log(i);
+
+                    var test = $('#selectPosition').clone(true);
+                    $('.listUl').append(test);
+
+                    // $('.listUl').append($('#selectPosition').html($(data).find('#selectPosition').html()));
+
+                    var userProfileImage = "/profileImages/" +HashMapList[i].SAVENAME;
+                    var followerId = "'"+HashMapList[i].ID+"'";
+
+                    console.log(userProfileImage);
+                    console.log(followerId);
+
+                    $('#imageId').attr('id', "imageId"+i);
+                    $('#userIdId').attr('id', "userIdId"+i);
+                    $('#buttonId').attr('id', "buttonId"+i);
+                    $('#buttonId').attr('onclick', "deleteFollowing("+followerId+")");
+                    $('#selectPosition').attr('id', "selectPosition"+i);
+
+                    $('#imageId'+i).attr('src', userProfileImage);
+                    $('#userIdId'+i).text(followerId);
+                    $('#buttonId'+i).text("삭제");
+
+                    test.show();
                 }
 
                 alert("following");
             }, error: function (data) {
-
+                alert("error ---- #following");
             }
         })
     });
 })
 
-$(document).ready(function () {
-    $("btnDeleteFollowing").click(function(){
-        var test = ;
-        console.log(test);
-        $.ajax({
-            type: "post",
-            datatype: "json",   // ex) {"name":"age":"address"} 와 같은 형식
-            url: "deleteFollowing",
-            data: {"deleteId" : test},
-            success : function (data) {
+//follow 관련 매서드 파일
+function includeFollowMethod(jsFilePath){
+    var js = document.createElement("script");
 
+    js.type = "text/javascript";
+    js.src = jsFilePath;
 
-                alert("delete test success");
+    document.body.appendChild(js);
+}
 
-        }
+function visitHomeClickEvent(data) {
+    return 0;
+}
 
-        })
-    })
-})
-
-//myInformation에서 팔로잉을 click 했을 때 발생하는 event
-// $(document).ready(function() {
-//     var deleteFollowUserId = test;
-//     $("#deleteFollow").click(function () {
-//         $.ajax({//받는
-//             type: "post",
-//             datatype: "json",   // ex) {"name":"age":"address"} 와 같은 형식
-//             url: "following",
-//             data: "deleteFollowUserId": deleteFollowUserId,
-//             success : function(data) { // 보내는
-//                 var test = data.HashMapList[0].ID;
-//                 console.log("test : "+ test);
-//
-//                 var HashMapList = data.HashMapList;
-//                 console.log(data);
-//                 $('.content_info').children().remove();
-//                 $('.content_info').text(' ');
-//                 for (var i = 0; i < HashMapList.length; i++) {
-//                     console.log(HashMapList[i]);
-//                     var row =  i+1+'<br><a href="#">보여주는 ID : '+HashMapList[i].ID+'<br>보여주는 savename : '+HashMapList[i].SAVENAME+'</a>'
-//                         + '<button onclick="test(HashMapList[i].ID)"></button><br>';
-//                     $('.content_info').append("test : "+row);
-//                 }
-//
-//                 alert("good");
-//             }, error: function (data) {
-//
-//             }
-//         })
-//     });
-// })
