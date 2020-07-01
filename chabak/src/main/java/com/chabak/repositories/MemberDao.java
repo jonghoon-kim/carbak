@@ -3,17 +3,9 @@ package com.chabak.repositories;
 import com.chabak.vo.Member;
 
 
-import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.session.SqlSession;
-import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
-import org.springframework.stereotype.Service;
-
-import javax.servlet.http.HttpServletResponse;
-import javax.swing.plaf.metal.MetalMenuBarUI;
-import java.util.HashMap;
-import java.util.Map;
 
 @Repository("memberDao")
 public class MemberDao {
@@ -42,8 +34,12 @@ public class MemberDao {
     }
 
     /* 아이디 찾기 */
-    public Member id_find(String email) {
+    public Member find(String email) {
 
-        return sqlSession.selectOne("member.id_find", email);
+        return sqlSession.selectOne("member.find", email);
+    }
+    /* 비밀번호 변경 */
+    public int pw_update(String password) {
+        return sqlSession.update("member.pw_update", password);
     }
 }
