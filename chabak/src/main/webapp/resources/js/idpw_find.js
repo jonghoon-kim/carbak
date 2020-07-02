@@ -14,7 +14,6 @@ function emailCheck() {
                 emailChk = true;
             } else if( data== 0 ){
                 alert("가입되지않은 이메일입니다.");
-                emailChk = false;
             }
         }
     });  // ajax 끝
@@ -23,13 +22,19 @@ function emailCheck() {
 function checkValue() {
     var name = document.getElementById("id_name").value;
     var email = document.getElementById("id_email").value;
-    console.log("----console");
 
-    console.log(name);
-    console.log(email);
+    console.log(emailChk);
 
     if(!name) {
         alert("이름을 입력해 주세요.");
+        return false;
+    }
+    if(!email) {
+        alert("이메일을 입력하고 인증해주세요.");
+        return false;
+    }
+    if(emailChk == false){
+        alert("이메일 인증을 해주세요.");
         return false;
     }
     $.ajax({
@@ -57,6 +62,7 @@ function checkValue2() {
     var email = document.getElementById("pw_email").value;
 
     console.log("----console");
+    console.log(emailChk);
 
     if(!id) {
         alert("아이디를 입력해 주세요.");
@@ -68,15 +74,14 @@ function checkValue2() {
         return false;
     }
     if(!email) {
-        alert("이메일을 입력해 주세요.");
+        alert("이메일을 입력하고 인증해주세요.");
         return false;
     }
 
-
-/*    if(emailChk == false){
+    if(emailChk == false){
         alert("이메일 인증을 해주세요.");
         return false;
-    }*/
+    }
 
     $.ajax({
         url : "pwFindFlag",
@@ -90,7 +95,7 @@ function checkValue2() {
         success : function(data) {
             var result = data.id;
 
-            console.log("result : " + result);
+            //console.log("result : " + result);
 
             document.getElementById("parentEmail").value = email;
             window.open("pwUpdate", "pwUpdate", 'top=200, left=500, width=450, height=350, scrollbars = yes, resizable=yes');
