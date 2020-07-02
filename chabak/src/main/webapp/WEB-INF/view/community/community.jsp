@@ -19,6 +19,7 @@
 
         //ajax 사용 후 페이지 이동 후 뒤로가기로 돌아왔을 때 변경내용(db)가 화면에 반영 안 되는 것을 고치기(뒤로 가기시 다시 페이지 로드)
         window.onpageshow = function(event) {
+
          if ( event.persisted || (window.performance && window.performance.navigation.type === 2)) {
             // Back Forward Cache로 브라우저가 로딩될 경우 혹은 브라우저 뒤로가기 했을 경우
              console.log("back");
@@ -70,18 +71,18 @@
         <h1>커뮤니티</h1>
     </div>
     <div class="search">
-       <form action="/review" method="POST" <%--onsubmit="beforeSearch()" --%> >
-        <input type="text" class="search_text" placeholder=" 지역 검색" name="search_text">
-<%--        <input type="hidden" name="sortType" id="searchSortType"> 검색시 새로고침되므로 일단 보류--%>
-        <button type="submit" class="search_but"></button>
-       </form>
+
+        <input type="text" class="search_text" placeholder=" 지역 검색" name="search_text" id="search_text">
+<%--        검색버튼 눌렀을 때 검색어 저장 input--%>
+        <input type="hidden" name="search_text_saved" id="search_text_saved">
+        <button type="button" class="search_but" onclick="ajaxReviewList('${sessionScope.id}',true)"></button>
     </div>
     <!-- 글쓰기, 정렬 버튼 -->
     <div class="second">
         <div class="insert">
             <button type="submit" onclick="location.href='/review/writeForm'">글쓰기</button>
         </div>
-        <div class="sort" onchange="ajaxReviewList('${sessionScope.id}')">
+        <div class="sort" onchange="ajaxReviewList('${sessionScope.id}',false)">
             <select id="sortType" name="sortType">
                 <option value="regDate">최신 순</option>
                 <option value="likeCount">좋아요 순</option>

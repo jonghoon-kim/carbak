@@ -65,30 +65,6 @@ public class ReviewController {
         return mv;
     } //리뷰 리스트 출력
 
-    //검색 버튼 클릭시
-@RequestMapping(value ={"", "/", "/list"}, method=RequestMethod.POST)
-public ModelAndView searchReviewList(@RequestParam String search_text,HttpSession session){
-
-    ModelAndView mv = new ModelAndView();
-    
-    //파라미터를 저장할 맵 생성+값(정렬타입,검색텍스트)
-    Map map = new HashMap<String,String>();
-    map.put("sortType","regDate");
-    map.put("search_text",search_text);
-    map.put("id",memberService.getIdForSessionNotMoveIndex(mv,session));//세션에서 가져온 id map에 넣기
-
-    System.out.println("/list map:"+map);
-    //리뷰 리스트 select
-    List<ReviewAndLike> reviewList = reviewDao.selectReviewList(map);
-
-    
-    mv.setViewName("community/community");
-    mv.addObject("reviewList",reviewList);
-
-    System.out.println("(/review/list)reviewList:"+reviewList);
-    return mv;
-} //리뷰 리스트 출력
-
     @SneakyThrows
     @ResponseBody
     @RequestMapping("/listAjax")

@@ -276,12 +276,12 @@
                 <button class="dropbtn"><img class="dropbtn" src="/img/community/menu.png"
                                              onclick="myFunction('reply',${list.replyNo})"></button>
                 <div class="dropdown-content" id="myDropdown${list.replyNo}">
-                    session:${sessionScope.id}writerId:${list.id}
+
                 <c:if test="${sessionScope.id != null and sessionScope.id !='' and sessionScope.id == list.id}">
                     <a onclick="createModifyReplyForm(${list.replyNo})">수정하기</a>
                     <a onclick="checkChildReplyAjax(${list.replyNo})">삭제하기</a>
                 </c:if>
-                    <a onclick="createReReplyBox(${list.replyNo},${sessionScope.id})">댓글달기</a>
+                    <a onclick="createReReplyBox(${list.replyNo},'${sessionScope.id}')">댓글달기</a>
 
                 </div>
             </div>
@@ -354,12 +354,12 @@
                     <button class="dropbtn"><img class="dropbtn" src="/img/community/menu.png"
                                                  onclick="myFunction('reply',${relist.replyNo})"></button>
                     <div class="dropdown-content" id="myDropdown${relist.replyNo}">
-                        session:${sessionScope.id}writerId:${relist.id}
+
                         <c:if test="${sessionScope.id != null and sessionScope.id !='' and sessionScope.id == relist.id}">
                         <a onclick="createModifyReplyForm(${relist.replyNo})">수정하기</a>
                         <a onclick="checkChildReplyAjax(${relist.replyNo})">삭제하기</a>
                 </c:if>
-                        <a onclick="createReReplyBox(${relist.replyNo},${sessionScope.id})">댓글달기</a>
+                        <a onclick="createReReplyBox(${relist.replyNo},'${sessionScope.id}')">댓글달기</a>
 
                     </div>
                 </div>

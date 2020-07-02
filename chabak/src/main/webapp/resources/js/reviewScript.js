@@ -64,13 +64,24 @@ function checkLengthValidate(obj, maxByte) {
 
 
 // 리뷰 리스트를 ajax로 출력
-function ajaxReviewList(sessionId) {
+function ajaxReviewList(sessionId,isSearchButton) {
+
+    var searchText = $("#search_text").val();
+    //검색 버튼 누른 경우
+    if(isSearchButton==true){
+        $("#search_text_saved").val(searchText);
+    }
+    else{
+        //검색 버튼 안 누른 경우(검색 초기화상태에서 select onchange)
+        searchText = $("#search_text_saved").val();
+        $("#search_text").val(searchText);
+    }
     $.ajax({
         url : "/review/listAjax",
         type : "post",
         dataType:'json',
         data :{"sortType": $("#sortType option:selected").val(),//서버로 전송하는 데이터(정렬방식)
-               "search_text":$(".search_text").val()   }, //검색창의 텍스트값
+               "search_text": searchText   }, //검색창의 텍스트값
         success : function(data) {
             
             //받은 sessionId 값이 문자열이 아니므로(따옴표로 감싸이지 않았음) 따옴표 추가
