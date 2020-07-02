@@ -58,6 +58,7 @@ public class ReviewLikeController {
         reviewLike.setId(id);
         reviewLike.setReviewNo(reviewNo);
 
+        System.out.println("ReviewLikeController /toggleAjax reviewLike:"+reviewLike);
         //select 결과 저장용 bean
 
         int resultLikeStatus = reviewLikeService.toggleReviewLike(reviewLike);

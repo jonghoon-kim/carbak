@@ -9,7 +9,7 @@
 	<!-- 댓글  -->
 
 	<select id="checkReviewLike" parameterType="ReviewLike" resultType="int">
-		SELECT nvl2(reviewNo,1,0) FROM ReviewLike
+		SELECT count(reviewNo) FROM ReviewLike
 		WHERE reviewNo = #{reviewNo}
 		and id = #{id}
 	</select>

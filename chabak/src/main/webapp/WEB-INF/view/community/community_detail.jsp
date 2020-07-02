@@ -18,9 +18,18 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
     <script type="text/javascript" src=" http://code.jquery.com/jquery-latest.min.js"></script>
     <script type="text/javascript">
+        //로그인 아이디 저장 변수
 
         $(document).ready(function () {
+
             initializeForm();
+
+        });
+        $(window).bind("pageshow", function(event) {
+            if ( event.originalEvent && event.originalEvent.persisted) {// BFCahe
+                console.log("back");
+                window.location.reload();
+            }else{}//새로운페이지
 
         });
 
@@ -114,11 +123,16 @@
         }
 
         //대댓글 입력 폼 보이게
-        function createReReplyBox(replyNo) {
+        function createReReplyBox(replyNo,sessionId) {
+            if(sessionId !=null && sessionId!=""){
+                initializeForm();
 
-            initializeForm();
+                $("#re-reply-input" + replyNo).css('display', 'block');
+            }
+            else{
+                askLogin();
+            }
 
-            $("#re-reply-input" + replyNo).css('display', 'block');
 
         }
 
@@ -128,14 +142,18 @@
 
         }
 
+        //로그인 할지 물어보고 ok이면 로그인 페이지로 이동
+        function askLogin(){
+            var confirmYn = confirm("로그인이 필요한 서비스입니다.로그인 하시겠습니까?") ;
+            if(confirmYn)
+                location.href="/member/login";
+        }
 
         function ajaxReviewLikeToggle(reviewNo,imgTag,sessionId){
 
-            if(sessionId == ""){
+            if(sessionId == "" || sessionId==null){
 
-                var confirmYn = confirm("로그인이 필요한 서비스입니다.로그인 하시겠습니까?") ;
-                if(confirmYn)
-                    location.href="/member/login";
+                askLogin();
             }
             else{
 
@@ -187,13 +205,15 @@
             <div class="content-icon">
                 <span>${review.likeCount}+</span>
                 <button class="like-img">
+
                     <c:choose>
-                        <c:if test="${sessionScope.id != null and likeYn==1}">
-                            <img id="like-img" src="/img/community/heart.png" onclick="ajaxReviewLikeToggle('${review.reviewNo}',this,'<%=session.getAttribute("id")%>')">
-                        </c:if>
+                        <c:when test="${sessionScope.id != null and likeYn==1}">
+                            <img id="like-img" src="/img/community/heart2.png" onclick="ajaxReviewLikeToggle('${review.reviewNo}',this,'${sessionScope.id}')">
+                        </c:when>
                         <c:otherwise>
-                            <img id="like-img" src="/img/community/heart.png" onclick="ajaxReviewLikeToggle('${review.reviewNo}',this,'<%=session.getAttribute("id")%>')">
+                            <img id="like-img" src="/img/community/heart.png" onclick="ajaxReviewLikeToggle('${review.reviewNo}',this,'${sessionScope.id}')">
                         </c:otherwise>
+
                     </c:choose>
 
                 </button>
@@ -261,7 +281,7 @@
                     <a onclick="createModifyReplyForm(${list.replyNo})">수정하기</a>
                     <a onclick="checkChildReplyAjax(${list.replyNo})">삭제하기</a>
                 </c:if>
-                    <a onclick="createReReplyBox(${list.replyNo})">댓글달기</a>
+                    <a onclick="createReReplyBox(${list.replyNo},${sessionScope.id})">댓글달기</a>
 
                 </div>
             </div>
@@ -339,7 +359,7 @@
                         <a onclick="createModifyReplyForm(${relist.replyNo})">수정하기</a>
                         <a onclick="checkChildReplyAjax(${relist.replyNo})">삭제하기</a>
                 </c:if>
-                        <a onclick="createReReplyBox(${relist.replyNo})">댓글달기</a>
+                        <a onclick="createReReplyBox(${relist.replyNo},${sessionScope.id})">댓글달기</a>
 
                     </div>
                 </div>

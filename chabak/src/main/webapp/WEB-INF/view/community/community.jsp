@@ -6,14 +6,32 @@
 <head>
     <meta charset="UTF-8">
     <title>슬기로운 차박생활</title>
+    <meta http-equiv="Cache-Control" content="no-cache"/>
+    <meta http-equiv="Expires" content="0"/>
+    <meta http-equiv="Pragma" content="no-cache"/>
+
+
     <link href="/css/community.css" rel="stylesheet">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
     <script type="text/javascript" src=" http://code.jquery.com/jquery-latest.min.js"></script>
     <script type="text/javascript" src="/js/reviewScript.js" charset='UTF-8'></script>
     <script>
+
+        //ajax 사용 후 페이지 이동 후 뒤로가기로 돌아왔을 때 변경내용(db)가 화면에 반영 안 되는 것을 고치기(뒤로 가기시 다시 페이지 로드)
+        window.onpageshow = function(event) {
+         if ( event.persisted || (window.performance && window.performance.navigation.type === 2)) {
+            // Back Forward Cache로 브라우저가 로딩될 경우 혹은 브라우저 뒤로가기 했을 경우
+             console.log("back");
+             window.location.reload();
+            }
+        }
+
+
+
+
         function ajaxReviewLikeToggle(reviewNo,imgTag,sessionId){
 
-            if(sessionId == ""){
+            if(sessionId == "" || sessionId==null){
 
                 var confirmYn = confirm("로그인이 필요한 서비스입니다.로그인 하시겠습니까?") ;
                 if(confirmYn)
@@ -63,7 +81,7 @@
         <div class="insert">
             <button type="submit" onclick="location.href='/review/writeForm'">글쓰기</button>
         </div>
-        <div class="sort" onchange="ajaxReviewList('<%=session.getAttribute("id")%>')">
+        <div class="sort" onchange="ajaxReviewList('${sessionScope.id}')">
             <select id="sortType" name="sortType">
                 <option value="regDate">최신 순</option>
                 <option value="likeCount">좋아요 순</option>
@@ -136,6 +154,7 @@
 
                         <img src="${review.titleImageSrc}"
                              onclick="location.href='/review/detail?reviewNo=${review.reviewNo}'">
+
                     </div>
                     <div class="review-content">
                         <div class="content-title">
@@ -147,11 +166,11 @@
                             <c:choose>
                                 <c:when test="${sessionScope.id != null and review.likeYn==1}">
                                     <button class="like-img"><img class="toggle-like-img" id="like-img${review.reviewNo}" src="/img/community/heart2.png"
-                                                                  onclick="ajaxReviewLikeToggle('${review.reviewNo}',this,'<%=session.getAttribute("id")%>')"></button>
+                                                                  onclick="ajaxReviewLikeToggle('${review.reviewNo}',this,'${sessionScope.id}')"></button>
                                 </c:when>
                                 <c:otherwise>
                                     <button class="like-img"><img class="toggle-like-img" id="like-img${review.reviewNo}" src="/img/community/heart.png"
-                                                                  onclick="ajaxReviewLikeToggle('${review.reviewNo}',this,'<%=session.getAttribute("id")%>')"></button>
+                                                                  onclick="ajaxReviewLikeToggle('${review.reviewNo}',this,'${sessionScope.id}')"></button>
                                 </c:otherwise>
                             </c:choose>
 

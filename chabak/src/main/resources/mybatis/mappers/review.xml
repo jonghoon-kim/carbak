@@ -35,14 +35,15 @@
 		       nvl2(l.reviewNo,1,0) as likeYn
 		from Review r,ReviewLike l
 		where r.reviewNo = l.reviewNo(+)
-		<if test="id != null and id != ''">
-		and #{id} = l.id(+)
-		</if>
 
-<!-- 		id==null 일 경우 제대로 해당 쿼리가 실행되지 않아서 스크립트로 쿼리 실행을 차단
-                <if test="id == null and id == ''">-->
-<!--		and null = l.id(+)-->
-<!--		</if>-->
+		<choose>
+			<when test="id != null and id != ''">
+				and #{id} = l.id(+)
+			</when>
+			<otherwise>
+				and l.id(+) is null
+			</otherwise>
+		</choose>
 
 		<if test="search_text !=null and search_text !=''">
 			and sido||' '||gugun LIKE '%'||#{search_text}||'%'

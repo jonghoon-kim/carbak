@@ -236,9 +236,8 @@ public ModelAndView searchReviewList(@RequestParam String search_text,HttpSessio
         ModelAndView mv = new ModelAndView();
 
         //region checkLogin(세션에서 로그인한 아이디 가져와 설정+비로그인시 로그인 페이지로 이동(return: id or null))
-        String id = memberService.getIdForSessionOrMoveIndex(mv,session,response);
-        if(id==null)
-            return mv;
+        String id = memberService.getIdForSessionNotMoveIndex(mv,session);
+
         //endregion
 
         System.out.println("reviewNo:"+reviewNo);
@@ -250,12 +249,23 @@ public ModelAndView searchReviewList(@RequestParam String search_text,HttpSessio
 
         //리뷰의 좋아요
 
-        //좋아요 bean 값 설정(아이디는 세션 로그인 아이디)
-        ReviewLike reviewLike = new ReviewLike();
-        reviewLike.setReviewNo(reviewNo);
-        reviewLike.setId(id);
+        //로그인시
+        if(id !=null){
+            System.out.println("reviewDetail(비로그인)");
 
-        int likeYn = reviewLikeDao.checkReviewLike(reviewLike);
+            //좋아요 bean 값 설정(아이디는 세션 로그인 아이디)
+            ReviewLike reviewLike = new ReviewLike();
+            reviewLike.setReviewNo(reviewNo);
+            reviewLike.setId(id);
+
+            //로그인시 사용자의 좋아요 누름 여부(1/0) check
+            int likeYn = reviewLikeDao.checkReviewLike(reviewLike);
+            System.out.println("likeYn:"+likeYn);
+
+            //로그인시 사용자의 좋아요 누름 여부(1/0)
+            mv.addObject("likeYn",likeYn);
+        }
+
 
         System.out.println("review:"+review);
 
@@ -266,9 +276,11 @@ public ModelAndView searchReviewList(@RequestParam String search_text,HttpSessio
 
         System.out.println("replyList:"+replyList);
 
+
+
         mv.addObject("review",review);
         mv.addObject("replyList",replyList);
-        mv.addObject("likeYn",likeYn);
+
 
         mv.setViewName("community/community_detail");
         return mv;

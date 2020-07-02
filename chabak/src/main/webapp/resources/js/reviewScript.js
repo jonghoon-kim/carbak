@@ -112,7 +112,7 @@ function ajaxReviewList(sessionId) {
 
                 console.log(sessionId);
 
-                if(sessionId=="" || this["likeYn"]==0){
+                if(sessionId=="" || sessionId==null || this["likeYn"]==0){
 
                     toggleImage.attr("src","/img/community/heart.png");
                }
