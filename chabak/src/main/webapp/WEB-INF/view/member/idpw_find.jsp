@@ -32,6 +32,7 @@
 <div id="header">
     <jsp:include page="/header"/>
 </div>
+
 <hr class="top_hr"><br><br>
 <div class="container">
     <div class="top">
@@ -45,26 +46,32 @@
             <li class="tab-link" data-tab="tab-2">비밀번호 찾기</li>
         </ul>
         <div id="tab-1" class="tab-content current">
-            <form method="post" >
             <div class="content-input">
-                <input type="text" name="name" id="name" placeholder="이름"><BR><BR>
+                <!-- 아이디와 이름 값을 팝업(idFind)로 보내기 위한 hidden -->
+                <input type="hidden" id="parentId">
+                <input type="hidden" id="parentName">
+                <input type="text" name="name" id="id_name" placeholder="이름"><BR><BR>
                 <div class="in-line">
-                    <input type="email" name="email" id="email" placeholder="이메일">
+                    <input type="email" name="email" id="id_email" placeholder="이메일">
+                    <input type="button" onclick="return emailCheck()" value="인증">
                 </div>
             </div>
-            <button class="find" type="submit" onclick="return idpw_find()"><span>아이디 찾기</span></button> <BR>
-            </form>
+            <button class="find" onclick="checkValue()"><span>아이디 찾기</span></button> <BR>
         </div>
         <div id="tab-2" class="tab-content">
+
             <div class="content-input">
-                <input type="text" id="id" placeholder="아이디"> <BR><BR>
-                <input type="text" name="name" placeholder="이름"> <BR><BR>
+                <input type="text" name="id" id="pw_id" placeholder="아이디"> <BR><BR>
+                <input type="text"
+                       name="name" id="pw_name" placeholder="이름"> <BR><BR>
                 <div class="in-line">
-                    <input type="email" placeholder="이메일">
-                    <input type="button" value="인증"></button>
+                    <input type="hidden" id="parentEmail">
+                    <input type="email" name="email" id="pw_email" placeholder="이메일">
+                    <input type="button" onclick="return emailCheck()" value="인증"></button>
                 </div>
             </div>
-            <button type="submit" class="find"><span>비밀번호 찾기</span></button> <BR>
+            <button class="find" onclick="checkValue2()"><span>비밀번호 찾기</span></button> <BR>
+
         </div>
     </div>
 

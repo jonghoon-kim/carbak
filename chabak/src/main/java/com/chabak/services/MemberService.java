@@ -63,22 +63,49 @@ public class MemberService {
         }
     }
 
-    /* 아이디 찾기 -> 입력한 이름과 이메일 비교하여 맞는지 확인 */
-    public boolean id_find_flag (Member member) {
-        Member dbMember = memberDao.id_find(member.getName());
-        System.out.println("service"+dbMember.toString());
+    /* 아이디 찾기 - 이메일 아이디 확인 */
+    public boolean idFindFlag(Member member){
+        // member : 입력값
+        // dbMember : db에 있는 값
+        Member dbMember = memberDao.find(member.getEmail());
+       // System.out.println(memberDao.id_find(member.getEmail()));
 
         if(dbMember != null) {
-            if(dbMember.getEmail().contentEquals(member.getEmail())) {
+            if(dbMember.getName().contentEquals(member.getName())) {
                 return true;
-            } else {
+            }else {
                 return false;
             }
         } else {
             return false;
         }
     }
-     public Member id_find(String email) {
-        return memberDao.id_find(email);
+
+    /* 아이디 찾기 */
+    public Member find(String email) {
+        return memberDao.find(email);
+    }
+
+    /* 비밀번호 찾기 - 이메일 아이디 비밀번호 확인 */
+    public boolean pwFindFlag(Member member){
+        // member : 입력값
+        // dbMember : db에 있는 값
+        Member dbMember = memberDao.find(member.getEmail());
+
+        HttpServletResponse response;
+
+        if(dbMember != null) {
+            if(dbMember.getName().contentEquals(member.getName()) && dbMember.getId().contentEquals(member.getId())) {
+                return true;
+            } else{
+                return false;
+            }
+        } else {
+            return false;
+        }
+    }
+    /* 비밀번호 변경 */
+    public int pw_update(String password) {
+        return memberDao.pw_update(password);
     }
 }

@@ -36,9 +36,14 @@
 		WHERE id = #{id}
 	</select>
 
-	<select id="id_find" parameterType="Member" resultType="Member">
-		SELECT *
+	<select id="find" resultType="Member">
+		SELECT id, password, name
 		FROM Member
 		WHERE email = #{email}
 	</select>
+
+	<update id="pw_update" parameterType="Member">
+		UPDATE Member
+		SET password= #{password}
+	</update>
 	</mapper>

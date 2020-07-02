@@ -42,4 +42,7 @@ public class WelcomeController {
     public String header() {
         return "header";
     }
+
+    @RequestMapping("/footer")
+    public String footer() {return "footer";}
 }
