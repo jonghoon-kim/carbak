@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.PrintWriter;
+import java.util.Map;
 
 @Service
 public class MemberService {
@@ -60,5 +61,24 @@ public class MemberService {
         } else {
             return false;
         }
+    }
+
+    /* 아이디 찾기 -> 입력한 이름과 이메일 비교하여 맞는지 확인 */
+    public boolean id_find_flag (Member member) {
+        Member dbMember = memberDao.id_find(member.getName());
+        System.out.println("service"+dbMember.toString());
+
+        if(dbMember != null) {
+            if(dbMember.getEmail().contentEquals(member.getEmail())) {
+                return true;
+            } else {
+                return false;
+            }
+        } else {
+            return false;
+        }
+    }
+     public Member id_find(String email) {
+        return memberDao.id_find(email);
     }
 }
