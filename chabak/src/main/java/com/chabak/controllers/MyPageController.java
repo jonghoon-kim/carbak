@@ -67,15 +67,15 @@ public class MyPageController {
     }
 
 
-    // following 항목죽 삭제 버튼 이벤트 : unfollow controller
+    //unfollow 버튼 이벤트 : unfollow controller
     @ResponseBody
-    @RequestMapping(value={"", "/", "deleteFollowing"}, method={RequestMethod.GET,RequestMethod.POST}) //
-    public HashMap<String, List<Follow>> deleteFollowingUser(HttpServletRequest request, HttpSession session, @RequestParam String followerId)throws Exception{
+    @RequestMapping(value={"", "/", "deleteFollowUser"}, method={RequestMethod.GET,RequestMethod.POST}) //
+    public HashMap<String, List<Follow>> deleteFollowUser(HttpServletRequest request, HttpSession session, @RequestParam String followUserId)throws Exception{
         String id = (String)session.getAttribute("id");
-        String deleteFollowerId = followerId;
+        String deleteFollowUserId = followUserId;
 
         System.out.println("following controller -- "+id);
-        System.out.println("test controller -- "+followService.deleteFollowingUser(id, deleteFollowerId));
+        System.out.println("test controller -- "+followService.deleteFollowUser(id, deleteFollowUserId));
 
         HashMap<String, List<Follow>> map  = new HashMap<>();
         List<Follow> list = followService.followingIdAndProfile(id);
@@ -87,6 +87,27 @@ public class MyPageController {
         return map;
     }
 
+    // following 버튼 이벤트 : following controller
+    @ResponseBody
+    @RequestMapping(value={"", "/", "followAddUser"}, method={RequestMethod.GET,RequestMethod.POST}) //
+    public HashMap<String, List<Follow>> followAddUser(HttpServletRequest request, HttpSession session, @RequestParam String followId)throws Exception{
+        String id = (String)session.getAttribute("id");
+        String followAddUser = followId;
+
+        System.out.println("following controller -- "+id);
+        System.out.println("test controller -- "+followService.followAddUser(id, followAddUser));
+
+        HashMap<String, List<Follow>> map  = new HashMap<>();
+        List<Follow> list = followService.followingIdAndProfile(id); // todo: followerIdAnd~~??
+
+        System.out.println("following controller -- " +list);
+        map.put("HashMapList", list);
+
+        System.out.println(list);
+        return map;
+    }
+
+    //todo: 방문객이 홈에 들어올 경우 보여지는 화면
     @RequestMapping(value={"", "/", "visitHome"}, method = {RequestMethod.GET, RequestMethod.POST})
     public String visitUserHome(HttpServletRequest request, @RequestParam String visitUserId){
         String UserId = visitUserId;

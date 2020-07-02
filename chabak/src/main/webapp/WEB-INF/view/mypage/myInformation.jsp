@@ -83,7 +83,7 @@
 
     <div class="listForm" > <!-- follower, following 리스트 출력 -->
         <ul class="listUl" id="selectedPosition">
-          tetststs
+          test
         </ul>
     </div>
 

@@ -1,4 +1,4 @@
-<li class="userListAll" id="selectPosition" style="display: none;">
+<li class="userListAll" id="selectPosition"> <!-- error 날 경우 : style="display: none" -->
     <div class="U_Img_Id_follow">
         <div class="U_Img_Id">
             <div class="U_Img">
@@ -10,7 +10,7 @@
             </div>
         </div>
         <div class ="followSelector">
-            <button class="selectFollowUser" onclick=" " id="buttonId"><!-- get Info from DB --></button>
+            <button class="selectFollowUser" id="buttonId" onclick=" "><!-- get Info from DB --></button>
         </div>
     </div>
 </li>

@@ -1,7 +1,6 @@
 //follow 관련 매서드 파일
 includeFollowMethod("follow_method.js");
 
-
 //myInformation에서 팔로워를 click 했을 때 발생하는 event
 $(document).ready(function() {
     $("#follower").click(function () {
@@ -13,22 +12,17 @@ $(document).ready(function() {
                     var HashMapList = data.HashMapList;
 
                     $('.listUl').empty();
-
-                    var length = HashMapList.length;
-                    // htmlframe 가져오는 매서드
-                    for (var i = 0; i < length; i++) { // 팔로워 프로필사진, 아이디 리스트로 출력
+                    // HTMLframe 가져오는 매서드
+                    for (var i = 0; i < HashMapList.length; i++) { // 팔로워 프로필사진, 아이디 리스트로 출력
                         console.log(i);
 
-                        var test = $('#selectPosition').clone(true);
-                        $('.listUl').append(test);
+                        var htmlFrame = $('#selectPosition').clone(true);
+                        $('.listUl').append(htmlFrame);
 
-                        // $('.listUl').append($('#selectPosition').html($(data).find('#selectPosition').html()));
+                        // $('.listUl').append($('#selectPosition').html($(data).find('#selectPosition').html())); 1개만 추가할 때
 
                         var userProfileImage = "/profileImages/" +HashMapList[i].SAVENAME;
-                        var followerId = HashMapList[i].ID;
-
-                        console.log(userProfileImage);
-                        console.log(followerId);
+                        var userId = HashMapList[i].ID;
 
                         $('#imageId').attr('id', "imageId"+i);
                         $('#userIdId').attr('id', "userIdId"+i);
@@ -36,10 +30,10 @@ $(document).ready(function() {
                         $('#selectPosition').attr('id', "selectPosition"+i);
 
                         $('#imageId'+i).attr('src', userProfileImage);
-                        $('#userIdId'+i).text(followerId);
+                        $('#userIdId'+i).text(userId);
                         $('#buttonId'+i).text("삭제");
 
-                        test.show();
+                        //htmlFrame.show(); 에러날 경우 frame에서 display 속성 변경후 주석 풀기
                     }
 
                     alert("follower");
@@ -62,37 +56,29 @@ $(document).ready(function() { // todo: 1) sessionId와 게시판홈 주인 id�
                 var HashMapList = data.HashMapList;
 
                 $('.listUl').empty();
-
-                var length = HashMapList.length;
                 // htmlframe 가져오는 매서드
-                for (var i = 0; i < length; i++) { // 팔로워 프로필사진, 아이디 리스트로 출력
-                    console.log(i);
-
-                    var test = $('#selectPosition').clone(true);
-                    $('.listUl').append(test);
-
-                    // $('.listUl').append($('#selectPosition').html($(data).find('#selectPosition').html()));
+                for (var i = 0; i < HashMapList.length; i++) { // 팔로워 프로필사진, 아이디 리스트로 출력
+                    var htmlFrame = $('#selectPosition').clone(true);
+                    $('.listUl').append(htmlFrame);
 
                     var userProfileImage = "/profileImages/" +HashMapList[i].SAVENAME;
-                    var followerId = "'"+HashMapList[i].ID+"'";
-
-                    console.log(userProfileImage);
-                    console.log(followerId);
+                    var userId = "'"+HashMapList[i].ID+"'";
 
                     $('#imageId').attr('id', "imageId"+i);
                     $('#userIdId').attr('id', "userIdId"+i);
+                    $('#buttonId').attr('onclick', "deleteFollowUser("+userId+")"); // follow_method.js에 포함된 삭제 매서드
                     $('#buttonId').attr('id', "buttonId"+i);
-                    $('#buttonId').attr('onclick', "deleteFollowing("+followerId+")");
+                    //todo: button text가 팔로잉이면 팔로잉 기능을, 팔로우면 언팔로우 기능을 구분해 놀 것
                     $('#selectPosition').attr('id', "selectPosition"+i);
 
+                    //todo: follow 돼있으면 button text 팔로우 // unfollow 돼있으면 text 팔로잉으로 보이게하기
                     $('#imageId'+i).attr('src', userProfileImage);
-                    $('#userIdId'+i).text(followerId);
+                    $('#userIdId'+i).text(userId);
                     $('#buttonId'+i).text("삭제");
 
-                    test.show();
                 }
-
                 alert("following");
+
             }, error: function (data) {
                 alert("error ---- #following");
             }
@@ -110,7 +96,4 @@ function includeFollowMethod(jsFilePath){
     document.body.appendChild(js);
 }
 
-function visitHomeClickEvent(data) {
-    return 0;
-}
 
