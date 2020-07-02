@@ -1,4 +1,4 @@
-<li class="userListAll" id="selectPosition"> <!-- error 날 경우 : style="display: none" -->
+<li class="userListAll" id="selectPosition" style="display: none"> <!-- error 날 경우 : style="display: none" -->
     <div class="U_Img_Id_follow">
         <div class="U_Img_Id">
             <div class="U_Img">

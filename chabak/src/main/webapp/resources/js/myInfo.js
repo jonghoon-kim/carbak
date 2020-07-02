@@ -22,6 +22,7 @@ $(document).ready(function() {
                         var userId = "'"+HashMapList[i].ID+"'";
 
                         $('#imageId').attr('id', "imageId"+i);
+                        $('#userIdId').attr('onclick', "guestVisit("+userId+")");
                         $('#userIdId').attr('id', "userIdId"+i);
                         $('#buttonId').attr('onclick', "deleteFollowerUser("+userId+")");
                         $('#buttonId').attr('id', "buttonId"+i);
@@ -31,7 +32,7 @@ $(document).ready(function() {
                         $('#userIdId'+i).text(userId);
                         $('#buttonId'+i).text("삭제");
 
-                        //htmlFrame.show(); 에러날 경우 frame에서 display 속성 변경후 주석 풀기
+                        htmlFrame.show();
                     }
                     alert("follower");
 
@@ -73,6 +74,7 @@ $(document).ready(function() { // todo: 1) sessionId와 게시판홈 주인 id�
                     $('#userIdId'+i).text(userId);
                     $('#buttonId'+i).text("삭제");
 
+                    htmlFrame.show();
                 }
                 alert("following");
 
