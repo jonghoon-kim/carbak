@@ -44,7 +44,7 @@
             <!-- 클릭 시 프로필 수정 페이지 이동-->
             <div class="thumbnail-wrapper">
                 <div class="thumbnail">
-                    <div id="View_area" class="centered">
+                    <div id="View_area" class="centered"> <!-- todo: profile / id-->
                         <img src="${sessionScope.profile}">
                     </div>
                 </div>

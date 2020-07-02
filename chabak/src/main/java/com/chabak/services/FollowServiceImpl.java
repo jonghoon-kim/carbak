@@ -37,6 +37,12 @@ public class FollowServiceImpl implements FollowService {
     }
 
     @Override
+    public int deleteFollowerUser(String id, String followUserId) throws Exception {
+        System.out.println("here is services -- ");
+        return followDao.deleteFollowerUser(id, followUserId);
+    }
+
+    @Override
     public int followAddUser(String id, String followUserId) throws Exception {
         System.out.println("here is services -- ");
         return followDao.followAddUser(id, followUserId);

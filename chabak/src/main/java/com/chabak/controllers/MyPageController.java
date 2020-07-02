@@ -87,6 +87,26 @@ public class MyPageController {
         return map;
     }
 
+    //unfollow 버튼 이벤트 : unfollow controller
+    @ResponseBody
+    @RequestMapping(value={"", "/", "deleteFollowerUser"}, method={RequestMethod.GET,RequestMethod.POST}) //
+    public HashMap<String, List<Follow>> deleteFollowerUser(HttpServletRequest request, HttpSession session, @RequestParam String followerUserId)throws Exception{
+        String id = (String)session.getAttribute("id");
+        String deleteFollowerUserId = followerUserId;
+
+        System.out.println("following controller -- "+id);
+        System.out.println("test controller -- "+followService.deleteFollowerUser(id, deleteFollowerUserId));
+
+        HashMap<String, List<Follow>> map  = new HashMap<>();
+        List<Follow> list = followService.followerIdAndProfile(id);
+
+        System.out.println("following controller -- " +list);
+        map.put("HashMapList", list);
+
+        System.out.println(list);
+        return map;
+    }
+
     // following 버튼 이벤트 : following controller
     @ResponseBody
     @RequestMapping(value={"", "/", "followAddUser"}, method={RequestMethod.GET,RequestMethod.POST}) //
@@ -108,13 +128,18 @@ public class MyPageController {
     }
 
     //todo: 방문객이 홈에 들어올 경우 보여지는 화면
-    @RequestMapping(value={"", "/", "visitHome"}, method = {RequestMethod.GET, RequestMethod.POST})
-    public String visitUserHome(HttpServletRequest request, @RequestParam String visitUserId){
-        String UserId = visitUserId;
-        System.out.println(UserId);
+    @RequestMapping(value={"", "/", "guestVisit"}, method = {RequestMethod.GET, RequestMethod.POST})
+    public String guestVisit(HttpServletRequest request, HttpSession session, @RequestParam String pageOwnerId){
+        String id = (String)session.getAttribute("id");
+        String visitorId = pageOwnerId;
 
-        System.out.println("controller visitPage");
-        return "/mypage/guestVisitHome";
+        System.out.println(visitorId);
+
+        if(id == visitorId) //todo: 같은 경우 mypage이동 else(다를)경우 방문자 컨트롤러를 들어가게 한다
+            return "/mypage/myInformation";
+        else
+            System.out.println("controller visitPage");
+            return "/mypage/guestVisitHome";
     }
 
 }

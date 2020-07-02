@@ -28,6 +28,11 @@
         WHERE followingid=#{id} and followerid=#{followUserId}
     </delete>
 
+    <delete id="deleteFollowerUser" parameterType="map">
+        DELETE FROM follow
+        WHERE followingid=#{followerUserId} and followerid=#{id}
+    </delete>
+
     <insert id="addUserFollow" parameterType="map">
         INSERT INTO follow(followingid, followerid)
         VALUES (#{id}, #{followUserId})

@@ -50,12 +50,20 @@ import java.util.Map;
             return sqlSession.delete("deleteFollowUser", map);
         }
 
+        public int deleteFollowerUser(String id, String followerUserId)  throws Exception {
+            Map<String , String> map = new HashMap<String, String>();
+            map.put("id" , id);
+            map.put("followerUserId", followerUserId);
+            System.out.println("map test :" + map);
+            return sqlSession.delete("deleteFollowerUser", map);
+        }
+
         public int followAddUser(String id, String followUserId)  throws Exception {
             Map<String , String> map = new HashMap<String, String>();
             map.put("id" , id);
             map.put("followUserId", followUserId);
             System.out.println("map test :" + map);
-            return sqlSession.delete("addUserFollow", map);
+            return sqlSession.insert("addUserFollow", map);
         }
 
 

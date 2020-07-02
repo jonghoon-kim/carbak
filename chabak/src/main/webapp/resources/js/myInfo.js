@@ -14,18 +14,16 @@ $(document).ready(function() {
                     $('.listUl').empty();
                     // HTMLframe 가져오는 매서드
                     for (var i = 0; i < HashMapList.length; i++) { // 팔로워 프로필사진, 아이디 리스트로 출력
-                        console.log(i);
-
                         var htmlFrame = $('#selectPosition').clone(true);
                         $('.listUl').append(htmlFrame);
 
                         // $('.listUl').append($('#selectPosition').html($(data).find('#selectPosition').html())); 1개만 추가할 때
-
                         var userProfileImage = "/profileImages/" +HashMapList[i].SAVENAME;
-                        var userId = HashMapList[i].ID;
+                        var userId = "'"+HashMapList[i].ID+"'";
 
                         $('#imageId').attr('id', "imageId"+i);
                         $('#userIdId').attr('id', "userIdId"+i);
+                        $('#buttonId').attr('onclick', "deleteFollowerUser("+userId+")");
                         $('#buttonId').attr('id', "buttonId"+i);
                         $('#selectPosition').attr('id', "selectPosition"+i);
 
@@ -35,7 +33,6 @@ $(document).ready(function() {
 
                         //htmlFrame.show(); 에러날 경우 frame에서 display 속성 변경후 주석 풀기
                     }
-
                     alert("follower");
 
                 }, error: function (data) {
@@ -65,10 +62,10 @@ $(document).ready(function() { // todo: 1) sessionId와 게시판홈 주인 id�
                     var userId = "'"+HashMapList[i].ID+"'";
 
                     $('#imageId').attr('id', "imageId"+i);
+                    $('#userIdId').attr('onclick', "guestVisit("+userId+")");
                     $('#userIdId').attr('id', "userIdId"+i);
                     $('#buttonId').attr('onclick', "deleteFollowUser("+userId+")"); // follow_method.js에 포함된 삭제 매서드
                     $('#buttonId').attr('id', "buttonId"+i);
-                    //todo: button text가 팔로잉이면 팔로잉 기능을, 팔로우면 언팔로우 기능을 구분해 놀 것
                     $('#selectPosition').attr('id', "selectPosition"+i);
 
                     //todo: follow 돼있으면 button text 팔로우 // unfollow 돼있으면 text 팔로잉으로 보이게하기
@@ -95,5 +92,3 @@ function includeFollowMethod(jsFilePath){
 
     document.body.appendChild(js);
 }
-
-

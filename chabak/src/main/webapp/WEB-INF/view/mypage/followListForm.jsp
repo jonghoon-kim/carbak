@@ -2,11 +2,11 @@
     <div class="U_Img_Id_follow">
         <div class="U_Img_Id">
             <div class="U_Img">
-                <a class="userHomeVisit" href="#">
+                <a class="userHomeVisit" href="#guestVisit">
                     <img class="userImagePfile" id="imageId" draggable="false" src=" ">
                 </a>
             </div>
-            <div class="U_Id" id="userIdId">testsetstset<!-- get Id from DB-->
+            <div class="U_Id" id="userIdId" onclick="">error<!-- get Id from DB-->
             </div>
         </div>
         <div class ="followSelector">

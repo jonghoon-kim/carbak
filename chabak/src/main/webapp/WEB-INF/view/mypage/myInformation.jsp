@@ -23,11 +23,6 @@
     <div id="header">
         <jsp:include page="/header"/>
     </div>
-    <script>
-        function getSession(){
-            return '${sessionScope.id}';
-        }
-    </script>
     <hr class="top_hr">
     <br>
     <div class="container">
