@@ -42,19 +42,19 @@ import java.util.Map;
             return sqlSession.selectList("followerIdAndProfile", id);
         }
 
-        public int deleteFollowUser(String id, String followUserId)  throws Exception {
+        public int deleteFollowingUser(String id, String followUserId)  throws Exception {
             Map<String , String> map = new HashMap<String, String>();
             map.put("id" , id);
             map.put("followUserId", followUserId);
-            System.out.println("map test :" + map);
-            return sqlSession.delete("deleteFollowUser", map);
+            System.out.println("map test followDao:" + map);
+            return sqlSession.delete("deleteFollowingUser", map);
         }
 
         public int deleteFollowerUser(String id, String followerUserId)  throws Exception {
             Map<String , String> map = new HashMap<String, String>();
             map.put("id" , id);
             map.put("followerUserId", followerUserId);
-            System.out.println("map test :" + map);
+            System.out.println("map test followerDao:" + map);
             return sqlSession.delete("deleteFollowerUser", map);
         }
 

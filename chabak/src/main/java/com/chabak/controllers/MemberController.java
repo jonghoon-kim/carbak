@@ -56,7 +56,8 @@ public class MemberController {
             session.setAttribute("password", member.getPassword());
             session.setAttribute("name", member.getName());
             session.setAttribute("profile", (memberService.getMember(member.getId())).getSavePath() + (memberService.getMember(member.getId())).getSaveName());
-            session.setAttribute("path", (memberService.getMember(member.getId())).getSavePath());
+            session.setAttribute("savePath", (memberService.getMember(member.getId())).getSavePath());
+            session.setAttribute("saveName", (memberService.getMember(member.getId())).getSaveName());
 
 
             System.out.println("id : " + member.getId());

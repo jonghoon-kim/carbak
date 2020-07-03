@@ -45,11 +45,11 @@
             <div class="thumbnail-wrapper">
                 <div class="thumbnail">
                     <div id="View_area" class="centered"> <!-- todo: profile / id-->
-                        <img src="${sessionScope.profile}">
+                        <img src="${visitor.savePath}${visitor.saveName}">
                     </div>
                 </div>
                 <div class="sessionId">
-                    ${sessionScope.id}
+                    ${visitor.id}
                 </div>
             </div>
 

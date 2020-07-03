@@ -4,9 +4,11 @@ package com.chabak.controllers;
 import com.chabak.services.FollowServiceImpl;
 import com.chabak.services.MemberService;
 import com.chabak.vo.Follow;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -24,122 +26,111 @@ public class MyPageController {
 
     // main 화면에서 mypage 클릭 경로 이동
     @RequestMapping(value="/myInfo", method = RequestMethod.GET)
-    public String myPageForm(){
+    public ModelAndView myPageForm(HttpSession session){
 
-        System.out.println("controller mypage");
-        return "/mypage/myInformation";
+        String id = (String)session.getAttribute("id");
+
+        ModelAndView mv = new ModelAndView("/mypage/myInformation");
+        mv.addObject("session", memberService.getMember(id));
+        System.out.println(memberService.getMember(id).toString());
+        return mv;
     }
 
     // mypage화면에서 follower를 클릭 이벤트 : print follower
     @ResponseBody
-    @RequestMapping(value={"", "/", "follower"}, method={RequestMethod.GET,RequestMethod.POST}) //
-    public HashMap<String, List<Follow>> followerList(HttpServletRequest request, HttpSession session)throws Exception{ // return된 List<Follow> 데이터 형을 model에 넣
-        String id = (String)session.getAttribute("id");
+    @RequestMapping(value={"", "/", "followList"}, method={RequestMethod.GET,RequestMethod.POST}) //
+    public HashMap<String, List<Follow>> followerList(@RequestParam String id, @RequestParam String option)throws Exception{ // return된 List<Follow> 데이터 형을 model에 넣
         System.out.println("follower controller---"+id);
 
         HashMap<String, List<Follow>> map  = new HashMap<>();
-        List<Follow> list = followService.followerIdAndProfile(id);
-        System.out.println(list);
 
-        map.put("HashMapList", list); // key-value 추가
+        if(option.equals("follower")){
+            List<Follow> list = followService.followerIdAndProfile(id);
+            map.put("HashMapList", list); // key-value 추가
 
-        System.out.println(list);
+            System.out.println("1 : " + list);
+            return map;
+        }
+        else if(option.equals("following")){
+            List<Follow> list = followService.followingIdAndProfile(id);
+            map.put("HashMapList", list); // key-value 추가
+
+            System.out.println(list);
+            return map;
+        }
+
         return map;
     }
-
-
-    // mypage화면에서 following를 클릭 이벤트 : print following
-    @ResponseBody
-    @RequestMapping(value={"", "/", "following"}, method={RequestMethod.GET,RequestMethod.POST}) //
-    public HashMap<String, List<Follow>> followingList(HttpServletRequest request, HttpSession session)throws Exception{
-        String id = (String)session.getAttribute("id");
-        System.out.println("following controller -- "+id);
-
-        HashMap<String, List<Follow>> map  = new HashMap<>();
-        List<Follow> list = followService.followingIdAndProfile(id);
-        System.out.println("following controller -- " +list);
-
-        map.put("HashMapList", list);
-
-        System.out.println(list);
-        //getFollowerId.addObject("HashMapList", list); // addObject는 (key, value) 형태로 데이터 담아 보내는 매서드
-        return map;
-    }
-
 
     //unfollow 버튼 이벤트 : unfollow controller
     @ResponseBody
     @RequestMapping(value={"", "/", "deleteFollowUser"}, method={RequestMethod.GET,RequestMethod.POST}) //
-    public HashMap<String, List<Follow>> deleteFollowUser(HttpServletRequest request, HttpSession session, @RequestParam String followUserId)throws Exception{
+    public HashMap<String, List<Follow>> deleteFollowUser(HttpSession session, @RequestParam String followUserId, @RequestParam String option)throws Exception{
         String id = (String)session.getAttribute("id");
-        String deleteFollowUserId = followUserId;
-
-        System.out.println("following controller -- "+id);
-        System.out.println("test controller -- "+followService.deleteFollowUser(id, deleteFollowUserId));
-
         HashMap<String, List<Follow>> map  = new HashMap<>();
-        List<Follow> list = followService.followingIdAndProfile(id);
 
-        System.out.println("following controller -- " +list);
-        map.put("HashMapList", list);
+        if(option.equals("follower")){
+            followService.deleteFollowerUser(id, followUserId);
+            List<Follow> list = followService.followerIdAndProfile(id);
 
-        System.out.println(list);
-        return map;
-    }
+            map.put("HashMapList", list);
 
-    //unfollow 버튼 이벤트 : unfollow controller
-    @ResponseBody
-    @RequestMapping(value={"", "/", "deleteFollowerUser"}, method={RequestMethod.GET,RequestMethod.POST}) //
-    public HashMap<String, List<Follow>> deleteFollowerUser(HttpServletRequest request, HttpSession session, @RequestParam String followerUserId)throws Exception{
-        String id = (String)session.getAttribute("id");
-        String deleteFollowerUserId = followerUserId;
+            System.out.println(list);
+            return map;
+        }
+        else if(option.equals("following")){
+            followService.deleteFollowingUser(id, followUserId);
+            List<Follow> list = followService.followingIdAndProfile(id);
 
-        System.out.println("following controller -- "+id);
-        System.out.println("test controller -- "+followService.deleteFollowerUser(id, deleteFollowerUserId));
+            map.put("HashMapList", list);
 
-        HashMap<String, List<Follow>> map  = new HashMap<>();
-        List<Follow> list = followService.followerIdAndProfile(id);
-
-        System.out.println("following controller -- " +list);
-        map.put("HashMapList", list);
-
-        System.out.println(list);
-        return map;
-    }
-
-    // following 버튼 이벤트 : following controller
-    @ResponseBody
-    @RequestMapping(value={"", "/", "followAddUser"}, method={RequestMethod.GET,RequestMethod.POST}) //
-    public HashMap<String, List<Follow>> followAddUser(HttpServletRequest request, HttpSession session, @RequestParam String followId)throws Exception{
-        String id = (String)session.getAttribute("id");
-        String followAddUser = followId;
-
-        System.out.println("following controller -- "+id);
-        System.out.println("test controller -- "+followService.followAddUser(id, followAddUser));
-
-        HashMap<String, List<Follow>> map  = new HashMap<>();
-        List<Follow> list = followService.followingIdAndProfile(id); // todo: followerIdAnd~~??
-
-        System.out.println("following controller -- " +list);
-        map.put("HashMapList", list);
-
-        System.out.println(list);
+            System.out.println(list);
+            return map;
+        }
         return map;
     }
 
     //todo: 방문객이 홈에 들어올 경우 보여지는 화면
     @RequestMapping(value={"", "/", "guestVisit"}, method = {RequestMethod.GET, RequestMethod.POST})
-    public String guestVisit(HttpServletRequest request, HttpSession session, @RequestParam String pageOwnerId){
+    public ModelAndView guestVisit(HttpServletRequest request, HttpSession session, @RequestParam("id") String userId){
         String id = (String)session.getAttribute("id");
-        String visitorId = pageOwnerId;
+        String visitorId = userId;
 
-        System.out.println(visitorId);
+        ModelAndView mv = new ModelAndView();
+        mv.setViewName("/mypage/myInformation");
+        mv.addObject("visitor", memberService.getMember(visitorId));
 
-        if(id == visitorId) //todo: 같은 경우 mypage이동 else(다를)경우 방문자 컨트롤러를 들어가게 한다
-            return "/mypage/myInformation";
-        else
-            System.out.println("controller visitPage");
-            return "/mypage/guestVisitHome";
+        return mv;
+    }
+
+    @ResponseBody
+    @RequestMapping(value={"", "/", "followStatus"}, method = {RequestMethod.GET, RequestMethod.POST})
+    public HashMap<String, List<Follow>> followStatus(HttpSession session, @RequestParam String id, @RequestParam String option){
+        String sessionId = (String)session.getAttribute("id");
+
+        HashMap<String, List<Follow>> map = new HashMap<>();
+
+        //todo: ----------------------------------------------------------
+  /*      if(option.equals("follower")){
+            followService.followAddUser()
+            List<Follow> list = followService.followerIdAndProfile(id);
+
+            map.put("HashMapList", list);
+
+            System.out.println(list);
+            return map;
+        }else if(option.equals("following")){
+
+            List<Follow> list = followService.followingIdAndProfile(id);
+
+            map.put("HashMapList", list);
+
+            System.out.println(list);
+            return map;
+        }*/
+
+        return map;
     }
 
 }
+
