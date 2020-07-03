@@ -15,6 +15,8 @@ public class Member {
     private String email;
     private String saveName;
     private String savePath;
-    private MultipartFile file; // 파일 업로드용
+    private MultipartFile file;
     private Date regDate;
+
+
 }

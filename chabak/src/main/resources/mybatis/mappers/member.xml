@@ -6,7 +6,7 @@
 	<!-- SQL 객체 --><!-- 게시물 추가 sql parameterType은 이미 alias를 설정했으므로 전체경로를 쓸 필요 없다-->
 	<!-- insert,update,delete 객체는 영향받은 레코드의 카운트를 정수로 반환 -->
 	<insert id="insertMember" parameterType="Member">
-	INSERT INTO Member(id,password,name,gender,sido,gugun,email,saveName)
+	INSERT INTO Member(id,password,name,gender,sido,gugun,email,saveName, savePath)
 	VALUES(
 	#{id},
 	#{password},
@@ -15,7 +15,8 @@
     #{sido},
     #{gugun},
     #{email},
-    #{saveName}
+    #{saveName},
+    #{savePath}
 	)
 	</insert>
 
@@ -44,5 +45,19 @@
 	<update id="pw_update" parameterType="Member">
 		UPDATE Member
 		SET password= #{password}
+		WHERE email=#{email}
 	</update>
-	</mapper>
+
+	<update id="memberUpdate" parameterType="Member">
+		UPDATE MEMBER
+		SET
+		password = #{password},
+		name = #{name},
+		sido = #{sido},
+		gugun = #{gugun},
+		saveName = #{saveName},
+		savePath = #{savePath}
+		WHERE
+		id=#{id}
+	</update>
+</mapper>

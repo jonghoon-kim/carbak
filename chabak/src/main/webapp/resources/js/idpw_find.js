@@ -14,6 +14,7 @@ function emailCheck() {
                 emailChk = true;
             } else if( data== 0 ){
                 alert("가입되지않은 이메일입니다.");
+                emailChk = true;
             }
         }
     });  // ajax 끝
@@ -113,6 +114,7 @@ function pwCheckValue() {
     var email = document.getElementById("email").value;
 
     console.log("pwCheck");
+    console.log(pw);
 
     if(!pwCheck.test(pw)) {
         alert("비밀번호를 정확히 입력해 주세요. \n (영문 소문자, 숫자, 특수 문자를 하나 이상 포함, 길이는 6~15자)");

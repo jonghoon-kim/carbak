@@ -17,6 +17,7 @@ import org.springframework.web.servlet.view.RedirectView;
 
 import javax.inject.Inject;
 import javax.mail.internet.MimeMessage;
+import javax.print.attribute.PrintJobAttributeSet;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -48,7 +49,7 @@ public class MemberController {
     }
 
     @RequestMapping("/loginAction")
-    public String loginAction(Member member, HttpSession session, HttpServletResponse response) throws Exception {
+    public String loginAction(Member member, HttpSession session, HttpServletResponse response, Model model) throws Exception {
         boolean loginFlag = memberService.loginCheck(member);
 
         if (loginFlag) {
@@ -77,10 +78,11 @@ public class MemberController {
 
     /* 로그아웃 */
     @RequestMapping("/logout")
-    public void logout(HttpSession session, HttpServletResponse response) throws Exception {
+    public String logout(HttpSession session, HttpServletResponse response) throws Exception {
         session.invalidate();
 
         memberService.logout(response);
+        return "redirect:/index";
     }
 
     /* 회원가입 */
@@ -106,6 +108,9 @@ public class MemberController {
             File file = new File(path + "resources/img/profileImages" + File.separator + saveName);
 
             f.transferTo(file);
+        }else {
+            member.setSaveName("userDefault.png");
+            member.setSavePath("/profileImages/");
         }
         memberService.insert(member);
         return "/member/login";
@@ -306,15 +311,61 @@ public class MemberController {
 
     @RequestMapping(value = "/pwUpdateAction", method = {RequestMethod.POST, RequestMethod.GET})
     @ResponseBody
-    public HashMap<String, String> pwUpdate(@RequestParam("password") String password) throws Exception {
+    public HashMap<String, String> pwUpdate(@RequestParam("password") String password, @RequestParam("email") String email, Member member) throws Exception {
         HashMap<String, String> map = new HashMap<String, String>();
 
-        memberService.pw_update(password);
+        System.out.println("controller password : " + password + email);
 
-        String result = Integer.toString(memberService.pw_update(password));
+        member.setEmail(email);
+        member.setPassword(password);
+
+        System.out.println();
+        //memberService.pw_update(member);
+
+        String result = Integer.toString(memberService.pw_update(member));
 
         map.put("result", result);
 
         return map;
+    }
+
+    /* 회원정보 수정 페이지*/
+    @GetMapping("/memberUpdate")
+    public ModelAndView memberUpdate(@RequestParam String id, @ModelAttribute("member") Member member) throws Exception {
+        ModelAndView mv = new ModelAndView("/member/memberUpdate");
+
+        mv.addObject("member", memberService.getMember(id));
+
+        System.out.println(memberService.getMember(id).toString());
+        return mv;
+    }
+
+    @PostMapping("/memberUpdate")
+    public String memberUpdateAction(Member member, Model model, HttpSession session) throws Exception {
+
+        MultipartFile f = member.getFile();
+
+        System.out.println("first member:"+member);
+
+        if (!f.isEmpty()) {
+            String path = servletContext.getRealPath("/");
+            System.out.println(path);
+            String saveName = System.currentTimeMillis() + f.getSize() + f.getOriginalFilename();
+            member.setSaveName(saveName);
+            member.setSavePath("/profileImages/");
+
+            File file = new File(path + "resources/img/profileImages" + File.separator + saveName);
+
+            f.transferTo(file);
+        }else {
+            member.setSavePath(member.getSavePath());
+            member.setSaveName(member.getSaveName());
+        }
+        System.out.println("controller : "+memberService.memberUpdate(member));
+            memberService.memberUpdate(member);
+
+            model.addAttribute("member", memberService.getMember(member.getId()));
+
+        return "/mypage/myInformation";
     }
 }

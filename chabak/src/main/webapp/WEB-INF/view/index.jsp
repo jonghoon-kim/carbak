@@ -50,6 +50,7 @@
         name = (String)session.getAttribute("name");
     }
 %>
+
 <!-- 배너 -->
 <div style="width:100%;">
     <ul class="slideshow">
@@ -74,15 +75,15 @@
         <% if (id != null) {%>
         <%--<div><span class="user"> ${sessionScope.id}님, 환영합니다!</span></div>--%>
         <div class="info_but">
-            <button onclick="location.href ='#'">&nbsp;MyPage</button>
+            <button onclick="location.href ='/mypage/myInfo'">&nbsp;MyPage</button>
         </div>
         <div class="logout_but">
             <button onclick="location.href ='/member/logout'">
                 <span>${sessionScope.id}</span></button>
         </div>
         <% } else {%>
-        <div class="info_but">
-            <button onclick="location.href ='#'">&nbsp;MyPage</button>
+        <div class="info_but"> <!-- todo mypage 입장 못하게 수정 할 것 -->
+            <button onclick="location.href ='/mypage/myInfo'">MyPage</button>
         </div>
         <div class="login_but">
             <button onclick="location.href ='/member/login'">Login</button>

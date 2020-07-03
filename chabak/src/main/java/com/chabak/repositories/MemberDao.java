@@ -39,7 +39,13 @@ public class MemberDao {
         return sqlSession.selectOne("member.find", email);
     }
     /* 비밀번호 변경 */
-    public int pw_update(String password) {
-        return sqlSession.update("member.pw_update", password);
+    public int pw_update(Member member) {
+        return sqlSession.update("member.pw_update", member);
+    }
+
+    /* 회원 정보 수정 */
+    public int memberUpdate(Member member) {
+        System.out.println("dao :"+member);
+        return sqlSession.update("member.memberUpdate", member);
     }
 }

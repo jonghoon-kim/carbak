@@ -10,11 +10,11 @@
     <link href="/css/idpw_find.css" rel="stylesheet">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
     <script type="text/javascript" src=" http://code.jquery.com/jquery-latest.min.js"></script>
-    <script type="text/javascript" src="/js/idpw_find.js" charset='UTF-8'></script>
+    <script type="text/javascript" src="/js/pwUpdate.js" charset='UTF-8'></script>
     <script>
         $(document).ready(function () {
             var email = opener.document.getElementById("parentEmail").value;
-            document.getElementById("email").value = email;
+            document.getElementById("email1").value = email;
         });
 
     </script>
@@ -26,12 +26,12 @@
         <h4>비밀번호 변경</h4>
     </div>
     <div class="content">
-        <input type="hidden" name="email" id="email">
-        <input type="password" name="password" id="password" placeholder="변경 비밀번호"><br>
-        <input type="password" name="passwordCheck" id="passwordCheck" placeholder="변경 비밀번호 확인">
+        <input type="hidden" name="email" id="email1">
+        <input type="password" name="password" id="pw" placeholder="변경 비밀번호"><br>
+        <input type="password" name="passwordCheck" id="pwCheck" placeholder="변경 비밀번호 확인">
     </div>
     <div class="bottom">
-        <button onclick="pwCheckValue()">변경</button>
+        <button onclick="return pwCheckValue()">변경</button>
     </div>
 
 </div>

@@ -2,7 +2,7 @@ package com.chabak.services;
 
 import com.chabak.repositories.MemberDao;
 import com.chabak.vo.Member;
-import com.sun.org.apache.bcel.internal.ExceptionConst;
+//import com.sun.org.apache.bcel.internal.ExceptionConst;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -51,6 +51,9 @@ public class MemberService {
 
         if(dbMember != null) {
             if(dbMember.getPassword().contentEquals(member.getPassword())) {
+                System.out.println(dbMember.getSavePath());
+//                String saveName = (memberDao.getMember(member.getId())).getSaveName();
+//                String savePath = (memberDao.getMember(member.getId())).getSavePath();
                 return true;
             }else {
                 return false;
@@ -102,7 +105,10 @@ public class MemberService {
         }
     }
     /* 비밀번호 변경 */
-    public int pw_update(String password) {
-        return memberDao.pw_update(password);
+    public int pw_update(Member member) {
+        return memberDao.pw_update(member);
+    }
+    public int memberUpdate(Member member) {
+        return memberDao.memberUpdate(member);
     }
 }

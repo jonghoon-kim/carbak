@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+	<!-- SQL Mapping 설정 -->
+	<mapper namespace="member">
+	<!-- SQL 객체 --><!-- 게시물 추가 sql parameterType은 이미 alias를 설정했으므로 전체경로를 쓸 필요 없다-->
+	<!-- insert,update,delete 객체는 영향받은 레코드의 카운트를 정수로 반환 -->
+	<insert id="insertMember" parameterType="Member">
+	INSERT INTO Member(id,password,name,gender,sido,gugun,email,uploadKey,uploadYes)
+	VALUES(
+	#{id},
+	#{password},
+    #{name},
+    #{gender},
+    #{sido},
+    #{gugun},
+    #{email},
+    UPLOADKEY_SEQ.nextval,
+   #{uploadYes}
+	)
+	</insert>
+
+	<!-- 이메일 중복 체크용 select -->
+	<select id="selectByEmail" parameterType="String" resultType="Member">
+	select email
+	from users
+	WHERE email=#{email}
+	</select>
+	    
+	<select id="selectByEmailAndPassword" parameterType="map" resultType="Member">
+	select no, name, email, gender
+	from users
+	WHERE email=#{email} AND password=#{password}
+	</select>
+		
+	</mapper>
