@@ -61,10 +61,30 @@ function checkLengthValidate(obj, maxByte) {
 
 }
 
+//페이징 시 url String 설정(예: "/review"+getUrlString(curPage)    )
+function getUrlString(curPage){
 
+        var urlString="?";
+
+        var searchTextVar = $("#search_text_saved").val();
+        var sortTypeVar = $("#sortType option:selected").val();
+
+        urlString += "sortType="+sortTypeVar;
+        if(searchTextVar!='' || searchTextVar!=null || searchTextVar!=""){
+
+            urlString += "&searchText="+searchTextVar;
+        }
+
+        urlString += "&curPage="+curPage;
+        console.log("getUrlString():"+urlString);
+        alert("urlString:"+urlString)
+        return urlString;
+
+
+}
 
 // 리뷰 리스트를 ajax로 출력
-function ajaxReviewList(sessionId,isSearchButton) {
+function ajaxReviewList(sessionId,isSearchButton,curPage) {
 
     var searchText = $("#search_text").val();
     //검색 버튼 누른 경우
@@ -76,12 +96,14 @@ function ajaxReviewList(sessionId,isSearchButton) {
         searchText = $("#search_text_saved").val();
         $("#search_text").val(searchText);
     }
+    console.log("ajaxReviewList curPage:"+curPage);
     $.ajax({
         url : "/review/listAjax",
         type : "post",
         dataType:'json',
         data :{"sortType": $("#sortType option:selected").val(),//서버로 전송하는 데이터(정렬방식)
-               "search_text": searchText   }, //검색창의 텍스트값
+               "searchText": searchText,
+               "curPage": curPage       }, //검색창의 텍스트값
         success : function(data) {
             
             //받은 sessionId 값이 문자열이 아니므로(따옴표로 감싸이지 않았음) 따옴표 추가
@@ -89,8 +111,9 @@ function ajaxReviewList(sessionId,isSearchButton) {
             
             var reviewListDiv = $("#reviewListDiv"); //리뷰가 추가되는 영역
             reviewListDiv.empty();  //리뷰 추가 영역 초기화
-            
-            $.each(data, function() {
+
+            var list = data["reviewList"];
+            $.each(list, function() {
                 var newReview = $("#dummy-review").clone(true);
 
                 //            원형 복사시 수정할 부분: #dummy-review(id),  .writer-id(value),    .review-img img(src,onclick) .content-title(value)
@@ -136,6 +159,61 @@ function ajaxReviewList(sessionId,isSearchButton) {
 
 
             });
+            var pagenation = data["pagination"];
+
+            var curPageVar = pagenation["curPage"];
+            var startPageVar = pagenation["startPage"];
+            var endPageVar = pagenation["endPage"];
+            var pageCntVar = pagenation["pageCnt"];
+            var curRangeVar = pagenation["curRange"];
+            var rangeCntVar = pagenation["rangeCnt"];
+            var nextPageVar = pagenation["nextPage"];
+
+            console.log("총 페이지 수 : "+pageCntVar+ "/ 현재 페이지 : "+ curPageVar + "/ 현재 블럭 : "+ curRangeVar + "/ 총 블럭 수 : "+ rangeCntVar);
+
+            var pagingDiv = $("#pagingDiv");
+            pagingDiv.empty();
+            for(var i=startPageVar;i<= endPageVar;i++){
+                if(i==curPageVar){
+                    var span1 = $("#i_eq_curPage").clone(true);
+                    var innerATag = span1.find("a");
+                    innerATag.attr("onclick","fn_paging('"+ i +"')");
+                    innerATag.text(i);
+
+                    span1.attr("style","display:inline-block");
+                    pagingDiv.append(span1);
+                }
+                else{
+                    var aTag1 = $("#i_ne_curPage").clone(true);
+                    aTag1.attr("onclick","fn_paging('"+ i +"')");
+                    aTag1.text(i);
+
+                    aTag1.attr("style","display:inline-block");
+                    pagingDiv.append(aTag1);
+                }
+            }
+            if(curPageVar!=pageCntVar && pageCntVar > 0){
+                var aTag2 = $("#curPage_ne_pageCnt").clone(true);
+                aTag2.attr("onclick","fn_paging('"+ nextPageVar +"')");
+
+                aTag2.attr("style","display:inline-block");
+                pagingDiv.append(aTag2);
+            }
+            if(curRangeVar != rangeCntVar && rangeCntVar > 0){
+                var aTag3 = $("#curRange_ne_rangeCnt").clone(true);
+                aTag3.attr("onclick","fn_paging('"+ pageCntVar +"')");
+
+                aTag3.attr("style","display:inline-block");
+                pagingDiv.append(aTag3);
+            }
+
+
+
+
+
+
+
+
 
         },
         error:function(error){

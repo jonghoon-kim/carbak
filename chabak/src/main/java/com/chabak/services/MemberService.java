@@ -45,7 +45,7 @@ public class MemberService {
     }
 
     @SneakyThrows
-    public String getIdForSessionNotMoveIndex(ModelAndView mv, HttpSession session){
+    public String getIdForSessionNotMoveIndex(HttpSession session){
         //region session check
         String id = (String)(session.getAttribute("id"));
         System.out.println("in getIdForSessionNotMoveIndex id:"+id);

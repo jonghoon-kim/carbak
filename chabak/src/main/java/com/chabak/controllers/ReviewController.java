@@ -5,10 +5,7 @@ import com.chabak.repositories.ReviewDao;
 import com.chabak.repositories.ReviewLikeDao;
 import com.chabak.services.MemberService;
 import com.chabak.services.ReviewService;
-import com.chabak.vo.Reply;
-import com.chabak.vo.Review;
-import com.chabak.vo.ReviewAndLike;
-import com.chabak.vo.ReviewLike;
+import com.chabak.vo.*;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,48 +46,66 @@ public class ReviewController {
 
         ModelAndView mv = new ModelAndView();
 
-        //파라미터를 저장할 맵 생성+값(정렬타입)
+        //파라미터를 저장할 맵 생성
         Map map = new HashMap<String,String>();
-        map.put("sortType","regDate");
-        map.put("id",memberService.getIdForSessionNotMoveIndex(mv,session));//세션에서 가져온 id map에 넣기
+
+        int listCnt = reviewDao.maxReviewCount("");
+
+        //리뷰 리스트의 모든 파라미터 설정 후 Pagination 반환
+       Pagination pagination = reviewService.setReviewListParameterMap(map,session,"regDate","",listCnt,1);
+
         //리뷰 리스트 select
         List<ReviewAndLike> reviewList = reviewDao.selectReviewList(map);
 
-        System.out.println("/list map:"+map);
 
         mv.setViewName("community/community");
         mv.addObject("reviewList",reviewList);
+        mv.addObject("pagination",pagination);
 
-        System.out.println("(/review/list)reviewList:"+reviewList);
+        System.out.println("/list parameter map:"+map);
+        System.out.println("(/review/list)result reviewList:"+reviewList);
+        System.out.println("review/list result pagination:"+pagination);
         return mv;
     } //리뷰 리스트 출력
 
     @SneakyThrows
     @ResponseBody
     @RequestMapping("/listAjax")
-    public String listAjax(HttpServletRequest request,ModelAndView mv,HttpSession session){
+    public String listAjax(HttpServletRequest request,HttpSession session){
 
         String sortType = request.getParameter("sortType");
-        String search_text = request.getParameter("search_text");
+        String searchText = request.getParameter("searchText");
+        int curPage = Integer.parseInt(request.getParameter("curPage"));
 
 
-        //파라미터를 저장할 맵 생성+값(정렬타입,검색텍스트)
+
+        //파라미터를 저장할 맵 생성
         Map map = new HashMap<String,String>();
-        map.put("sortType",sortType);
-        map.put("search_text",search_text);
-        map.put("id",memberService.getIdForSessionNotMoveIndex(mv,session));//세션에서 가져온 id map에 넣기
 
+        int listCnt = reviewDao.maxReviewCount(searchText);
+
+        //리뷰 리스트의 모든 파라미터 설정 후 Pagination 반환
+        Pagination pagination = reviewService.setReviewListParameterMap(map,session,sortType,searchText,listCnt,curPage);
+
+        //리뷰 리스트 select
         List<ReviewAndLike> reviewList = reviewDao.selectReviewList(map);
 
-        //Jacson 라이브러리로 자바->json 변환
-       ObjectMapper mapper = new ObjectMapper();
-       String jsonString = mapper.writeValueAsString(reviewList);
 
-        System.out.println("in listAjax(reviewList):"+reviewList);
+        //화면으로 보낼 맵
+        Map resultMap = new HashMap<String,String>();
+        resultMap.put("reviewList",reviewList);
+        resultMap.put("pagination",pagination);
+
+        ObjectMapper mapper = new ObjectMapper();
+        String jsonString = mapper.writeValueAsString(resultMap);
+
+        System.out.println("parameterMap:"+map);
+        System.out.println("in listAjax(resultMap):"+resultMap);
         System.out.println("jsonString:"+jsonString);
-
         return jsonString;
     }
+
+
 
     @RequestMapping(value ="/writeForm", method=RequestMethod.GET)
     public ModelAndView writeReviewForm(HttpSession session,HttpServletResponse response){
@@ -212,7 +227,7 @@ public class ReviewController {
         ModelAndView mv = new ModelAndView();
 
         //region checkLogin(세션에서 로그인한 아이디 가져와 설정+비로그인시 로그인 페이지로 이동(return: id or null))
-        String id = memberService.getIdForSessionNotMoveIndex(mv,session);
+        String id = memberService.getIdForSessionNotMoveIndex(session);
 
         //endregion
 

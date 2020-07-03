@@ -20,14 +20,24 @@
         //ajax 사용 후 페이지 이동 후 뒤로가기로 돌아왔을 때 변경내용(db)가 화면에 반영 안 되는 것을 고치기(뒤로 가기시 다시 페이지 로드)
         window.onpageshow = function(event) {
 
+            //정렬타입 select 값 설정
+            <%--  var sortType = "${sortType}";--%>
+            <%--  if(sortType!=null || sortType!=""){--%>
+            <%--      $("#sortType").val(sortType);--%>
+            <%--  }--%>
+            <%--  else{--%>
+            <%--      $("#sortType").val("regDate");--%>
+            <%--  }--%>
+            <%--$("#id").val("regDate").prop("selected", true);--%>
+
+
+
          if ( event.persisted || (window.performance && window.performance.navigation.type === 2)) {
             // Back Forward Cache로 브라우저가 로딩될 경우 혹은 브라우저 뒤로가기 했을 경우
              console.log("back");
              window.location.reload();
             }
         }
-
-
 
 
         function ajaxReviewLikeToggle(reviewNo,imgTag,sessionId){
@@ -60,6 +70,11 @@
             }
         }
 
+        function fn_paging(curPage) {
+            ajaxReviewList('${sessionScope.id}',true,curPage);
+
+        }
+
 
     </script>
 <body>
@@ -75,14 +90,14 @@
         <input type="text" class="search_text" placeholder=" 지역 검색" name="search_text" id="search_text">
 <%--        검색버튼 눌렀을 때 검색어 저장 input--%>
         <input type="hidden" name="search_text_saved" id="search_text_saved">
-        <button type="button" class="search_but" onclick="ajaxReviewList('${sessionScope.id}',true)"></button>
+        <button type="button" class="search_but" onclick="ajaxReviewList('${sessionScope.id}',true,'${pagination.curPage}')"></button>
     </div>
     <!-- 글쓰기, 정렬 버튼 -->
     <div class="second">
         <div class="insert">
             <button type="submit" onclick="location.href='/review/writeForm'">글쓰기</button>
         </div>
-        <div class="sort" onchange="ajaxReviewList('${sessionScope.id}',false)">
+        <div class="sort" onchange="ajaxReviewList('${sessionScope.id}',false,'${pagination.curPage}')">
             <select id="sortType" name="sortType">
                 <option value="regDate">최신 순</option>
                 <option value="likeCount">좋아요 순</option>
@@ -182,8 +197,52 @@
                 </div>
             </div>
         </c:forEach>
+
     </div>
     <%--    reviewListDiv 끝--%>
+    <!-- pagination{s} -->
+    <span id="i_eq_curPage" style="font-weight: bold;display: none"><a onclick=""></a></span>
+
+    <a id="i_ne_curPage" style="display: none" onclick=""></a>
+
+    <a id="curPage_ne_pageCnt" style="display: none" onclick="">[다음]</a>
+
+    <a id="curRange_ne_rangeCnt" style="display: none" onclick="">[끝]</a>
+
+
+
+    <div id="pagingDiv">
+        <c:if test="${pagination.curRange ne 1 }">
+            <a onclick="fn_paging(1)">[처음]</a>
+        </c:if>
+        <c:if test="${pagination.curPage ne 1}">
+            <a onclick="fn_paging('${pagination.prevPage }')">[이전]</a>
+        </c:if>
+        <c:forEach var="pageNum" begin="${pagination.startPage }" end="${pagination.endPage }">
+            <c:choose>
+                <c:when test="${pageNum eq  pagination.curPage}">
+                    <span style="font-weight: bold;"><a onclick="fn_paging('${pageNum }')">${pageNum }</a></span>
+                </c:when>
+                <c:otherwise>
+                    <a onclick="fn_paging('${pageNum }')">${pageNum }</a>
+                </c:otherwise>
+            </c:choose>
+        </c:forEach>
+        <c:if test="${pagination.curPage ne pagination.pageCnt && pagination.pageCnt > 0}">
+            <a onclick="fn_paging('${pagination.nextPage }')">[다음]</a>
+        </c:if>
+        <c:if test="${pagination.curRange ne pagination.rangeCnt && pagination.rangeCnt > 0}">
+            <a onclick="fn_paging('${pagination.pageCnt }')">[끝]</a>
+        </c:if>
+        <div>
+            총 게시글 수 : ${pagination.listCnt } /    총 페이지 수 : ${pagination.pageCnt } / 현재 페이지 : ${pagination.curPage } / 현재 블럭 : ${pagination.curRange } / 총 블럭 수 : ${pagination.rangeCnt }
+        </div>
+    </div>
+
+
+
+
+    <!-- pagination{e} -->
 </div>
 <%--/container--%>
 

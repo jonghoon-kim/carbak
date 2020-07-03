@@ -37,12 +37,12 @@ public class ReviewLikeController {
 
     @ResponseBody
     @RequestMapping(value ={"/toggleAjax"}, method=RequestMethod.POST)
-    public int reviewLikeToggle(HttpServletRequest request,HttpSession session){
+    public int reviewLikeToggle(HttpServletRequest request,HttpSession session,HttpServletResponse response){
         ModelAndView mv = new ModelAndView();
 
         System.out.print("reviewLike Controller reviewNo:");
         //region checkLogin(세션에서 로그인한 아이디 가져와 설정+비로그인시 로그인 페이지로 이동(return: id or null))
-        String id = memberService.getIdForSessionNotMoveIndex(mv,session);
+        String id = memberService.getIdForSessionOrMoveIndex(mv,session,response);
         System.out.println("id:"+id);
         if(id==null){
             System.out.println("return -1");
