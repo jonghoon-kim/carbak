@@ -90,7 +90,7 @@ public class MyPageController {
         return map;
     }
 
-    //todo: 방문객이 홈에 들어올 경우 보여지는 화면
+    // 방문객이 홈에 들어올 경우 보여지는 화면
     @RequestMapping(value={"", "/", "guestVisit"}, method = {RequestMethod.GET, RequestMethod.POST})
     public ModelAndView guestVisit(HttpServletRequest request, HttpSession session, @RequestParam("id") String userId){
         String id = (String)session.getAttribute("id");
@@ -110,7 +110,7 @@ public class MyPageController {
 
         HashMap<String, List<Follow>> map = new HashMap<>();
 
-        //todo: ----------------------------------------------------------
+        //todo: ---------------- 리스트에 나온 유저가 팔로잉 안했으면 follower로 팔로잉 중이면 following 버튼이 나오게 한다.
   /*      if(option.equals("follower")){
             followService.followAddUser()
             List<Follow> list = followService.followerIdAndProfile(id);

@@ -15,12 +15,13 @@ function deleteFollowUser(followUserId, option){
     })
 }
 
-//팔로잉 리스트 출력 매서드 todo: following, follower print 매서드 하나로 만들기
+//팔로잉 리스트 출력 매서드
 function printList(data, option, id){
     var sessionId = document.getElementById("sessionId").value;
 
     var HashMapList = data.HashMapList;
 
+    console.log(HashMapList.length);
     $('.listUl').empty();
     // HTMLframe 가져오는 매서드
     for (var i = 0; i < HashMapList.length; i++) { // 팔로워 프로필사진, 아이디 리스트로 출력
@@ -32,9 +33,7 @@ function printList(data, option, id){
 
         $('#imageId').attr('id', "imageId"+i);
         $('#userIdId').attr('onclick', "location.href='/mypage/guestVisit?id="+userId+"';");
-        //$('#userIdId').attr('onclick', "guestVisit("+userId+")");
         $('#userIdId').attr('id', "userIdId"+i);
-        //$('#buttonId').attr('onclick', "deleteFollowUser("+"'"+userId+"','"+option+"')");
         $('#buttonId').attr('id', "buttonId"+i);
         $('#selectPosition').attr('id', "selectPosition"+i);
 
@@ -58,12 +57,11 @@ function followStatus(id, option) {
         type: "get",
         data : {"id": id,
             "option": option},
-        datatype: "json",   // ex) {"name":"age":"address"} 와 같은 형식
+        datatype: "json",
         url: "followStatus",
-        success : function(data) { // ajax가 controller로 부터 받는
-
-
+        success : function(data) {
             printList(data, option , id);
+
             alert("following success");
         }, error: function (data) {
         }
@@ -73,12 +71,12 @@ function followStatus(id, option) {
 
 // 페이지 방문 매서드
 function guestVisit(pageOwnerId){
-    $.ajax({// ajax가 controller로 보내는
+    $.ajax({
         type: "get",
         data : {"pageOwnerId": pageOwnerId},
-        datatype: "json",   // ex) {"name":"age":"address"} 와 같은 형식
+        datatype: "json",
         url: "guestVisit",
-        success : function(data) { // ajax가 controller로 부터 받는
+        success : function(data) {
             // printFollowing(data)
 
             alert("page move success");
