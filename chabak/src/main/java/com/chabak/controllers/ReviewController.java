@@ -42,17 +42,19 @@ public class ReviewController {
     ReviewLikeDao reviewLikeDao;
 
     @RequestMapping(value ={"", "/", "/list"}, method=RequestMethod.GET)
-    public ModelAndView reviewList(HttpSession session){
+    public ModelAndView reviewList(HttpSession session,
+                                   @RequestParam (required = false,defaultValue = "regDate") String sortType,
+                                   @RequestParam (required = false,defaultValue = "") String searchText){
 
         ModelAndView mv = new ModelAndView();
 
         //파라미터를 저장할 맵 생성
         Map map = new HashMap<String,String>();
 
-        int listCnt = reviewDao.maxReviewCount("");
+        int listCnt = reviewDao.maxReviewCount(searchText);
 
         //리뷰 리스트의 모든 파라미터 설정 후 Pagination 반환
-       Pagination pagination = reviewService.setReviewListParameterMap(map,session,"regDate","",listCnt,1);
+       Pagination pagination = reviewService.setReviewListParameterMap(map,session,sortType,searchText,listCnt,1);
 
         //리뷰 리스트 select
         List<ReviewAndLike> reviewList = reviewDao.selectReviewList(map);
@@ -62,9 +64,13 @@ public class ReviewController {
         mv.addObject("reviewList",reviewList);
         mv.addObject("pagination",pagination);
 
+        mv.addObject("sortType",sortType);
+        mv.addObject("searchText",searchText);
+
         System.out.println("/list parameter map:"+map);
         System.out.println("(/review/list)result reviewList:"+reviewList);
         System.out.println("review/list result pagination:"+pagination);
+
         return mv;
     } //리뷰 리스트 출력
 
@@ -222,7 +228,7 @@ public class ReviewController {
     }
 
     @RequestMapping(value ="/detail", method=RequestMethod.GET)
-    public ModelAndView detailReview(@RequestParam int reviewNo,HttpSession session,HttpServletResponse response){
+    public ModelAndView detailReview(@RequestParam int reviewNo,HttpSession session){
 
         ModelAndView mv = new ModelAndView();
 

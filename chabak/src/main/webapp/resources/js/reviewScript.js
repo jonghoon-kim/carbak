@@ -62,22 +62,17 @@ function checkLengthValidate(obj, maxByte) {
 }
 
 //페이징 시 url String 설정(예: "/review"+getUrlString(curPage)    )
-function getUrlString(curPage){
+function getUrlString(searchText,sortType){
 
         var urlString="?";
 
-        var searchTextVar = $("#search_text_saved").val();
-        var sortTypeVar = $("#sortType option:selected").val();
+        urlString += "sortType="+sortType;
+        if(searchText!='' || searchText!=null || searchText!=""){
 
-        urlString += "sortType="+sortTypeVar;
-        if(searchTextVar!='' || searchTextVar!=null || searchTextVar!=""){
-
-            urlString += "&searchText="+searchTextVar;
+            urlString += "&searchText="+searchText;
         }
 
-        urlString += "&curPage="+curPage;
         console.log("getUrlString():"+urlString);
-        alert("urlString:"+urlString)
         return urlString;
 
 
@@ -208,13 +203,6 @@ function ajaxReviewList(sessionId,isSearchButton,curPage) {
             }
 
 
-
-
-
-
-
-
-
         },
         error:function(error){
             alert('error');
@@ -232,6 +220,3 @@ function cancelFunction(link) {
 }
 
 
-// function beforeSearch(){
-//     $("#searchSortType").val($("#sortType option:selected").val());  //정렬 select의 값을 search 폼 hidden input에 집어넣기,검색시 새로고침되므로 일단 넣는건 보류
-// }

@@ -21,16 +21,12 @@
         window.onpageshow = function(event) {
 
             //정렬타입 select 값 설정
-            <%--  var sortType = "${sortType}";--%>
-            <%--  if(sortType!=null || sortType!=""){--%>
-            <%--      $("#sortType").val(sortType);--%>
-            <%--  }--%>
-            <%--  else{--%>
-            <%--      $("#sortType").val("regDate");--%>
-            <%--  }--%>
-            <%--$("#id").val("regDate").prop("selected", true);--%>
 
+            var selectSortType = $("#sortType");
+            selectSortType.val("${sortType}");
+            selectSortType.change();
 
+            console.log("searchText:"+"${searchText}"+ " sortType:"+"${sortType}");
 
          if ( event.persisted || (window.performance && window.performance.navigation.type === 2)) {
             // Back Forward Cache로 브라우저가 로딩될 경우 혹은 브라우저 뒤로가기 했을 경우
@@ -87,9 +83,9 @@
     </div>
     <div class="search">
 
-        <input type="text" class="search_text" placeholder=" 지역 검색" name="search_text" id="search_text">
+        <input type="text" class="search_text" placeholder=" 지역 검색" name="searchText" id="search_text" value="${searchText}">
 <%--        검색버튼 눌렀을 때 검색어 저장 input--%>
-        <input type="hidden" name="search_text_saved" id="search_text_saved">
+        <input type="hidden" name="search_text_saved" id="search_text_saved" value="${searchText}">
         <button type="button" class="search_but" onclick="ajaxReviewList('${sessionScope.id}',true,'${pagination.curPage}')"></button>
     </div>
     <!-- 글쓰기, 정렬 버튼 -->
