@@ -6,10 +6,6 @@ import com.chabak.vo.Follow;
 import java.util.List;
 
 public interface FollowService {
-
-   List<Follow> selectDataHashMapServiceList(String id) throws Exception;
-
-//    public List<Follow> getFollower(Follow follow); 수정전 코드
    List<Follow> followingIdAndProfile(String id) throws Exception;
 
    List<Follow> followerIdAndProfile(String id) throws Exception;
@@ -18,5 +14,9 @@ public interface FollowService {
 
    int deleteFollowerUser(String id, String followUserId) throws Exception;
 
-   int followAddUser(String id, String followUserId) throws Exception;
+   int followAddUser(String id, String selectedUserId) throws Exception;
+
+   int followDeleteUser(String id, String selectedUserId) throws Exception;
+
+   String decisionFollowStatus(String sessionId, String userId) throws Exception;
 }

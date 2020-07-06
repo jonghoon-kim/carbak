@@ -57,8 +57,7 @@
                                 <span>${sessionScope.id}</span></button>
                         </c:when>
                         <c:when test="${sessionScope.id ne visitor.id}">
-                            <button class="updateMember" onclick="location.href='/member/memberUpdate?id=${sessionScope.id}';">
-                                <span>${visitor.id}</span></button>
+                            <button class="updateMember"><span>${visitor.id}</span></button>
                         </c:when>
                         <c:otherwise>
                             <button class="updateMember" onclick="location.href='/member/memberUpdate?id=${sessionScope.id}';">
@@ -74,6 +73,7 @@
                 <button type="button" id="">
                     게시글
                 </button>
+                <!-- 팔로워 버튼 본인 id인 경우, 방문자 id인 경우 -->
                 <c:choose>
                     <c:when test="${empty visitor.id}">
                         <button type="button" id="follower" onclick="followList('${sessionScope.id}', 'follower')">팔로워</button>
@@ -86,9 +86,8 @@
                     </c:otherwise>
                 </c:choose>
 
-                <!--숫자 클릭시 팔로워한 id 조회 리스트(팔로워 수 1000단위 k표현 100000단위 m표현-->
-                <!--팔로잉 수 보이게, 클릭시 팔로잉 리뷰글 조회 + 팔로잉 수 추가-->
                 <img class="but_img" src="/img/mypage/following.png">
+                <!-- 팔로잉 버튼 본인 id인 경우, 방문자 id인 경우 -->
                 <c:choose>
                     <c:when test="${empty visitor.id}">
                         <button type="button" id="following" onclick="followList('${sessionScope.id}', 'following')">팔로잉</button>

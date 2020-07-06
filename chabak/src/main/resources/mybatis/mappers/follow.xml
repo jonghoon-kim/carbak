@@ -4,13 +4,6 @@
 <!-- SQL Mapping 설정 -->
     <mapper namespace="follow">
 
-
-    <select id="selectDataHashMapServiceList" resultType="map">
-        SELECT followerId
-        from follow
-        where followingId = #{id}
-    </select>
-
     <select id="followingIdAndProfile" resultType="map">
         select member.id , member.savename
         from follow, member
@@ -33,9 +26,20 @@
         WHERE followingid=#{followerUserId} and followerid=#{id}
     </delete>
 
-    <insert id="addUserFollow" parameterType="map">
+    <insert id="followAddUser" parameterType="map">
         INSERT INTO follow(followingid, followerid)
-        VALUES (#{id}, #{followUserId})
+        VALUES (#{id}, #{selectedUserId})
     </insert>
+
+    <delete id="followDeleteUser" parameterType="map">
+        DELETE FROM follow
+        WHERE followingid=#{id} and followerid=#{selectedUserId}
+    </delete>
+
+    <select id="decisionFollowStatus" parameterType="map" resultType="string">
+        select followerId
+        from follow
+        where followerId=#{userId} and followingId = #{sessionId}
+    </select>
 
     </mapper>

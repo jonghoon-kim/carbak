@@ -10,7 +10,7 @@ function includeFollowMethod(jsFilePath){
 
 includeFollowMethod("/js/follow_method.js");
 
-function followList(id, option){
+function followList(id, option){//id: 세션아이디 or 다른이용자아이디
     $.ajax({
         type: "get",
         data: {"id": id,

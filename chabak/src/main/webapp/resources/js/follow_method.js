@@ -18,7 +18,6 @@ function deleteFollowUser(followUserId, option){
 //팔로잉 리스트 출력 매서드
 function printList(data, option, id){
     var sessionId = document.getElementById("sessionId").value;
-
     var HashMapList = data.HashMapList;
 
     console.log(HashMapList.length);
@@ -39,11 +38,14 @@ function printList(data, option, id){
 
         $('#imageId'+i).attr('src', userProfileImage);
         $('#userIdId'+i).text(userId);
-        if(sessionId!= id) {
-            followStatus(id, option);
-            $('#buttonId').attr('onclick', "followStatus("+"'"+userId+"','"+option+"')");
-            $('#buttonId'+i).text("팔로잉");
-        }else {
+
+        if(sessionId!= id) { // 다른 사용자 아이디일 경우
+            // listFollowStatus(id, option);
+            $('#buttonId').attr('onclick', "listFollowStatus("+"'"+userId+"','"+option+"')"); // 팔로워 클릭인지 팔로잉 클릭인지:option
+            //todo: 팔로잉/ 팔로우 text 나오게 조건 설정
+            decisionFollowStatus(userId,i); // 조건 function 만들기 :: $('#buttonId'+i).text("팔로잉/팔로우");
+
+        }else { // 마이페이지인 경우
             $('#buttonId').attr('onclick', "deleteFollowUser("+"'"+userId+"','"+option+"')");
             $('#buttonId'+i).text("삭제");
         }
@@ -52,34 +54,38 @@ function printList(data, option, id){
     }
 }
 
-function followStatus(id, option) {
+/*// 방문한 유저의 팔로잉 팔로워 상태를 보여주고 버튼 클릭시 팔로잉, 팔로잉 취소 event 실행
+function listFollowStatus(id, option) {
     $.ajax ({
         type: "get",
         data : {"id": id,
             "option": option},
         datatype: "json",
-        url: "followStatus",
+        url: "listFollowStatus",
         success : function(data) {
-            printList(data, option , id);
+            printList(data, option, id);
 
             alert("following success");
         }, error: function (data) {
         }
     })
+}*/
 
-}
-
-// 페이지 방문 매서드
-function guestVisit(pageOwnerId){
-    $.ajax({
+function decisionFollowStatus(userId, i){
+    $.ajax ({
         type: "get",
-        data : {"pageOwnerId": pageOwnerId},
+        data : {"userId": userId},
         datatype: "json",
-        url: "guestVisit",
+        url: "decisionFollowStatus",
         success : function(data) {
-            // printFollowing(data)
+            console.log("followerId" + data.followerId);
+            var followerId = data.followerId;
+            console.log("userId" + userId);
 
-            alert("page move success");
+            if(followerId == userId)
+                $('#buttonId'+i).text("팔로잉");
+            else
+                $('#buttonId'+i).text("팔로우");
         }, error: function (data) {
         }
     })

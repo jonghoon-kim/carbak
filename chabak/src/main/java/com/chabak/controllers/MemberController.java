@@ -3,11 +3,7 @@ package com.chabak.controllers;
 import com.chabak.services.MemberService;
 import com.chabak.vo.Member;
 
-<<<<<<<<< Temporary merge branch 1
-import com.sun.deploy.net.protocol.javascript.JavaScriptURLConnection;
-=========
-//import com.sun.org.apache.bcel.internal.ExceptionConst;
->>>>>>>>> Temporary merge branch 2
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
