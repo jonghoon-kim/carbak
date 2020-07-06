@@ -5,18 +5,20 @@
 	<mapper namespace="fileUpload">
 	<!-- SQL 객체 --><!-- 게시물 추가 sql parameterType은 이미 alias를 설정했으므로 전체경로를 쓸 필요 없다-->
 	<!-- insert,update,delete 객체는 영향받은 레코드의 카운트를 정수로 반환 -->
-	<insert id="insertSaveName" parameterType="TestFileVo">
-	INSERT INTO testUpload(saveName)
+	<insert id="insertUpload" parameterType="FileUpload">
+	INSERT INTO FileUpload(fileNo,uploadKey,originalName,saveName)
 	VALUES(
+	FILENO_SEQ.nextval,
+	#{uploadKey},
+	#{originalName},
 	#{saveName}
-
-
 	)
 	</insert>
 
-	<select id="selectFileList" resultType="TestFileVo">
-		select saveName
-		from testUpload
+	<select id="selectFileList" parameterType="String" resultType="FileUpload">
+		select fileNo,originalName,saveName
+		from FileUpload
+		where UPLOADKEY = #{uploadKey}
 	</select>
 
 	</mapper>

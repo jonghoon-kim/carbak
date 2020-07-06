@@ -1,8 +1,9 @@
 package com.chabak.vo;
 
 import lombok.Data;
-
+import org.springframework.web.multipart.MultipartFile;
 import java.sql.Date;
+
 @Data
 public class Member {
     private String id;
@@ -12,8 +13,9 @@ public class Member {
     private String sido;
     private String gugun;
     private String email;
-    private int uploadKey;
-    private String uploadYes;
+    private String saveName;
+    private String savePath;
+    private MultipartFile file;
     private Date regDate;
 
 

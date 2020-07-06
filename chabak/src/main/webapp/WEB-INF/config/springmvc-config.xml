@@ -37,5 +37,6 @@
     <mvc:resources mapping="/reviewImages/**" location="/resources/editor/upload/" />
     <mvc:resources mapping="/resources/editor/upload/**" location="/resources/editor/upload/" />
 
+    <mvc:resources mapping="/profileImages/**" location="/resources/img/profileImages/" />
 
 </beans>
