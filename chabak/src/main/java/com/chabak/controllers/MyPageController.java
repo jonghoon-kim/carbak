@@ -10,7 +10,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.io.PrintWriter;
 import java.util.HashMap;
 import java.util.List;
 
@@ -25,13 +27,24 @@ public class MyPageController {
 
     // main 화면에서 mypage 클릭 경로 이동
     @RequestMapping(value="/myInfo", method = RequestMethod.GET)
-    public String myPageForm(Model model, HttpSession session){
+    public String myPageForm(Model model, HttpSession session, HttpServletResponse response) throws Exception{
 
         String id = (String)session.getAttribute("id");
-        model.addAttribute("member", memberService.getMember(id));
 
-        System.out.println("controller mypage");
-        return "/mypage/myInformation";
+        if(id == null) {
+            response.setContentType("text/html; charset=UTF-8");
+            PrintWriter out = response.getWriter();
+            out.println("<script>");
+            out.println("alert('로그인 후 사용 가능합니다.')");
+            out.println("</script>");
+            out.flush();
+            return "/member/login";
+        }else {
+            model.addAttribute("member", memberService.getMember(id));
+
+            System.out.println("controller mypage");
+            return "/mypage/myInformation";
+        }
     }
 
     // mypage화면에서 follower를 클릭 이벤트 : print follower

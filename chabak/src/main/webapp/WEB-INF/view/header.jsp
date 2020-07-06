@@ -40,7 +40,7 @@
     <div id="header_right_but">
         <% if (id != null) {%>
         <div class="info_but">
-            <button onclick="location.href ='#'">&nbsp;MyPage</button>
+            <button onclick="location.href ='/mypage/myInfo'">&nbsp;MyPage</button>
         </div>
         <div class="logout_but">
             <button onclick="location.href ='/member/logout'">
@@ -48,7 +48,7 @@
         </div>
         <% } else {%>
         <div class="info_but">
-            <button onclick="location.href ='#'">&nbsp;MyPage</button>
+            <button onclick="location.href ='/mypage/myInfo'">&nbsp;MyPage</button>
         </div>
         <div class="login_but">
             <button onclick="location.href ='/member/login'">Login</button>

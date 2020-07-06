@@ -82,7 +82,7 @@
                 <span>${sessionScope.id}</span></button>
         </div>
         <% } else {%>
-        <div class="info_but"> <!-- todo mypage 입장 못하게 수정 할 것 -->
+        <div class="info_but"> <!-- todo: mypage 입장 못하게 수정 할 것 -->
             <button onclick="location.href ='/mypage/myInfo'">MyPage</button>
         </div>
         <div class="login_but">
