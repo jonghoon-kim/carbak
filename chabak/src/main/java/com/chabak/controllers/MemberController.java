@@ -370,6 +370,6 @@ public class MemberController {
 
             model.addAttribute("member", memberService.getMember(member.getId()));
 
-        return "/mypage/myInformation";
+        return "redirect:/mypage/myInfo";
     }
 }

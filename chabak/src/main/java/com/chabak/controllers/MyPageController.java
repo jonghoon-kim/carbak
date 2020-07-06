@@ -7,11 +7,14 @@ import com.chabak.vo.Follow;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.io.PrintWriter;
 import java.util.HashMap;
 import java.util.List;
 
@@ -26,14 +29,27 @@ public class MyPageController {
 
     // main 화면에서 mypage 클릭 경로 이동
     @RequestMapping(value="/myInfo", method = RequestMethod.GET)
-    public ModelAndView myPageForm(HttpSession session){
+    public ModelAndView myPageForm(HttpSession session, HttpServletResponse response) throws Exception{
 
         String id = (String)session.getAttribute("id");
+        ModelAndView mv = new ModelAndView();
 
-        ModelAndView mv = new ModelAndView("/mypage/myInformation");
-        mv.addObject("session", memberService.getMember(id));
+        if(id == null) {
+            response.setContentType("text/html; charset=UTF-8");
+            PrintWriter out = response.getWriter();
+            out.println("<script>");
+            out.println("alert('로그인 후 사용 가능합니다.')");
+            out.println("</script>");
+            out.flush();
+
+            mv.setViewName("/member/login");
+            return mv;
+        }else {
+        mv.setViewName("/mypage/myInformation");
+        mv.addObject("member", memberService.getMember(id));
         System.out.println(memberService.getMember(id).toString());
         return mv;
+        }
     }
 
     // mypage화면에서 follower를 클릭 이벤트 : print follower
@@ -61,6 +77,7 @@ public class MyPageController {
 
         return map;
     }
+
 
     //unfollow 버튼 이벤트 : unfollow controller
     @ResponseBody

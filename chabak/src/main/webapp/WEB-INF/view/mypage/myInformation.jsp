@@ -1,6 +1,3 @@
-<%@ page import="org.springframework.http.converter.json.GsonBuilderUtils" %>
-<%@ page import="com.chabak.vo.Member" %>
-<%@ page import="org.springframework.web.context.request.SessionScope" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
@@ -19,6 +16,7 @@
         }
     </style>
 </head>
+
 <body>
 <div class="wrap">
     <!-- header -->
@@ -39,13 +37,13 @@
                         <!-- 방문 id가 세션 id랑 비교해서 같으면 나의 프로필 사진을 / 아니면 click id 프로필 선택 -->
                         <c:choose>
                             <c:when test="${empty visitor.id}">
-                                <img src="${sessionScope.savePath}${sessionScope.saveName}">
+                                <img src="${member.savePath}${member.saveName}">
                             </c:when>
                             <c:when test="${sessionScope.id ne visitor.id}">
                                 <img src="${visitor.savePath}${visitor.saveName}">
                             </c:when>
                             <c:otherwise>
-                                <img src="${sessionScope.savePath}${sessionScope.saveName}"><!-- 다른사람 계정에서 내 아이디 클릭한 경우 -->
+                                <img src="${member.savePath}${member.saveName}"><!-- 다른사람 계정에서 내 아이디 클릭한 경우 -->
                             </c:otherwise>
                         </c:choose>
 
@@ -55,15 +53,19 @@
                     <!-- 방문 id가 세션 id랑 비교해서 같으면 나의 id를 / 다르면 click id를 선택 -->
                     <c:choose>
                         <c:when test="${empty visitor.id}">
-                            ${sessionScope.id}
+                            <button class="updateMember" onclick="location.href='/member/memberUpdate?id=${sessionScope.id}';">
+                                <span>${sessionScope.id}</span></button>
                         </c:when>
                         <c:when test="${sessionScope.id ne visitor.id}">
-                            ${visitor.id}
+                            <button class="updateMember" onclick="location.href='/member/memberUpdate?id=${sessionScope.id}';">
+                                <span>${visitor.id}</span></button>
                         </c:when>
                         <c:otherwise>
-                            ${sessionScope.id}
+                            <button class="updateMember" onclick="location.href='/member/memberUpdate?id=${sessionScope.id}';">
+                                <span>${sessionScope.id}</span></button>
                         </c:otherwise>
                     </c:choose>
+
                 </div>
             </div>
 
