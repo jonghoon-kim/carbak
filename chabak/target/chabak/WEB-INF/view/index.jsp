@@ -39,6 +39,17 @@
     </script>
 </head>
 <body>
+<%
+    // 로그인한 회원 정보 담기
+    String id = null;
+    String name = null;
+
+    // 세션이 존재하면 아이디값을 받아 관리
+    if(session.getAttribute("id") != null) {
+        id = (String)session.getAttribute("id");
+        name = (String)session.getAttribute("name");
+    }
+%>
 <!-- 배너 -->
 <div style="width:100%;">
     <ul class="slideshow">
@@ -60,12 +71,23 @@
     </div>
 
     <div id="header_right_but">
+        <% if (id != null) {%>
+        <%--<div><span class="user"> ${sessionScope.id}님, 환영합니다!</span></div>--%>
         <div class="info_but">
-            <button onclick="location.href ='/mypage/myInfo'">MyPage</button>
+            <button onclick="location.href ='#'">&nbsp;MyPage</button>
+        </div>
+        <div class="logout_but">
+            <button onclick="location.href ='/member/logout'">
+                <span>${sessionScope.id}</span></button>
+        </div>
+        <% } else {%>
+        <div class="info_but">
+            <button onclick="location.href ='#'">&nbsp;MyPage</button>
         </div>
         <div class="login_but">
             <button onclick="location.href ='/member/login'">Login</button>
         </div>
+        <% }%>
     </div>
     <div class="logo">
         <a href="index.html"><img src="img/header/main_logo.png"></a>

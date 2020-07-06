@@ -45,5 +45,19 @@
 	<update id="pw_update" parameterType="Member">
 		UPDATE Member
 		SET password= #{password}
+		WHERE email=#{email}
 	</update>
-	</mapper>
+
+	<update id="memberUpdate" parameterType="Member">
+		UPDATE MEMBER
+		SET
+		password = #{password},
+		name = #{name},
+		sido = #{sido},
+		gugun = #{gugun},
+		saveName = #{saveName},
+		savePath = #{savePath}
+		WHERE
+		id=#{id}
+	</update>
+</mapper>

@@ -40,4 +40,31 @@
 		<constructor-arg index="0" ref="sqlSessionFactory" /> <!-- 생성자의 아규먼트 0번째에 ref주소를 전달 -->
 	</bean>
 
+	<!-- file Upload -->
+	<bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+		<!-- max upload size in bytes -->
+		<property name="maxUploadSize" value="5242880" /> <!-- 5MB -->
+		<!-- max size of file in memory (in bytes) -->
+		<property name="maxInMemorySize" value="1048576" /> <!-- 1MB -->
+	</bean>
+
+	<!-- 이메일 인증 -->
+
+	<!-- Mail 인증 관련 -->
+	<bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
+		<property name="host" value="smtp.gmail.com" />
+		<property name="port" value="587" />
+		<property name="username" value="zxxexn@gmail.com" />
+		<property name="password" value="wlgkczkwwwvfjeel" />
+		<property name="javaMailProperties">
+			<props>
+				<prop key="mail.transport.protocol">smtp</prop>
+				<prop key="mail.smtp.auth">true</prop>
+				<prop key="mail.smtp.starttls.enable">true</prop>
+				<prop key="mail.debug">true</prop>
+			</props>
+		</property>
+	</bean>
 </beans>
+
+

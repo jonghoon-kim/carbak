@@ -72,6 +72,30 @@ body {
     justify-content: center;
     transform: translate(-50%,-50%);
 }
+.sessionId .updateMember {
+    margin: 15px 0px 0px 30px;
+    font-size: 16px;
+    font-family: 'Roboto', sans-serif;
+    font-weight:bold;
+    background-color: transparent;
+    text-transform: uppercase;
+    border-top: none;
+    border-left: none;
+    border-right: none;
+    border-bottom: 2px solid rgb(105, 179, 149);
+}
+.sessionId .updateMember:hover span {
+    display: none;
+}
+.sessionId .updateMember:hover,
+.sessionId .updateMember:hover:before{
+    margin: 15px 5px 5px 12px;
+    content:"회원정보수정";
+    font-family: 'Jeju Gothic', sans-serif;
+    background-color: #fff;
+}
+.sessionId .updateMember:focus {
+    outline: none;
 .sessionId {
     margin-top: 15px;
     text-transform: uppercase;
@@ -104,9 +128,9 @@ body {
     height: 120px;
     margin-bottom: 50px;
 }
+
 /* footer */
 .footer {
     margin-top: 200px;
 }
-
 

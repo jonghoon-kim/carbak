@@ -46,7 +46,7 @@
     overflow: hidden;
 }
 .thumbnail .centered {
-    position: absolute; 
+    position: absolute;
     top: 0;
     right : 0;
     left : 0;
@@ -69,6 +69,7 @@
     transform: translate(-50%,-50%);
 }
 .filebox label {
+    font-family: 'Jeju Gothic', sans-serif;
     margin-top:5px;
     margin-bottom :15px;
     display: inline-block;
@@ -83,17 +84,17 @@
     border-radius: 10px;
     -webkit-transition: background-color 0.2s;
     transition: background-color 0.2s;
-  }
-  
-  .filebox label:hover {
+}
+
+.filebox label:hover {
     color: black;
-  }
-  
-  .filebox label:active {
+}
+
+.filebox label:active {
     background-color:  rgb(105, 179, 149);
-  }
-  
-  .filebox input[type="file"] {
+}
+
+.filebox input[type="file"] {
     position: absolute;
     width: 1px;
     height: 1px;
@@ -102,7 +103,7 @@
     overflow: hidden;
     clip: rect(0, 0, 0, 0);
     border: 0;
-  }
+}
 /* input */
 /* input */
 #name {
@@ -139,15 +140,10 @@ input[type=password] {
     border-bottom: 2px solid rgb(105, 179, 149);
     font-family: 'pass', 'Roboto', Helvetica, Arial, sans-serif;
 }
-
-.in-line {
+input[id=id], input[id=email] {
     width:230px;
     height:42px;
     margin:0 auto;
-}
-.in-line #id, .in-line #email {
-    width: 75%;
-    height: 100%;
     padding-left: 15px;
     border-top : none;
     border-right :none;
@@ -157,36 +153,9 @@ input[type=password] {
     display: inline;
     box-sizing: border-box;
 }
-.in-line #id:focus, .in-line #email:focus {
+input[id=id]:focus, input[id=email]:focus {
     outline :none;
 }
-.in-line input[type="button"] {
-    width:25%;
-    height:100%;
-    background: rgb(105, 179, 149);
-    border: 2px solid #fff;
-    border-radius: 10px;
-    padding: 2px;
-    cursor: pointer;
-    display: block;
-    position: relative;
-    overflow: hidden;
-    margin-left: -10px;
-    text-align: center;
-    color :white;
-    font-size: small;
-    display: inline;
-    box-sizing: border-box;
-    font-family: 'Jeju Gothic', sans-serif;
-    font-weight: normal;
-}
-.in-line input[type="button"]:hover {
-    color: black;
-}
-.in-line input[type="button"]:focus {
-    outline: none;
-}
-
 /* 성별 라디오 버튼 */
 .radio-but{
     margin-top: 15px;
@@ -194,17 +163,19 @@ input[type=password] {
     color :black ;
 }
 .radio-but span {
+    font-family: 'Jeju Gothic', sans-serif;
     font-size : small;
     color : gray;
 }
 .box-radio-input input[type="radio"]{
     display:none;
-    
+
 }
 .box-radio-input input[type="radio"] + span{
+    font-family: 'Jeju Gothic', sans-serif;
     display:inline-block;
     background:none;
-    border:1px solid rgb(105, 179, 149);    
+    border:1px solid rgb(105, 179, 149);
     padding:0px 10px;
     text-align:center;
     height:35px;
@@ -219,9 +190,9 @@ input[type=password] {
     background:rgb(105, 179, 149);
     color:#fff;
 }
-
 /* 시도 선택 셀렉트 박스 */
-.select span {
+.address_select span {
+    font-family: 'Jeju Gothic', sans-serif;
     font-size : small;
     color : gray;
 }
@@ -238,7 +209,7 @@ select:focus {
     outline: none;
 }
 
-.sign-up-content input {
+.update_but input {
     margin: 0px 0px 15px 0px;
 }
 

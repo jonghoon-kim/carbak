@@ -105,7 +105,10 @@ public class MemberService {
         }
     }
     /* 비밀번호 변경 */
-    public int pw_update(String password) {
-        return memberDao.pw_update(password);
+    public int pw_update(Member member) {
+        return memberDao.pw_update(member);
+    }
+    public int memberUpdate(Member member) {
+        return memberDao.memberUpdate(member);
     }
 }

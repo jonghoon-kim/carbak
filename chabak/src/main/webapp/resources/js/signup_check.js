@@ -1,6 +1,6 @@
 /* 아이디 중복 체크, 체크 여부 판별 */
-var idChk;
-var emailChk;
+var idChk=false;
+var emailChk=false;
 
 function idCheck() {
     var query = {id : $("#id").val()};
@@ -84,6 +84,10 @@ function checkValue() {
         alert("이름이 잘못 입력되었습니다.");
         return false;
     }
+    if(!id) {
+        alert("아이디를 입력한 후 중복 체크를 해주세요.");
+        return false;
+    }
     if(idChk == false) {
         alert("아이디 중복 체크를 해주세요.");
         return false;
@@ -98,6 +102,10 @@ function checkValue() {
         }
     }
 
+    if(!email) {
+        alert("이메일을 입력한 후 인증해주세요.");
+        return false;
+    }
     if(emailChk == false){
         alert("이메일 인증을 해주세요.");
         return false;

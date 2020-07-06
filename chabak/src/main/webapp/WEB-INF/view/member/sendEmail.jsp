@@ -6,7 +6,7 @@
 <head>
     <meta charset="UTF-8">
     <title>슬기로운 차박생활</title>
-    <link href="/css/signup.css" rel="stylesheet">
+    <link href="/css/sendEmail.css" rel="stylesheet">
     <script type="text/javascript" src=" http://code.jquery.com/jquery-latest.js"></script>
     <script type="text/javascript" src="/js/email_certify.js" charset='UTF-8'></script>
 </head>

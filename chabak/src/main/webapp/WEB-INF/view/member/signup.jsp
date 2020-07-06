@@ -32,6 +32,7 @@
                     <div class="thumbnail-wrapper">
                         <div class="thumbnail">
                             <div id="View_area" class="centered">
+                                <img src="/profileImages/userDefault.png">
                             </div>
                         </div>
                         <div class="filebox">
