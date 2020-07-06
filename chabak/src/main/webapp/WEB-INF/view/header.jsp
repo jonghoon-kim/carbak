@@ -14,12 +14,16 @@
     // 로그인한 회원 정보 담기
     String id = null;
     String profile = null;
+    String saveName = null;
+    String savePath = null;
     String name = null;
 
     // 세션이 존재하면 아이디값을 받아 관리
     if(session.getAttribute("id") != null) {
         id = (String)session.getAttribute("id");
         profile = (String)session.getAttribute("profile");
+        saveName = (String)session.getAttribute("saveName");
+        savePath = (String)session.getAttribute("savePath");
         name = (String)session.getAttribute("name");
     }
 %>

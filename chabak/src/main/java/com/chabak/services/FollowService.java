@@ -14,7 +14,9 @@ public interface FollowService {
 
    List<Follow> followerIdAndProfile(String id) throws Exception;
 
-   int deleteFollowUser(String id, String followUserId) throws Exception;
+   int deleteFollowingUser(String id, String followUserId) throws Exception;
+
+   int deleteFollowerUser(String id, String followUserId) throws Exception;
 
    int followAddUser(String id, String followUserId) throws Exception;
 }

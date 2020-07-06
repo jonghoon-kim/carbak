@@ -22,18 +22,26 @@ public class FollowServiceImpl implements FollowService {
 
     @Override
     public List<Follow> followingIdAndProfile(String id) throws Exception {
+
         return followDao.followingIdAndProfile(id);
     }
 
     @Override
     public List<Follow> followerIdAndProfile(String id) throws Exception {
+        System.out.println("service : "+ followDao.followerIdAndProfile(id));
         return followDao.followerIdAndProfile(id);
     }
 
     @Override
-    public int deleteFollowUser(String id, String followUserId) throws Exception {
+    public int deleteFollowingUser(String id, String followUserId) throws Exception {
         System.out.println("here is services -- ");
-        return followDao.deleteFollowUser(id, followUserId);
+        return followDao.deleteFollowingUser(id, followUserId);
+    }
+
+    @Override
+    public int deleteFollowerUser(String id, String followUserId) throws Exception {
+        System.out.println("here is services -- ");
+        return followDao.deleteFollowerUser(id, followUserId);
     }
 
     @Override

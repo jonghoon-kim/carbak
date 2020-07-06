@@ -72,6 +72,9 @@ body {
     justify-content: center;
     transform: translate(-50%,-50%);
 }
+.sessionId {
+    margin-top: 15px;
+    text-transform: uppercase;
 .sessionId .updateMember {
     margin: 15px 0px 0px 30px;
     font-size: 16px;

@@ -23,9 +23,14 @@
         where follow.followerid=#{id} and follow.followingid = id
     </select>
 
-    <delete id="deleteFollowUser" parameterType="map">
+    <delete id="deleteFollowingUser" parameterType="map">
         DELETE FROM follow
         WHERE followingid=#{id} and followerid=#{followUserId}
+    </delete>
+
+    <delete id="deleteFollowerUser" parameterType="map">
+        DELETE FROM follow
+        WHERE followingid=#{followerUserId} and followerid=#{id}
     </delete>
 
     <insert id="addUserFollow" parameterType="map">

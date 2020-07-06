@@ -19,15 +19,10 @@
 
 <body>
 <div class="wrap">
-                            <!-- header -->
+    <!-- header -->
     <div id="header">
         <jsp:include page="/header"/>
     </div>
-    <script>
-        function getSession(){
-            return '${sessionScope.id}';
-        }
-    </script>
     <hr class="top_hr">
     <br>
     <div class="container">
@@ -39,12 +34,38 @@
             <div class="thumbnail-wrapper">
                 <div class="thumbnail">
                     <div id="View_area" class="centered">
+                        <!-- 방문 id가 세션 id랑 비교해서 같으면 나의 프로필 사진을 / 아니면 click id 프로필 선택 -->
+                        <c:choose>
+                            <c:when test="${empty visitor.id}">
+                                <img src="${sessionScope.savePath}${sessionScope.saveName}">
+                            </c:when>
+                            <c:when test="${sessionScope.id ne visitor.id}">
+                                <img src="${visitor.savePath}${visitor.saveName}">
+                            </c:when>
+                            <c:otherwise>
+                                <img src="${sessionScope.savePath}${sessionScope.saveName}"><!-- 다른사람 계정에서 내 아이디 클릭한 경우 -->
+                            </c:otherwise>
+                        </c:choose>
+<!--
                         <img src="${member.savePath}${member.saveName}">
+                        <button class="updateMember" onclick="location.href='/member/memberUpdate?id=${sessionScope.id}';">
+                            <span>${sessionScope.id}</span></button>-->
                     </div>
                 </div>
                 <div class="sessionId">
-                    <button class="updateMember" onclick="location.href='/member/memberUpdate?id=${sessionScope.id}';">
-                        <span>${sessionScope.id}</span></button>
+                    <!-- 방문 id가 세션 id랑 비교해서 같으면 나의 id를 / 다르면 click id를 선택 -->
+                    <c:choose>
+                        <c:when test="${empty visitor.id}">
+                            ${sessionScope.id}
+                        </c:when>
+                        <c:when test="${sessionScope.id ne visitor.id}">
+                            ${visitor.id}
+                        </c:when>
+                        <c:otherwise>
+                            ${sessionScope.id}
+                        </c:otherwise>
+                    </c:choose>
+
                 </div>
             </div>
             
@@ -60,18 +81,34 @@
                 <button type="button" id="">
                     게시글
                 </button>
-                <!--팔로워 수 보이게, 클릭시 팔로워 리뷰글 조회 + 팔로워 수 추가-->
-                <button type="button" id="follower">
-                팔로워
-                </button>
+                <c:choose>
+                    <c:when test="${empty visitor.id}">
+                        <button type="button" id="follower" onclick="followList('${sessionScope.id}', 'follower')">팔로워</button>
+                    </c:when>
+                    <c:when test="${sessionScope.id ne visitor.id}">
+                        <button type="button" id="follower" onclick="followList('${visitor.id}', 'follower')">팔로워</button>
+                    </c:when>
+                    <c:otherwise>
+                        <button type="button" id="follower" onclick="followList('${sessionScope.id}', 'follower')">팔로워</button>
+                    </c:otherwise>
+                </c:choose>
+
                 <!--숫자 클릭시 팔로워한 id 조회 리스트(팔로워 수 1000단위 k표현 100000단위 m표현-->
 
                 <!--팔로잉 수 보이게, 클릭시 팔로잉 리뷰글 조회 + 팔로잉 수 추가-->
                 <img class="but_img" src="/img/mypage/following.png">
+                <c:choose>
+                    <c:when test="${empty visitor.id}">
+                        <button type="button" id="following" onclick="followList('${sessionScope.id}', 'following')">팔로잉</button>
+                    </c:when>
+                    <c:when test="${sessionScope.id ne visitor.id}">
+                        <button type="button" id="following" onclick="followList('${visitor.id}', 'following')">팔로잉</button>
+                    </c:when>
+                    <c:otherwise>
+                        <button type="button" id="following" onclick="followList('${sessionScope.id}', 'following')">팔로잉</button>
+                    </c:otherwise>
+                </c:choose>
 
-                <button type="button" id="following">
-                    <span>팔로잉</span>
-                </button>
                 <!--숫자 클릭시 팔로잉한 id 조회 리스트(팔로워 수 1000단위 k표현 1000000단위 m표현-->
 
                 <%--    <!-- 위에 버튼 클릭 시, 화면단에서 비동기 처리(ajax 활용) todo:input hidden -->
@@ -82,9 +119,9 @@
         </div>
     </div>
 
-    <div class="listForm" > <!-- follower, following 리스트 출력 -->
+    <div class="listForm"> <!-- follower, following 리스트 출력 위치-->
         <ul class="listUl" id="selectedPosition">
-          test
+            follow list position
         </ul>
     </div>
 
@@ -93,7 +130,7 @@
     </div>
 </div>
 
-<jsp:include page="/WEB-INF/view/mypage/followListForm.jsp"/>
+<jsp:include page="/WEB-INF/view/mypage/myInfoFrame.jsp"/>
 <script type="text/javascript" src=" http://code.jquery.com/jquery-latest.min.js"></script>
 <script type="text/javascript" src="/js/myInfo.js" charset="UTF-8"></script>
 <script type="text/javascript" src="/js/follow_method.js"></script>
