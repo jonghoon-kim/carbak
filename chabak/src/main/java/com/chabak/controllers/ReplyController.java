@@ -3,21 +3,17 @@ package com.chabak.controllers;
 import com.chabak.repositories.ReplyDao;
 import com.chabak.repositories.ReviewDao;
 import com.chabak.services.MemberService;
+import com.chabak.utilities.Utility;
 import com.chabak.vo.Reply;
-import com.chabak.vo.Review;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+
 
 @Controller
 @RequestMapping("/reply")
@@ -33,14 +29,12 @@ public class ReplyController {
 
     //댓글 달기
     @RequestMapping(value ="/writeReply", method=RequestMethod.POST)
-    public ModelAndView writeReply(HttpServletRequest request, @ModelAttribute Reply reply, HttpSession session,HttpServletResponse response){
+    public ModelAndView writeReply( @ModelAttribute Reply reply, HttpSession session,HttpServletResponse response){
 
         ModelAndView mv = new ModelAndView();
 
         //세션에서 로그인한 아이디 가져와 설정(return: id or null)
-        String id = memberService.getIdForSessionOrMoveIndex(mv,session,response);
-        if(id==null)
-            return mv;
+        String id = Utility.getIdForSessionOrMoveIndex(mv,session,response);
 
         reply.setId(id);
         System.out.println("reply:"+reply);
@@ -50,7 +44,6 @@ public class ReplyController {
         //리뷰 댓글 수 증가
         reviewDao.increaseReplyCount(reply.getReviewNo());
 
-        //TODO:리다이렉트 시 조회수가 증가하므로 ajax로 변경을 고민 중...
         mv.setViewName("redirect:/review/detail?reviewNo="+reply.getReviewNo());
         return mv;//이동 주소는 수정할 것
     }
@@ -62,7 +55,7 @@ public class ReplyController {
         ModelAndView mv = new ModelAndView();
 
         //세션에서 로그인한 아이디 가져와 설정(return: id or null)
-        String id = memberService.getIdForSessionOrMoveIndex(mv,session,response);
+        String id = Utility.getIdForSessionOrMoveIndex(mv,session,response);
         if(id==null)
             return mv;
 
@@ -102,8 +95,6 @@ public class ReplyController {
         //리뷰 댓글 수 증가
         reviewDao.increaseReplyCount(reply.getReviewNo());
 
-        //TODO:리다이렉트 시 조회수가 증가하므로 ajax로 변경을 고민 중...
-
         mv.setViewName("redirect:/review/detail?reviewNo="+reply.getReviewNo());
         System.out.println(mv.getViewName());
         return mv;
@@ -117,7 +108,7 @@ public class ReplyController {
         ModelAndView mv = new ModelAndView();
 
         //세션에서 로그인한 아이디 가져와 설정(return: id or null)
-        String id = memberService.getIdForSessionOrMoveIndex(mv,session,response);
+        String id = Utility.getIdForSessionOrMoveIndex(mv,session,response);
         if(id==null)
             return mv;
 
@@ -136,7 +127,7 @@ public class ReplyController {
     @SneakyThrows
     @ResponseBody
     @RequestMapping("/checkChildReply")
-    public int checkChildReply(HttpServletRequest request,ModelAndView mv){
+    public int checkChildReply(HttpServletRequest request){
 
 
         int replyNo = Integer.parseInt(request.getParameter("replyNo"));
@@ -144,6 +135,7 @@ public class ReplyController {
         //ReplyNo로 Reply 1개 확정
         Reply reply = replyDao.selectReply(replyNo);
 
+        //해당 Reply을 부모로 갖는 자녀 리플 수
         int countChild = replyDao.countChildReply(reply);
 
         System.out.println("countChild:"+countChild);

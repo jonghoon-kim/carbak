@@ -86,14 +86,11 @@
                         location.href="/reply/delete?replyNo="+replyNo;
                     }
 
-
-
                 },
                 error:function(error){
                     alert('error');
                 }
             });  // ajax 끝
-
         }
 
 
@@ -132,8 +129,6 @@
             else{
                 askLogin();
             }
-
-
         }
 
         //대댓글 등록
@@ -141,13 +136,13 @@
             $("#ReReplyForm"+replyNo).submit();
 
         }
-
+        //Controller를
         //로그인 할지 물어보고 ok이면 로그인 페이지로 이동
         function askLogin(){
-            var confirmYn = confirm("로그인이 필요한 서비스입니다.로그인 하시겠습니까?") ;
+            var confirmYn = confirm("로그인이 필요한 서비스입니다. 로그인 하시겠습니까?") ;
             if(confirmYn)
                 location.href="/member/login";
-        }
+       }
 
         function ajaxReviewLikeToggle(reviewNo,imgTag,sessionId){
 
@@ -240,14 +235,12 @@
     </div>
 
     <div class="reply-input">
-<c:if test="${sessionScope.id != null and sessionScope.id !=''}">
         <form method="POST" action="/reply/writeReply">
             <input type="hidden" name="reviewNo" value="${review.reviewNo}">
             <input type="hidden" name="id">
             <input type="text" placeholder="댓글 입력" name="content">
             <button type="submit">등록</button>
         </form>
-</c:if>
     </div>
 
     <c:forEach var="list" items="${replyList}">

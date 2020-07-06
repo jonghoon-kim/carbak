@@ -6,6 +6,7 @@ import com.chabak.repositories.ReviewLikeDao;
 import com.chabak.services.MemberService;
 import com.chabak.services.ReviewLikeService;
 import com.chabak.services.ReviewService;
+import com.chabak.utilities.Utility;
 import com.chabak.vo.Reply;
 import com.chabak.vo.Review;
 import com.chabak.vo.ReviewLike;
@@ -42,7 +43,7 @@ public class ReviewLikeController {
 
         System.out.print("reviewLike Controller reviewNo:");
         //region checkLogin(세션에서 로그인한 아이디 가져와 설정+비로그인시 로그인 페이지로 이동(return: id or null))
-        String id = memberService.getIdForSessionOrMoveIndex(mv,session,response);
+        String id = Utility.getIdForSessionOrMoveIndex(mv,session,response);
         System.out.println("id:"+id);
         if(id==null){
             System.out.println("return -1");

@@ -5,6 +5,7 @@ import com.chabak.repositories.ReviewDao;
 import com.chabak.repositories.ReviewLikeDao;
 import com.chabak.services.MemberService;
 import com.chabak.services.ReviewService;
+import com.chabak.utilities.Utility;
 import com.chabak.vo.*;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.SneakyThrows;
@@ -119,9 +120,8 @@ public class ReviewController {
         ModelAndView mv = new ModelAndView();
 
         //region checkLogin(세션에서 로그인한 아이디 가져와 설정+비로그인시 로그인 페이지로 이동(return: id or null))
-        String id = memberService.getIdForSessionOrMoveIndex(mv,session,response);
-        if(id==null)
-            return mv;
+        String id = Utility.getIdForSessionOrMoveIndex(mv,session,response);
+
         //endregion
 
         mv.setViewName("community/community_write");
@@ -134,9 +134,7 @@ public class ReviewController {
         ModelAndView mv = new ModelAndView();
 
         //region checkLogin(세션에서 로그인한 아이디 가져와 설정+비로그인시 로그인 페이지로 이동(return: id or null))
-        String id = memberService.getIdForSessionOrMoveIndex(mv,session,response);
-        if(id==null)
-            return mv;
+        String id = Utility.getIdForSessionOrMoveIndex(mv,session,response);
         //endregion
 
         //작성자 설정
@@ -150,8 +148,6 @@ public class ReviewController {
         //리뷰 저장
         reviewDao.insertReview(review);
 
-
-
         mv.setViewName("redirect:/review");
 
         return mv;
@@ -164,13 +160,20 @@ public class ReviewController {
         ModelAndView mv = new ModelAndView();
 
         //region checkLogin(세션에서 로그인한 아이디 가져와 설정+비로그인시 로그인 페이지로 이동(return: id or null))
-        String id = memberService.getIdForSessionOrMoveIndex(mv,session,response);
-        if(id==null)
-            return mv;
+        String id = Utility.getIdForSessionOrMoveIndex(mv,session,response);
         //endregion
 
         System.out.println("/modify(GET) reviewNo:"+reviewNo);
         Review review = reviewDao.selectReviewDetail(reviewNo);
+
+        //수정 권한 체크
+       try{
+           reviewService.compareSessionAndWriterId(id,review.getId(),response);
+       } //해당 리뷰번호에 해당하는 작성자가 없으면
+       catch (NullPointerException e){
+           Utility.printAlertMessage(response,"잘못된 접근입니다.");
+           Utility.pageBackward(response);
+       }
 
         mv.addObject("review",review);
         mv.setViewName("community/community_update");
@@ -185,9 +188,8 @@ public class ReviewController {
         ModelAndView mv = new ModelAndView();
 
         //region checkLogin(세션에서 로그인한 아이디 가져와 설정+비로그인시 로그인 페이지로 이동(return: id or null))
-        String id = memberService.getIdForSessionOrMoveIndex(mv,session,response);
-        if(id==null)
-            return mv;
+        String id = Utility.getIdForSessionOrMoveIndex(mv,session,response);
+
         //endregion
 
         //작성자 설정
@@ -210,17 +212,21 @@ public class ReviewController {
         ModelAndView mv = new ModelAndView();
 
         //region checkLogin(세션에서 로그인한 아이디 가져와 설정+비로그인시 로그인 페이지로 이동(return: id or null))
-        String id = memberService.getIdForSessionOrMoveIndex(mv,session,response);
-        if(id==null)
-            return mv;
+        String id = Utility.getIdForSessionOrMoveIndex(mv,session,response);
+
         //endregion
 
+        //삭제 권한 체크
+        try{
+            reviewService.compareSessionAndWriterId(id,reviewService.getWriterId(reviewNo),response);
+        } //해당 리뷰번호에 해당하는 작성자가 없으면
+        catch (NullPointerException e){
+            Utility.printAlertMessage(response,"잘못된 접근입니다.");
+            Utility.pageBackward(response);
+        }
 
         //리뷰 삭제
         reviewDao.deleteReview(reviewNo);
-
-        //해당 리뷰에 달린 리플 전부 삭제(제약조건때문에 불필요)
-        //replyDao.deleteReplyWithReviewNo(reviewNo);
 
         mv.setViewName("redirect:/review");
 
@@ -228,12 +234,12 @@ public class ReviewController {
     }
 
     @RequestMapping(value ="/detail", method=RequestMethod.GET)
-    public ModelAndView detailReview(@RequestParam int reviewNo,HttpSession session){
+    public ModelAndView detailReview(@RequestParam int reviewNo,HttpSession session,HttpServletResponse response){
 
         ModelAndView mv = new ModelAndView();
 
         //region checkLogin(세션에서 로그인한 아이디 가져와 설정+비로그인시 로그인 페이지로 이동(return: id or null))
-        String id = memberService.getIdForSessionNotMoveIndex(session);
+        String id = Utility.getIdForSessionNotMoveIndex(session);
 
         //endregion
 
@@ -243,6 +249,12 @@ public class ReviewController {
         reviewDao.updateReadCount(reviewNo);
         //리뷰 선택
         Review review = reviewDao.selectReviewDetail(reviewNo);
+
+        //해당 리뷰가 존재하지 않으면
+        if(review == null){
+            Utility.printAlertMessage(response,"잘못된 접근입니다.");
+            Utility.pageBackward(response);
+        }
 
         //리뷰의 좋아요
 
@@ -273,17 +285,10 @@ public class ReviewController {
 
         System.out.println("replyList:"+replyList);
 
-
-
         mv.addObject("review",review);
         mv.addObject("replyList",replyList);
-
 
         mv.setViewName("community/community_detail");
         return mv;
     }
-
-
-
-
 }
