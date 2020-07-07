@@ -77,8 +77,12 @@
 
     </script>
 <body>
+
 <!-- header -->
-<hr>
+<div id="header">
+    <jsp:include page="/header"/>
+</div>
+<hr class="top_hr"><br>
 <br>
 <div class="container">
     <div class="top">
@@ -239,7 +243,9 @@
     </div>
 
 
-
+    <div class="footer">
+        <img src="/img/footer/footer.png">
+    </div>
 
     <!-- pagination{e} -->
 </div>

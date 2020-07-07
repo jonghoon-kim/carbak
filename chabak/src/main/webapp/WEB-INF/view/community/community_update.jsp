@@ -22,7 +22,11 @@
 
 <body>
 <!-- header -->
-<hr><br>
+<div id="header">
+    <jsp:include page="/header"/>
+</div>
+<hr class="top_hr"><br>
+<br>
 <div class="container">
     <div class="top">
         <h1>커뮤니티 리뷰 수정</h1>
@@ -73,6 +77,9 @@
         <button type="button" class="cancelButton" onclick="cancelFunction('/review/detail?reviewNo=${review.reviewNo}')">취소</button>
     </div>
     </form>
+</div>
+<div class="footer">
+    <img src="/img/footer/footer.png">
 </div>
 </body>
 

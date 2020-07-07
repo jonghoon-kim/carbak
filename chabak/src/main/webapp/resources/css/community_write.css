@@ -1,7 +1,20 @@
 @import url(//fonts.googleapis.com/earlyaccess/jejugothic.css);
 
+/* 헤더 */
+#header {
+    padding-bottom: 200px;
+}
+.top_hr{
+    border: 1px solid rgb(105, 179, 149);
+    width: 1535px;
+    display: inline-block;
+    margin: 70px 200px 0px 200px;
+}
 /* 전체 */
 .container {
+    text-align: center;
+    margin-top:70px;
+    margin-bottom:70px;
     font-family: 'Jeju Gothic', sans-serif;
 }
 
@@ -117,4 +130,8 @@
 }
 .bottom .cancelButton:focus {
     outline: none;
+}
+/* footer */
+.footer {
+    margin-top: 200px;
 }

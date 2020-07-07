@@ -37,7 +37,7 @@
             <button onclick="location.href ='campsite.html'">Campsite Info</button>
         </div>
         <div class="community_but">
-            <button onclick="location.href ='community.html'">Community</button>
+            <button onclick="location.href ='/review'">Community</button>
         </div>
     </div>
 
