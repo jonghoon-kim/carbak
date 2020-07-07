@@ -21,10 +21,7 @@
             //정렬타입 select 값 설정
             var selectSortType = $("#sortType");
             selectSortType.val("${sortType}");
-            selectSortType.change();
-            //get 방식으로 들어갈 경우 sortType 파라미터를 입력하더라도 select 의 값이 수정되지 않아 강제로 change 이벤트 발생시킴->
-            // select change 이벤트로 인해 ajax 방식으로 호출
-            //결국 get으로 호출하더라도 한번 더 ajax 방식으로 호출하여 리스트 2번 불러옴(어떻게 수정해야 하나?)
+
             console.log("searchText:"+"${searchText}"+ " sortType:"+"${sortType}");
             if ( event.persisted || (window.performance && window.performance.navigation.type === 2)) {
                 // Back Forward Cache로 브라우저가 로딩될 경우 혹은 브라우저 뒤로가기 했을 경우
