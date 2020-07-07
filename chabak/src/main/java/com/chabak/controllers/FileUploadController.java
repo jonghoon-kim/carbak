@@ -1,19 +1,10 @@
 package com.chabak.controllers;
 
 
-import com.chabak.repositories.FileUploadDao;
-import com.chabak.services.FileUploadService;
-
-import com.chabak.vo.FileUpload;
 import com.chabak.vo.SmartEditorVo;
 import lombok.SneakyThrows;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.multipart.MultipartFile;
-
 
 
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -21,17 +12,13 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import javax.servlet.http.HttpServletRequest;
 import java.io.File;
 import java.text.SimpleDateFormat;
-import java.util.List;
 import java.util.UUID;
 
 @Controller
 @RequestMapping("/fileupload")
 public class FileUploadController {
 
-    @Autowired
-    FileUploadService fileUploadService;
-    @Autowired
-    FileUploadDao fileUploadDao;
+
 
     @SneakyThrows
     @RequestMapping(value="/single",method=RequestMethod.POST)
@@ -89,20 +76,5 @@ public class FileUploadController {
     } //스마트 에디터 단일 파일 업로드 기능
 
 
-    @RequestMapping(value="/upload",method=RequestMethod.POST)
-    public String upload(@RequestParam(required=false) List<MultipartFile> files, Model model) {
-        String saveFileName = "";
-        for (MultipartFile file : files) {
 
-            saveFileName = fileUploadService.store(file);
-            FileUpload fileUpload = new FileUpload();
-            fileUpload.setSaveName(saveFileName);
-
-            fileUploadDao.insertFile(fileUpload);
-        }
-            List<FileUpload> fileList = fileUploadDao.selectFileList();
-            model.addAttribute("fileList", fileList);
-            return "주소 설정 필요";
-        }
-    }
-
+}

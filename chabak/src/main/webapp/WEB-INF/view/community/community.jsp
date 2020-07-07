@@ -16,36 +16,29 @@
     <script type="text/javascript" src=" http://code.jquery.com/jquery-latest.min.js"></script>
     <script type="text/javascript" src="/js/reviewScript.js" charset='UTF-8'></script>
     <script>
-
         //ajax 사용 후 페이지 이동 후 뒤로가기로 돌아왔을 때 변경내용(db)가 화면에 반영 안 되는 것을 고치기(뒤로 가기시 다시 페이지 로드)
         window.onpageshow = function(event) {
-
             //정렬타입 select 값 설정
-
             var selectSortType = $("#sortType");
             selectSortType.val("${sortType}");
             selectSortType.change();
-
+            //get 방식으로 들어갈 경우 sortType 파라미터를 입력하더라도 select 의 값이 수정되지 않아 강제로 change 이벤트 발생시킴->
+            // select change 이벤트로 인해 ajax 방식으로 호출
+            //결국 get으로 호출하더라도 한번 더 ajax 방식으로 호출하여 리스트 2번 불러옴(어떻게 수정해야 하나?)
             console.log("searchText:"+"${searchText}"+ " sortType:"+"${sortType}");
-
-         if ( event.persisted || (window.performance && window.performance.navigation.type === 2)) {
-            // Back Forward Cache로 브라우저가 로딩될 경우 혹은 브라우저 뒤로가기 했을 경우
-             console.log("back");
-             window.location.reload();
+            if ( event.persisted || (window.performance && window.performance.navigation.type === 2)) {
+                // Back Forward Cache로 브라우저가 로딩될 경우 혹은 브라우저 뒤로가기 했을 경우
+                console.log("back");
+                window.location.reload();
             }
         }
-
-
         function ajaxReviewLikeToggle(reviewNo,imgTag,sessionId){
-
             if(sessionId == "" || sessionId==null){
-
                 var confirmYn = confirm("로그인이 필요한 서비스입니다.로그인 하시겠습니까?") ;
                 if(confirmYn)
                     location.href="/member/login";
             }
             else{
-
                 $.ajax({
                     url:"/reviewLike/toggleAjax",
                     type : "post",
@@ -60,18 +53,13 @@
                     },
                     error:function(error){
                         alert(error)
-
                     }
                 });
             }
         }
-
         function fn_paging(curPage) {
             ajaxReviewList('${sessionScope.id}',true,curPage);
-
         }
-
-
     </script>
 <body>
 <!-- header -->
@@ -84,7 +72,7 @@
     <div class="search">
 
         <input type="text" class="search_text" placeholder=" 지역 검색" name="searchText" id="search_text" value="${searchText}">
-<%--        검색버튼 눌렀을 때 검색어 저장 input--%>
+        <%--        검색버튼 눌렀을 때 검색어 저장 input--%>
         <input type="hidden" name="search_text_saved" id="search_text_saved" value="${searchText}">
         <button type="button" class="search_but" onclick="ajaxReviewList('${sessionScope.id}',true,'${pagination.curPage}')"></button>
     </div>
@@ -140,7 +128,7 @@
     </div>
     <%-- 리뷰글 원형 끝           --%>
 
-<%--    reviewListDiv 시작--%>
+    <%--    reviewListDiv 시작--%>
     <div style="margin-top: 170px;" id="reviewListDiv">
         <!-- 게시글 리스트 -->
         <c:forEach var="review" items="${reviewList}">
@@ -156,7 +144,7 @@
                     </div>
                     <div class="writer">
                     <span class="writer-id">
-                        ${review.id}
+                            ${review.id}
                     </span>
                     </div>
                 </div>
@@ -186,7 +174,7 @@
                                 </c:otherwise>
                             </c:choose>
 
-                            <button class="comment-img"><img src="/img/community/comment.png" onclick=""></button>
+                            <button class="comment-img"><img src="/img/community/comment.png" onclick="location.href='/review/detail?reviewNo='+'${review.reviewNo}'+'#reply'"></button>
                         </div>
                     </div>
 

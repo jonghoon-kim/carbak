@@ -27,36 +27,31 @@ function checkReviewValidate(){
 
 }
 
-//필드 글자 및 바이트제한
-function checkLengthValidate(obj, maxByte) {
+//필드 글자 수 제한
+function checkLengthValidate(obj, maxLen) {
 
     var strValue = obj.value;
     var strLen = strValue.length;
-    var totalByte = 0;
+    var totalLen = 0;
     var len = 0;
     var oneChar = "";
     var str2 = "";
 
     for (var i = 0; i < strLen; i++) {
-        oneChar = strValue.charAt(i);
-        if (escape(oneChar).length > 4) {
-            totalByte += 2;
-        } else {
-            totalByte++;
-        }
 
+        totalLen++;
         // 입력한 문자 길이보다 넘치면 잘라내기 위해 저장
-        if (totalByte <= maxByte) {
+        if (totalLen <= maxLen) {
             len = i + 1;
         }
     }
 
     // 넘어가는 글자는 자른다.
-    if (totalByte > maxByte) {
-        alert(maxByte + "Byte를 초과 입력 할 수 없습니다.");
+    if (totalLen > maxLen) {
+        alert(maxLen + "글자를 초과 입력 할 수 없습니다.");
         str2 = strValue.substr(0, len);
         obj.value = str2;
-        checkLengthValidate(obj, 20);
+        checkLengthValidate(obj, maxLen);
     }
 
 }
@@ -64,16 +59,16 @@ function checkLengthValidate(obj, maxByte) {
 //페이징 시 url String 설정(예: "/review"+getUrlString(curPage)    )
 function getUrlString(searchText,sortType){
 
-        var urlString="?";
+    var urlString="?";
 
-        urlString += "sortType="+sortType;
-        if(searchText!='' || searchText!=null || searchText!=""){
+    urlString += "sortType="+sortType;
+    if(searchText!='' || searchText!=null || searchText!=""){
 
-            urlString += "&searchText="+searchText;
-        }
+        urlString += "&searchText="+searchText;
+    }
 
-        console.log("getUrlString():"+urlString);
-        return urlString;
+    console.log("getUrlString():"+urlString);
+    return urlString;
 
 
 }
@@ -97,13 +92,13 @@ function ajaxReviewList(sessionId,isSearchButton,curPage) {
         type : "post",
         dataType:'json',
         data :{"sortType": $("#sortType option:selected").val(),//서버로 전송하는 데이터(정렬방식)
-               "searchText": searchText,
-               "curPage": curPage       }, //검색창의 텍스트값
+            "searchText": searchText,
+            "curPage": curPage       }, //검색창의 텍스트값
         success : function(data) {
-            
+
             //받은 sessionId 값이 문자열이 아니므로(따옴표로 감싸이지 않았음) 따옴표 추가
             sessionId = "'"+sessionId+"'";
-            
+
             var reviewListDiv = $("#reviewListDiv"); //리뷰가 추가되는 영역
             reviewListDiv.empty();  //리뷰 추가 영역 초기화
 
@@ -127,6 +122,7 @@ function ajaxReviewList(sessionId,isSearchButton,curPage) {
 
                 var onclickLink =  "location.href='/review/detail?reviewNo="+ reviewNo+"'"; //리뷰 타이틀 이미지 링크
                 reviewImg.attr("onclick",onclickLink);
+                console.log("onclickLink:"+ onclickLink);
 
                 var title = newReview.find(".content-title");   //리뷰 타이틀
                 title.text('['+this["sido"]+']'+'['+this["gugun"]+']'+this["title"]);                      //리뷰 타이틀 설정 [sido][gugun][title]
@@ -144,10 +140,17 @@ function ajaxReviewList(sessionId,isSearchButton,curPage) {
                 if(sessionId=="" || sessionId==null || this["likeYn"]==0){
 
                     toggleImage.attr("src","/img/community/heart.png");
-               }
+                }
                 else{
                     toggleImage.attr("src","/img/community/heart2.png");
                 }
+
+                var communityImg = newReview.find(".comment-img");
+
+                var onclickLink2 = "location.href='/review/detail?reviewNo="+ reviewNo+"#reply'";
+                console.log("onclickLink2:"+onclickLink2);
+
+                communityImg.attr("onclick",onclickLink2);
 
                 newReview.show();
                 reviewListDiv.append(newReview);
@@ -219,4 +222,18 @@ function cancelFunction(link) {
     }
 }
 
+//form에 input type="text" 반드시 1개일때 input이 비어있는지 체크(공통 사용 가능,form의 onsubmit에 사용)
+function commonCheckInputNotEmpty(obj,errorMessage) {
+    var inputText = $(obj).find('input[type=\"text\"]').val();
+    if(inputText == null || inputText == ""){
+        if(arguments.length==2){
+            alert(errorMessage);
+        }
+        else
+            alert("내용을 입력하세요.");
 
+        return false;
+    }
+    return true;
+
+}

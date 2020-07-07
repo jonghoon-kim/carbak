@@ -2,14 +2,15 @@ package com.chabak.services;
 
 
 import com.chabak.repositories.ReviewDao;
+import com.chabak.util.Utility;
 import com.chabak.vo.Pagination;
 import com.chabak.vo.Review;
+import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -19,10 +20,6 @@ public class ReviewService {
 
     @Autowired
     ReviewDao reviewDao;
-
-    @Autowired
-    MemberService memberService;
-
 
     public boolean setTitleImg(Review review){
         //대표 이미지 저장
@@ -47,7 +44,7 @@ public class ReviewService {
     public Pagination setReviewListParameterMap(Map map,HttpSession session,String sortType,String searchText,int listCnt,int curPage) {
         map.put("sortType",sortType);
         map.put("searchText",searchText);
-        map.put("id",memberService.getIdForSessionNotMoveIndex(session));//세션에서 가져온 id map에 넣기
+        map.put("id",Utility.getIdForSessionNotMoveIndex(session));//세션에서 가져온 id map에 넣기
 
         //페이징 관련 파라미터
         //reviewList 행의 수
@@ -61,4 +58,26 @@ public class ReviewService {
 
         return pagination;
     }
+
+    //세션 아이디와 작성자 아이디를 파라미터로 받아 다르면 경고창을 띄우고 이전 페이지로 이동
+    @SneakyThrows
+    public boolean compareSessionAndWriterId(String sessionId, String writerId, HttpServletResponse response){
+
+        if(sessionId.equals(writerId)){
+            return true;
+        }
+        Utility.printAlertMessage(response,"해당 권한이 없습니다.");
+
+        Utility.pageBackward(response);
+        return false;
+    }
+
+    //reviewNo로 작성자 검색
+    public String getWriterId(int reviewNo){
+        Review review = reviewDao.selectReviewDetail(reviewNo);
+        if(review != null)
+            return review.getId();
+        return null;
+    }
+
 }
