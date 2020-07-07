@@ -30,11 +30,11 @@
     margin-top : 100px;
 }
 .search:after {
-    content:""; 
-    clear:both; 
+    content:"";
+    clear:both;
     display:table
-  }
-  .search .search_text {
+}
+.search .search_text {
     width: 150px;
     height: 30px;
     padding-left: 15px;
@@ -46,12 +46,12 @@
     margin-right: 3px;
     opacity: 0.8;
     border:2px solid rgb(105, 179, 149);
-  }
-  .search input:focus {
+}
+.search input:focus {
     background-color: rgb(246, 253, 241);
     opacity: 1;
-  }
-  .search .search_but {
+}
+.search .search_but {
     width: 35px;
     height: 35px;
     border-radius: 42px;
@@ -60,73 +60,73 @@
     position: relative;
     top: 0px;
     opacity: 0.8;
-  }
-  .search .search_but:hover {
+}
+.search .search_but:hover {
     outline:none;
     background :#ECF8E0;
-  }
-  .search .search_but:active,
-  .search .search_but:focus {
+}
+.search .search_but:active,
+.search .search_but:focus {
     outline:none;
-  }
-  .search .search_but:before{
+}
+.search .search_but:before{
     content: "\f002";
     font-family: FontAwesome;
     color: gray;
-  }
+}
 
-   /* 글작성 버튼 */
-   .second {
+/* 글작성 버튼 */
+.second {
     width: 80%;
     margin-top: 50px;
- }
-   .insert {
-       float :left;
-       box-sizing: border-box;
-       margin-left: 30em;
-   }
-   .insert button {
-     background: rgb(105, 179, 149);
-     border: 2px solid #fff;
-     border-radius: 10px;
-     padding: 10px;
-     width: 100px;
-     height: 35px;
-     cursor: pointer;
-     position: relative;
-     overflow: hidden;
-     color :white;
-     font-weight: normal;
-     font-size: small;
-     font-family: 'Jeju Gothic', sans-serif;
-   }
-   .insert button:focus {
-       outline:none;
-   }
-   .insert button:hover {
-       font-size:14px;
-   }
-    /* 정렬 */
- .sort {
-     float:right;
-     box-sizing: border-box;
-     margin-right: 8em;
- }
- .sort select {
-     font-family: 'Jeju Gothic', sans-serif;
-     border : 2px solid rgb(105, 179, 149);
-     border-radius: 10px;
-     width: 100px;
-     height : 30px;
-     color: gray;
- }
- .sort select:focus,
- .sort select:active {
-     outline:none;
- }
+}
+.insert {
+    float :left;
+    box-sizing: border-box;
+    margin-left: 30em;
+}
+.insert button {
+    background: rgb(105, 179, 149);
+    border: 2px solid #fff;
+    border-radius: 10px;
+    padding: 10px;
+    width: 100px;
+    height: 35px;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+    color :white;
+    font-weight: normal;
+    font-size: small;
+    font-family: 'Jeju Gothic', sans-serif;
+}
+.insert button:focus {
+    outline:none;
+}
+.insert button:hover {
+    font-size:14px;
+}
+/* 정렬 */
+.sort {
+    float:right;
+    box-sizing: border-box;
+    margin-right: 8em;
+}
+.sort select {
+    font-family: 'Jeju Gothic', sans-serif;
+    border : 2px solid rgb(105, 179, 149);
+    border-radius: 10px;
+    width: 100px;
+    height : 30px;
+    color: gray;
+}
+.sort select:focus,
+.sort select:active {
+    outline:none;
+}
 
- /* 게시글 리스트 */
- .review {
+/* 게시글 리스트 */
+.review {
     position: relative;
     width: 40%;
     height: auto;
@@ -134,12 +134,12 @@
     margin-left : 30%;
     margin-right : 30%;
 }
- /* 사용자 이름 */
+/* 사용자 이름 */
 .profile {
     width: 40%;
     position: relative;
 }
- .profile .thumbnail-wrapper {
+.profile .thumbnail-wrapper {
     float: left;
     width: 50px;
     height: 50px;
@@ -153,7 +153,7 @@
     overflow: hidden;
 }
 .thumbnail .centered {
-    position: absolute; 
+    position: absolute;
     top: 0;
     right : 0;
     left : 0;

@@ -62,7 +62,6 @@
         }
     </script>
 <body>
-
 <!-- header -->
 <div id="header">
     <jsp:include page="/header"/>
@@ -228,13 +227,14 @@
     </div>
 
 
-    <div class="footer">
-        <img src="/img/footer/footer.png">
-    </div>
+
 
     <!-- pagination{e} -->
 </div>
 <%--/container--%>
+<div class="footer">
+    <img src="/img/footer/footer.png">
+</div>
 
 </div>
 </div>
