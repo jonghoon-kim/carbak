@@ -26,17 +26,17 @@
         WHERE followingid=#{followerUserId} and followerid=#{id}
     </delete>
 
-    <insert id="followAddUser" parameterType="map">
+    <insert id="clickFollowBtn" parameterType="map">
         INSERT INTO follow(followingid, followerid)
         VALUES (#{id}, #{selectedUserId})
     </insert>
 
-    <delete id="followDeleteUser" parameterType="map">
+    <delete id="clickFollowingBtn" parameterType="map">
         DELETE FROM follow
         WHERE followingid=#{id} and followerid=#{selectedUserId}
     </delete>
 
-    <select id="decisionFollowStatus" parameterType="map" resultType="string">
+    <select id="btnFollowStatus" parameterType="map" resultType="string">
         select followerId
         from follow
         where followerId=#{userId} and followingId = #{sessionId}

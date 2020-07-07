@@ -41,17 +41,80 @@ function printList(data, option, id){
 
         if(sessionId!= id) { // 다른 사용자 아이디일 경우
             // listFollowStatus(id, option);
-            $('#buttonId').attr('onclick', "listFollowStatus("+"'"+userId+"','"+option+"')"); // 팔로워 클릭인지 팔로잉 클릭인지:option
+            $('#buttonId').attr('onclick', "listFollowStatus("+"'"+userId+"','"+option+"')"); // 팔로워 클릭인지 팔로잉 클릭인지:option //todo: <-- 이쪽줄 확인해 볼 것
             //todo: 팔로잉/ 팔로우 text 나오게 조건 설정
-            decisionFollowStatus(userId,i); // 조건 function 만들기 :: $('#buttonId'+i).text("팔로잉/팔로우");
-
+            btnFollowStatus(userId,i, option, id); // 조건 function 만들기 :: $('#buttonId'+i).text("팔로잉/팔로우");
         }else { // 마이페이지인 경우
             $('#buttonId').attr('onclick', "deleteFollowUser("+"'"+userId+"','"+option+"')");
             $('#buttonId'+i).text("삭제");
         }
-
         htmlFrame.show();
     }
+}
+
+function btnFollowStatus(userId, i, option, id){
+    $.ajax ({
+        type: "get",
+        data : {"userId": userId,
+            "option": option},
+        datatype: "json",
+        url: "btnFollowStatus",
+        success : function(data) {
+            console.log("followerId : " + data.followerId);
+            var followerId = data.followerId;
+            console.log("userId : " + userId);
+            console.log("data : " + data.followerId);
+            console.log("sessionId : " + data.sessionId);
+
+            if (followerId == userId) {
+                $('#buttonId' + i).text("팔로잉");
+                $('#buttonId' + i).attr('onclick', "clickFollowingBtn("+"'"+userId+"','"+option+"','"+id+"')");
+            }
+            else if(data.sessionId == userId)
+                $('#buttonId'+i).text("나");
+            else{
+                $('#buttonId' + i).text("팔로우");
+                $('#buttonId' + i).attr('onclick', "clickFollowBtn("+"'"+userId+"','"+option+"','"+id+"')");
+            }
+        }, error: function (data) {
+        }
+    })
+}
+
+//팔로우 버튼 클릭시 팔로잉으로 변경
+function clickFollowBtn(followUserId, option, pageOwnerId){ // followUserId 클릭되는 아이디
+    $.ajax({
+        type: "get",
+        data : {"followUserId": followUserId,
+            "option": option,
+            "pageOwnerId": pageOwnerId},
+        datatype: "json",
+        url: "clickFollowBtn",
+        success : function(data) {
+            printList(data, option , pageOwnerId);
+
+            alert("clickFollowBtn success");
+        }, error: function (data) {
+        }
+    })
+}
+
+//팔로잉 버튼 클릭시 팔로우로 변경
+function clickFollowingBtn(followUserId, option, pageOwnerId){
+    $.ajax({
+        type: "get",
+        data : {"followUserId": followUserId,
+            "option": option,
+            "pageOwnerId": pageOwnerId},
+        datatype: "json",
+        url: "clickFollowingBtn",
+        success : function(data) {
+            printList(data, option , pageOwnerId);
+
+            alert("clickFollowBtn success");
+        }, error: function (data) {
+        }
+    })
 }
 
 /*// 방문한 유저의 팔로잉 팔로워 상태를 보여주고 버튼 클릭시 팔로잉, 팔로잉 취소 event 실행
@@ -70,23 +133,3 @@ function listFollowStatus(id, option) {
         }
     })
 }*/
-
-function decisionFollowStatus(userId, i){
-    $.ajax ({
-        type: "get",
-        data : {"userId": userId},
-        datatype: "json",
-        url: "decisionFollowStatus",
-        success : function(data) {
-            console.log("followerId" + data.followerId);
-            var followerId = data.followerId;
-            console.log("userId" + userId);
-
-            if(followerId == userId)
-                $('#buttonId'+i).text("팔로잉");
-            else
-                $('#buttonId'+i).text("팔로우");
-        }, error: function (data) {
-        }
-    })
-}

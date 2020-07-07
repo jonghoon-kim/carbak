@@ -38,20 +38,20 @@ public class FollowServiceImpl implements FollowService {
     }
 
     @Override
-    public int followAddUser(String id, String selectedUserId) throws Exception {
-        System.out.println("followAddUser here is services -- ");
-        return followDao.followAddUser(id, selectedUserId);
+    public int clickFollowBtn(String id, String selectedUserId) throws Exception {
+        System.out.println("clickFollowBtn here is services -- ");
+        return followDao.clickFollowBtn(id, selectedUserId);
     }
 
     @Override
-    public int followDeleteUser(String id, String selectedUserId) throws Exception {
+    public int clickFollowingBtn(String id, String selectedUserId) throws Exception {
         System.out.println("followDeleteUser here is services -- ");
-        return followDao.followDeleteUser(id, selectedUserId);
+        return followDao.clickFollowingBtn(id, selectedUserId);
     }
 
     @Override
-    public String decisionFollowStatus(String sessionId, String userId) throws Exception {
-        System.out.println(" decisionFollowStatus here is services -- ");
-        return followDao.decisionFollowStatus(sessionId, userId);
+    public String btnFollowStatus(String sessionId, String userId) throws Exception {
+        System.out.println(" btnFollowStatus here is services -- ");
+        return followDao.btnFollowStatus(sessionId, userId);
     }
 }

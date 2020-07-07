@@ -45,28 +45,28 @@ import java.util.Map;
             return sqlSession.delete("deleteFollowerUser", map);
         }
 
-        public int followAddUser(String id, String selectedUserId)  throws Exception {
+        public int clickFollowBtn(String id, String selectedUserId)  throws Exception {
             Map<String , String> map = new HashMap<String, String>();
             map.put("id" , id);
             map.put("selectedUserId", selectedUserId);
             System.out.println("map test :" + map);
-            return sqlSession.insert("followAddUser", map);
+            return sqlSession.insert("clickFollowBtn", map);
         }
 
-        public int followDeleteUser(String id, String selectedUserId)  throws Exception {
+        public int clickFollowingBtn(String id, String selectedUserId)  throws Exception {
             Map<String , String> map = new HashMap<String, String>();
             map.put("id" , id);
             map.put("selectedUserId", selectedUserId);
             System.out.println("map test :" + map);
-            return sqlSession.insert("followDeleteUser", map);
+            return sqlSession.insert("clickFollowingBtn", map);
         }
 
-        public String decisionFollowStatus(String sessionId, String userId)  throws Exception {
+        public String btnFollowStatus(String sessionId, String userId)  throws Exception {
             Map<String , String> map = new HashMap<String, String>();
             map.put("sessionId", sessionId);
             map.put("userId", userId);
-            System.out.println("here decisionFollowStatus Dao :" + map);
+            System.out.println("here btnFollowStatus Dao :" + map);
 
-            return sqlSession.selectOne("follow.decisionFollowStatus", map);
+            return sqlSession.selectOne("follow.btnFollowStatus", map);
         }
 }
