@@ -2,7 +2,6 @@ package com.chabak.controllers;
 
 import com.chabak.repositories.ReplyDao;
 import com.chabak.repositories.ReviewDao;
-import com.chabak.services.MemberService;
 import com.chabak.util.Utility;
 import com.chabak.vo.Reply;
 import lombok.SneakyThrows;
@@ -23,9 +22,6 @@ public class ReplyController {
     ReviewDao reviewDao;
     @Autowired
     ReplyDao replyDao;
-
-    @Autowired
-    MemberService memberService;
 
     //댓글 달기
     @RequestMapping(value ="/writeReply", method=RequestMethod.POST)

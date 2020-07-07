@@ -1,6 +1,5 @@
 package com.chabak.controllers;
 
-import com.chabak.services.MemberService;
 import com.chabak.services.ReviewLikeService;
 import com.chabak.util.Utility;
 import com.chabak.vo.ReviewLike;
@@ -19,11 +18,6 @@ public class ReviewLikeController {
 
     @Autowired
     ReviewLikeService reviewLikeService;
-
-    @Autowired
-    MemberService memberService;
-
-
 
     @ResponseBody
     @RequestMapping(value ={"/toggleAjax"}, method=RequestMethod.POST)

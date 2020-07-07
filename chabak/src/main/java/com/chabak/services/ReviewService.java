@@ -21,10 +21,6 @@ public class ReviewService {
     @Autowired
     ReviewDao reviewDao;
 
-    @Autowired
-    MemberService memberService;
-
-
     public boolean setTitleImg(Review review){
         //대표 이미지 저장
         Pattern pattern = Pattern.compile("<img[^>]*src=[\"']?([^>\"']+)[\"']?[^>]*>"); //img 태그 src 추출 정규표현식

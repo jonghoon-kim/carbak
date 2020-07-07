@@ -59,16 +59,16 @@ function checkLengthValidate(obj, maxLen) {
 //페이징 시 url String 설정(예: "/review"+getUrlString(curPage)    )
 function getUrlString(searchText,sortType){
 
-        var urlString="?";
+    var urlString="?";
 
-        urlString += "sortType="+sortType;
-        if(searchText!='' || searchText!=null || searchText!=""){
+    urlString += "sortType="+sortType;
+    if(searchText!='' || searchText!=null || searchText!=""){
 
-            urlString += "&searchText="+searchText;
-        }
+        urlString += "&searchText="+searchText;
+    }
 
-        console.log("getUrlString():"+urlString);
-        return urlString;
+    console.log("getUrlString():"+urlString);
+    return urlString;
 
 
 }
@@ -92,13 +92,13 @@ function ajaxReviewList(sessionId,isSearchButton,curPage) {
         type : "post",
         dataType:'json',
         data :{"sortType": $("#sortType option:selected").val(),//서버로 전송하는 데이터(정렬방식)
-               "searchText": searchText,
-               "curPage": curPage       }, //검색창의 텍스트값
+            "searchText": searchText,
+            "curPage": curPage       }, //검색창의 텍스트값
         success : function(data) {
-            
+
             //받은 sessionId 값이 문자열이 아니므로(따옴표로 감싸이지 않았음) 따옴표 추가
             sessionId = "'"+sessionId+"'";
-            
+
             var reviewListDiv = $("#reviewListDiv"); //리뷰가 추가되는 영역
             reviewListDiv.empty();  //리뷰 추가 영역 초기화
 
@@ -140,16 +140,16 @@ function ajaxReviewList(sessionId,isSearchButton,curPage) {
                 if(sessionId=="" || sessionId==null || this["likeYn"]==0){
 
                     toggleImage.attr("src","/img/community/heart.png");
-               }
+                }
                 else{
                     toggleImage.attr("src","/img/community/heart2.png");
                 }
 
                 var communityImg = newReview.find(".comment-img");
-                // communityImg.attr("onclick","moveDetailAndFocusComment('"+reviewNo+"')");
+
                 var onclickLink2 = "location.href='/review/detail?reviewNo="+ reviewNo+"#reply'";
                 console.log("onclickLink2:"+onclickLink2);
-                // communityImg.attr("onclick","location.href='/review/detail?reviewNo="+ reviewNo +"'#reply");
+
                 communityImg.attr("onclick",onclickLink2);
 
                 newReview.show();
@@ -222,4 +222,18 @@ function cancelFunction(link) {
     }
 }
 
+//form에 input type="text" 반드시 1개일때 input이 비어있는지 체크(공통 사용 가능,form의 onsubmit에 사용)
+function commonCheckInputNotEmpty(obj,errorMessage) {
+    var inputText = $(obj).find('input[type=\"text\"]').val();
+    if(inputText == null || inputText == ""){
+        if(arguments.length==2){
+            alert(errorMessage);
+        }
+        else
+            alert("내용을 입력하세요.");
 
+        return false;
+    }
+    return true;
+
+}

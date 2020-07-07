@@ -3,7 +3,6 @@ package com.chabak.controllers;
 import com.chabak.repositories.ReplyDao;
 import com.chabak.repositories.ReviewDao;
 import com.chabak.repositories.ReviewLikeDao;
-import com.chabak.services.MemberService;
 import com.chabak.services.ReviewService;
 import com.chabak.util.Utility;
 import com.chabak.vo.*;
@@ -34,10 +33,7 @@ public class ReviewController {
     @Autowired
     ReplyDao replyDao;
 
-    @Autowired
-    MemberService memberService;
-
-    @Autowired
+     @Autowired
     ReviewLikeDao reviewLikeDao;
 
     @RequestMapping(value ={"", "/", "/list"}, method=RequestMethod.GET)
@@ -53,7 +49,7 @@ public class ReviewController {
         int listCnt = reviewDao.maxReviewCount(searchText);
 
         //리뷰 리스트의 모든 파라미터 설정 후 Pagination 반환
-       Pagination pagination = reviewService.setReviewListParameterMap(map,session,sortType,searchText,listCnt,1);
+        Pagination pagination = reviewService.setReviewListParameterMap(map,session,sortType,searchText,listCnt,1);
 
         //리뷰 리스트 select
         List<ReviewAndLike> reviewList = reviewDao.selectReviewList(map);
@@ -165,13 +161,13 @@ public class ReviewController {
         Review review = reviewDao.selectReviewDetail(reviewNo);
 
         //수정 권한 체크
-       try{
-           reviewService.compareSessionAndWriterId(id,review.getId(),response);
-       } //해당 리뷰번호에 해당하는 작성자가 없으면
-       catch (NullPointerException e){
-           Utility.printAlertMessage(response,"잘못된 접근입니다.");
-           Utility.pageBackward(response);
-       }
+        try{
+            reviewService.compareSessionAndWriterId(id,review.getId(),response);
+        } //해당 리뷰번호에 해당하는 작성자가 없으면
+        catch (NullPointerException e){
+            Utility.printAlertMessage(response,"잘못된 접근입니다.");
+            Utility.pageBackward(response);
+        }
 
         mv.addObject("review",review);
         mv.setViewName("community/community_update");
