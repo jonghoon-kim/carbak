@@ -22,15 +22,19 @@
         //로그인 아이디 저장 변수
 
         $(document).ready(function () {
-            initializeForm();
-        });
 
+            initializeForm();
+            // $("#focusId").focus();
+
+        });
         $(window).bind("pageshow", function(event) {
             if ( event.originalEvent && event.originalEvent.persisted) {// BFCahe
                 console.log("back");
                 window.location.reload();
             }else{}//새로운페이지
+
         });
+
 
         function initializeForm() {
             console.log("initializeForm()")
@@ -51,6 +55,8 @@
                 document.getElementById("myDropdown").classList.toggle("show");
             } else {
                 document.getElementById("myDropdown" + replyNo).classList.toggle("show");
+
+
             }
         }
 
@@ -136,18 +142,18 @@
             $("#ReReplyForm"+replyNo).submit();
 
         }
-
         //Controller를
         //로그인 할지 물어보고 ok이면 로그인 페이지로 이동
         function askLogin(){
             var confirmYn = confirm("로그인이 필요한 서비스입니다. 로그인 하시겠습니까?") ;
             if(confirmYn)
                 location.href="/member/login";
-        }
+       }
 
         function ajaxReviewLikeToggle(reviewNo,imgTag,sessionId){
 
             if(sessionId == "" || sessionId==null){
+
                 askLogin();
             }
             else{
@@ -175,7 +181,11 @@
 
 <body>
 <!-- header -->
-<hr><br>
+<div id="header">
+    <jsp:include page="/header"/>
+</div>
+<hr class="top_hr"><br>
+<br>
 <div class="container">
     <div class="top">
         <h1>커뮤니티 리뷰 상세보기</h1>
@@ -218,10 +228,10 @@
                 <button class="dropbtn"><img class="dropbtn" src="/img/community/menu.png"
                                              onclick="myFunction('review',null)"></button>
                 <div class="dropdown-content" id="myDropdown">
-                    <c:if test="${sessionScope.id != null and sessionScope.id !='' and sessionScope.id == review.id}">
-                        <a href="/review/modify?reviewNo=${review.reviewNo}">수정하기</a>
-                        <a href="/review/delete?reviewNo=${review.reviewNo}">삭제하기</a>
-                    </c:if>
+                <c:if test="${sessionScope.id != null and sessionScope.id !='' and sessionScope.id == review.id}">
+                    <a href="/review/modify?reviewNo=${review.reviewNo}">수정하기</a>
+                    <a href="/review/delete?reviewNo=${review.reviewNo}">삭제하기</a>
+                </c:if>
                 </div>
             </div>
 
@@ -230,186 +240,186 @@
     <!-- 게시글 내용 -->
     <div class="main">
         <div class="content">
-            ${review.content}
+        ${review.content}
         </div>
     </div>
 
     <div class="reply-input">
-        <form method="POST" action="/reply/writeReply" onsubmit="return commonCheckInputNotEmpty(this);">
+        <form method="POST" action="/reply/writeReply">
             <input type="hidden" name="reviewNo" value="${review.reviewNo}">
             <input type="hidden" name="id">
-            <input type="text" placeholder="댓글 입력" name="content" onkeyup="checkLengthValidate(this,100)">
+            <input type="text" placeholder="댓글 입력" name="content" onkeyup="checkLengthValidate(this,100)" id="focusId">
             <button type="submit">등록</button>
         </form>
     </div>
 
     <c:forEach var="list" items="${replyList}">
         <c:if test="${list.groupOrder eq 0}">
-            <!-- 댓글 -->
-            <div class="reply" id="reply">
-                <div class="reply-list">
+    <!-- 댓글 -->
+    <div class="reply" id="reply">
+        <div class="reply-list">
 
 
-                    <div class="thumbnail-wrapper">
-                        <div class="reply-thumbnail">
-                            <div class="centered">
-                            </div>
-                        </div>
+            <div class="thumbnail-wrapper">
+                <div class="reply-thumbnail">
+                    <div class="centered">
                     </div>
-                    <div class="writer">
+                </div>
+            </div>
+            <div class="writer">
                <span class="writer-id">
-                       ${list.id}
+                ${list.id}
                </span>
-                    </div>
-                    <div class="reply-date">
-                            ${list.regDate}
-                    </div>
+            </div>
+            <div class="reply-date">
+                ${list.regDate}
+            </div>
 
-                    <div class="dropdown">
-                        <button class="dropbtn"><img class="dropbtn" src="/img/community/menu.png"
-                                                     onclick="myFunction('reply',${list.replyNo})"></button>
-                        <div class="dropdown-content" id="myDropdown${list.replyNo}">
+            <div class="dropdown">
+                <button class="dropbtn"><img class="dropbtn" src="/img/community/menu.png"
+                                             onclick="myFunction('reply',${list.replyNo})"></button>
+                <div class="dropdown-content" id="myDropdown${list.replyNo}">
 
-                            <c:if test="${sessionScope.id != null and sessionScope.id !='' and sessionScope.id == list.id}">
-                                <a onclick="createModifyReplyForm(${list.replyNo})">수정하기</a>
-                                <a onclick="checkChildReplyAjax(${list.replyNo})">삭제하기</a>
-                            </c:if>
-                            <a onclick="createReReplyBox(${list.replyNo},'${sessionScope.id}')">댓글달기</a>
-
-                        </div>
-                    </div>
-
-
-                        <%-- 두 영역이 토글되는 부분 시작                            --%>
-                    <div class="reply-content" id="defaultReplyContent${list.replyNo}">${list.content}</div>
-                        <%--이 input의 값을 가져와 수정폼의 값으로 넣기                             --%>
-                    <input type="hidden" id="hiddenReplyContent${list.replyNo}" value="${list.content}">
-                    <div class="reply-modify-content" id="modifyReplyContent${list.replyNo}" style="display: none">
-                        <form method="POST" action="/reply/modify" id="modifyReplyForm${list.replyNo}"  onsubmit="return commonCheckInputNotEmpty(this);">
-
-                            <input type="hidden" name="replyNo" value="${list.replyNo}">
-                            <input type="hidden" name="id" value="${list.id}">
-                            <input type="hidden" name="reviewNo" value="${list.reviewNo}">
-                            <input class="reply-modify-input" id="reply-modify-input${list.replyNo}" type="text" name="content"  onkeyup="checkLengthValidate(this,100)">
-
-
-                        </form>
-                        <button onclick="submitModifyReplyForm(${list.replyNo})">등록</button>
-                        <button onclick="initializeForm()">취소</button>
-                    </div>
-                        <%--두 영역이 토글되는 부분 끝--%>
-
-                        <%--       대댓글 폼 시작--%>
-                    <div class="re-reply-input" id="re-reply-input${list.replyNo}" style="display:none">
-                        <form method="POST" action="/reply/writeReReply" id="ReReplyForm${list.replyNo}"  onsubmit="return commonCheckInputNotEmpty(this);">
-                            <input type="hidden" name="reviewNo" value="${list.reviewNo}">
-                            <input type="hidden" name="replyNo" value="${list.replyNo}">
-                            <input type="hidden" name="groupNo" value="${list.groupNo}">
-                            <input type="hidden" name="groupOrder" value="${list.groupOrder}">
-                            <input type="hidden" name="lv" value="${list.lv}">
-                            <input type="hidden" name="id">
-                            <input type="hidden" name="parentId" value="${list.id}">
-                            <input type="hidden" name="parentReplyNo" value="${list.replyNo}">
-                            <input type="text" placeholder="댓글 입력" name="content"  onkeyup="checkLengthValidate(this,100)">
-
-                        </form>
-                        <button onclick="submitReReplyForm(${list.replyNo})">등록</button>
-                        <button onclick="initializeForm()">취소</button>
-
-
-                    </div>
-                        <%--       대댓글 폼 끝--%>
-
-                    <!--대댓글 생성시-->
-
-                    <c:forEach var="relist" items="${replyList}">
-
-                        <c:if test="${relist.groupOrder ne 0 && relist.groupNo eq list.groupNo}">
-
-                            <div class="re-reply">
-                                <img src="/img/community/re_reply3.png">
-                                <div class="thumbnail-wrapper">
-                                    <div class="reply-thumbnail">
-                                        <div class="centered">
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="writer">
-                    <span class="writer-id">
-                            ${relist.id}
-                    </span>
-                                </div>
-                                <div class="reply-date">
-                                        ${relist.regDate}
-                                </div>
-
-                                <div class="dropdown">
-                                    <button class="dropbtn"><img class="dropbtn" src="/img/community/menu.png"
-                                                                 onclick="myFunction('reply',${relist.replyNo})"></button>
-                                    <div class="dropdown-content" id="myDropdown${relist.replyNo}">
-
-                                        <c:if test="${sessionScope.id != null and sessionScope.id !='' and sessionScope.id == relist.id}">
-                                            <a onclick="createModifyReplyForm(${relist.replyNo})">수정하기</a>
-                                            <a onclick="checkChildReplyAjax(${relist.replyNo})">삭제하기</a>
-                                        </c:if>
-                                        <a onclick="createReReplyBox(${relist.replyNo},'${sessionScope.id}')">댓글달기</a>
-
-                                    </div>
-                                </div>
-
-
-                                    <%-- 두 영역이 토글되는 부분 시작                            --%>
-                                <div class="reply-content" id="defaultReplyContent${relist.replyNo}"><span class="reply-parent-id"><a href="#">${relist.parentId}</a></span>${relist.content}</div>
-                                    <%--이 input의 값을 가져와 수정폼의 값으로 넣기                             --%>
-                                <input type="hidden" id="hiddenReplyContent${relist.replyNo}" value="${relist.content}">
-                                <div class="reply-modify-content" id="modifyReplyContent${relist.replyNo}" style="display: none">
-                                    <form method="POST" action="/reply/modify" id="modifyReplyForm${relist.replyNo}"  onsubmit="return commonCheckInputNotEmpty(this);">
-
-                                        <input type="hidden" name="replyNo" value="${relist.replyNo}">
-                                        <input type="hidden" name="id" value="${relist.id}">
-                                        <input type="hidden" name="reviewNo" value="${relist.reviewNo}">
-                                        <input class="reply-modify-input" id="reply-modify-input${relist.replyNo}" type="text" name="content" onkeyup="checkLengthValidate(this,100)">
-
-
-                                    </form>
-                                    <button onclick="submitModifyReplyForm(${relist.replyNo})">등록</button>
-                                    <button onclick="initializeForm()">취소</button>
-                                </div>
-                                    <%--두 영역이 토글되는 부분 끝--%>
-                                    <%--       대댓글 폼 시작--%>
-                                <div class="re-reply-input" id="re-reply-input${relist.replyNo}" style="display:none">
-                                    <form method="POST" action="/reply/writeReReply" id="ReReplyForm${relist.replyNo}"  onsubmit="return commonCheckInputNotEmpty(this);">
-                                        <input type="hidden" name="reviewNo" value="${relist.reviewNo}">
-                                        <input type="hidden" name="replyNo" value="${relist.replyNo}">
-                                        <input type="hidden" name="groupNo" value="${relist.groupNo}">
-                                        <input type="hidden" name="groupOrder" value="${relist.groupOrder}">
-                                        <input type="hidden" name="lv" value="${relist.lv}">
-                                        <input type="hidden" name="id">
-                                        <input type="hidden" name="parentId" value="${relist.id}">
-                                        <input type="hidden" name="parentReplyNo" value="${relist.replyNo}">
-                                        <input type="text" placeholder="댓글 입력" name="content"  onkeyup="checkLengthValidate(this,100)">
-
-                                    </form>
-                                    <button onclick="submitReReplyForm(${relist.replyNo})">등록</button>
-                                    <button onclick="initializeForm()">취소</button>
-
-
-                                </div>
-                                    <%--       대댓글 폼 끝--%>
-
-                            </div>
-
-                        </c:if>
-                    </c:forEach>
-
-
+                <c:if test="${sessionScope.id != null and sessionScope.id !='' and sessionScope.id == list.id}">
+                    <a onclick="createModifyReplyForm(${list.replyNo})">수정하기</a>
+                    <a onclick="checkChildReplyAjax(${list.replyNo})">삭제하기</a>
+                </c:if>
+                    <a onclick="createReReplyBox(${list.replyNo},'${sessionScope.id}')">댓글달기</a>
 
                 </div>
+            </div>
+
+
+                <%-- 두 영역이 토글되는 부분 시작                            --%>
+            <div class="reply-content" id="defaultReplyContent${list.replyNo}">${list.content}</div>
+                <%--이 input의 값을 가져와 수정폼의 값으로 넣기                             --%>
+            <input type="hidden" id="hiddenReplyContent${list.replyNo}" value="${list.content}">
+            <div class="reply-modify-content" id="modifyReplyContent${list.replyNo}" style="display: none">
+                <form method="POST" action="/reply/modify" id="modifyReplyForm${list.replyNo}">
+
+                    <input type="hidden" name="replyNo" value="${list.replyNo}">
+                    <input type="hidden" name="id" value="${list.id}">
+                    <input type="hidden" name="reviewNo" value="${list.reviewNo}">
+                    <input class="reply-modify-input" id="reply-modify-input${list.replyNo}" type="text" name="content"  onkeyup="checkLengthValidate(this,100)">
+
+
+                </form>
+                <button onclick="submitModifyReplyForm(${list.replyNo})">등록</button>
+                <button onclick="initializeForm()">취소</button>
+            </div>
+                <%--두 영역이 토글되는 부분 끝--%>
+
+                <%--       대댓글 폼 시작--%>
+            <div class="re-reply-input" id="re-reply-input${list.replyNo}" style="display:none">
+                <form method="POST" action="/reply/writeReReply" id="ReReplyForm${list.replyNo}">
+                    <input type="hidden" name="reviewNo" value="${list.reviewNo}">
+                    <input type="hidden" name="replyNo" value="${list.replyNo}">
+                    <input type="hidden" name="groupNo" value="${list.groupNo}">
+                    <input type="hidden" name="groupOrder" value="${list.groupOrder}">
+                    <input type="hidden" name="lv" value="${list.lv}">
+                    <input type="hidden" name="id">
+                    <input type="hidden" name="parentId" value="${list.id}">
+                    <input type="hidden" name="parentReplyNo" value="${list.replyNo}">
+                    <input type="text" placeholder="댓글 입력" name="content"  onkeyup="checkLengthValidate(this,100)">
+
+                </form>
+                <button onclick="submitReReplyForm(${list.replyNo})">등록</button>
+                <button onclick="initializeForm()">취소</button>
 
 
             </div>
+                <%--       대댓글 폼 끝--%>
 
-        </c:if>
+            <!--대댓글 생성시-->
+
+            <c:forEach var="relist" items="${replyList}">
+
+                <c:if test="${relist.groupOrder ne 0 && relist.groupNo eq list.groupNo}">
+
+            <div class="re-reply">
+                <img src="/img/community/re_reply3.png">
+                <div class="thumbnail-wrapper">
+                    <div class="reply-thumbnail">
+                        <div class="centered">
+                        </div>
+                    </div>
+                </div>
+                <div class="writer">
+                    <span class="writer-id">
+                        ${relist.id}
+                    </span>
+                </div>
+                <div class="reply-date">
+                    ${relist.regDate}
+                </div>
+
+                <div class="dropdown">
+                    <button class="dropbtn"><img class="dropbtn" src="/img/community/menu.png"
+                                                 onclick="myFunction('reply',${relist.replyNo})"></button>
+                    <div class="dropdown-content" id="myDropdown${relist.replyNo}">
+
+                        <c:if test="${sessionScope.id != null and sessionScope.id !='' and sessionScope.id == relist.id}">
+                        <a onclick="createModifyReplyForm(${relist.replyNo})">수정하기</a>
+                        <a onclick="checkChildReplyAjax(${relist.replyNo})">삭제하기</a>
+                </c:if>
+                        <a onclick="createReReplyBox(${relist.replyNo},'${sessionScope.id}')">댓글달기</a>
+
+                    </div>
+                </div>
+
+
+                    <%-- 두 영역이 토글되는 부분 시작                            --%>
+                <div class="reply-content" id="defaultReplyContent${relist.replyNo}"><span class="reply-parent-id"><a href="#">${relist.parentId}</a></span>${relist.content}</div>
+                    <%--이 input의 값을 가져와 수정폼의 값으로 넣기                             --%>
+                <input type="hidden" id="hiddenReplyContent${relist.replyNo}" value="${relist.content}">
+                <div class="reply-modify-content" id="modifyReplyContent${relist.replyNo}" style="display: none">
+                    <form method="POST" action="/reply/modify" id="modifyReplyForm${relist.replyNo}">
+
+                        <input type="hidden" name="replyNo" value="${relist.replyNo}">
+                        <input type="hidden" name="id" value="${relist.id}">
+                        <input type="hidden" name="reviewNo" value="${relist.reviewNo}">
+                        <input class="reply-modify-input" id="reply-modify-input${relist.replyNo}" type="text" name="content" onkeyup="checkLengthValidate(this,100)">
+
+
+                    </form>
+                    <button onclick="submitModifyReplyForm(${relist.replyNo})">등록</button>
+                    <button onclick="initializeForm()">취소</button>
+                </div>
+                    <%--두 영역이 토글되는 부분 끝--%>
+                    <%--       대댓글 폼 시작--%>
+                <div class="re-reply-input" id="re-reply-input${relist.replyNo}" style="display:none">
+                    <form method="POST" action="/reply/writeReReply" id="ReReplyForm${relist.replyNo}">
+                        <input type="hidden" name="reviewNo" value="${relist.reviewNo}">
+                        <input type="hidden" name="replyNo" value="${relist.replyNo}">
+                        <input type="hidden" name="groupNo" value="${relist.groupNo}">
+                        <input type="hidden" name="groupOrder" value="${relist.groupOrder}">
+                        <input type="hidden" name="lv" value="${relist.lv}">
+                        <input type="hidden" name="id">
+                        <input type="hidden" name="parentId" value="${relist.id}">
+                        <input type="hidden" name="parentReplyNo" value="${relist.replyNo}">
+                        <input type="text" placeholder="댓글 입력" name="content"  onkeyup="checkLengthValidate(this,100)">
+
+                    </form>
+                    <button onclick="submitReReplyForm(${relist.replyNo})">등록</button>
+                    <button onclick="initializeForm()">취소</button>
+
+
+                </div>
+                    <%--       대댓글 폼 끝--%>
+
+            </div>
+
+                </c:if>
+            </c:forEach>
+
+
+
+        </div>
+
+
+    </div>
+
+    </c:if>
     </c:forEach>
 
 
@@ -418,6 +428,9 @@
 </div>
 </div>
 
+</div>
+<div class="footer">
+    <img src="/img/footer/footer.png">
 </div>
 </div>
 </body>
