@@ -28,7 +28,7 @@
         <div class="set">
 
             <span class="title">제목</span><br>
-            <input type="text" class="content" id="title" name="title" onkeyup="checkLengthValidate(this, 20)">
+            <input type="text" class="content" id="title" name="title" onkeyup="checkLengthValidate(this, 40)">
 
 
 

@@ -17,12 +17,14 @@
     <link href="/css/community_detail.css" rel="stylesheet">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
     <script type="text/javascript" src=" http://code.jquery.com/jquery-latest.min.js"></script>
+    <script type="text/javascript" src="/js/reviewScript.js" charset='UTF-8'></script>
     <script type="text/javascript">
         //로그인 아이디 저장 변수
 
         $(document).ready(function () {
 
             initializeForm();
+            // $("#focusId").focus();
 
         });
         $(window).bind("pageshow", function(event) {
@@ -35,12 +37,16 @@
 
 
         function initializeForm() {
+            console.log("initializeForm()")
             //토글 영역 초기화
             $(".reply-content").css('display', 'block');
             $(".reply-modify-content").css('display', 'none');
 
-            //리리플 입력 폼 초기화(안 보이게)
-            $(".re-reply-input").css('display', 'none');
+            //리리플 입력 폼 초기화(값 초기화,안 보이게)
+            var rereplyInput = $(".re-reply-input");//리리플 폼 div
+            //div 내부의 입력창 값 초기화
+            rereplyInput.find('input[type="text"]').val("");
+            rereplyInput.css('display', 'none');
 
         }
         function myFunction(flag, replyNo) {
@@ -238,7 +244,7 @@
         <form method="POST" action="/reply/writeReply">
             <input type="hidden" name="reviewNo" value="${review.reviewNo}">
             <input type="hidden" name="id">
-            <input type="text" placeholder="댓글 입력" name="content">
+            <input type="text" placeholder="댓글 입력" name="content" onkeyup="checkLengthValidate(this,100)" id="focusId">
             <button type="submit">등록</button>
         </form>
     </div>
@@ -246,7 +252,7 @@
     <c:forEach var="list" items="${replyList}">
         <c:if test="${list.groupOrder eq 0}">
     <!-- 댓글 -->
-    <div class="reply">
+    <div class="reply" id="reply">
         <div class="reply-list">
 
 
@@ -290,7 +296,7 @@
                     <input type="hidden" name="replyNo" value="${list.replyNo}">
                     <input type="hidden" name="id" value="${list.id}">
                     <input type="hidden" name="reviewNo" value="${list.reviewNo}">
-                    <input class="reply-modify-input" id="reply-modify-input${list.replyNo}" type="text" name="content">
+                    <input class="reply-modify-input" id="reply-modify-input${list.replyNo}" type="text" name="content"  onkeyup="checkLengthValidate(this,100)">
 
 
                 </form>
@@ -310,7 +316,7 @@
                     <input type="hidden" name="id">
                     <input type="hidden" name="parentId" value="${list.id}">
                     <input type="hidden" name="parentReplyNo" value="${list.replyNo}">
-                    <input type="text" placeholder="댓글 입력" name="content">
+                    <input type="text" placeholder="댓글 입력" name="content"  onkeyup="checkLengthValidate(this,100)">
 
                 </form>
                 <button onclick="submitReReplyForm(${list.replyNo})">등록</button>
@@ -368,7 +374,7 @@
                         <input type="hidden" name="replyNo" value="${relist.replyNo}">
                         <input type="hidden" name="id" value="${relist.id}">
                         <input type="hidden" name="reviewNo" value="${relist.reviewNo}">
-                        <input class="reply-modify-input" id="reply-modify-input${relist.replyNo}" type="text" name="content">
+                        <input class="reply-modify-input" id="reply-modify-input${relist.replyNo}" type="text" name="content" onkeyup="checkLengthValidate(this,100)">
 
 
                     </form>
@@ -387,7 +393,7 @@
                         <input type="hidden" name="id">
                         <input type="hidden" name="parentId" value="${relist.id}">
                         <input type="hidden" name="parentReplyNo" value="${relist.replyNo}">
-                        <input type="text" placeholder="댓글 입력" name="content">
+                        <input type="text" placeholder="댓글 입력" name="content"  onkeyup="checkLengthValidate(this,100)">
 
                     </form>
                     <button onclick="submitReReplyForm(${relist.replyNo})">등록</button>

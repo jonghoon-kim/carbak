@@ -3,7 +3,7 @@ package com.chabak.controllers;
 import com.chabak.repositories.ReplyDao;
 import com.chabak.repositories.ReviewDao;
 import com.chabak.services.MemberService;
-import com.chabak.utilities.Utility;
+import com.chabak.util.Utility;
 import com.chabak.vo.Reply;
 import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;

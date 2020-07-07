@@ -5,7 +5,7 @@ import com.chabak.repositories.ReviewDao;
 import com.chabak.repositories.ReviewLikeDao;
 import com.chabak.services.MemberService;
 import com.chabak.services.ReviewService;
-import com.chabak.utilities.Utility;
+import com.chabak.util.Utility;
 import com.chabak.vo.*;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.SneakyThrows;
@@ -20,8 +20,6 @@ import javax.servlet.http.HttpSession;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 @Controller
 @RequestMapping("/review")

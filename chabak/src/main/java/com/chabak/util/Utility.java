@@ -1,4 +1,4 @@
-package com.chabak.utilities;
+package com.chabak.util;
 
 import lombok.SneakyThrows;
 import org.springframework.web.servlet.ModelAndView;

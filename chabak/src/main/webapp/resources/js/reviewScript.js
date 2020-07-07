@@ -27,36 +27,31 @@ function checkReviewValidate(){
 
 }
 
-//필드 글자 및 바이트제한
-function checkLengthValidate(obj, maxByte) {
+//필드 글자 수 제한
+function checkLengthValidate(obj, maxLen) {
 
     var strValue = obj.value;
     var strLen = strValue.length;
-    var totalByte = 0;
+    var totalLen = 0;
     var len = 0;
     var oneChar = "";
     var str2 = "";
 
     for (var i = 0; i < strLen; i++) {
-        oneChar = strValue.charAt(i);
-        if (escape(oneChar).length > 4) {
-            totalByte += 2;
-        } else {
-            totalByte++;
-        }
 
+        totalLen++;
         // 입력한 문자 길이보다 넘치면 잘라내기 위해 저장
-        if (totalByte <= maxByte) {
+        if (totalLen <= maxLen) {
             len = i + 1;
         }
     }
 
     // 넘어가는 글자는 자른다.
-    if (totalByte > maxByte) {
-        alert(maxByte + "Byte를 초과 입력 할 수 없습니다.");
+    if (totalLen > maxLen) {
+        alert(maxLen + "글자를 초과 입력 할 수 없습니다.");
         str2 = strValue.substr(0, len);
         obj.value = str2;
-        checkLengthValidate(obj, 20);
+        checkLengthValidate(obj, maxLen);
     }
 
 }
@@ -127,6 +122,7 @@ function ajaxReviewList(sessionId,isSearchButton,curPage) {
 
                 var onclickLink =  "location.href='/review/detail?reviewNo="+ reviewNo+"'"; //리뷰 타이틀 이미지 링크
                 reviewImg.attr("onclick",onclickLink);
+                console.log("onclickLink:"+ onclickLink);
 
                 var title = newReview.find(".content-title");   //리뷰 타이틀
                 title.text('['+this["sido"]+']'+'['+this["gugun"]+']'+this["title"]);                      //리뷰 타이틀 설정 [sido][gugun][title]
@@ -148,6 +144,13 @@ function ajaxReviewList(sessionId,isSearchButton,curPage) {
                 else{
                     toggleImage.attr("src","/img/community/heart2.png");
                 }
+
+                var communityImg = newReview.find(".comment-img");
+                // communityImg.attr("onclick","moveDetailAndFocusComment('"+reviewNo+"')");
+                var onclickLink2 = "location.href='/review/detail?reviewNo="+ reviewNo+"#reply'";
+                console.log("onclickLink2:"+onclickLink2);
+                // communityImg.attr("onclick","location.href='/review/detail?reviewNo="+ reviewNo +"'#reply");
+                communityImg.attr("onclick",onclickLink2);
 
                 newReview.show();
                 reviewListDiv.append(newReview);
