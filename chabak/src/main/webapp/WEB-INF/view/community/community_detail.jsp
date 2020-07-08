@@ -174,8 +174,11 @@
     </script>
 
 <body>
-<!-- header -->
-<hr><br>
+<div id="header">
+    <jsp:include page="/header"/>
+</div>
+<hr class="top_hr"><br>
+<br>
 <div class="container">
     <div class="top">
         <h1>커뮤니티 리뷰 상세보기</h1>
@@ -416,6 +419,11 @@
 
 
 </div>
+<%--container--%>
+<div class="footer">
+    <img src="/img/footer/footer.png">
+</div>
+
 </div>
 
 </div>
