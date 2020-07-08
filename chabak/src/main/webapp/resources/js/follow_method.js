@@ -116,20 +116,3 @@ function clickFollowingBtn(followUserId, option, pageOwnerId){
         }
     })
 }
-
-/*// 방문한 유저의 팔로잉 팔로워 상태를 보여주고 버튼 클릭시 팔로잉, 팔로잉 취소 event 실행
-function listFollowStatus(id, option) {
-    $.ajax ({
-        type: "get",
-        data : {"id": id,
-            "option": option},
-        datatype: "json",
-        url: "listFollowStatus",
-        success : function(data) {
-            printList(data, option, id);
-
-            alert("following success");
-        }, error: function (data) {
-        }
-    })
-}*/
