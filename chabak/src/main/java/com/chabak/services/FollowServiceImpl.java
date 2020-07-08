@@ -12,13 +12,6 @@ import java.util.List;
 public class FollowServiceImpl implements FollowService {
     @Autowired
     FollowDao followDao;
-//    @Autowired
-//    MemberDao memberDao;
-
-    @Override
-    public List<Follow> selectDataHashMapServiceList(String id) throws Exception {
-        return followDao.selectDataHashMapServiceList(id);
-    }
 
     @Override
     public List<Follow> followingIdAndProfile(String id) throws Exception {
@@ -45,15 +38,20 @@ public class FollowServiceImpl implements FollowService {
     }
 
     @Override
-    public int followAddUser(String id, String followUserId) throws Exception {
-        System.out.println("here is services -- ");
-        return followDao.followAddUser(id, followUserId);
+    public int clickFollowBtn(String id, String selectedUserId) throws Exception {
+        System.out.println("clickFollowBtn here is services -- ");
+        return followDao.clickFollowBtn(id, selectedUserId);
     }
 
+    @Override
+    public int clickFollowingBtn(String id, String selectedUserId) throws Exception {
+        System.out.println("followDeleteUser here is services -- ");
+        return followDao.clickFollowingBtn(id, selectedUserId);
+    }
 
-    //    //팔로워 정보 갖고오는 매서드    <- 수정전 코드
-//    @Override
-//    public List<Follow> getFollower(Follow follow) {
-//        return followDao.getFollower(follow);
-//    }
+    @Override
+    public String btnFollowStatus(String sessionId, String userId) throws Exception {
+        System.out.println(" btnFollowStatus here is services -- ");
+        return followDao.btnFollowStatus(sessionId, userId);
+    }
 }
