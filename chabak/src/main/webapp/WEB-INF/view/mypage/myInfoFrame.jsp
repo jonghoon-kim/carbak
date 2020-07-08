@@ -17,7 +17,10 @@
     <input type="hidden" id="sessionId" value="${sessionScope.id}">
 </div>
 
-<!--  -->
+
+
+
+
 
 <%--<canvas class="Chwsf" height="40" width="40" style="position: absolute; top: -5px; left: -5px; width: 40px; height: 40px;">--%>
 <%--    <a class="userHomeVisit" href="#" tabindex="0" style="width: 30px; height: 30px;">--%>

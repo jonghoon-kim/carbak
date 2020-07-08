@@ -15,13 +15,11 @@ public class FollowServiceImpl implements FollowService {
 
     @Override
     public List<Follow> followingIdAndProfile(String id) throws Exception {
-
         return followDao.followingIdAndProfile(id);
     }
 
     @Override
     public List<Follow> followerIdAndProfile(String id) throws Exception {
-        System.out.println("service : "+ followDao.followerIdAndProfile(id));
         return followDao.followerIdAndProfile(id);
     }
 

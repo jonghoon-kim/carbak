@@ -21,11 +21,11 @@ function printList(data, option, id){
     var HashMapList = data.HashMapList;
 
     console.log(HashMapList.length);
-    $('.listUl').empty();
+    $('.listForm').empty();
     // HTMLframe 가져오는 매서드
     for (var i = 0; i < HashMapList.length; i++) { // 팔로워 프로필사진, 아이디 리스트로 출력
         var htmlFrame = $('#selectPosition').clone(true);
-        $('.listUl').append(htmlFrame);
+        $('.listForm').append(htmlFrame);
 
         var userProfileImage = "/profileImages/" +HashMapList[i].SAVENAME;
         var userId = HashMapList[i].ID;
@@ -40,9 +40,6 @@ function printList(data, option, id){
         $('#userIdId'+i).text(userId);
 
         if(sessionId!= id) { // 다른 사용자 아이디일 경우
-            // listFollowStatus(id, option);
-            $('#buttonId').attr('onclick', "listFollowStatus("+"'"+userId+"','"+option+"')"); // 팔로워 클릭인지 팔로잉 클릭인지:option //todo: <-- 이쪽줄 확인해 볼 것
-            //todo: 팔로잉/ 팔로우 text 나오게 조건 설정
             btnFollowStatus(userId,i, option, id); // 조건 function 만들기 :: $('#buttonId'+i).text("팔로잉/팔로우");
         }else { // 마이페이지인 경우
             $('#buttonId').attr('onclick', "deleteFollowUser("+"'"+userId+"','"+option+"')");
@@ -116,3 +113,67 @@ function clickFollowingBtn(followUserId, option, pageOwnerId){
         }
     })
 }
+
+function btnProfileFollowStatus(userId){
+    $.ajax ({
+        type: "get",
+        data : {"userId": userId},
+        datatype: "json",
+        url: "btnFollowStatus",
+        success : function(data) {
+            var followerId = data.followerId;
+            console.log("userId : " + userId);
+
+            if (followerId == userId) {
+                $('#btn_profile_follow').text("팔로잉");
+                $('#btn_profile_follow').attr('onclick', "clickProfileFollowing("+"'"+userId+"'"+")");
+                $('#btn_profile_follow').attr('style', "display: inline;");
+            }
+            else if(data.sessionId == userId)
+                $('#btn_profile_follow').attr('style', "display: none;");
+            else{
+                $('#btn_profile_follow').text("팔로우");
+                $('#btn_profile_follow').attr('onclick', "clickProfileFollow("+"'"+userId+"'"+")");
+                $('#btn_profile_follow').attr('style', "display: inline;");
+            }
+        }, error: function (data) {
+        }
+    })
+}
+
+//팔로우 버튼 클릭시 팔로잉으로 변경
+function clickProfileFollow(userId){ // followUserId 클릭되는 아이디
+    $.ajax({
+        type: "get",
+        data : {"userId": userId},
+        datatype: "json",
+        url: "clickProfileFollow",
+        success : function(data) {
+            $('#btn_profile_follow').text("팔로잉");
+            $('#btn_profile_follow').attr('onclick', "clickProfileFollowing("+"'"+userId+"'"+")");
+            alert("clickProfileFollow success");
+        }, error: function (data) {
+        }
+    })
+}
+
+//팔로잉 버튼 클릭시 팔로우로 변경
+function clickProfileFollowing(userId){
+    $.ajax({
+        type: "get",
+        data : {"userId": userId},
+        datatype: "json",
+        url: "clickProfileFollowing",
+        success : function(data) {
+            $('#btn_profile_follow').text("팔로우");
+            $('#btn_profile_follow').attr('onclick', "clickProfileFollow("+"'"+userId+"'"+")");
+            alert("clickProfileFollowing success");
+        }, error: function (data) {
+        }
+    })
+}
+
+$(document).ready(function(){
+    var visitorId =  $("#pageOwnerId").find("button span").text();
+    btnProfileFollowStatus(visitorId);
+})

@@ -46,21 +46,26 @@
 
                     </div>
                 </div>
-                <div class="sessionId">
+
+                <div> <!-- todo: 프로필 사진 옆 팔로우/팔로잉 버튼 -->
+                    <button id="btn_profile_follow" style="display: none;"></button>
+                </div>
+
+                <div class="sessionId" id="pageOwnerId">
                     <!-- 방문 id가 세션 id랑 비교해서 같으면 나의 id를 / 다르면 click id를 선택 -->
                     <c:choose>
                         <c:when test="${empty visitor.id}">
                             <button class="updateMember"
                                     onclick="location.href='/member/memberUpdate?id=${sessionScope.id}';">
-                                <span>${sessionScope.id}</span></button>
+                                <span class="spanId">${sessionScope.id}</span></button>
                         </c:when>
                         <c:when test="${sessionScope.id ne visitor.id}">
-                            <button class="updateMember"><span>${visitor.id}</span></button>
+                            <button class="updateMember"><span class="spanId">${visitor.id}</span></button>
                         </c:when>
                         <c:otherwise>
                             <button class="updateMember"
                                     onclick="location.href='/member/memberUpdate?id=${sessionScope.id}';">
-                                <span>${sessionScope.id}</span></button>
+                                <span class="spanId">${sessionScope.id}</span></button>
                         </c:otherwise>
                     </c:choose>
                 </div>
@@ -105,10 +110,8 @@
             <!--숫자 클릭시 팔로잉한 id 조회 리스트(팔로워 수 1000단위 k표현 1000000단위 m표현-->
         </div>
         <div class="content">
-            <div class="listForm"> <!-- follower, following 리스트 출력 위치-->
-                <ul class="listUl" id="selectedPosition">
-                    follow list position
-                </ul>
+            <div class="listForm" id="selectedPosition"> <!-- follower, following 리스트 출력 위치-->
+
             </div>
         </div>
     </div>
