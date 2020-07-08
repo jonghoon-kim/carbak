@@ -33,17 +33,16 @@
                     <div id="View_area" class="centered">
                         <!-- 방문 id가 세션 id랑 비교해서 같으면 나의 프로필 사진을 / 아니면 click id 프로필 선택 -->
                         <c:choose>
-                            <c:when test="${empty visitor.id}">
+                            <c:when test="${empty pageOwner.id}">
                                 <img src="${member.savePath}${member.saveName}">
                             </c:when>
-                            <c:when test="${sessionScope.id ne visitor.id}">
-                                <img src="${visitor.savePath}${visitor.saveName}">
+                            <c:when test="${sessionScope.id ne pageOwner.id}">
+                                <img src="${pageOwner.savePath}${pageOwner.saveName}">
                             </c:when>
                             <c:otherwise>
                                 <img src="${member.savePath}${member.saveName}"><!-- 다른사람 계정에서 내 아이디 클릭한 경우 -->
                             </c:otherwise>
                         </c:choose>
-
                     </div>
                 </div>
 
@@ -54,13 +53,13 @@
                 <div class="sessionId" id="pageOwnerId">
                     <!-- 방문 id가 세션 id랑 비교해서 같으면 나의 id를 / 다르면 click id를 선택 -->
                     <c:choose>
-                        <c:when test="${empty visitor.id}">
+                        <c:when test="${empty pageOwner.id}">
                             <button class="updateMember"
                                     onclick="location.href='/member/memberUpdate?id=${sessionScope.id}';">
                                 <span class="spanId">${sessionScope.id}</span></button>
                         </c:when>
-                        <c:when test="${sessionScope.id ne visitor.id}">
-                            <button class="updateMember"><span class="spanId">${visitor.id}</span></button>
+                        <c:when test="${sessionScope.id ne pageOwner.id}">
+                            <button class="updateMember"><span class="spanId">${pageOwner.id}</span></button>
                         </c:when>
                         <c:otherwise>
                             <button class="updateMember"
@@ -78,12 +77,12 @@
             </button>
             <!-- 팔로워 버튼 본인 id인 경우, 방문자 id인 경우 -->
             <c:choose>
-                <c:when test="${empty visitor.id}">
+                <c:when test="${empty pageOwner.id}">
                     <button type="button" id="follower" onclick="followList('${sessionScope.id}', 'follower')">팔로워
                     </button>
                 </c:when>
-                <c:when test="${sessionScope.id ne visitor.id}">
-                    <button type="button" id="follower" onclick="followList('${visitor.id}', 'follower')">팔로워</button>
+                <c:when test="${sessionScope.id ne pageOwner.id}">
+                    <button type="button" id="follower" onclick="followList('${pageOwner.id}', 'follower')">팔로워</button>
                 </c:when>
                 <c:otherwise>
                     <button type="button" id="follower" onclick="followList('${sessionScope.id}', 'follower')">팔로워
@@ -94,12 +93,12 @@
             <img class="but_img" src="/img/mypage/following.png">
             <!-- 팔로잉 버튼 본인 id인 경우, 방문자 id인 경우 -->
             <c:choose>
-                <c:when test="${empty visitor.id}">
+                <c:when test="${empty pageOwner.id}">
                     <button type="button" id="following" onclick="followList('${sessionScope.id}', 'following')">팔로잉
                     </button>
                 </c:when>
-                <c:when test="${sessionScope.id ne visitor.id}">
-                    <button type="button" id="following" onclick="followList('${visitor.id}', 'following')">팔로잉</button>
+                <c:when test="${sessionScope.id ne pageOwner.id}">
+                    <button type="button" id="following" onclick="followList('${pageOwner.id}', 'following')">팔로잉</button>
                 </c:when>
                 <c:otherwise>
                     <button type="button" id="following" onclick="followList('${sessionScope.id}', 'following')">팔로잉
@@ -122,7 +121,6 @@
 
 <jsp:include page="/WEB-INF/view/mypage/myInfoFrame.jsp"/>
 <script type="text/javascript" src=" http://code.jquery.com/jquery-latest.min.js"></script>
-<script type="text/javascript" src="/js/myInfo.js" charset="UTF-8"></script>
-<script type="text/javascript" src="/js/follow_method.js"></script>
+<script type="text/javascript" src="/js/myInformation_follow.js"></script>
 </body>
 </html>
