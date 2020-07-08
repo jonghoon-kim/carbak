@@ -39,18 +39,26 @@ public class ReviewController {
     @RequestMapping(value ={"", "/", "/list"}, method=RequestMethod.GET)
     public ModelAndView reviewList(HttpSession session,
                                    @RequestParam (required = false,defaultValue = "regDate") String sortType,
-                                   @RequestParam (required = false,defaultValue = "") String searchText){
+                                   @RequestParam (required = false,defaultValue = "") String searchText,
+                                   @RequestParam (required = false,defaultValue = "") String pageOwnerId){
 
         ModelAndView mv = new ModelAndView();
 
-        //파라미터를 저장할 맵 생성
+        //페이징을 위한 리뷰 리스트 갯수를 가져올 파라미터 맵
+        Map countReviewMap = new HashMap<String,String>();
+        countReviewMap.put("pageOwnerId",pageOwnerId);
+        countReviewMap.put("searchText",searchText);
+
+        //리스트 출력을 위한 파라미터를 저장할 맵
         Map map = new HashMap<String,String>();
 
-        int listCnt = reviewDao.maxReviewCount(searchText);
+        int listCnt = reviewDao.maxReviewCount(countReviewMap);
+
 
         //리뷰 리스트의 모든 파라미터 설정 후 Pagination 반환
-        Pagination pagination = reviewService.setReviewListParameterMap(map,session,sortType,searchText,listCnt,1);
+        Pagination pagination = reviewService.setReviewListParameterMap(map,session,sortType,searchText,pageOwnerId,listCnt,1);
 
+        System.out.println("pagination:"+pagination);
         //리뷰 리스트 select
         List<ReviewAndLike> reviewList = reviewDao.selectReviewList(map);
 
@@ -61,6 +69,7 @@ public class ReviewController {
 
         mv.addObject("sortType",sortType);
         mv.addObject("searchText",searchText);
+        mv.addObject("pageOwnerId",pageOwnerId);
 
         System.out.println("/list parameter map:"+map);
         System.out.println("(/review/list)result reviewList:"+reviewList);
@@ -72,21 +81,26 @@ public class ReviewController {
     @SneakyThrows
     @ResponseBody
     @RequestMapping("/listAjax")
-    public String listAjax(HttpServletRequest request,HttpSession session){
+    public String listAjax(HttpServletRequest request,HttpSession session,
+                           @RequestParam (required = false,defaultValue = "regDate") String sortType,
+                           @RequestParam (required = false,defaultValue = "") String searchText,
+                           @RequestParam (required = false,defaultValue = "") String pageOwnerId,
+                           @RequestParam (required = false,defaultValue = "1") int curPage){
 
-        String sortType = request.getParameter("sortType");
-        String searchText = request.getParameter("searchText");
-        int curPage = Integer.parseInt(request.getParameter("curPage"));
-
-
+        //TODO:pageOwnerId ajax 함수에서 파라미터로 보내도록 수정해야 함.
+        System.out.println("in ajax Controller pageOwnerId:"+pageOwnerId);
+        //페이징을 위한 리뷰 리스트 갯수를 가져올 파라미터 맵
+        Map countReviewMap = new HashMap<String,String>();
+        countReviewMap.put("pageOwnerId",pageOwnerId);
+        countReviewMap.put("searchText",searchText);
 
         //파라미터를 저장할 맵 생성
         Map map = new HashMap<String,String>();
 
-        int listCnt = reviewDao.maxReviewCount(searchText);
+        int listCnt = reviewDao.maxReviewCount(countReviewMap);
 
         //리뷰 리스트의 모든 파라미터 설정 후 Pagination 반환
-        Pagination pagination = reviewService.setReviewListParameterMap(map,session,sortType,searchText,listCnt,curPage);
+        Pagination pagination = reviewService.setReviewListParameterMap(map,session,sortType,searchText,pageOwnerId,listCnt,curPage);
 
         //리뷰 리스트 select
         List<ReviewAndLike> reviewList = reviewDao.selectReviewList(map);
@@ -158,15 +172,18 @@ public class ReviewController {
         //endregion
 
         System.out.println("/modify(GET) reviewNo:"+reviewNo);
-        Review review = reviewDao.selectReviewDetail(reviewNo);
+        Review review = null;
 
         //수정 권한 체크
         try{
+            review = reviewDao.selectReviewDetail(reviewNo);
             reviewService.compareSessionAndWriterId(id,review.getId(),response);
         } //해당 리뷰번호에 해당하는 작성자가 없으면
         catch (NullPointerException e){
             Utility.printAlertMessage(response,"잘못된 접근입니다.");
-            Utility.pageBackward(response);
+//            Utility.pageBackward(response);
+            mv.setViewName("/review");
+            return mv;
         }
 
         mv.addObject("review",review);
@@ -210,9 +227,12 @@ public class ReviewController {
 
         //endregion
 
+        Review review;
+
         //삭제 권한 체크
         try{
-            reviewService.compareSessionAndWriterId(id,reviewService.getWriterId(reviewNo),response);
+            review = reviewDao.selectReviewDetail(reviewNo);
+            reviewService.compareSessionAndWriterId(id,review.getId(),response);
         } //해당 리뷰번호에 해당하는 작성자가 없으면
         catch (NullPointerException e){
             Utility.printAlertMessage(response,"잘못된 접근입니다.");
@@ -254,7 +274,7 @@ public class ReviewController {
 
         //로그인시
         if(id !=null){
-            System.out.println("reviewDetail(비로그인)");
+            System.out.println("reviewDetail");
 
             //좋아요 bean 값 설정(아이디는 세션 로그인 아이디)
             ReviewLike reviewLike = new ReviewLike();

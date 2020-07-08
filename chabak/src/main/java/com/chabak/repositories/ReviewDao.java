@@ -20,8 +20,8 @@ public class ReviewDao {
         return insertedCount;
     }
 
-    public int maxReviewCount(String searchText){
-        int maxCount = sqlSession.selectOne("review.maxReviewCount",searchText);
+    public int maxReviewCount(Map map){
+        int maxCount = sqlSession.selectOne("review.maxReviewCount",map);
         return maxCount;
     }
     public List<ReviewAndLike> selectReviewList(Map map){
