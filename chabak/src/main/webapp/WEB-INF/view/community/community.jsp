@@ -20,6 +20,8 @@
             var selectSortType = $("#sortType");
             selectSortType.val("${sortType}");
 
+            var pageOwnerIdVar = "${pageOwnerId}";
+
             console.log("searchText:"+"${searchText}"+ " sortType:"+"${sortType}");
             if ( event.persisted || (window.performance && window.performance.navigation.type === 2)) {
                 // Back Forward Cache로 브라우저가 로딩될 경우 혹은 브라우저 뒤로가기 했을 경우
@@ -68,7 +70,8 @@
         <h1>커뮤니티</h1>
     </div>
     <div class="search">
-
+<%--        pageOwnerId 저장하는 hidden input--%>
+        <input type = "hidden" id="pageOwnerIdSaved" value="${pageOwnerId}">
         <input type="text" class="search_text" placeholder=" 지역 검색" name="searchText" id="search_text" value="${searchText}">
         <%--        검색버튼 눌렀을 때 검색어 저장 input--%>
         <input type="hidden" name="search_text_saved" id="search_text_saved" value="${searchText}">

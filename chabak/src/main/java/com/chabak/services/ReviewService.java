@@ -43,16 +43,17 @@ public class ReviewService {
     }
 
     //리뷰 리스트 select 관련 파라미터 설정 후 리턴
-    public Pagination setReviewListParameterMap(Map map,HttpSession session,String sortType,String searchText,int listCnt,int curPage) {
+    public Pagination setReviewListParameterMap(Map map,HttpSession session,String sortType,String searchText,String pageOwnerId,int listCnt,int curPage) {
         map.put("sortType",sortType);
         map.put("searchText",searchText);
+        map.put("pageOwnerId",pageOwnerId);
         map.put("id",Utility.getIdForSessionNotMoveIndex(session));//세션에서 가져온 id map에 넣기
 
         //페이징 관련 파라미터
         //reviewList 행의 수
-
+        System.out.println("setReviewListParameterMap(Service) start listCnt:"+listCnt);
         Pagination pagination = new Pagination(listCnt,curPage);
-
+        System.out.println("setReviewListParameterMap(Service) start pagination:"+pagination);
         int startIndex = pagination.getStartIndex();
         int pageSize = pagination.getPageSize();
         map.put("startIndex",startIndex);
@@ -74,11 +75,7 @@ public class ReviewService {
         return false;
     }
 
-    //reviewNo로 작성자 검색
-    public String getWriterId(int reviewNo){
-        Review review = reviewDao.selectReviewDetail(reviewNo);
-        if(review != null)
-            return review.getId();
-        return null;
+    public List<ReviewAndLike> selectReviewTop5(String id){
+        return reviewDao.selectReviewTop5(id);
     }
 }

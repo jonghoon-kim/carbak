@@ -29,13 +29,39 @@
 <!--			order by ${sortType} desc-->
 <!--		</if>-->
 <!--	</select>-->
-	<select id="maxReviewCount" resultType="int">
+	<select id="maxReviewCount" parameterType="Map" resultType="int">
 		select count(*) from review
+		where 1=1
 		<if test="searchText !=null and searchText !=''">
-			where sido||' '||gugun LIKE '%'||#{searchText}||'%'
+			and sido||' '||gugun LIKE '%'||#{searchText}||'%'
+		</if>
+		<if test="pageOwnerId !=null and pageOwnerId !=''">
+			and id = #{pageOwnerId}
 		</if>
 	</select>
 
+	<select id="selectReviewTop5" parameterType="string" resultType="ReviewAndLike">
+		select *
+		from
+		(
+		select
+		r.reviewNo,r.id,r.title,r.sido,r.gugun,r.content,r.titleImageSrc,r.readCount,r.likeCount,r.replyCount,r.regDate,r.modifyDate,
+		nvl2(l.reviewNo,1,0) as likeYn
+		from Review r,ReviewLike l
+		where r.reviewNo = l.reviewNo(+)
+
+		<choose>
+			<when test="id != null and id != ''">
+				and #{id} = l.id(+)
+			</when>
+			<otherwise>
+				and l.id(+) is null
+			</otherwise>
+		</choose>
+		order by likeCount desc
+		)
+		where rownum <![CDATA[<=]]> 5
+	</select>
 <!--	<select id="selectReviewList" parameterType="Map" resultType="ReviewAndLike">-->
 <!--		select r.reviewNo,r.id,r.title,r.sido,r.gugun,r.content,r.titleImageSrc,r.readCount,r.likeCount,r.replyCount,r.regDate,r.modifyDate,-->
 <!--		       nvl2(l.reviewNo,1,0) as likeYn-->
@@ -83,6 +109,9 @@
 							</otherwise>
 						</choose>
 
+						<if test="pageOwnerId !=null and pageOwnerId !=''">
+							and r.id = #{pageOwnerId}
+						</if>
 						<if test="searchText !=null and searchText !=''">
 						and sido||' '||gugun LIKE '%'||#{searchText}||'%'
 						</if>

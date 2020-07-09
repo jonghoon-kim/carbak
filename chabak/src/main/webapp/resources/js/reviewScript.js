@@ -77,6 +77,8 @@ function getUrlString(searchText,sortType){
 function ajaxReviewList(sessionId,isSearchButton,curPage) {
 
     var searchText = $("#search_text").val();
+    var pageOwnerIdVar = $("#pageOwnerIdSaved").val();
+    console.log("pageOwnerVar:"+pageOwnerIdVar);
     //검색 버튼 누른 경우
     if(isSearchButton==true){
         $("#search_text_saved").val(searchText);
@@ -93,6 +95,7 @@ function ajaxReviewList(sessionId,isSearchButton,curPage) {
         dataType:'json',
         data :{"sortType": $("#sortType option:selected").val(),//서버로 전송하는 데이터(정렬방식)
             "searchText": searchText,
+            "pageOwnerId": pageOwnerIdVar,
             "curPage": curPage       }, //검색창의 텍스트값
         success : function(data) {
 
