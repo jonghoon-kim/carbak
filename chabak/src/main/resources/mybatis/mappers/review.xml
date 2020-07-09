@@ -39,6 +39,16 @@
 			and id = #{pageOwnerId}
 		</if>
 	</select>
+
+	<select id="selectReviewTop5" resultType="ReviewAndLike">
+
+		select * from
+		(
+		select * from review
+		order by likeCount desc
+		)
+		where rownum <![CDATA[<=]]> 5
+	</select>
 <!--	<select id="selectReviewList" parameterType="Map" resultType="ReviewAndLike">-->
 <!--		select r.reviewNo,r.id,r.title,r.sido,r.gugun,r.content,r.titleImageSrc,r.readCount,r.likeCount,r.replyCount,r.regDate,r.modifyDate,-->
 <!--		       nvl2(l.reviewNo,1,0) as likeYn-->
