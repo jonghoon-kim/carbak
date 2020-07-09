@@ -35,6 +35,13 @@ public class ReviewDao {
         reviewList = sqlSession.selectList("review.selectReviewList",map);
         return reviewList;
     }
+
+    public List<ReviewAndLike> selectReviewListMyPage(Map map){
+        List<ReviewAndLike> reviewList = null;
+        reviewList = sqlSession.selectList("review.selectReviewListMyPage",map);
+        return reviewList;
+    }
+
     public Review selectReviewDetail(int reviewNo){
 
         Review review = sqlSession.selectOne("review.selectReviewDetail",reviewNo);
