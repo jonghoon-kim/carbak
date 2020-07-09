@@ -125,6 +125,27 @@
 		    where rownum <![CDATA[<=]]> #{pageSize}
 	</select>
 
+	<select id="selectReviewListMyPage" parameterType="string" resultType="ReviewAndLike">
+		select r.reviewNo,r.id,r.title,r.sido,r.gugun,r.content,r.titleImageSrc,r.readCount,r.likeCount,r.replyCount,r.regDate,r.modifyDate,
+		nvl2(l.reviewNo,1,0) as likeYn
+		from Review r,ReviewLike l
+		where r.reviewNo = l.reviewNo(+)
+		<choose>
+			<when test="id != null and id != ''">
+				and #{id} = l.id(+)
+			</when>
+			<otherwise>
+				and l.id(+) is null
+			</otherwise>
+		</choose>
+
+		<if test="pageOwnerId !=null and pageOwnerId !=''">
+			and r.id = #{pageOwnerId}
+		</if>
+			order by regDate desc
+
+	</select>
+
 	<select id="selectReviewDetail" parameterType="int" resultType="Review">
 		select reviewNo,id,title,sido,gugun,content,titleImageSrc,readCount,likeCount,regDate,modifyDate
 		from Review

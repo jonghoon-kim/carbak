@@ -95,6 +95,13 @@ public class ReviewService {
         reviewList = reviewDao.selectReviewList(map);
         return reviewList;
     }
+
+    public List<ReviewAndLike> selectReviewListMyPage(Map map){
+        List<ReviewAndLike> reviewList = null;
+        reviewList = reviewDao.selectReviewListMyPage(map);
+        return reviewList;
+    }
+
     public Review selectReviewDetail(int reviewNo){
 
         Review review = reviewDao.selectReviewDetail(reviewNo);
