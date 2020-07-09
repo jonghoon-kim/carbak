@@ -40,11 +40,24 @@
 		</if>
 	</select>
 
-	<select id="selectReviewTop5" resultType="ReviewAndLike">
-
-		select * from
+	<select id="selectReviewTop5" parameterType="string" resultType="ReviewAndLike">
+		select *
+		from
 		(
-		select * from review
+		select
+		r.reviewNo,r.id,r.title,r.sido,r.gugun,r.content,r.titleImageSrc,r.readCount,r.likeCount,r.replyCount,r.regDate,r.modifyDate,
+		nvl2(l.reviewNo,1,0) as likeYn
+		from Review r,ReviewLike l
+		where r.reviewNo = l.reviewNo(+)
+
+		<choose>
+			<when test="id != null and id != ''">
+				and #{id} = l.id(+)
+			</when>
+			<otherwise>
+				and l.id(+) is null
+			</otherwise>
+		</choose>
 		order by likeCount desc
 		)
 		where rownum <![CDATA[<=]]> 5

@@ -24,6 +24,12 @@ public class ReviewDao {
         int maxCount = sqlSession.selectOne("review.maxReviewCount",map);
         return maxCount;
     }
+
+    public List<ReviewAndLike> selectReviewTop5(String id){
+        List<ReviewAndLike> reviewList = null;
+        reviewList = sqlSession.selectList("review.selectReviewTop5",id);
+        return reviewList;
+    }
     public List<ReviewAndLike> selectReviewList(Map map){
         List<ReviewAndLike> reviewList = null;
         reviewList = sqlSession.selectList("review.selectReviewList",map);

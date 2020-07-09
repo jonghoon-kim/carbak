@@ -5,12 +5,14 @@ import com.chabak.repositories.ReviewDao;
 import com.chabak.util.Utility;
 import com.chabak.vo.Pagination;
 import com.chabak.vo.Review;
+import com.chabak.vo.ReviewAndLike;
 import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.util.List;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -71,5 +73,9 @@ public class ReviewService {
 
         Utility.pageBackward(response);
         return false;
+    }
+
+    public List<ReviewAndLike> selectReviewTop5(String id){
+        return reviewDao.selectReviewTop5(id);
     }
 }
