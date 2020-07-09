@@ -75,7 +75,65 @@ public class ReviewService {
         return false;
     }
 
+    public int insertReview(Review review){
+        int insertedCount = reviewDao.insertReview(review);
+        return insertedCount;
+    }
+
+    public int maxReviewCount(Map map){
+        int maxCount = reviewDao.maxReviewCount(map);
+        return maxCount;
+    }
+
     public List<ReviewAndLike> selectReviewTop5(String id){
-        return reviewDao.selectReviewTop5(id);
+        List<ReviewAndLike> reviewList = null;
+        reviewList = reviewDao.selectReviewTop5(id);
+        return reviewList;
+    }
+    public List<ReviewAndLike> selectReviewList(Map map){
+        List<ReviewAndLike> reviewList = null;
+        reviewList = reviewDao.selectReviewList(map);
+        return reviewList;
+    }
+    public Review selectReviewDetail(int reviewNo){
+
+        Review review = reviewDao.selectReviewDetail(reviewNo);
+        return review;
+    }
+
+    public int updateReview(Review review) {
+
+        int updateCount = reviewDao.updateReview(review);
+        return updateCount;
+    }
+
+    public int updateReadCount(int reviewNo){
+        int updateCount = reviewDao.updateReadCount(reviewNo);
+        return updateCount;
+    }
+
+    public int increaseLikeCount(int reviewNo){
+        int updateLikeCount = reviewDao.increaseLikeCount(reviewNo);
+        return updateLikeCount;
+    }
+
+    public int decreaseLikeCount(int reviewNo){
+        int updateLikeCount = reviewDao.decreaseLikeCount(reviewNo);
+        return updateLikeCount;
+    }
+
+    public int deleteReview(int reviewNo){
+        int deleteCount = reviewDao.deleteReview(reviewNo);
+        return deleteCount;
+    }
+
+    public int increaseReplyCount(int reviewNo){
+        int updateLikeCount = reviewDao.increaseReplyCount(reviewNo);
+        return updateLikeCount;
+    }
+
+    public int decreaseReplyCount(int reviewNo){
+        int updateLikeCount = reviewDao.decreaseReplyCount(reviewNo);
+        return updateLikeCount;
     }
 }

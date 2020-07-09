@@ -1,7 +1,6 @@
 package com.chabak.controllers;
 
 import com.chabak.repositories.ReplyDao;
-import com.chabak.repositories.ReviewDao;
 import com.chabak.repositories.ReviewLikeDao;
 import com.chabak.services.ReviewService;
 import com.chabak.util.Utility;
@@ -28,9 +27,6 @@ public class ReviewController {
     ReviewService reviewService;
 
     @Autowired
-    ReviewDao reviewDao;
-
-    @Autowired
     ReplyDao replyDao;
 
      @Autowired
@@ -52,7 +48,7 @@ public class ReviewController {
         //리스트 출력을 위한 파라미터를 저장할 맵
         Map map = new HashMap<String,String>();
 
-        int listCnt = reviewDao.maxReviewCount(countReviewMap);
+        int listCnt = reviewService.maxReviewCount(countReviewMap);
 
 
         //리뷰 리스트의 모든 파라미터 설정 후 Pagination 반환
@@ -60,7 +56,7 @@ public class ReviewController {
 
         System.out.println("pagination:"+pagination);
         //리뷰 리스트 select
-        List<ReviewAndLike> reviewList = reviewDao.selectReviewList(map);
+        List<ReviewAndLike> reviewList = reviewService.selectReviewList(map);
 
 
         mv.setViewName("community/community");
@@ -87,7 +83,6 @@ public class ReviewController {
                            @RequestParam (required = false,defaultValue = "") String pageOwnerId,
                            @RequestParam (required = false,defaultValue = "1") int curPage){
 
-        //TODO:pageOwnerId ajax 함수에서 파라미터로 보내도록 수정해야 함.
         System.out.println("in ajax Controller pageOwnerId:"+pageOwnerId);
         //페이징을 위한 리뷰 리스트 갯수를 가져올 파라미터 맵
         Map countReviewMap = new HashMap<String,String>();
@@ -97,13 +92,13 @@ public class ReviewController {
         //파라미터를 저장할 맵 생성
         Map map = new HashMap<String,String>();
 
-        int listCnt = reviewDao.maxReviewCount(countReviewMap);
+        int listCnt = reviewService.maxReviewCount(countReviewMap);
 
         //리뷰 리스트의 모든 파라미터 설정 후 Pagination 반환
         Pagination pagination = reviewService.setReviewListParameterMap(map,session,sortType,searchText,pageOwnerId,listCnt,curPage);
 
         //리뷰 리스트 select
-        List<ReviewAndLike> reviewList = reviewDao.selectReviewList(map);
+        List<ReviewAndLike> reviewList = reviewService.selectReviewList(map);
 
 
         //화면으로 보낼 맵
@@ -154,7 +149,7 @@ public class ReviewController {
         reviewService.setTitleImg(review);
 
         //리뷰 저장
-        reviewDao.insertReview(review);
+        reviewService.insertReview(review);
 
         mv.setViewName("redirect:/review");
 
@@ -176,12 +171,11 @@ public class ReviewController {
 
         //수정 권한 체크
         try{
-            review = reviewDao.selectReviewDetail(reviewNo);
+            review = reviewService.selectReviewDetail(reviewNo);
             reviewService.compareSessionAndWriterId(id,review.getId(),response);
         } //해당 리뷰번호에 해당하는 작성자가 없으면
         catch (NullPointerException e){
             Utility.printAlertMessage(response,"잘못된 접근입니다.");
-//            Utility.pageBackward(response);
             mv.setViewName("/review");
             return mv;
         }
@@ -210,7 +204,7 @@ public class ReviewController {
 
         System.out.println("review:"+review);
 
-        reviewDao.updateReview(review);
+        reviewService.updateReview(review);
 
         mv.setViewName("redirect:/review");
 
@@ -231,16 +225,17 @@ public class ReviewController {
 
         //삭제 권한 체크
         try{
-            review = reviewDao.selectReviewDetail(reviewNo);
+            review = reviewService.selectReviewDetail(reviewNo);
             reviewService.compareSessionAndWriterId(id,review.getId(),response);
         } //해당 리뷰번호에 해당하는 작성자가 없으면
         catch (NullPointerException e){
             Utility.printAlertMessage(response,"잘못된 접근입니다.");
-            Utility.pageBackward(response);
+            mv.setViewName("/review");
+            return mv;
         }
 
         //리뷰 삭제
-        reviewDao.deleteReview(reviewNo);
+        reviewService.deleteReview(reviewNo);
 
         mv.setViewName("redirect:/review");
 
@@ -259,16 +254,18 @@ public class ReviewController {
 
         System.out.println("reviewNo:"+reviewNo);
 
-        //조회수 1 증가
-        reviewDao.updateReadCount(reviewNo);
         //리뷰 선택
-        Review review = reviewDao.selectReviewDetail(reviewNo);
+        Review review = reviewService.selectReviewDetail(reviewNo);
 
         //해당 리뷰가 존재하지 않으면
         if(review == null){
             Utility.printAlertMessage(response,"잘못된 접근입니다.");
-            Utility.pageBackward(response);
+            mv.setViewName("/review");
+            return mv;
         }
+
+        //조회수 1 증가
+        reviewService.updateReadCount(reviewNo);
 
         //리뷰의 좋아요
 
