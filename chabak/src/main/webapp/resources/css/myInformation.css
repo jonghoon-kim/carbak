@@ -17,17 +17,19 @@
     margin-top:70px;
     margin-bottom:70px;
     font-family: 'Jeju Gothic', sans-serif;
-    height : 900px;
+    height : 1500px;
 }
 /* top title */
 .top {
     text-align: center;
+    display: inline;
 }
 /* 프로필 사진 설정 */
 .thumbnail-wrapper {
     width: 150px;
     height: 150px;
-    margin : 0 auto;
+    margin : 0px 0px 0px 450px;
+    float: left;
 }
 .thumbnail {
     border : 2px solid rgb(105, 179, 149);
@@ -59,6 +61,14 @@
     justify-content: center;
     transform: translate(-50%,-50%);
 }
+
+.follower_btn {
+    position: absolute;
+}
+
+
+
+
 .sessionId {
     text-align :center;
 }
@@ -87,9 +97,9 @@
 .sessionId .updateMember:focus {
     outline: none;
 }
-
 .button_menu {
-    margin: 80px 0px 0px 520px;
+    margin : 150px 0px 0px 0px;
+    float:left;
 }
 .button_menu button {
     width: 150px;

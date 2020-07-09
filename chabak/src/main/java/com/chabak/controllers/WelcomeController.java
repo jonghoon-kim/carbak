@@ -26,7 +26,7 @@ public class WelcomeController {
         //session.setAttribute("id","id1");
         System.out.println((String)(session.getAttribute("id")));
 
-        return "index";
+        return "/index";
     }
 
     @RequestMapping("/header")

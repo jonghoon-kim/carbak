@@ -4,6 +4,7 @@ import com.chabak.repositories.ReviewDao;
 import com.chabak.services.FollowServiceImpl;
 import com.chabak.services.MemberService;
 import com.chabak.services.ReviewService;
+import com.chabak.util.Utility;
 import com.chabak.vo.Follow;
 import com.chabak.vo.Pagination;
 import com.chabak.vo.ReviewAndLike;
@@ -31,12 +32,16 @@ public class MyPageController {
     @Autowired
     MemberService memberService;
 
+    @Autowired
+    ReviewService reviewService;
+
     // main 화면에서 mypage 클릭 경로 이동
     @RequestMapping(value = "/myInfo", method = RequestMethod.GET)
     public ModelAndView myPageForm(HttpSession session, HttpServletResponse response) throws Exception {
 
         String loginId = (String) session.getAttribute("id");
         ModelAndView mv = new ModelAndView();
+        Map map = new HashMap();
 
         if (loginId == null) {
             response.setContentType("text/html; charset=UTF-8");
@@ -49,8 +54,17 @@ public class MyPageController {
             mv.setViewName("/member/login");
             return mv;
         } else {
+            map.put("id", loginId);
+            map.put("pageOwnerId", loginId);
+            List<ReviewAndLike> list = reviewService.selectReviewListMyPage(map);
+
             mv.setViewName("/mypage/myInformation");
+            mv.addObject("countFollower",followService.countFollower(loginId));
+            mv.addObject("countFollowing", followService.countFollowing(loginId));
             mv.addObject("member", memberService.getMember(loginId));
+            mv.addObject("countReview", list.size());
+            mv.addObject("reviewList", list);
+            System.out.println(list.get(0).getReviewNo());
             return mv;
         }
     }
@@ -103,11 +117,20 @@ public class MyPageController {
 
     // 방문객이 홈에 들어올 경우 보여지는 화면
     @RequestMapping(value = {"", "/", "guestVisit"}, method = {RequestMethod.GET, RequestMethod.POST})
-    public ModelAndView guestVisit(@RequestParam("id") String clickedId) {
+    public ModelAndView guestVisit(@RequestParam("id") String clickedId) throws Exception{
         ModelAndView mv = new ModelAndView();
+        Map map = new HashMap();
+
+        map.put("id", clickedId);
+        map.put("pageOwnerId", clickedId);
+        List<ReviewAndLike> list = reviewService.selectReviewListMyPage(map);
 
         mv.setViewName("/mypage/myInformation");
+        mv.addObject("countFollower", followService.countFollower(clickedId));
+        mv.addObject("countFollowing", followService.countFollowing(clickedId));
+        mv.addObject("countReview", list.size());
         mv.addObject("pageOwner", memberService.getMember(clickedId));
+        mv.addObject("reviewList", list);
 
         return mv;
     }
@@ -121,11 +144,8 @@ public class MyPageController {
 
         String followerId = followService.btnFollowStatus(loginId, clickedId);
 
-
         map.put("followerId", followerId);
         map.put("sessionId", loginId);
-
-        System.out.println("btnFollowStatus controller");
 
         return map;
     }
@@ -198,6 +218,33 @@ public class MyPageController {
         String loginId = (String) session.getAttribute("id");
 
         followService.clickFollowBtn(loginId, clickedId);
+    }
+
+    //follow 버튼 클릭 이벤트 컨트롤러(follow -> following)
+    @ResponseBody
+    @RequestMapping(value = {"", "/", "printReviewList"}, method = {RequestMethod.GET, RequestMethod.POST}) //
+    public HashMap<String, List<ReviewAndLike>> printReviewList(HttpSession session, @RequestParam String pageOwnerId) throws Exception {
+        String loginId = (String) session.getAttribute("id");
+        Map map = new HashMap();
+        HashMap<String, List<ReviewAndLike>> resultMap = new HashMap<>();
+
+        if (loginId == pageOwnerId) {
+            map.put("id", loginId);
+            map.put("pageOwnerId", loginId);
+            List<ReviewAndLike> list =  reviewService.selectReviewListMyPage(map);
+
+            resultMap.put("reviewList", list);
+            return resultMap;
+        }
+        else{
+            System.out.println(pageOwnerId);
+            map.put("id", pageOwnerId);
+            map.put("pageOwnerId", pageOwnerId);
+            List<ReviewAndLike> list =  reviewService.selectReviewListMyPage(map);
+
+            resultMap.put("reviewList", list);
+            return resultMap;
+        }
     }
 }
 

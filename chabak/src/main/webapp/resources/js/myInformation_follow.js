@@ -32,7 +32,7 @@ function deleteFollowUser(clickedId, option){
     })
 }
 
-//팔로잉 리스트 출력 매서드
+//리스트 출력 매서드
 function printList(data, option, pageOwnerId){
     var sessionId = document.getElementById("sessionId").value;
     var HashMapList = data.HashMapList;
@@ -62,6 +62,8 @@ function printList(data, option, pageOwnerId){
             $('#buttonId').attr('onclick', "deleteFollowUser("+"'"+clickedId+"','"+option+"')");
             $('#buttonId'+i).text("삭제");
         }
+        $('.listForm').append(htmlFrame);
+
         htmlFrame.show();
     }
 }
@@ -187,3 +189,46 @@ $(document).ready(function(){
     var clickedId =  $("#pageOwnerId").find("button span").text();
     btnProfileFollowStatus(clickedId);
 })
+
+// 리뷰 리스트
+function printReviewList(pageOwnerId) {
+    $.ajax({
+        type: "get",
+        data : {"pageOwnerId": pageOwnerId},
+        datatype: "json",
+        url: "printReviewList",
+        success : function(data) {
+            var reviewList = data.reviewList;
+
+            $('.listForm').empty();
+            // HTMLframe 가져오는 매서드
+            for (var i = 0; i < reviewList.length; i++) { // 팔로워 프로필사진, 아이디 리스트로 출력
+                var htmlFrame = $('#reviewListId').clone(true);
+                $('.listForm').append(htmlFrame);
+
+                var reviewTitleImg = reviewList[i].titleImageSrc;
+                var reviewNo = reviewList[i].reviewNo;
+
+                $('#reviewListId').attr('id', "reviewListId"+i);
+                $('#imgAppendPoint').attr('id', "imgAppendPoint"+i);
+                $('#imgAppendPoint'+i).attr('src', reviewTitleImg);
+                $('#reviewDetail').attr('id', "reviewDetail"+i);
+                $('#reviewDetail'+i).attr('href', "/review/detail?reviewNo="+reviewNo);
+
+                /*var htmlFrame = $('#reviewListId1').clone(true);
+               var reviewTitleImg = reviewList[i].titleImageSrc;
+                var reviewNo = reviewList[i].reviewNo;
+                var reviewDetail = htmlFrame.find(".reviewImg a");
+                var imgAppendPoint = reviewDetail.find("img");
+                imgAppendPoint.attr('src', reviewTitleImg);
+                reviewDetail.attr('href', "/review/detail?reviewNo="+"'"+reviewNo+"'");*/
+
+                $('.listForm').append(htmlFrame);
+
+                htmlFrame.show();
+            }
+
+        }, error: function (data) {
+        }
+    })
+}

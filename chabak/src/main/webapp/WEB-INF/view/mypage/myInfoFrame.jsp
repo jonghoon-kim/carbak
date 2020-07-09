@@ -16,3 +16,12 @@
     </div>
     <input type="hidden" id="sessionId" value="${sessionScope.id}">
 </div>
+
+<!-- 리뷰 리스트 frame -->
+<div class="reviewList" id="reviewListId" style="display: none">
+    <div class="reviewImg">
+        <a class="reviewDetail" id="reviewDetail" href=" ">
+            <img class="imgAppendPoint" id="imgAppendPoint" src="">
+        </a>
+    </div>
+</div>

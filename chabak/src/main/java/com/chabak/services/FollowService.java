@@ -19,4 +19,8 @@ public interface FollowService {
    int clickFollowingBtn(String id, String selectedUserId) throws Exception;
 
    String btnFollowStatus(String sessionId, String userId) throws Exception;
+
+   int countFollower(String id) throws Exception;
+
+   int countFollowing(String id) throws Exception;
 }
