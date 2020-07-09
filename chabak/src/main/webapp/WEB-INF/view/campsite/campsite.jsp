@@ -310,8 +310,7 @@ prefix="c" %>
           function selectPlaces(obj) {
               var lat = $(obj).data("ha"), //위도
                   long = $(obj).data("ga");//경도
-              console.log("success1"+lat);
-              console.log("success2"+long);
+
 
               var campsiteTest=document.getElementById("campsitePlacseDetail");
 

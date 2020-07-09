@@ -1,6 +1,7 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" language="java" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
@@ -10,6 +11,7 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
     <script type="text/javascript" src=" http://code.jquery.com/jquery-latest.min.js"></script>
     <script type="text/javascript" src="/resources/js/address_select.js"></script>
+    <script type="text/javascript" src="/resources/js/campsitePlacePaging.js"></script>
     <meta name='viewport' content='width=device-width, initial-scale=1'>
     <script src='https://kit.fontawesome.com/a076d05399.js'></script>
 </head>
@@ -133,31 +135,41 @@
         <!-- 블로그 -->
          <div class="blog_aticle">
             <h2>블로그</h2>
-            <ul>
+            <ul id="blogUl">
 
                     <c:forEach var="bl" items="${blogInfo}" varStatus="status" begin="0" end="4">
-                <li>
-                    <p class="best_id">ID : <a href="${bl.bloggerlink}">${bl.bloggername}</a></p>
-                    <div class="best_img">
+                        <c:set var="Text" value="${bl.postdate}"/>
+                        <input type="hidden" value="${fn:length(Text)}">
+                        <li id="blogLi">
+                    <p class="blog_best_id">ID : <a href="${bl.bloggerlink}">${bl.bloggername}</a></p>
+                    <div class="blog_best_img">
                         <img src="${imgInfo[status.index].thumbnail}">
                     </div>
-                    </p>
-                    <p class="best_title">${bl.title}</p>
-                    <p class="best_content">${bl.description}</p>
-                    <p class="select_community"><a href="${bl.link}" target="_blank">자세히보기</a></p>
+                    <p class="blog_best_title">${bl.title}</p>
+                    <p class="blog_best_content">${bl.description}</p>
+                    <p class="blog_select_community">
+                            ${fn:substring(Text,0,4) }-${fn:substring(Text,4,6) }-${fn:substring(Text,6,8) }
+                        &nbsp;<a href="${bl.link}" target="_blank">자세히보기</a></p>
                 </li>
                     </c:forEach>
 
             </ul>
 
             <!-- 페이지 버튼 -->
-            <div class="community_link">
-                <button class='fas fa-angle-left'></button>
-                <button class='fas fa-circle'></button>
-                <button class='far fa-circle'></button>
-                <button class='far fa-circle'></button>
-                <button class='fas fa-angle-right'></button>
+            <div class="blog_community_link">
+                <c:set var="startNo" value="${startPageNo}" />
+                    <button class='fas fa-angle-left' id="prevPageNo" onClick="javascript:goPage(<c:out value="${startNo}"/>-5)"></button>
+
+                    <button class='fas fa-circle' onClick="javascript:goPage(<c:out value="${startNo}"/>)"></button>
+                    <button class='far fa-circle' onClick="javascript:goPage(<c:out value="${startNo}"/>+5)"></button>
+                    <button class='far fa-circle' onClick="javascript:goPage(<c:out value="${startNo}"/>+10)"></button>
+
+                    <button class='fas fa-angle-right' id="nextPageNo" onClick="javascript:goPage(<c:out value="${startNo}"/>+5)"></button>
+
             </div>
+            <c:forEach var="test12" items="${lstSelectCampsitePlace}" varStatus="status">
+            <a href="https://search.naver.com/search.naver?where=post&sm=tab_jum&query=${test12.campsitename}" target="_blank">블로그내용 더보기</a>
+            </c:forEach>
         </div>
 
         <!--footer-->
@@ -325,7 +337,7 @@
         if(convenience2 == null || convenience2=='' || convenience2==' '){
             convenience2 = "정보없음";
         }
-        itemStr += ' <br><span class="convenience"><h2>부가 시설</h2> <br>' + convenience2  + '</span>';
+        itemStr += ' <br><span class="convenience"><h2>부가 시설</h2> <br>' + convenience2  + '</span><br>';
         el.innerHTML = itemStr;
         el.className = 'item';
         console.log("convenience2 : " + convenience2);
