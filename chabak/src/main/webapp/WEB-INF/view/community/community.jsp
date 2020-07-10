@@ -31,31 +31,7 @@
                 window.location.reload();
             }
         }
-        function ajaxReviewLikeToggle(reviewNo,imgTag,sessionId){
-            if(sessionId == "" || sessionId==null){
-                var confirmYn = confirm("로그인이 필요한 서비스입니다.로그인 하시겠습니까?") ;
-                if(confirmYn)
-                    location.href="/member/login";
-            }
-            else{
-                $.ajax({
-                    url:"/reviewLike/toggleAjax",
-                    type : "post",
-                    data :{"reviewNo": reviewNo},
-                    success : function(data) {
-                        if(data==1){
-                            $(imgTag).attr("src","/img/community/heart2.png");
-                        }
-                        else{
-                            $(imgTag).attr("src","/img/community/heart.png");
-                        }
-                    },
-                    error:function(error){
-                        alert(error)
-                    }
-                });
-            }
-        }
+
         function fn_paging(curPage) {
             ajaxReviewList('${sessionScope.id}',true,curPage);
         }

@@ -27,7 +27,7 @@ public class WelcomeController {
         System.out.println("Controller");
 
 //        session.setAttribute("id","fakeId");
-        //session.setAttribute("id","id1");
+        session.setAttribute("id","id1");
         String id = (String)session.getAttribute("id");
         List<ReviewAndLike> reviewList = null;
         if(id==null){
@@ -45,6 +45,20 @@ public class WelcomeController {
 
         mv.setViewName("/index");
         mv.addObject("reviewList",reviewList);
+
+        //조회수 1000 단위를 k로 바꿔서 화면으로 보내기(script로 해보려했으나 gg)
+        List<String> readCountList = null;
+        for(ReviewAndLike reviewAndLike:reviewList){
+            int readCount = reviewAndLike.getReadCount();
+            if(readCount >= 1000){
+                readCountList.add((readCount/1000.0)+"K");
+            }
+            else{
+                readCountList.add(""+readCount+"");
+            }
+        }
+        mv.addObject("readCountList",readCountList);
+
         return mv;
     }
 
