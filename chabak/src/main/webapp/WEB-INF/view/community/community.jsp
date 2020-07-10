@@ -185,6 +185,10 @@
     </div>
     <%--    reviewListDiv 끝--%>
     <!-- pagination{s} -->
+    <a id="curRange_ne_1" onclick="fn_paging(1)" style="display: none">[처음]</a>
+
+    <a id="curPage_ne_1" onclick="" style="display:none">[이전]</a>
+
     <span id="i_eq_curPage" style="font-weight: bold;display: none"><a onclick=""></a></span>
 
     <a id="i_ne_curPage" style="display: none" onclick=""></a>
@@ -218,9 +222,9 @@
         <c:if test="${pagination.curRange ne pagination.rangeCnt && pagination.rangeCnt > 0}">
             <a onclick="fn_paging('${pagination.pageCnt }')">[끝]</a>
         </c:if>
-        <div>
-            총 게시글 수 : ${pagination.listCnt } /    총 페이지 수 : ${pagination.pageCnt } / 현재 페이지 : ${pagination.curPage } / 현재 블럭 : ${pagination.curRange } / 총 블럭 수 : ${pagination.rangeCnt }
-        </div>
+<%--        <div>--%>
+<%--            총 게시글 수 : ${pagination.listCnt } /    총 페이지 수 : ${pagination.pageCnt } / 현재 페이지 : ${pagination.curPage } / 현재 블럭 : ${pagination.curRange } / 총 블럭 수 : ${pagination.rangeCnt }--%>
+<%--        </div>--%>
     </div>
 
 

@@ -13,6 +13,7 @@
     <!--<script type="text/javascript" src="js/3dRotaingButton.js"></script>-->
     <script type="text/javascript">
         //배너 롤링
+
         (function($){
             jQuery(document).ready(function(){
                 $('.slideshow').FadeWideBgImg({interval:2000});
@@ -36,9 +37,22 @@
             }
             cnt++;
         }
+
     </script>
 </head>
 <body>
+<%
+    // 로그인한 회원 정보 담기
+    String id = null;
+    String name = null;
+
+    // 세션이 존재하면 아이디값을 받아 관리
+    if(session.getAttribute("id") != null) {
+        id = (String)session.getAttribute("id");
+        name = (String)session.getAttribute("name");
+    }
+%>
+
 <!-- 배너 -->
 <div style="width:100%;">
     <ul class="slideshow">
@@ -60,12 +74,23 @@
     </div>
 
     <div id="header_right_but">
+        <% if (id != null) {%>
+        <%--<div><span class="user"> ${sessionScope.id}님, 환영합니다!</span></div>--%>
         <div class="info_but">
-            <button onclick="location.href ='#'">&nbsp;MyPage</button>
+            <button onclick="location.href ='/mypage/myInfo'">&nbsp;MyPage</button>
+        </div>
+        <div class="logout_but">
+            <button onclick="location.href ='/member/logout'">
+                <span>${sessionScope.id}</span></button>
+        </div>
+        <% } else {%>
+        <div class="info_but"> <!-- todo: mypage 입장 못하게 수정 할 것 -->
+            <button onclick="location.href ='/mypage/myInfo'">MyPage</button>
         </div>
         <div class="login_but">
             <button onclick="location.href ='/member/login'">Login</button>
         </div>
+        <% }%>
     </div>
     <div class="logo">
         <a href="index.html"><img src="img/header/main_logo.png"></a>
@@ -96,39 +121,27 @@
     <h2>인기리뷰 모아보기</h2>
     <hr>
     <div class="community_link">
-        <a href="community.html">더보기</a>
+        <a href="/review/">더보기</a>
     </div>
     <div class="best_review">
         <ul>
+         <c:forEach var="review" items="${reviewList}">
             <li>
-                <p class="best_id">ID:차박차박</p>
+                <p class="best_id">ID:${review.id}</p>
                 <div class="best_img">
-                    <img src="img/reviews/01.jpg">
+                    <img src="${review.titleImageSrc}">
                 </div>
                 <p class="best_views">views 1.24k
                     <button class="like-but" onclick="imgToggle()">
-                        <img class="like-img" id="like_empty_img" src="img/community/heart.png">
-                        <img class="like-img" id="like_full_img" src="img/community/heart2.png">
+                        <img class="like-img" id="like_empty_img${review.id}" src="img/community/heart.png">
+                        <img class="like-img" id="like_full_img${review.id}" src="img/community/heart2.png">
                     </button>
                 </p>
                 <p class="best_title">슬기로운 차박생활♥</p>
-                <p class="best_content">이날은 우리 하동여행 갔던날 설레고 긴장되는 첫 차박을 꿈꾸며...
-                    이날은 우리 하동여행 갔던날 설레고 긴장되는 첫 차박을 꿈꾸며...
-                    이날은 우리 하동여행 갔던날 설레고 긴장되는 첫 차박을 꿈꾸며...
-                    이날은 우리 하동여행 갔던날 설레고 긴장되는 첫 차박을 꿈꾸며...
-                    이날은 우리 하동여행 갔던날 설레고 긴장되는 첫 차박을 꿈꾸며...
-                    이날은 우리 하동여행 갔던날 설레고 긴장되는 첫 차박을 꿈꾸며...
-                    이날은 우리 하동여행 갔던날 설레고 긴장되는 첫 차박을 꿈꾸며...
-                    이날은 우리 하동여행 갔던날 설레고 긴장되는 첫 차박을 꿈꾸며...
-                    이날은 우리 하동여행 갔던날 설레고 긴장되는 첫 차박을 꿈꾸며...
-                    이날은 우리 하동여행 갔던날 설레고 긴장되는 첫 차박을 꿈꾸며
-                </p>
-                <p class="select_community"><a href="community.html">자세히보기</a></p>
+                <div class="best_content">${review.content}</div>
+                <p class="select_community"><a href="/review/detail?reviewNo=${review.reviewNo}">자세히보기</a></p>
             </li>
-            <li><img><p>영역 나누기2</p></li>
-            <li><img><p>영역 나누기3</p></li>
-            <li><img><p>영역 나누기4</p></li>
-            <li><img><p>영역 나누기5</p></li>
+         </c:forEach>
         </ul>
     </div>
 </div>

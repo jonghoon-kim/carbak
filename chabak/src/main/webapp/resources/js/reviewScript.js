@@ -169,11 +169,25 @@ function ajaxReviewList(sessionId,isSearchButton,curPage) {
             var curRangeVar = pagenation["curRange"];
             var rangeCntVar = pagenation["rangeCnt"];
             var nextPageVar = pagenation["nextPage"];
+            var prevPageVar = pagenation["prevPage"];
 
+            console.log("nextPageVar:"+nextPageVar+"prevPageVar:"+prevPageVar);
             console.log("총 페이지 수 : "+pageCntVar+ "/ 현재 페이지 : "+ curPageVar + "/ 현재 블럭 : "+ curRangeVar + "/ 총 블럭 수 : "+ rangeCntVar);
 
             var pagingDiv = $("#pagingDiv");
             pagingDiv.empty();
+
+            if(curRangeVar != 1){
+                var tag = $("#curRange_ne_1").clone(true);
+                tag.attr("style","display:inline-block");
+                pagingDiv.append(tag);
+            }
+            if(curPageVar != 1){
+                var tag = $("#curPage_ne_1").clone(true);
+                tag.attr("onclick","fn_paging('"+ prevPageVar +"')");
+                tag.attr("style","display:inline-block");
+                pagingDiv.append(tag);
+            }
             for(var i=startPageVar;i<= endPageVar;i++){
                 if(i==curPageVar){
                     var span1 = $("#i_eq_curPage").clone(true);

@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.regex.Matcher;
@@ -40,6 +41,15 @@ public class ReviewService {
             return true;
         }
         return false;
+    }
+
+    //index 페이지 top5 리뷰 content에서 이미지는 출력되지 않도록 제외
+    public String deleteImgTag(String originalString){
+
+        String regex = "<img[^>]*src=[\"']?([^>\"']+)[\"']?[^>]*>"; //img 태그 src 추출 정규표현식
+        String resultString = originalString.replaceAll(regex,"");
+        System.out.println("deleteImgTag resultString:"+resultString);
+        return resultString;
     }
 
     //리뷰 리스트 select 관련 파라미터 설정 후 리턴
