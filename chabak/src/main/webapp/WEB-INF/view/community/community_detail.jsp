@@ -176,7 +176,6 @@
 <body>
 <div id="header">
     <jsp:include page="/header"/>
-
 </div>
 <hr class="top_hr"><br>
 <br>

@@ -16,7 +16,11 @@
 
 <body>
 <!-- header -->
-<hr><br>
+<div id="header">
+    <jsp:include page="/header"/>
+</div>
+<hr class="top_hr">
+<br><br>
 <div class="container">
     <div class="top">
         <h1>커뮤니티 리뷰 쓰기</h1>
@@ -69,6 +73,9 @@
         </div>
 
     </form>
+</div>
+<div class="footer">
+    <img src="/img/footer/footer.png">
 </div>
 </body>
 

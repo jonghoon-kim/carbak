@@ -137,7 +137,7 @@
                         <img class="like-img" id="like_full_img${review.id}" src="img/community/heart2.png">
                     </button>
                 </p>
-                <p class="best_title">슬기로운 차박생활♥</p>
+                <p class="best_title">${review.title}</p>
                 <div class="best_content">${review.content}</div>
                 <p class="select_community"><a href="/review/detail?reviewNo=${review.reviewNo}">자세히보기</a></p>
             </li>
