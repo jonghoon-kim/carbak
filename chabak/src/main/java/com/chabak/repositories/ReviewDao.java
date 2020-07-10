@@ -1,6 +1,5 @@
 package com.chabak.repositories;
 
-import com.chabak.vo.Reply;
 import com.chabak.vo.Review;
 import com.chabak.vo.ReviewAndLike;
 import org.apache.ibatis.session.SqlSession;

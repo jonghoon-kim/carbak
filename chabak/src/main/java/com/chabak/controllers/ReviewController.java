@@ -1,7 +1,7 @@
 package com.chabak.controllers;
 
-import com.chabak.repositories.ReplyDao;
-import com.chabak.repositories.ReviewLikeDao;
+import com.chabak.services.ReplyService;
+import com.chabak.services.ReviewLikeService;
 import com.chabak.services.ReviewService;
 import com.chabak.util.Utility;
 import com.chabak.vo.*;
@@ -27,10 +27,11 @@ public class ReviewController {
     ReviewService reviewService;
 
     @Autowired
-    ReplyDao replyDao;
+    ReplyService replyService;
 
      @Autowired
-    ReviewLikeDao reviewLikeDao;
+    ReviewLikeService reviewLikeService;
+
 
     @RequestMapping(value ={"", "/", "/list"}, method=RequestMethod.GET)
     public ModelAndView reviewList(HttpSession session,
@@ -123,7 +124,7 @@ public class ReviewController {
         ModelAndView mv = new ModelAndView();
 
         //region checkLogin(세션에서 로그인한 아이디 가져와 설정+비로그인시 로그인 페이지로 이동(return: id or null))
-        String id = Utility.getIdForSessionOrMoveIndex(mv,session,response);
+        Utility.getIdForSessionOrMoveIndex(mv,session,response);
 
         //endregion
 
@@ -279,7 +280,7 @@ public class ReviewController {
             reviewLike.setId(id);
 
             //로그인시 사용자의 좋아요 누름 여부(1/0) check
-            int likeYn = reviewLikeDao.checkReviewLike(reviewLike);
+            int likeYn = reviewLikeService.checkReviewLike(reviewLike);
             System.out.println("likeYn:"+likeYn);
 
             //로그인시 사용자의 좋아요 누름 여부(1/0)
@@ -292,7 +293,7 @@ public class ReviewController {
 
         //해당 리뷰에 달린 댓글들
 
-        List<Reply> replyList = replyDao.selectReplyList(reviewNo);
+        List<Reply> replyList = replyService.selectReplyList(reviewNo);
 
         System.out.println("replyList:"+replyList);
 
