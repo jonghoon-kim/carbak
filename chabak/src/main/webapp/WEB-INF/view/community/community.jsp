@@ -22,6 +22,8 @@
             var selectSortType = $("#sortType");
             selectSortType.val("${sortType}");
 
+            var pageOwnerIdVar = "${pageOwnerId}";
+
             console.log("searchText:"+"${searchText}"+ " sortType:"+"${sortType}");
             if ( event.persisted || (window.performance && window.performance.navigation.type === 2)) {
                 // Back Forward Cache로 브라우저가 로딩될 경우 혹은 브라우저 뒤로가기 했을 경우
@@ -29,31 +31,7 @@
                 window.location.reload();
             }
         }
-        function ajaxReviewLikeToggle(reviewNo,imgTag,sessionId){
-            if(sessionId == "" || sessionId==null){
-                var confirmYn = confirm("로그인이 필요한 서비스입니다.로그인 하시겠습니까?") ;
-                if(confirmYn)
-                    location.href="/member/login";
-            }
-            else{
-                $.ajax({
-                    url:"/reviewLike/toggleAjax",
-                    type : "post",
-                    data :{"reviewNo": reviewNo},
-                    success : function(data) {
-                        if(data==1){
-                            $(imgTag).attr("src","/img/community/heart2.png");
-                        }
-                        else{
-                            $(imgTag).attr("src","/img/community/heart.png");
-                        }
-                    },
-                    error:function(error){
-                        alert(error)
-                    }
-                });
-            }
-        }
+
         function fn_paging(curPage) {
             ajaxReviewList('${sessionScope.id}',true,curPage);
         }
@@ -70,7 +48,8 @@
         <h1>커뮤니티</h1>
     </div>
     <div class="search">
-
+<%--        pageOwnerId 저장하는 hidden input--%>
+        <input type = "hidden" id="pageOwnerIdSaved" value="${pageOwnerId}">
         <input type="text" class="search_text" placeholder=" 지역 검색" name="searchText" id="search_text" value="${searchText}">
         <%--        검색버튼 눌렀을 때 검색어 저장 input--%>
         <input type="hidden" name="search_text_saved" id="search_text_saved" value="${searchText}">
@@ -185,6 +164,10 @@
     </div>
     <%--    reviewListDiv 끝--%>
     <!-- pagination{s} -->
+    <a id="curRange_ne_1" onclick="fn_paging(1)" style="display: none">[처음]</a>
+
+    <a id="curPage_ne_1" onclick="" style="display:none">[이전]</a>
+
     <span id="i_eq_curPage" style="font-weight: bold;display: none"><a onclick=""></a></span>
 
     <a id="i_ne_curPage" style="display: none" onclick=""></a>
@@ -218,9 +201,9 @@
         <c:if test="${pagination.curRange ne pagination.rangeCnt && pagination.rangeCnt > 0}">
             <a onclick="fn_paging('${pagination.pageCnt }')">[끝]</a>
         </c:if>
-        <div>
-            총 게시글 수 : ${pagination.listCnt } /    총 페이지 수 : ${pagination.pageCnt } / 현재 페이지 : ${pagination.curPage } / 현재 블럭 : ${pagination.curRange } / 총 블럭 수 : ${pagination.rangeCnt }
-        </div>
+<%--        <div>--%>
+<%--            총 게시글 수 : ${pagination.listCnt } /    총 페이지 수 : ${pagination.pageCnt } / 현재 페이지 : ${pagination.curPage } / 현재 블럭 : ${pagination.curRange } / 총 블럭 수 : ${pagination.rangeCnt }--%>
+<%--        </div>--%>
     </div>
 
 

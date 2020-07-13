@@ -40,6 +40,13 @@
 		<constructor-arg index="0" ref="sqlSessionFactory" /> <!-- 생성자의 아규먼트 0번째에 ref주소를 전달 -->
 	</bean>
 
+	<!-- 트랜젝션 관리 객체 -->
+	<bean id="transactionManager"
+		  class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="oracleDatasource" />
+	</bean>
+
+
 
 	<!-- file Upload -->
 	<bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">

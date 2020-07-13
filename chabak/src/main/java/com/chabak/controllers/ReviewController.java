@@ -1,8 +1,7 @@
 package com.chabak.controllers;
 
-import com.chabak.repositories.ReplyDao;
-import com.chabak.repositories.ReviewDao;
-import com.chabak.repositories.ReviewLikeDao;
+import com.chabak.services.ReplyService;
+import com.chabak.services.ReviewLikeService;
 import com.chabak.services.ReviewService;
 import com.chabak.util.Utility;
 import com.chabak.vo.*;
@@ -28,31 +27,37 @@ public class ReviewController {
     ReviewService reviewService;
 
     @Autowired
-    ReviewDao reviewDao;
-
-    @Autowired
-    ReplyDao replyDao;
+    ReplyService replyService;
 
      @Autowired
-    ReviewLikeDao reviewLikeDao;
+    ReviewLikeService reviewLikeService;
+
 
     @RequestMapping(value ={"", "/", "/list"}, method=RequestMethod.GET)
     public ModelAndView reviewList(HttpSession session,
                                    @RequestParam (required = false,defaultValue = "regDate") String sortType,
-                                   @RequestParam (required = false,defaultValue = "") String searchText){
+                                   @RequestParam (required = false,defaultValue = "") String searchText,
+                                   @RequestParam (required = false,defaultValue = "") String pageOwnerId){
 
         ModelAndView mv = new ModelAndView();
 
-        //파라미터를 저장할 맵 생성
+        //페이징을 위한 리뷰 리스트 갯수를 가져올 파라미터 맵
+        Map countReviewMap = new HashMap<String,String>();
+        countReviewMap.put("pageOwnerId",pageOwnerId);
+        countReviewMap.put("searchText",searchText);
+
+        //리스트 출력을 위한 파라미터를 저장할 맵
         Map map = new HashMap<String,String>();
 
-        int listCnt = reviewDao.maxReviewCount(searchText);
+        int listCnt = reviewService.maxReviewCount(countReviewMap);
+
 
         //리뷰 리스트의 모든 파라미터 설정 후 Pagination 반환
-        Pagination pagination = reviewService.setReviewListParameterMap(map,session,sortType,searchText,listCnt,1);
+        Pagination pagination = reviewService.setReviewListParameterMap(map,session,sortType,searchText,pageOwnerId,listCnt,1);
 
+        System.out.println("pagination:"+pagination);
         //리뷰 리스트 select
-        List<ReviewAndLike> reviewList = reviewDao.selectReviewList(map);
+        List<ReviewAndLike> reviewList = reviewService.selectReviewList(map);
 
 
         mv.setViewName("community/community");
@@ -61,6 +66,7 @@ public class ReviewController {
 
         mv.addObject("sortType",sortType);
         mv.addObject("searchText",searchText);
+        mv.addObject("pageOwnerId",pageOwnerId);
 
         System.out.println("/list parameter map:"+map);
         System.out.println("(/review/list)result reviewList:"+reviewList);
@@ -72,24 +78,28 @@ public class ReviewController {
     @SneakyThrows
     @ResponseBody
     @RequestMapping("/listAjax")
-    public String listAjax(HttpServletRequest request,HttpSession session){
+    public String listAjax(HttpServletRequest request,HttpSession session,
+                           @RequestParam (required = false,defaultValue = "regDate") String sortType,
+                           @RequestParam (required = false,defaultValue = "") String searchText,
+                           @RequestParam (required = false,defaultValue = "") String pageOwnerId,
+                           @RequestParam (required = false,defaultValue = "1") int curPage){
 
-        String sortType = request.getParameter("sortType");
-        String searchText = request.getParameter("searchText");
-        int curPage = Integer.parseInt(request.getParameter("curPage"));
-
-
+        System.out.println("in ajax Controller pageOwnerId:"+pageOwnerId);
+        //페이징을 위한 리뷰 리스트 갯수를 가져올 파라미터 맵
+        Map countReviewMap = new HashMap<String,String>();
+        countReviewMap.put("pageOwnerId",pageOwnerId);
+        countReviewMap.put("searchText",searchText);
 
         //파라미터를 저장할 맵 생성
         Map map = new HashMap<String,String>();
 
-        int listCnt = reviewDao.maxReviewCount(searchText);
+        int listCnt = reviewService.maxReviewCount(countReviewMap);
 
         //리뷰 리스트의 모든 파라미터 설정 후 Pagination 반환
-        Pagination pagination = reviewService.setReviewListParameterMap(map,session,sortType,searchText,listCnt,curPage);
+        Pagination pagination = reviewService.setReviewListParameterMap(map,session,sortType,searchText,pageOwnerId,listCnt,curPage);
 
         //리뷰 리스트 select
-        List<ReviewAndLike> reviewList = reviewDao.selectReviewList(map);
+        List<ReviewAndLike> reviewList = reviewService.selectReviewList(map);
 
 
         //화면으로 보낼 맵
@@ -114,7 +124,7 @@ public class ReviewController {
         ModelAndView mv = new ModelAndView();
 
         //region checkLogin(세션에서 로그인한 아이디 가져와 설정+비로그인시 로그인 페이지로 이동(return: id or null))
-        String id = Utility.getIdForSessionOrMoveIndex(mv,session,response);
+        Utility.getIdForSessionOrMoveIndex(mv,session,response);
 
         //endregion
 
@@ -140,7 +150,7 @@ public class ReviewController {
         reviewService.setTitleImg(review);
 
         //리뷰 저장
-        reviewDao.insertReview(review);
+        reviewService.insertReview(review);
 
         mv.setViewName("redirect:/review");
 
@@ -158,15 +168,17 @@ public class ReviewController {
         //endregion
 
         System.out.println("/modify(GET) reviewNo:"+reviewNo);
-        Review review = reviewDao.selectReviewDetail(reviewNo);
+        Review review = null;
 
         //수정 권한 체크
         try{
+            review = reviewService.selectReviewDetail(reviewNo);
             reviewService.compareSessionAndWriterId(id,review.getId(),response);
         } //해당 리뷰번호에 해당하는 작성자가 없으면
         catch (NullPointerException e){
             Utility.printAlertMessage(response,"잘못된 접근입니다.");
-            Utility.pageBackward(response);
+            mv.setViewName("/review");
+            return mv;
         }
 
         mv.addObject("review",review);
@@ -193,7 +205,7 @@ public class ReviewController {
 
         System.out.println("review:"+review);
 
-        reviewDao.updateReview(review);
+        reviewService.updateReview(review);
 
         mv.setViewName("redirect:/review");
 
@@ -210,17 +222,21 @@ public class ReviewController {
 
         //endregion
 
+        Review review;
+
         //삭제 권한 체크
         try{
-            reviewService.compareSessionAndWriterId(id,reviewService.getWriterId(reviewNo),response);
+            review = reviewService.selectReviewDetail(reviewNo);
+            reviewService.compareSessionAndWriterId(id,review.getId(),response);
         } //해당 리뷰번호에 해당하는 작성자가 없으면
         catch (NullPointerException e){
             Utility.printAlertMessage(response,"잘못된 접근입니다.");
-            Utility.pageBackward(response);
+            mv.setViewName("/review");
+            return mv;
         }
 
         //리뷰 삭제
-        reviewDao.deleteReview(reviewNo);
+        reviewService.deleteReview(reviewNo);
 
         mv.setViewName("redirect:/review");
 
@@ -239,22 +255,24 @@ public class ReviewController {
 
         System.out.println("reviewNo:"+reviewNo);
 
-        //조회수 1 증가
-        reviewDao.updateReadCount(reviewNo);
         //리뷰 선택
-        Review review = reviewDao.selectReviewDetail(reviewNo);
+        Review review = reviewService.selectReviewDetail(reviewNo);
 
         //해당 리뷰가 존재하지 않으면
         if(review == null){
             Utility.printAlertMessage(response,"잘못된 접근입니다.");
-            Utility.pageBackward(response);
+            mv.setViewName("/review");
+            return mv;
         }
+
+        //조회수 1 증가
+        reviewService.updateReadCount(reviewNo);
 
         //리뷰의 좋아요
 
         //로그인시
         if(id !=null){
-            System.out.println("reviewDetail(비로그인)");
+            System.out.println("reviewDetail");
 
             //좋아요 bean 값 설정(아이디는 세션 로그인 아이디)
             ReviewLike reviewLike = new ReviewLike();
@@ -262,7 +280,7 @@ public class ReviewController {
             reviewLike.setId(id);
 
             //로그인시 사용자의 좋아요 누름 여부(1/0) check
-            int likeYn = reviewLikeDao.checkReviewLike(reviewLike);
+            int likeYn = reviewLikeService.checkReviewLike(reviewLike);
             System.out.println("likeYn:"+likeYn);
 
             //로그인시 사용자의 좋아요 누름 여부(1/0)
@@ -275,7 +293,7 @@ public class ReviewController {
 
         //해당 리뷰에 달린 댓글들
 
-        List<Reply> replyList = replyDao.selectReplyList(reviewNo);
+        List<Reply> replyList = replyService.selectReplyList(reviewNo);
 
         System.out.println("replyList:"+replyList);
 
