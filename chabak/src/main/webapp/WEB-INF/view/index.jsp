@@ -113,8 +113,10 @@
 
 <!-- 검색창 -->
 <div class="index_search">
-    <input type="text" class="index_search_text" placeholder=" 원하는 야영지를 검색해주세요.">
-    <button type="submit" class="index_search_but"></button>
+    <form method="POST" action="/campsite" onsubmit="return commonCheckInputNotEmpty(this,'검색어를 입력하세요.')">
+        <input type="text" class="index_search_text" placeholder=" 원하는 야영지를 검색해주세요." name="keyword">
+        <button type="submit" class="index_search_but"></button>
+    </form>
 </div>
 
 <hr class="none_hr">
