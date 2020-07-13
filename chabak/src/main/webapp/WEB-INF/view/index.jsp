@@ -17,8 +17,8 @@
         (function($){
             jQuery(document).ready(function(){
                 $('.slideshow').FadeWideBgImg({interval:2000});
-                // var bestViewTags = $(".best_views_span");
-                // convertK(bestViewTags);
+
+                convertK();
             });
         }(window.jQuery,window));
 
@@ -26,24 +26,25 @@
             document.querySelector("#test").style.backgroundImage="url('http://www.nnj.kr/data/file/c_photo/2943355932_f8RqZtQW_1.jpg')";
         }
 
-        <%--function convertK(objs){--%>
-        <%--    &lt;%&ndash;var reviewList = <% review%>&ndash;%&gt;--%>
-        <%--    &lt;%&ndash;alert(reviewList);&ndash;%&gt;--%>
+        //반복문을 돌며 조회수를 변환(1000이 넘으면 단위를 K로)
+        function convertK(){
 
-        <%--    $(objs).each(function(index,item){--%>
-        <%--        var readCount = $(item).text();--%>
-        <%--        alert("index:"+index+" item:"+item+ " readCount:"+readCount)--%>
-        <%--        var resultValue;--%>
-        <%--        if(readCount >= 1000){--%>
-        <%--            resultValue = (num/1000).toFixed(1) + 'K';--%>
-        <%--        }--%>
-        <%--        else{--%>
-        <%--            resultValue = readCount;--%>
-        <%--        }--%>
-        <%--        item.text("views "+resultValue);--%>
-        <%--    });--%>
+            var bestViewTags = $(".best_views_span");
+            var readCount;
+            $(bestViewTags).each(function(index,element){
+                readCount = parseInt($(element).text());
+                console.log("index:"+index+" item:"+element+ " readCount:"+readCount)
+                var resultValue;
+                if(readCount >= 1000){
+                    resultValue = (readCount/1000).toFixed(1) + 'K';
+                }
+                else{
+                    resultValue = readCount;
+                }
+                $(element).text("views "+resultValue);
+            });
 
-        <%--}--%>
+        }
     </script>
 </head>
 <body>
@@ -132,13 +133,13 @@
     </div>
     <div class="best_review">
         <ul>
-         <c:forEach var="review" items="${reviewList}" varStatus="status">
+         <c:forEach var="review" items="${reviewList}" varStatus="loop">
             <li>
                 <p class="best_id">ID:${review.id}</p>
                 <div class="best_img">
                     <img src="${review.titleImageSrc}">
                 </div>
-                <p class="best_views"><span class="best_views_span">${readCountList.get(작성중)}</span>
+                <p class="best_views"><span class="best_views_span">${review.readCount}</span>
                 <c:choose>
                     <c:when test="${sessionScope.id != null and review.likeYn==1}">
                         <button class="like-but">
@@ -158,7 +159,11 @@
                 <div class="best_content">${review.content}</div>
                 <p class="select_community"><a href="/review/detail?reviewNo=${review.reviewNo}">자세히보기</a></p>
             </li>
-         </c:forEach>
+        </c:forEach>
+            <c:forEach begin="${reviewList.size()}" end="4">
+                <li>
+                </li>
+            </c:forEach>
         </ul>
     </div>
 </div>
