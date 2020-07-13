@@ -1,5 +1,5 @@
 @import url(https://fonts.googleapis.com/earlyaccess/jejugothic.css);
-
+b{display: none;}
 .top_hr{
     border: 1px solid rgb(105, 179, 149);
     width: 1535px;
@@ -84,6 +84,35 @@ a:visited{
     text-align:center;
     margin-right:30px;
 }
+/*야영지 검색정보*/
+.campsite_info{
+    margin-top:50px;
+    width:590px;
+    height:490px;
+    border: 3px solid rgb(105, 179, 149);
+    border-radius: 10px;
+    overflow:auto;
+}
+.campsite_info ul li{
+    margin-top: 50px;
+    margin-left: 50px;
+    font-family: 'Jeju Gothic', sans-serif;
+    font-weight:
+    font-size:22px;
+    list-style: none;
+}
+.campsite_info ul li p a{
+    color: #000;
+    text-decoration:none;
+}
+.campsite_info ul li p a:hover{
+    color: rgb(105, 179, 149);
+    text-decoration:none;
+}
+.campsite_info ul li .address{
+    margin-top: 10px;
+    font-size:14px;
+}
 
 /*커뮤니티*/
 .community_aticle{
@@ -155,84 +184,6 @@ a:visited{
     font-family: 'Jeju Gothic', sans-serif;
     font-size:12px;
 }
-
-/*블로그*/
-.blog_aticle{
-    margin-top:50px;
-    margin-bottom:50px;
-}
-.blog_aticle h2{
-    font-family: 'Jeju Gothic', sans-serif;
-    text-align:center;
-    margin-right:30px;
-    margin-bottom:30px;
-}
-
-.blog_aticle ul{
-    margin-left:203px;
-    height:420px;
-}
-.blog_aticle ul li{
-    width:260px;
-    height:400px;
-    margin-right:51px;
-    list-style:none;
-    float:left;
-    border-radius: 25px;
-    border: 1px solid rgba(255, 255, 255, .4);
-    box-shadow: 0px 5px 10px #609367;
-}
-.blog_aticle ul li .best_img{
-    margin: 10px 9px 5px 9px;
-    width:240px;
-    height:200px;
-
-    border: 1px solid black;
-    border-radius: 18px;
-}
-.blog_aticle ul li .best_img img{
-    width:240px;
-    height:200px;
-    border-radius: 18px;
-}
-.blog_aticle ul li p{
-    margin-left:9px;
-    font-family: 'Jeju Gothic', sans-serif;
-}
-.blog_aticle ul li .best_title{
-    margin-top:7px;
-}
-.blog_aticle ul li .best_views{
-    width:240px;
-    font-family: 'Roboto', sans-serif;
-    font-size: 12px;
-}
-
-/*리뷰 내용*/
-.blog_aticle ul li .best_content{
-    font-family: 'Jeju Gothic', sans-serif;
-    font-size:11px;
-    margin: 10px 9px 5px 9px;
-    resize:none;
-    width:240px;
-    height:70px;
-    text-overflow: ellipsis;
-    overflow:hidden;
-    outline:0;
-    border:0;
-}
-.blog_aticle ul li .best_id{
-    margin:15px 9px 5px 14px;
-    font-family: 'Jeju Gothic', sans-serif;
-    font-size:12px;
-}
-.select_community{
-    float:right;
-    margin-right:20px;
-    margin-top:3px;
-    font-family: 'Jeju Gothic', sans-serif;
-    font-size:9px;
-}
 .community_link{
     margin-top:20px;
     margin-bottom:35px;
@@ -261,6 +212,114 @@ a:visited{
     color:#000;
 }
 .community_link .fa-circle{
+    color:rgb(105, 179, 149);
+}
+
+/*블로그*/
+.blog_aticle{
+    margin-top:50px;
+    margin-bottom:50px;
+}
+.blog_aticle h2{
+    font-family: 'Jeju Gothic', sans-serif;
+    text-align:center;
+    margin-right:30px;
+    margin-bottom:30px;
+}
+
+.blog_aticle ul{
+    margin-left:203px;
+    height:420px;
+}
+.blog_aticle ul li{
+    width:260px;
+    height:400px;
+    margin-right:51px;
+    list-style:none;
+    float:left;
+    border-radius: 25px;
+    border: 1px solid rgba(255, 255, 255, .4);
+    box-shadow: 0px 5px 10px #609367;
+}
+.blog_aticle ul li .blog_best_img{
+    margin: 10px 9px 5px 9px;
+    width:240px;
+    height:200px;
+
+    border: 1px solid black;
+    border-radius: 18px;
+}
+.blog_aticle ul li .blog_best_img img{
+    width:240px;
+    height:200px;
+    border-radius: 18px;
+}
+.blog_aticle ul li p{
+    margin-left:9px;
+    font-family: 'Jeju Gothic', sans-serif;
+}
+.blog_aticle ul li .blog_best_title{
+    margin-top:7px;
+}
+.blog_aticle ul li .blog_best_views{
+    width:240px;
+    font-family: 'Roboto', sans-serif;
+    font-size: 12px;
+}
+
+/*리뷰 내용*/
+.blog_aticle ul li .blog_best_content{
+    font-family: 'Jeju Gothic', sans-serif;
+    font-size:11px;
+    margin: 10px 9px 5px 9px;
+    resize:none;
+    width:240px;
+    height:70px;
+    text-overflow: ellipsis;
+    overflow:hidden;
+    outline:0;
+    border:0;
+}
+.blog_aticle ul li .blog_best_id{
+    margin:15px 9px 5px 14px;
+    font-family: 'Jeju Gothic', sans-serif;
+    font-size:12px;
+}
+.blog_select_community{
+    float:right;
+    margin-right:20px;
+    margin-top:3px;
+    font-family: 'Jeju Gothic', sans-serif;
+    font-size:9px;
+}
+.blog_community_link{
+    margin-top:20px;
+    margin-bottom:35px;
+    margin-right:20px;
+    text-align:center;
+    font-family: 'Jeju Gothic', sans-serif;
+}
+.blog_community_link button{
+    background-color:#fff;
+    font-size:20px;
+}
+.blog_community_link .fa-angle-left{
+    color:rgb(105, 179, 149);
+    margin-right:15px;
+    font-size:24px;
+}
+.blog_community_link .fa-angle-left:hover{
+    color:#000;
+}
+.blog_community_link .fa-angle-right{
+    color:rgb(105, 179, 149);
+    margin-left:15px;
+    font-size:24px;
+}
+.blog_community_link .fa-angle-right:hover{
+    color:#000;
+}
+.blog_community_link .fa-circle{
     color:rgb(105, 179, 149);
 }
 
@@ -319,20 +378,6 @@ a:visited{
 #placesList .info .tel {color:#009900;}
 #placesList .item .markerbg {float:left;position:absolute;width:36px; height:37px;margin:10px 0 0 10px;background:url(https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/marker_number_blue.png) no-repeat;}
 #placesList .item .marker_1 {background-position: 0 -10px;}
-#placesList .item .marker_2 {background-position: 0 -56px;}
-#placesList .item .marker_3 {background-position: 0 -102px}
-#placesList .item .marker_4 {background-position: 0 -148px;}
-#placesList .item .marker_5 {background-position: 0 -194px;}
-#placesList .item .marker_6 {background-position: 0 -240px;}
-#placesList .item .marker_7 {background-position: 0 -286px;}
-#placesList .item .marker_8 {background-position: 0 -332px;}
-#placesList .item .marker_9 {background-position: 0 -378px;}
-#placesList .item .marker_10 {background-position: 0 -423px;}
-#placesList .item .marker_11 {background-position: 0 -470px;}
-#placesList .item .marker_12 {background-position: 0 -516px;}
-#placesList .item .marker_13 {background-position: 0 -562px;}
-#placesList .item .marker_14 {background-position: 0 -608px;}
-#placesList .item .marker_15 {background-position: 0 -654px;}
-#pagination {margin:10px auto;text-align: center;}
-#pagination a {display:inline-block;margin-right:10px;}
-#pagination .on {font-weight: bold; cursor: default;color:#777;}
+
+.convenience{margin-left: 54px;}
+.convenience h2 {font-size: 12px; font-weight: bold;}

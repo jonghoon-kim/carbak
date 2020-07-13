@@ -15,6 +15,8 @@
 	<typeAlias alias="Review" type="com.chabak.vo.Review"/>
 	<typeAlias alias="ReviewLike" type="com.chabak.vo.ReviewLike"/>
 
+	<typeAlias alias="TestFileVo" type="com.chabak.vo.TestFileVo"/>
+	<typeAlias alias="Campsite" type="com.chabak.vo.Campsite"/>
 	</typeAliases>
 	
 	<!-- 실제 SQL과 객체 매핑을 위한 매핑 정보 xml -->
@@ -22,5 +24,6 @@
 		<mapper resource = "/mybatis/mappers/member.xml"/>
 		<mapper resource = "/mybatis/mappers/fileUpload.xml"/>
 		<mapper resource = "/mybatis/mappers/review.xml"/>
+		<mapper resource = "/mybatis/mappers/campSite.xml"/>
 	</mappers>
 </configuration>

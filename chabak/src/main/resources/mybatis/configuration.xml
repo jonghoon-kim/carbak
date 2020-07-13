@@ -13,13 +13,7 @@
 	<typeAlias alias="Reply" type="com.chabak.vo.Reply"/>
 	<typeAlias alias="Review" type="com.chabak.vo.Review"/>
 	<typeAlias alias="ReviewLike" type="com.chabak.vo.ReviewLike"/>
-		<typeAlias alias="ReviewAndLike" type="com.chabak.vo.ReviewAndLike"/>
-		<typeAlias alias="Member" type="com.chabak.vo.Member"/>
-		<typeAlias alias="follow" type="com.chabak.vo.Follow"/>
-		<typeAlias alias="Campsite" type="com.chabak.vo.Campsite"/>
-		<typeAlias alias="Reply" type="com.chabak.vo.Reply"/>
-		<typeAlias alias="Review" type="com.chabak.vo.Review"/>
-		<typeAlias alias="ReviewLike" type="com.chabak.vo.ReviewLike"/>
+	<typeAlias alias="ReviewAndLike" type="com.chabak.vo.ReviewAndLike"/>
 
 	</typeAliases>
 	
@@ -30,5 +24,6 @@
 		<mapper resource = "/mybatis/mappers/review.xml"/>
 		<mapper resource = "/mybatis/mappers/reviewLike.xml"/>
 		<mapper resource = "/mybatis/mappers/reply.xml"/>
+		<mapper resource = "/mybatis/mappers/campSite.xml"/>
 	</mappers>
 </configuration>

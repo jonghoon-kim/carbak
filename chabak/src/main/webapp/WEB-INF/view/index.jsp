@@ -74,7 +74,7 @@
     <!-- nav바 -->
     <div id="header_left_but">
         <div class="search_but">
-            <button onclick="location.href ='campsite.html'">Campsite Info</button>
+            <button onclick="location.href ='/campsite/campsite'">Campsite Info</button>
         </div>
         <div class="community_but">
             <button onclick="location.href ='/review'">Community</button>
