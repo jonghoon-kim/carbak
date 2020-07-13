@@ -25,16 +25,17 @@
 }
 
 /* 검색창 */
-.second {
+.search {
     position: relative;
-    margin-top : 100px;
+    margin : 80px 0px 50px 860px;
 }
 .search:after {
     content:"";
     clear:both;
-    display:table
+    display:table;
 }
 .search .search_text {
+    float: left;
     width: 150px;
     height: 30px;
     padding-left: 15px;
@@ -52,6 +53,7 @@
     opacity: 1;
 }
 .search .search_but {
+    float: left;
     width: 35px;
     height: 35px;
     border-radius: 42px;
@@ -175,6 +177,9 @@
 }
 
 /* 게시글 리스트 */
+#reviewListDiv {
+    margin-bottom: 50px;
+}
 /* 게시글 사진 */
 .review-img {
     width: 100%;
@@ -215,6 +220,25 @@
     width:35px;
     height:35px;
 
+}
+
+/* pagination css */
+.paginationBut {
+    padding:10px 10px 10px 10px;
+    background: rgb(105, 179, 149, 0.5) ;
+    border-radius: 5px;
+}
+.paginationBut1 {
+    padding:10px 10px 10px 10px;
+    background: rgb(105, 179, 149, 0.5) ;
+    margin-left: 5px;
+    border-radius: 5px;
+}
+#pagingDiv {
+    margin-bottom: 5px;
+}
+#pagingDiv span {
+    font-weight: bold;
 }
 
 /* footer */
