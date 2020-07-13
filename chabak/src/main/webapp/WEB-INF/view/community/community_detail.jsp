@@ -55,7 +55,7 @@
         }
 
         window.onclick = function (event) {
-            if (!event.target.matches('.dropbtn')) {
+            if (!event.target.matches('.dropbtnImg')) {
 
                 var dropdowns = document.getElementsByClassName("dropdown-content");
 
@@ -218,7 +218,7 @@
             </div>
 
             <div class="dropdown">
-                <button class="dropbtn"><img class="dropbtn" src="/img/community/menu.png"
+                <button class="dropbtn"><img class="dropbtnImg" src="/img/community/menu.png"
                                              onclick="myFunction('review',null)"></button>
                 <div class="dropdown-content" id="myDropdown">
                     <c:if test="${sessionScope.id != null and sessionScope.id !='' and sessionScope.id == review.id}">
@@ -251,11 +251,9 @@
             <!-- 댓글 -->
             <div class="reply" id="reply">
                 <div class="reply-list">
-
-
                     <div class="thumbnail-wrapper">
                         <div class="reply-thumbnail">
-                            <div class="centered">
+                            <div id="View_area" class="centered">
                             </div>
                         </div>
                     </div>
@@ -269,7 +267,7 @@
                     </div>
 
                     <div class="dropdown">
-                        <button class="dropbtn"><img class="dropbtn" src="/img/community/menu.png"
+                        <button class="dropbtn"><img class="dropbtnImg" src="/img/community/menu.png"
                                                      onclick="myFunction('reply',${list.replyNo})"></button>
                         <div class="dropdown-content" id="myDropdown${list.replyNo}">
 
