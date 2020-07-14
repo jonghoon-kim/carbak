@@ -74,7 +74,7 @@
     <!-- nav바 -->
     <div id="header_left_but">
         <div class="search_but">
-            <button onclick="location.href ='/campsite/campsite'">Campsite Info</button>
+            <button onclick="location.href ='/campsite'">Campsite Info</button>
         </div>
         <div class="community_but">
             <button onclick="location.href ='/review'">Community</button>
@@ -101,7 +101,7 @@
         <% }%>
     </div>
     <div class="logo">
-        <a href="index.html"><img src="img/header/main_logo.png"></a>
+        <a href="/index"><img src="img/header/main_logo.png"></a>
     </div>
 </header>
 

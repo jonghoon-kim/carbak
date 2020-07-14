@@ -17,32 +17,11 @@ prefix="c" %>
 </head>
 <body>
 <!-- 헤더(인클루드 적용) -->
-<header>
-    <!-- nav바 -->
-    <div id="header_left_but">
-        <div class="search_but">
-            <button onclick="location.href ='campsite.html'">Campsite Info</button>
-        </div>
-        <div class="community_but">
-            <button onclick="location.href ='community.jsp'">Community</button>
-        </div>
-    </div>
-
-    <div id="header_right_but">
-        <div class="info_but">
-            <button onclick="location.href ='#'">&nbsp;MyPage</button>
-        </div>
-        <div class="login_but">
-            <button onclick="location.href ='login.html'">Login</button>
-        </div>
-    </div>
-    <div class="logo">
-        <a href="index.html"><img src="/resources/img/header/main_logo.png"></a>
-    </div>
-</header>
-
+<div id="header">
+    <jsp:include page="/header"/>
+</div>
 <hr class="top_hr"><br>
-
+<br>
 <div class="container">
 
     <!-- 부제 -->
