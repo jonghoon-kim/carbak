@@ -133,7 +133,7 @@
         <hr class="top_hr">
 
         <!-- 블로그 -->
-         <div class="blog_aticle">
+         <div class="blog_aticle" >
             <h2>블로그</h2>
             <ul id="blogUl">
 
@@ -166,10 +166,12 @@
 
                     <button class='fas fa-angle-right' id="nextPageNo" onClick="javascript:goPage(<c:out value="${startNo}"/>+5)"></button>
 
+                <div class="blogabout">
+                <c:forEach var="test12" items="${lstSelectCampsitePlace}" varStatus="status">
+                    <a href="https://search.naver.com/search.naver?where=post&sm=tab_jum&query=${test12.campsitename}" target="_blank">블로그내용 더보기</a>
+                </c:forEach>
+                </div>
             </div>
-            <c:forEach var="test12" items="${lstSelectCampsitePlace}" varStatus="status">
-            <a href="https://search.naver.com/search.naver?where=post&sm=tab_jum&query=${test12.campsitename}" target="_blank">블로그내용 더보기</a>
-            </c:forEach>
         </div>
 
         <!--footer-->

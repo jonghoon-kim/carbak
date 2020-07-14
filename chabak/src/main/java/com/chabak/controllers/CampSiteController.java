@@ -90,13 +90,14 @@ public class CampSiteController {
 
         BlogService service = new BlogService();
         ImageService serviceTest = new ImageService();
-        List<Blog> b = service.searchBlog(keyword, 14, nowPageNo);
-        List<Image> a = serviceTest.searchImage(keyword, 14, nowPageNo);
+        List<Blog> b = service.searchBlog(keyword, 15, nowPageNo);
+        List<Image> a = serviceTest.searchImage(keyword, 15, nowPageNo);
 
         System.out.printf("test a : " + a);
 
         blogPageNumber.put("blogInfo", b);
         blogPageNumber.put("imageInfo", a);
+        blogPageNumber.put("campsitekeyword", Collections.singletonList(keyword));
         blogPageNumber.put("nowPageNo", Collections.singletonList(nowPageNo));
         return blogPageNumber;
     }

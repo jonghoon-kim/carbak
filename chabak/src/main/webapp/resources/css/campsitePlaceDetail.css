@@ -322,7 +322,11 @@ a:visited{
 .blog_community_link .fa-circle{
     color:rgb(105, 179, 149);
 }
-
+.blog_community_link .blogabout a{
+    display: block;
+    float: right;
+    margin-right: 200px;
+}
 /*야영지 선택 후*/
 /*야영지 검색정보*/
 .campsite_select{
