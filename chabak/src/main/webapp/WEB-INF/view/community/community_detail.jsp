@@ -234,10 +234,8 @@
                 <button class="dropbtn"><img class="dropbtnImg" src="/img/community/menu.png"
                                              onclick="myFunction('review',null)"></button>
                 <div class="dropdown-content" id="myDropdown">
-                    <c:if test="${sessionScope.id != null and sessionScope.id !='' and sessionScope.id == review.id}">
                         <a href="/review/modify?reviewNo=${review.reviewNo}">수정하기</a>
                         <a href="/review/delete?reviewNo=${review.reviewNo}">삭제하기</a>
-                    </c:if>
                 </div>
             </div>
 
