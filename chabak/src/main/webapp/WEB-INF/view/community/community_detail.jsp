@@ -59,6 +59,11 @@
             }
 
             if (flag == 'review') {
+
+                if(${sessionScope.id eq null}){
+                    askLogin();
+                    return;
+                }
                 var reviewWriterId = $("#writerId").text().trim();
                 if("${sessionScope.id}" != reviewWriterId){
                     console.log("sessionId ne writerId");
