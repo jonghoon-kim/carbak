@@ -46,30 +46,42 @@
 
         }
         function myFunction(flag, replyNo) {
+            var dropdowns = document.getElementsByClassName("dropdown-content");
+
+            var i;
+
+            for (i = 0; i < dropdowns.length; i++) {
+                var openDropdown = dropdowns[i];
+
+                if (openDropdown.classList.contains('show')) {
+                    openDropdown.classList.remove('show');
+                }
+            }
 
             if (flag == 'review') {
                 document.getElementById("myDropdown").classList.toggle("show");
+
             } else {
                 document.getElementById("myDropdown" + replyNo).classList.toggle("show");
             }
         }
 
-        window.onclick = function (event) {
-            if (!event.target.matches('.dropbtnImg')) {
-
-                var dropdowns = document.getElementsByClassName("dropdown-content");
-
-                var i;
-
-                for (i = 0; i < dropdowns.length; i++) {
-                    var openDropdown = dropdowns[i];
-
-                    if (openDropdown.classList.contains('show')) {
-                        openDropdown.classList.remove('show');
-                    }
-                }
-            }
-        }
+        // window.onclick = function (event) {
+        //     if (!event.target.matches('.dropbtnImg')) {
+        //
+        //         var dropdowns = document.getElementsByClassName("dropdown-content");
+        //
+        //         var i;
+        //
+        //         for (i = 0; i < dropdowns.length; i++) {
+        //             var openDropdown = dropdowns[i];
+        //
+        //             if (openDropdown.classList.contains('show')) {
+        //                 openDropdown.classList.remove('show');
+        //             }
+        //         }
+        //     }
+        // }
 
         //리플 삭제시 하위 댓글 존재 확인(있으면 삭제 불가능)
         function checkChildReplyAjax(replyNo) {
@@ -268,7 +280,7 @@
                     </div>
 
                     <div class="dropdown">
-                        <button class="dropbtn"><img class="dropbtnImg" src="/img/community/menu.png"
+                        <button class="dropbtn"><img class="dropbtnImgRe" src="/img/community/menu.png"
                                                      onclick="myFunction('reply',${list.replyNo})"></button>
                         <div class="dropdown-content" id="myDropdown${list.replyNo}">
 
@@ -346,7 +358,7 @@
                                 </div>
 
                                 <div class="dropdown">
-                                    <button class="dropbtn"><img class="dropbtn" src="/img/community/menu.png"
+                                    <button class="dropbtn"><img class="dropbtnImgRe" src="/img/community/menu.png"
                                                                  onclick="myFunction('reply',${relist.replyNo})"></button>
                                     <div class="dropdown-content" id="myDropdown${relist.replyNo}">
 
