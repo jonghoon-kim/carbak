@@ -2,6 +2,7 @@ package com.chabak.repositories;
 
 import com.chabak.vo.Review;
 import com.chabak.vo.ReviewAndLike;
+import com.chabak.vo.ReviewDetail;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -41,9 +42,9 @@ public class ReviewDao {
         return reviewList;
     }
 
-    public Review selectReviewDetail(int reviewNo){
+    public ReviewDetail selectReviewDetail(int reviewNo){
 
-        Review review = sqlSession.selectOne("review.selectReviewDetail",reviewNo);
+        ReviewDetail review = sqlSession.selectOne("review.selectReviewDetail",reviewNo);
         return review;
     }
 

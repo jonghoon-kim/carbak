@@ -168,7 +168,7 @@ public class ReviewController {
         //endregion
 
         System.out.println("/modify(GET) reviewNo:"+reviewNo);
-        Review review = null;
+        ReviewDetail review = null;
 
         //수정 권한 체크
         try{
@@ -222,7 +222,7 @@ public class ReviewController {
 
         //endregion
 
-        Review review;
+        ReviewDetail review;
 
         //삭제 권한 체크
         try{
@@ -256,7 +256,7 @@ public class ReviewController {
         System.out.println("reviewNo:"+reviewNo);
 
         //리뷰 선택
-        Review review = reviewService.selectReviewDetail(reviewNo);
+        ReviewDetail review = reviewService.selectReviewDetail(reviewNo);
 
         //해당 리뷰가 존재하지 않으면
         if(review == null){

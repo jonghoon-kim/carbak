@@ -6,6 +6,7 @@ import com.chabak.util.Utility;
 import com.chabak.vo.Pagination;
 import com.chabak.vo.Review;
 import com.chabak.vo.ReviewAndLike;
+import com.chabak.vo.ReviewDetail;
 import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -112,9 +113,9 @@ public class ReviewService {
         return reviewList;
     }
 
-    public Review selectReviewDetail(int reviewNo){
+    public ReviewDetail selectReviewDetail(int reviewNo){
 
-        Review review = reviewDao.selectReviewDetail(reviewNo);
+        ReviewDetail review = reviewDao.selectReviewDetail(reviewNo);
         return review;
     }
 

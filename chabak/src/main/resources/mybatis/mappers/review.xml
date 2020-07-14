@@ -55,7 +55,7 @@
 	</select>
 
 	<select id="selectReviewList" parameterType="Map" resultType="ReviewAndLike">
-		select reviewNo,id,title,sido,gugun,content,titleImageSrc,readCount,likeCount,replyCount,regDate,modifyDate,likeYn
+		select *
 		from
 			(
 				select *
@@ -65,10 +65,10 @@
 					from
 					(
 						select r.reviewNo,r.id,r.title,r.sido,r.gugun,r.content,r.titleImageSrc,r.readCount,r.likeCount,r.replyCount,r.regDate,r.modifyDate,
-						nvl2(l.reviewNo,1,0) as likeYn
-						from Review r,ReviewLike l
+						nvl2(l.reviewNo,1,0) as likeYn,m.name,m.saveName, m.savePath
+						from Review r,ReviewLike l,Member m
 						where r.reviewNo = l.reviewNo(+)
-
+						and r.id = m.id
 						<choose>
 							<when test="id != null and id != ''">
 							and #{id} = l.id(+)
@@ -115,10 +115,11 @@
 
 	</select>
 
-	<select id="selectReviewDetail" parameterType="int" resultType="Review">
-		select reviewNo,id,title,sido,gugun,content,titleImageSrc,readCount,likeCount,regDate,modifyDate
-		from Review
+	<select id="selectReviewDetail" parameterType="int" resultType="ReviewDetail">
+		select reviewNo,r.id,title,r.sido,r.gugun,content,titleImageSrc,readCount,likeCount,r.regDate,r.modifyDate,m.name,m.saveName,m.savePath
+		from Review r,Member m
 		where REVIEWNO = #{reviewNo}
+		and r.id = m.id
 	</select>
 
 	<update id="updateReview" parameterType="Review">
