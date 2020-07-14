@@ -120,6 +120,10 @@ function ajaxReviewList(sessionId,isSearchButton,curPage) {
                 var writer = newReview.find(".writer-id");  //작성자
                 writer.html(this["id"]);  //작성자 설정
 
+                //프로필 이미지
+                var profileImg = newReview.find(".centered img");
+                profileImg.attr("src",this["savePath"]+this["saveName"]);
+
                 var reviewImg =  newReview.find(".review-img img")  //리뷰 이미지
                 reviewImg.attr("src",this["titleImageSrc"]);  //리뷰 타이틀이미지 src
 

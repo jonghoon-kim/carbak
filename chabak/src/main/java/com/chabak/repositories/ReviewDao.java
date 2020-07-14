@@ -1,8 +1,6 @@
 package com.chabak.repositories;
 
 import com.chabak.vo.Review;
-import com.chabak.vo.ReviewAndLike;
-import com.chabak.vo.ReviewDetail;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -25,26 +23,26 @@ public class ReviewDao {
         return maxCount;
     }
 
-    public List<ReviewAndLike> selectReviewTop5(String id){
-        List<ReviewAndLike> reviewList = null;
+    public List<Review> selectReviewTop5(String id){
+        List<Review> reviewList = null;
         reviewList = sqlSession.selectList("review.selectReviewTop5",id);
         return reviewList;
     }
-    public List<ReviewAndLike> selectReviewList(Map map){
-        List<ReviewAndLike> reviewList = null;
+    public List<Review> selectReviewList(Map map){
+        List<Review> reviewList = null;
         reviewList = sqlSession.selectList("review.selectReviewList",map);
         return reviewList;
     }
 
-    public List<ReviewAndLike> selectReviewListMyPage(Map map){
-        List<ReviewAndLike> reviewList = null;
+    public List<Review> selectReviewListMyPage(Map map){
+        List<Review> reviewList = null;
         reviewList = sqlSession.selectList("review.selectReviewListMyPage",map);
         return reviewList;
     }
 
-    public ReviewDetail selectReviewDetail(int reviewNo){
+    public Review selectReviewDetail(int reviewNo){
 
-        ReviewDetail review = sqlSession.selectOne("review.selectReviewDetail",reviewNo);
+        Review review = sqlSession.selectOne("review.selectReviewDetail",reviewNo);
         return review;
     }
 

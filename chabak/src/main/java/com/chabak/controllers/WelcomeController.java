@@ -2,7 +2,7 @@ package com.chabak.controllers;
 
 
 import com.chabak.services.ReviewService;
-import com.chabak.vo.ReviewAndLike;
+import com.chabak.vo.Review;
 import lombok.SneakyThrows;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,7 +12,6 @@ import org.springframework.web.servlet.ModelAndView;
 
 
 import javax.servlet.http.HttpSession;
-import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -30,7 +29,7 @@ public class WelcomeController {
 //        session.setAttribute("id","fakeId");
 //        session.setAttribute("id","id1");
         String id = (String)session.getAttribute("id");
-        List<ReviewAndLike> reviewList = null;
+        List<Review> reviewList = null;
         if(id==null){
             reviewList = reviewService.selectReviewTop5(null);
         }
@@ -40,7 +39,7 @@ public class WelcomeController {
         System.out.println("index top5 list(before):"+reviewList);
 
         //리스트의 content에서 이미지 태그 지우기
-        for(ReviewAndLike review:reviewList){
+        for(Review review:reviewList){
             String modifiedContent = reviewService.deleteImgTag(review.getContent());
             review.setContent(modifiedContent);
         }

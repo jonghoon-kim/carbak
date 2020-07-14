@@ -5,15 +5,12 @@ import com.chabak.repositories.ReviewDao;
 import com.chabak.util.Utility;
 import com.chabak.vo.Pagination;
 import com.chabak.vo.Review;
-import com.chabak.vo.ReviewAndLike;
-import com.chabak.vo.ReviewDetail;
 import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.regex.Matcher;
@@ -96,26 +93,26 @@ public class ReviewService {
         return maxCount;
     }
 
-    public List<ReviewAndLike> selectReviewTop5(String id){
-        List<ReviewAndLike> reviewList = null;
+    public List<Review> selectReviewTop5(String id){
+        List<Review> reviewList = null;
         reviewList = reviewDao.selectReviewTop5(id);
         return reviewList;
     }
-    public List<ReviewAndLike> selectReviewList(Map map){
-        List<ReviewAndLike> reviewList = null;
+    public List<Review> selectReviewList(Map map){
+        List<Review> reviewList = null;
         reviewList = reviewDao.selectReviewList(map);
         return reviewList;
     }
 
-    public List<ReviewAndLike> selectReviewListMyPage(Map map){
-        List<ReviewAndLike> reviewList = null;
+    public List<Review> selectReviewListMyPage(Map map){
+        List<Review> reviewList = null;
         reviewList = reviewDao.selectReviewListMyPage(map);
         return reviewList;
     }
 
-    public ReviewDetail selectReviewDetail(int reviewNo){
+    public Review selectReviewDetail(int reviewNo){
 
-        ReviewDetail review = reviewDao.selectReviewDetail(reviewNo);
+        Review review = reviewDao.selectReviewDetail(reviewNo);
         return review;
     }
 

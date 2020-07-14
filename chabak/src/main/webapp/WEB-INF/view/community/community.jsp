@@ -76,6 +76,7 @@
             <div class="thumbnail-wrapper">
                 <div class="thumbnail">
                     <div class="centered">
+                        <img src="">
                     </div>
                 </div>
             </div>

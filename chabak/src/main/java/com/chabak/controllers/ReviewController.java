@@ -57,7 +57,7 @@ public class ReviewController {
 
         System.out.println("pagination:"+pagination);
         //리뷰 리스트 select
-        List<ReviewAndLike> reviewList = reviewService.selectReviewList(map);
+        List<Review> reviewList = reviewService.selectReviewList(map);
 
 
         mv.setViewName("community/community");
@@ -99,7 +99,7 @@ public class ReviewController {
         Pagination pagination = reviewService.setReviewListParameterMap(map,session,sortType,searchText,pageOwnerId,listCnt,curPage);
 
         //리뷰 리스트 select
-        List<ReviewAndLike> reviewList = reviewService.selectReviewList(map);
+        List<Review> reviewList = reviewService.selectReviewList(map);
 
 
         //화면으로 보낼 맵
@@ -145,7 +145,7 @@ public class ReviewController {
         review.setId(id);
 
 
-        System.out.println("review:"+review);
+        System.out.println("review(Bean modified):"+review);
 
         reviewService.setTitleImg(review);
 
@@ -168,7 +168,7 @@ public class ReviewController {
         //endregion
 
         System.out.println("/modify(GET) reviewNo:"+reviewNo);
-        ReviewDetail review = null;
+        Review review = null;
 
         //수정 권한 체크
         try{
@@ -222,7 +222,7 @@ public class ReviewController {
 
         //endregion
 
-        ReviewDetail review;
+        Review review;
 
         //삭제 권한 체크
         try{
@@ -256,7 +256,7 @@ public class ReviewController {
         System.out.println("reviewNo:"+reviewNo);
 
         //리뷰 선택
-        ReviewDetail review = reviewService.selectReviewDetail(reviewNo);
+        Review review = reviewService.selectReviewDetail(reviewNo);
 
         //해당 리뷰가 존재하지 않으면
         if(review == null){
