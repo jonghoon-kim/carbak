@@ -17,5 +17,7 @@ public class Reply {
     private int groupNo;
     private int groupOrder;
     private int lv;
-
+    private String name; //Member name
+    private String saveName; //Member saveName
+    private String savePath; //Member savePath
 }

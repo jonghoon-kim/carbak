@@ -9,8 +9,11 @@
 	<!-- 댓글  -->
 
 	<select id="selectReply" parameterType="int" resultType="Reply">
-		SELECT * FROM REPLY
+		SELECT REPLYNO,p.ID,PARENTID,PARENTREPLYNO,CONTENT,p.REGDATE,MODIFYDATE,REVIEWNO,GROUPNO,GROUPORDER,LV,
+		NAME,SAVENAME,SAVEPATH
+		 FROM REPLY p,Member m
 		WHERE REPLYNO = #{replyNo}
+		and p.id = m.id
 	</select>
 
 	<insert id="insertReply" parameterType="Reply">
@@ -20,8 +23,11 @@
 	</insert>
 
 	<select id="selectReplyList" parameterType="int" resultType="Reply">
-		SELECT * FROM REPLY
+		SELECT REPLYNO,p.ID,PARENTID,PARENTREPLYNO,CONTENT,p.REGDATE,MODIFYDATE,REVIEWNO,GROUPNO,GROUPORDER,LV,
+		NAME,SAVENAME,SAVEPATH
+		FROM REPLY p,Member m
 		WHERE REVIEWNO = #{reviewNo}
+		and p.id = m.id
 		ORDER BY GROUPNO ASC, groupOrder ASC
 	</select>
 

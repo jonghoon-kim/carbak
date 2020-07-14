@@ -189,6 +189,7 @@
             <div class="thumbnail-wrapper">
                 <div class="thumbnail">
                     <div class="centered">
+                        <img src="${review.savePath}${review.saveName}">
                     </div>
                 </div>
             </div>
