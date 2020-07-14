@@ -27,12 +27,12 @@
 .second {
     width: 1700px;
     margin-top: 70px;
-    margin-left: 600px;
+    margin-left: 550px;
 }
 
 /* 사용자 이름 + 제목 + 좋아요 버튼 */
 .profile {
-    width: 40%;
+    width: 780px;
     position: relative;
 }
 .profile .thumbnail-wrapper {
@@ -79,8 +79,10 @@
     font-size: 20px;
 }
 .content-icon{
+    position:relative;
     float: right;
     margin-top:10px;
+    margin-left: 96px;
 }
 .content-icon span {
     float: left;
@@ -102,27 +104,26 @@
 
 /* 수정하기 삭제하기 드롭다운*/
 .dropdown {
-    position: absolute;
-    display: inline-block;
+    position: relative;
+    float: left;
+    margin: 5px 0px 0px 0px;
     width:35px;
     height:35px;
-    outline: none;
-    border:none;
     background-color: transparent;
 }
 .dropdown .dropbtn {
-    margin-top: 5px;
-    margin-left: 45px;
-    padding-left:60px;
+    margin: 5px 0px 0px 325px;
+    border: none;
+    outline: none;
+    background-color: transparent;
+}
+.dropdown .dropbtn img{
     width:35px;
     height:35px;
     outline: none;
     border:none;
-    background-color: transparent;
 }
-
-
-.dropdown img:hover {
+.dropdown .dropbtn img:hover {
     cursor: pointer;
     text-decoration: none;
     border: none;
@@ -132,7 +133,7 @@
 .dropdown-content {
     display: none;
     position: absolute;
-    margin-left:150px;
+    margin-left:280px;
     background-color:white;
     color:black;
     font-size:12px;
@@ -163,15 +164,17 @@
 }
 /* 본문 */
 .main {
-    width: 700px;
+    width: 800px;
     text-align: center;
     margin: 0 auto;
 }
 .main .content {
     margin-top : 130px;
-    height: 700px;
+    margin-bottom:20px;
+    height: 1200px;
     border-top: 2px solid rgb(105, 179, 149);
     border-bottom: 2px solid rgb(105, 179, 149);
+    overflow-x: scroll;
     overflow-y: scroll;
 }
 .main .content img{
@@ -180,15 +183,12 @@
     height: auto;
 }
 /* 댓글 입력 */
-.reply {
-    width: 700px;
-    text-align: center;
+.reply-input {
+    width: 800px;
     margin: 0 auto;
-    /* margin-top: 20px; */
-    /* margin-bottom: 250px; */
     display: flex;
 }
-.reply input {
+.reply-input input {
     width: 550px;
     height: 50px;
     padding-left: 15px;
@@ -197,23 +197,12 @@
     font-family: 'Jeju Gothic', sans-serif;
     font-size: 15px;
 }
-.reply input:hover,
-.reply input:focus,
-.reply input:active {
+.reply-input input:hover,
+.reply-input input:focus,
+.reply-input input:active {
     outline: none;
     background-color: rgb(247, 255, 240);
 }
-/*추가했는데 안 먹히네 ㄷㄷ*/
-.reply-modify-input {
-    width: 550px;
-    height: 50px;
-    padding-left: 15px;
-    border : 2px solid rgb(105, 179, 149);
-    border-radius: 10px;
-    font-family: 'Jeju Gothic', sans-serif;
-    font-size: 15px;
-}
-
 .reply-input button {
     width: 80px;
     height : 55px;
@@ -225,13 +214,29 @@
     color : white;
     transition : .35s;
 }
-.reply button:hover {
+.reply-input button:hover {
     font-size: 20px;
 }
-.reply button:focus,
-.reply button:active {
+.reply-input button:focus,
+.reply-input button:active {
     outline: none;
 }
+
+/*추가했는데 안 먹히네 ㄷㄷ*/
+.reply-modify-input {
+    width: 550px;
+    height: 50px;
+    padding-left: 15px;
+    border : 2px solid rgb(105, 179, 149);
+    border-radius: 10px;
+    font-family: 'Jeju Gothic', sans-serif;
+    font-size: 15px;
+}
+.reply {
+    width: 800px;
+    margin: 5px 554px 0px 546px;
+}
+
 /* 댓글 리스트 */
 .reply-list {
     margin-top : 20px;
