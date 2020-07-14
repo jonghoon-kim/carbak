@@ -59,6 +59,13 @@
             }
 
             if (flag == 'review') {
+                var reviewWriterId = $("#writerId").text().trim();
+                if("${sessionScope.id}" != reviewWriterId){
+                    console.log("sessionId ne writerId");
+                    alert("작성자만 수정,삭제가 가능합니다.");
+                    return;
+                }
+
                 document.getElementById("myDropdown").classList.toggle("show");
 
             } else {
@@ -206,7 +213,7 @@
                 </div>
             </div>
             <div class="writer">
-                    <span class="writer-id">
+                    <span class="writer-id" id="writerId">
                         ${review.id}
                     </span>
             </div>
