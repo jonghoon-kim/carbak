@@ -10,7 +10,7 @@
 
 	<select id="selectReply" parameterType="int" resultType="Reply">
 		SELECT REPLYNO,p.ID,PARENTID,PARENTREPLYNO,CONTENT,p.REGDATE,MODIFYDATE,REVIEWNO,GROUPNO,GROUPORDER,LV,
-		NAME,SAVENAME,SAVEPATH
+		SAVENAME,SAVEPATH
 		 FROM REPLY p,Member m
 		WHERE REPLYNO = #{replyNo}
 		and p.id = m.id
@@ -24,7 +24,7 @@
 
 	<select id="selectReplyList" parameterType="int" resultType="Reply">
 		SELECT REPLYNO,p.ID,PARENTID,PARENTREPLYNO,CONTENT,p.REGDATE,MODIFYDATE,REVIEWNO,GROUPNO,GROUPORDER,LV,
-		NAME,SAVENAME,SAVEPATH
+		SAVENAME,SAVEPATH
 		FROM REPLY p,Member m
 		WHERE REVIEWNO = #{reviewNo}
 		and p.id = m.id
