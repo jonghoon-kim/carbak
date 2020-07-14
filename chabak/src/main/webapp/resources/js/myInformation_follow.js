@@ -40,27 +40,29 @@ function printList(data, option, pageOwnerId){
     console.log(HashMapList.length);
     $('.listForm').empty();
     // HTMLframe 가져오는 매서드
-    for (var i = 0; i < HashMapList.length; i++) { // 팔로워 프로필사진, 아이디 리스트로 출력
+    for (var listNum = 0; listNum < HashMapList.length; listNum++) { // 팔로워 프로필사진, 아이디 리스트로 출력
         var htmlFrame = $('#selectPosition').clone(true);
         $('.listForm').append(htmlFrame);
 
-        var userProfileImage = "/profileImages/" +HashMapList[i].SAVENAME;
-        var clickedId = HashMapList[i].ID;
+        var userProfileImage = "/profileImages/" +HashMapList[listNum].SAVENAME;
+        var clickedId = HashMapList[listNum].ID;
 
-        $('#imageId').attr('id', "imageId"+i);
+        $('#imageId').attr('id', "imageId"+listNum);
         $('#userIdId').attr('onclick', "location.href='/mypage/guestVisit?id="+clickedId+"';");
-        $('#userIdId').attr('id', "userIdId"+i);
-        $('#buttonId').attr('id', "buttonId"+i);
-        $('#selectPosition').attr('id', "selectPosition"+i);
+        $('#image_btn').attr('onclick', "location.href='/mypage/guestVisit?id="+clickedId+"';");
+        $('#userIdId').attr('id', "userIdId"+listNum);
+        $('#image_btn').attr('id', "image_btn"+listNum);
+        $('#buttonId').attr('id', "buttonId"+listNum);
+        $('#selectPosition').attr('id', "selectPosition"+listNum);
 
-        $('#imageId'+i).attr('src', userProfileImage);
-        $('#userIdId'+i).text(clickedId);
+        $('#imageId'+listNum).attr('src', userProfileImage);
+        $('#userIdId'+listNum).text(clickedId);
 
         if(sessionId!= pageOwnerId) { // 다른 사용자 아이디일 경우
-            btnFollowStatus(clickedId,i, option, pageOwnerId); // 조건 function 만들기 :: $('#buttonId'+i).text("팔로잉/팔로우");
+            btnFollowStatus(clickedId,listNum, option, pageOwnerId); // 조건 function 만들기 :: $('#buttonId'+i).text("팔로잉/팔로우");
         }else { // 마이페이지인 경우
             $('#buttonId').attr('onclick', "deleteFollowUser("+"'"+clickedId+"','"+option+"')");
-            $('#buttonId'+i).text("삭제");
+            $('#buttonId'+listNum).text("삭제");
         }
         $('.listForm').append(htmlFrame);
 

@@ -32,7 +32,7 @@
                 <input type="text" class="content" id="title" name="title" onkeyup="checkLengthValidate(this, 40)">
             </div>
             <div class="set">
-                <span class="title">리뷰 지역???</span>
+                <span class="title">리뷰 지역 선택</span>
                 <span class="title" style="color: red;">(필수 *)</span>
                 <select class="content" name="sido" id="sido"></select>
                 <select class="content" name="gugun" id="gugun"></select>
