@@ -109,7 +109,7 @@
     <%-- 리뷰글 원형 끝           --%>
 
     <%--    reviewListDiv 시작--%>
-    <div style="margin-top: 170px;" id="reviewListDiv">
+    <div id="reviewListDiv">
         <!-- 게시글 리스트 -->
         <c:forEach var="review" items="${reviewList}">
 

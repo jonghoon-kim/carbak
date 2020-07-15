@@ -37,26 +37,34 @@
 }
 .profile .thumbnail-wrapper {
     float: left;
-    width: 50px;
-    height: 50px;
-    margin-bottom:5px;
+    width: 37px;
+    height: 37px;
+    margin-top: 4px;
 }
-.thumbnail {
+.profile .thumbnail-wrapper .thumbnail {
     border : 2px solid rgb(105, 179, 149);
     border-radius: 50px;
     position: relative;
     padding-top : 100%;
     overflow: hidden;
 }
-.thumbnail .centered {
+.profile .thumbnail-wrapper .thumbnail .centered {
     position: absolute;
     top: 0;
     right : 0;
     left : 0;
     bottom :0;
     transform: translate(50%,50%);
+    -webkit-transform: translate(50%, 50%);
+    -ms-transform: translate(50%, 50%);
 }
-.thumbnail .centered img {
+.profile .thumbnail-wrapper .thumbnail .centered img {
+    max-height: 100%;
+    position: absolute;
+    top: 0;
+    right : 0;
+    left : 0;
+    bottom :0;
     overflow: hidden;
     display: flex;
     align-items: center;
@@ -66,31 +74,32 @@
 .profile .writer {
     position: relative;
     float : left;
-    margin: 20px 0px 0px 5px;
-    font-size : 20px;
+    margin: 16px 0px 0px 5px;
+    font-size : 14px;
 }
 .profile .title {
     position: relative;
     float: left;
-    padding: 10px;
-    height: 20px;
-    margin: 10px 0px 0px 15px;
-    border-left : 8px solid rgb(105, 179, 149);
-    font-size: 20px;
+    padding: 7px;
+    height: 23px;
+    margin: 7px 0px 0px 8px;
+    border-left: 8px solid rgb(105, 179, 149);
+    font-size: 16px;
 }
 .content-icon{
     position:relative;
     float: right;
-    margin-top:10px;
+    margin-top:5px;
     margin-left: 96px;
 }
 .content-icon span {
     float: left;
-    margin: 15px 0px 0px 20px;
+    margin: 10px 0px 0px 0px;
+
 }
 .content-icon .like-img{
-    width:35px;
-    height:35px;
+    width: 30px;
+    height: 30px;
     border: none;
     background-color: transparent;
     margin-right: 20px;
@@ -98,8 +107,8 @@
     outline: none;
 }
 .content-icon img {
-    width:35px;
-    height:35px;
+    width:32px;
+    height:32px;
 }
 
 /* 수정하기 삭제하기 드롭다운*/
@@ -112,14 +121,14 @@
     background-color: transparent;
 }
 .dropdown .dropbtn {
-    margin: 5px 0px 0px 325px;
+    margin: 0px 0px 0px 325px;
     border: none;
     outline: none;
     background-color: transparent;
 }
 .dropdown .dropbtn img{
-    width:35px;
-    height:35px;
+    width:30px;
+    height:30px;
     outline: none;
     border:none;
 }
@@ -169,7 +178,7 @@
     margin: 0 auto;
 }
 .main .content {
-    margin-top : 130px;
+    margin-top : 120px;
     margin-bottom:20px;
     height: 1200px;
     border-top: 2px solid rgb(105, 179, 149);
@@ -183,16 +192,59 @@
     height: auto;
 }
 /* 댓글 입력 */
+.profile-reply {
+    width: 50px;
+    position: relative;
+    margin-top: 3px;
+    margin-left: 10px;
+}
+.profile-reply .thumbnail-wrapper {
+    float: left;
+    width: 40px;
+    height: 40px;
+    margin-bottom:5px;
+}
+.profile-reply .thumbnail-wrapper .reply-thumbnail {
+    border : 2px solid rgb(105, 179, 149);
+    border-radius: 50px;
+    position: relative;
+    padding-top : 100%;
+    overflow: hidden;
+}
+.profile-reply .thumbnail-wrapper .reply-thumbnail .centered {
+    position: absolute;
+    top: 0;
+    right : 0;
+    left : 0;
+    bottom :0;
+    transform: translate(50%,50%);
+    -webkit-transform: translate(50%, 50%);
+    -ms-transform: translate(50%, 50%);
+}
+.profile-reply .thumbnail-wrapper .reply-thumbnail .centered img {
+    max-height: 100%;
+    position: absolute;
+    top: 0;
+    right : 0;
+    left : 0;
+    bottom :0;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transform: translate(-50%,-50%);
+}
 .reply-input {
     width: 800px;
     margin: 0 auto;
     display: flex;
 }
 .reply-input input {
-    width: 550px;
-    height: 50px;
-    padding-left: 15px;
-    border : 2px solid rgb(105, 179, 149);
+    width: 635px;
+    height: 41px;
+    padding-left: 13px;
+    padding-right: 13px;
+    border: 2px solid rgb(105, 179, 149);
     border-radius: 10px;
     font-family: 'Jeju Gothic', sans-serif;
     font-size: 15px;
@@ -204,9 +256,9 @@
     background-color: rgb(247, 255, 240);
 }
 .reply-input button {
-    width: 80px;
-    height : 55px;
-    font-size: 18px;
+    width: 60px;
+    height : 48px;
+    font-size: 16px;
     font-family: 'Jeju Gothic', sans-serif;
     background-color: rgb(105, 179, 149);
     border : 2px solid rgb(105, 179, 149);
@@ -234,58 +286,66 @@
 }
 .reply {
     width: 800px;
-    margin: 5px 554px 0px 546px;
+    margin: 5px 554px 0px 538px;
 }
 
 /* 댓글 리스트 */
-.reply-list {
-    margin-top : 20px;
-    border-top : 1px solid rgb(105, 179, 149);
-}
-
-.reply-list .reply-one {
-    height: 100px;
-}
-.reply-list .reply-one .thumbnail-wrapper {
-    float: left;
+.profile-reply-list {
     width: 50px;
-    height: 50px;
-    margin-bottom: 10px;
-    margin-top:20px;
+    position: relative;
+    margin-top: 11px;
+    margin-left: 17px;
 }
-.reply-list .reply-one .reply-thumbnail {
+.profile-reply-list .thumbnail-wrapper {
+    float: left;
+    width: 40px;
+    height: 40px;
+    margin-bottom:5px;
+}
+.profile-reply-list .thumbnail-wrapper .reply-thumbnail {
     border : 2px solid rgb(105, 179, 149);
     border-radius: 50px;
     position: relative;
     padding-top : 100%;
     overflow: hidden;
 }
-.reply-list .reply-one .reply-thumbnail .centered {
+.profile-reply-list .thumbnail-wrapper .reply-thumbnail .centered {
     position: absolute;
     top: 0;
     right : 0;
     left : 0;
     bottom :0;
     transform: translate(50%,50%);
+    -webkit-transform: translate(50%, 50%);
+    -ms-transform: translate(50%, 50%);
 }
-.reply-list .reply-one .reply-thumbnail .centered img {
+.profile-reply-list .thumbnail-wrapper .reply-thumbnail .centered img {
+    max-height: 100%;
+    position: absolute;
+    top: 0;
+    right : 0;
+    left : 0;
+    bottom :0;
     overflow: hidden;
     display: flex;
     align-items: center;
     justify-content: center;
     transform: translate(-50%,-50%);
 }
+.reply-list {
+    margin-top : 20px;
+    border-top : 1px solid rgb(105, 179, 149);
+}
 .reply-list .writer {
-    position: relative;
-    float : left;
-    margin: 25px 0px 0px 15px;
-    font-size : 17px;
+    float: left;
+    margin: 5px 0px 0px 8px;
+    font-size: 14px;
 }
 .reply-list .reply-date {
-    position : relative;
+    position: relative;
     float: left;
-    margin: 28px 0px 0px 15px;
-    font-size : 12px;
+    margin: 7px 0px 0px 3px;
+    font-size: 10px;
     color: gray;
 }
 .reply-list .button .update{
@@ -377,17 +437,30 @@
 }
 .reply-list .reply-content {
     position: relative;
-    margin: 55px 0px 0px 65px;
+    margin: 36px 0px 0px 67px;
     text-align: left;
     border: 2px solid rgb(105, 179, 149);
     border-radius: 10px;
-    width: 600px;
+    width: 690px;
     padding-left: 15px;
     padding-right: 15px;
     padding-top: 10px;
     padding-bottom: 10px;
-    word-break:break-all;
-
+    word-break: break-all;
+}
+.reply-list .dropdown {
+    position: absolute;
+    float: right;
+    margin: 0px 0px 0px 440px;
+    width: 35px;
+    height: 35px;
+    background-color: transparent;
+}
+.reply-list .dropdown .dropbtn .dropbtnImgRe {
+    width: 20px;
+    height: 20px;
+    outline: none;
+    border: none;
 }
 
 /* 대댓글 */
