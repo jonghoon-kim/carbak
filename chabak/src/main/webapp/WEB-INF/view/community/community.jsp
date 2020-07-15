@@ -9,8 +9,6 @@
     <meta http-equiv="Cache-Control" content="no-cache"/>
     <meta http-equiv="Expires" content="0"/>
     <meta http-equiv="Pragma" content="no-cache"/>
-
-
     <link href="/css/community.css" rel="stylesheet">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
     <script type="text/javascript" src=" http://code.jquery.com/jquery-latest.min.js"></script>
@@ -81,8 +79,7 @@
                 </div>
             </div>
             <div class="writer">
-                    <span class="writer-id">
-
+                    <span>class="writer-id">
                     </span>
             </div>
         </div>
@@ -124,9 +121,11 @@
                         </div>
                     </div>
                     <div class="writer">
+                        <a href="/mypage/guestVisit?id=${review.id}" target="_blank">
                     <span class="writer-id">
                             ${review.id}
                     </span>
+                        </a>
                     </div>
                 </div>
                 <div class="content">
