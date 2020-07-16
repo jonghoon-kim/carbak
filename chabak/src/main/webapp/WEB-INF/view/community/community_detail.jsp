@@ -68,22 +68,23 @@
             }
         }
 
-        // window.onclick = function (event) {
-        //     if (!event.target.matches('.dropbtnImg')) {
-        //
-        //         var dropdowns = document.getElementsByClassName("dropdown-content");
-        //
-        //         var i;
-        //
-        //         for (i = 0; i < dropdowns.length; i++) {
-        //             var openDropdown = dropdowns[i];
-        //
-        //             if (openDropdown.classList.contains('show')) {
-        //                 openDropdown.classList.remove('show');
-        //             }
-        //         }
-        //     }
-        // }
+        window.onclick = function (event) {
+            if (!event.target.matches('.dropbtnImg') && !event.target.matches('.dropbtnImgRe')) {
+
+                var dropdowns = document.getElementsByClassName("dropdown-content");
+
+                var i;
+
+                for (i = 0; i < dropdowns.length; i++) {
+                    var openDropdown = dropdowns[i];
+
+                    if (openDropdown.classList.contains('show')) {
+                        console.log("openList:" + openDropdown);
+                        openDropdown.classList.remove('show');
+                    }
+                }
+            }
+        }
 
         //리플 삭제시 하위 댓글 존재 확인(있으면 삭제 불가능)
         function checkChildReplyAjax(replyNo) {
@@ -283,14 +284,11 @@
                         </div>
                     </div>
                     <div class="writer">
-               <span class="writer-id">
-                       ${list.id}
-               </span>
+                        <span class="writer-id">${list.id}</span>
                     </div>
                     <div class="reply-date">
                             ${list.regDate}
                     </div>
-
                     <div class="dropdown">
                         <button class="dropbtn"><img class="dropbtnImgRe" src="/img/community/menu.png"
                                                      onclick="myFunction('reply',${list.replyNo})"></button>
@@ -304,8 +302,6 @@
 
                         </div>
                     </div>
-
-
                         <%-- 두 영역이 토글되는 부분 시작                            --%>
                     <div class="reply-content" id="defaultReplyContent${list.replyNo}">${list.content}</div>
                         <%--이 input의 값을 가져와 수정폼의 값으로 넣기                             --%>
@@ -341,12 +337,9 @@
                             <input type="hidden" name="parentReplyNo" value="${list.replyNo}">
                             <input type="text" placeholder="댓글 입력" name="content"
                                    onkeyup="checkLengthValidate(this,100)">
-
                         </form>
                         <button onclick="submitReReplyForm(${list.replyNo})">등록</button>
                         <button onclick="initializeForm()">취소</button>
-
-
                     </div>
                         <%--       대댓글 폼 끝--%>
 
@@ -357,23 +350,24 @@
                         <c:if test="${relist.groupOrder ne 0 && relist.groupNo eq list.groupNo}">
 
                             <div class="re-reply">
-                                <img src="/img/community/re_reply3.png">
-                                <div class="thumbnail-wrapper">
-                                    <div class="reply-thumbnail">
-                                        <div class="centered">
-                                            <img src="${relist.savePath}${relist.saveName}">
+                                <img src="/img/community/arrow3.png">
+                                <div class="profile-re-reply">
+                                    <div class="thumbnail-wrapper">
+                                        <div class="re-reply-thumbnail">
+                                            <div class="centered">
+                                                <img src="${relist.savePath}${relist.saveName}">
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="writer">
-                    <span class="writer-id">
-                            ${relist.id}
-                    </span>
+                                    <span class="writer-id">
+                                            ${relist.id}
+                                    </span>
                                 </div>
                                 <div class="reply-date">
                                         ${relist.regDate}
                                 </div>
-
                                 <div class="dropdown">
                                     <button class="dropbtn"><img class="dropbtnImgRe" src="/img/community/menu.png"
                                                                  onclick="myFunction('reply',${relist.replyNo})">
@@ -384,6 +378,7 @@
                                             <a onclick="createModifyReplyForm(${relist.replyNo})">수정하기</a>
                                             <a onclick="checkChildReplyAjax(${relist.replyNo})">삭제하기</a>
                                         </c:if>
+
                                         <a onclick="createReReplyBox(${relist.replyNo},'${sessionScope.id}')">댓글달기</a>
 
                                     </div>
@@ -391,26 +386,25 @@
 
 
                                     <%-- 두 영역이 토글되는 부분 시작                            --%>
-                                <div class="reply-content" id="defaultReplyContent${relist.replyNo}"><span
-                                        class="reply-parent-id"><a
-                                        href="#">${relist.parentId}</a></span>${relist.content}</div>
+                                <div class="reply-content" id="defaultReplyContent${relist.replyNo}">
+                                    <span class="reply-parent-id"><a href="#">${relist.parentId}</a></span>
+                                        ${relist.content}
+                                </div>
                                     <%--이 input의 값을 가져와 수정폼의 값으로 넣기                             --%>
                                 <input type="hidden" id="hiddenReplyContent${relist.replyNo}" value="${relist.content}">
                                 <div class="reply-modify-content" id="modifyReplyContent${relist.replyNo}"
                                      style="display: none">
                                     <form method="POST" action="/reply/modify" id="modifyReplyForm${relist.replyNo}"
                                           onsubmit="return commonCheckInputNotEmpty(this);">
-
                                         <input type="hidden" name="replyNo" value="${relist.replyNo}">
                                         <input type="hidden" name="id" value="${relist.id}">
                                         <input type="hidden" name="reviewNo" value="${relist.reviewNo}">
                                         <input class="reply-modify-input" id="reply-modify-input${relist.replyNo}"
                                                type="text" name="content" onkeyup="checkLengthValidate(this,100)">
-
-
                                     </form>
-                                    <button onclick="submitModifyReplyForm(${relist.replyNo})">등록</button>
-                                    <button onclick="initializeForm()">취소</button>
+                                    <button class="modifyBut" onclick="submitModifyReplyForm(${relist.replyNo})">등록
+                                    </button>
+                                    <button class="modifyBut" onclick="initializeForm()">취소</button>
                                 </div>
                                     <%--두 영역이 토글되는 부분 끝--%>
                                     <%--       대댓글 폼 시작--%>
@@ -429,10 +423,10 @@
                                                onkeyup="checkLengthValidate(this,100)">
 
                                     </form>
-                                    <button onclick="submitReReplyForm(${relist.replyNo})">등록</button>
-                                    <button onclick="initializeForm()">취소</button>
-
-
+                                    <div class="re-reply-but">
+                                        <button onclick="submitReReplyForm(${relist.replyNo})">등록</button>
+                                        <button onclick="initializeForm()">취소</button>
+                                    </div>
                                 </div>
                                     <%--       대댓글 폼 끝--%>
 
@@ -443,14 +437,9 @@
 
 
                 </div>
-
-
             </div>
-
         </c:if>
     </c:forEach>
-
-
 </div>
 <%--container--%>
 <div class="footer">

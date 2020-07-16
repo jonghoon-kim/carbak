@@ -1,5 +1,6 @@
 package com.chabak.controllers;
 
+import com.chabak.services.MemberService;
 import com.chabak.services.ReplyService;
 import com.chabak.services.ReviewLikeService;
 import com.chabak.services.ReviewService;
@@ -31,6 +32,9 @@ public class ReviewController {
 
      @Autowired
     ReviewLikeService reviewLikeService;
+
+     @Autowired
+     MemberService memberService;
 
 
     @RequestMapping(value ={"", "/", "/list"}, method=RequestMethod.GET)
@@ -285,6 +289,9 @@ public class ReviewController {
 
             //로그인시 사용자의 좋아요 누름 여부(1/0)
             mv.addObject("likeYn",likeYn);
+
+            mv.addObject("session", memberService.getMember(id));
+
         }
 
 
