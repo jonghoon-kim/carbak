@@ -238,7 +238,7 @@
 }
 .reply-input {
     width: 800px;
-    margin: 0 auto;
+    margin: 0px 0px 0px 550px;
     display: flex;
 }
 .reply-input input {
@@ -314,7 +314,7 @@
 }
 .reply {
     width: 800px;
-    margin: 5px 554px 0px 548px;
+    margin: 5px 0px 0px 546px;
 }
 
 /* 댓글 리스트 */
@@ -513,10 +513,19 @@
     font-size: 8px;
     color: gray;
 }
+.re-reply .dropdown .dropbtn {
+    margin: 9px 0px 0px 250px;
+    border: none;
+    outline: none;
+}
+.re-reply .dropdown .dropdown-content {
+    margin-right:20px;
+    z-index: auto;
+}
 .re-reply .show {
     margin: -2px 0px 0px 192px;
     display: block;
-    z-index: 11;
+    z-index: auto;
 }
 
 .re-reply .re-reply-content {
@@ -545,15 +554,7 @@
     word-break: break-all;
     font-size: 14px;
 }
-.re-reply .dropdown .dropbtn {
-    margin: 9px 0px 0px 250px;
-    border: none;
-    outline: none;
-    background-color: transparent;
-}
-.re-reply .dropdown .dropdown-content {
-    margin-right:20px;
-}
+
 /* 대댓글 입력창 */
 .re-reply-input {
     width: 730px;
