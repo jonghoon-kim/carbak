@@ -350,7 +350,7 @@
                         <c:if test="${relist.groupOrder ne 0 && relist.groupNo eq list.groupNo}">
 
                             <div class="re-reply">
-                                <img src="/img/community/arrow3.png">
+                                <img src="/img/community/arrow.png">
                                 <div class="profile-re-reply">
                                     <div class="thumbnail-wrapper">
                                         <div class="re-reply-thumbnail">
