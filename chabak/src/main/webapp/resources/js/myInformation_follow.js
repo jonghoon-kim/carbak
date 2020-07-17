@@ -117,7 +117,7 @@ function clickFollowBtn(clickedId, option, pageOwnerId){
 function clickFollowingBtn(clickedId, option, pageOwnerId){
     $.ajax({
         type: "get",
-        data : {"clickedId": clickedId,
+        data : {"clickedId": clickedId, // 변수에 동사 사용 안하는게 좋다.
             "option": option,
             "pageOwnerId": pageOwnerId},
         datatype: "json",
