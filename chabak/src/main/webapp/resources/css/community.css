@@ -12,22 +12,21 @@
 /* 전체 */
 .container {
     text-align: center;
-    margin-top:70px;
-    margin-bottom:70px;
     font-family: 'Jeju Gothic', sans-serif;
 }
 
 /* 타이틀 */
 .top {
     font-family: 'Jeju Gothic', sans-serif;
-    margin-bottom : 50px;
+    margin-top: 50px;
+    margin-bottom : 20px;
     margin-left:20px;
 }
 
 /* 검색창 */
 .search {
     position: relative;
-    margin : 80px 0px 50px 860px;
+    margin : 50px 0px 20px 840px;
 }
 .search:after {
     content:"";
@@ -36,17 +35,17 @@
 }
 .search .search_text {
     float: left;
-    width: 150px;
+    width: 200px;
     height: 30px;
     padding-left: 15px;
-    border-radius: 42px;
+    border-radius: 10px;
     background: white;
     outline: none;
     position: relative;
     transition: .3s linear;
     margin-right: 3px;
     opacity: 0.8;
-    border:2px solid rgb(105, 179, 149);
+    border: 2px solid rgb(105, 179, 149);
 }
 .search input:focus {
     background-color: rgb(246, 253, 241);
@@ -79,8 +78,7 @@
 
 /* 글작성 버튼 */
 .second {
-    width: 80%;
-    margin-top: 50px;
+    width: 1550px;
 }
 .insert {
     float :left;
@@ -130,11 +128,10 @@
 /* 게시글 리스트 */
 .review {
     position: relative;
-    width: 40%;
+    width: 950px;
     height: auto;
-    margin-top: 30px;
-    margin-left : 30%;
-    margin-right : 30%;
+    margin-left: 480px;
+    margin-bottom: 50px;
 }
 /* 사용자 이름 */
 .profile {
@@ -143,13 +140,13 @@
 }
 .profile .thumbnail-wrapper {
     float: left;
-    width: 50px;
-    height: 50px;
+    width: 40px;
+    height: 40px;
     margin-bottom: 5px;
 }
 .thumbnail {
     border : 2px solid rgb(105, 179, 149);
-    border-radius: 50px;
+    border-radius: 55px;
     position: relative;
     padding-top : 100%;
     overflow: hidden;
@@ -161,8 +158,16 @@
     left : 0;
     bottom :0;
     transform: translate(50%,50%);
+    -webkit-transform: translate(50%, 50%);
+    -ms-transform: translate(50%, 50%);
 }
 .thumbnail .centered img {
+    max-height: 100%;
+    position: absolute;
+    top: 0;
+    right : 0;
+    left : 0;
+    bottom :0;
     overflow: hidden;
     display: flex;
     align-items: center;
@@ -171,13 +176,18 @@
 }
 .profile .writer {
     position: relative;
-    float : left;
-    margin: 20px 0px 0px 5px;
-    font-size : 20px;
+    float: left;
+    margin: 15px 0px 0px 5px;
+    font-size: 19px;
+}
+.profile .writer a {
+    text-decoration: none;
+    color: black;
 }
 
 /* 게시글 리스트 */
 #reviewListDiv {
+    margin-top: 95px;
     margin-bottom: 50px;
 }
 /* 게시글 사진 */
@@ -190,6 +200,9 @@
     justify-content: center;
     border-top: 2px solid rgb(105, 179, 149);
     border-bottom: 2px solid rgb(105, 179, 149);
+}
+.review-img img {
+    max-height: 100%;
 }
 /* 게시글 제목, 좋아요, 댓글 아이콘*/
 .review-content{

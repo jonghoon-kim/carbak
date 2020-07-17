@@ -18,8 +18,6 @@ import java.util.UUID;
 @RequestMapping("/fileupload")
 public class FileUploadController {
 
-
-
     @SneakyThrows
     @RequestMapping(value="/single",method=RequestMethod.POST)
     public String singleUpload(HttpServletRequest request, SmartEditorVo smarteditorVO){
@@ -74,7 +72,5 @@ public class FileUploadController {
         }
         return "redirect:"+return1+return2+return3;
     } //스마트 에디터 단일 파일 업로드 기능
-
-
 
 }
