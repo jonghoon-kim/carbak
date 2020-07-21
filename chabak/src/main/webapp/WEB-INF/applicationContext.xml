@@ -31,14 +31,11 @@
 <!--		<property name="connectionCachingEnabled" value="true" />-->
 	</bean>
 
-<<<<<<<<< Temporary merge branch 1
-=========
 	<bean id="jsonView" class="net.sf.json.spring.web.servlet.view.JsonView"/>
 	<bean id="viewResolver" class="org.springframework.web.servlet.view.BeanNameViewResolver">
 		<property name="order" value="1"/>
 	</bean>
 
->>>>>>>>> Temporary merge branch 2
 	<!-- 2. MyBatis SqlSessionFactory -->
 	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
 		<!-- 설정한 DataSource의 id를 참조로 전달해야 한다 -->

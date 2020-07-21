@@ -34,7 +34,7 @@ public class CampSiteController {
     ImageService imageService;
 
     //campsite 경로 지정
-    @RequestMapping(value= {"", "/", "campsite"}, method= {RequestMethod.GET,RequestMethod.POST})
+    @RequestMapping(value= {"", "/", "/campsite"}, method= {RequestMethod.GET,RequestMethod.POST})
     public String campSite(HttpServletRequest request, Model model)
     {
         String keyword = request.getParameter("keyword");
@@ -47,7 +47,7 @@ public class CampSiteController {
     }
 
     //야영지 선택 경로 지정(selectPlaceDetail)
-    @RequestMapping(value = "campsitePlaceDetail", method= {RequestMethod.GET,RequestMethod.POST})
+    @RequestMapping(value = "/campsitePlaceDetail", method= {RequestMethod.GET,RequestMethod.POST})
     public ModelAndView campsitePlaceDetail(HttpServletRequest request) {
         ModelAndView campsitePlaceDetail = new ModelAndView();
         String lat = request.getParameter("latitude"); //위도
@@ -97,7 +97,7 @@ public class CampSiteController {
         }
     }
 
-    @RequestMapping(value = "blogPaging", produces = "application/json; charset=utf8")
+    @RequestMapping(value = "/blogPaging", produces = "application/json; charset=utf8")
     @ResponseBody
     public Map<String, List> blogPaging(HttpServletRequest request){
         Map<String, List> blogPageNumber = new HashMap<String, List>();

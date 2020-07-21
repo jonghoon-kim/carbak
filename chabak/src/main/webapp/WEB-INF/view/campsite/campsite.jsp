@@ -295,7 +295,7 @@ prefix="c" %>
               campsiteTest.latitude.value = lat;
               campsiteTest.longitude.value = long;
               campsiteTest.plname.value = plse;
-              campsiteTest.action="campsitePlaceDetail";
+              campsiteTest.action="/campsite/campsitePlaceDetail";
               campsiteTest.method="post"; //POST방식
               campsiteTest.submit();
 
