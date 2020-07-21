@@ -20,7 +20,7 @@
             var selectSortType = $("#sortType");
             selectSortType.val("${sortType}");
 
-            var pageOwnerIdVar = "${pageOwnerId}";
+            // var pageOwnerIdVar = $("#pageOwnerIdSaved").val();
 
             console.log("searchText:"+"${searchText}"+ " sortType:"+"${sortType}");
             if ( event.persisted || (window.performance && window.performance.navigation.type === 2)) {
@@ -123,7 +123,7 @@
                     <div class="writer">
                         <a href="/mypage/guestVisit?id=${review.id}" target="_blank">
                     <span class="writer-id">
-                            ${review.id}
+                            ${review.id}<a href="/message/list?id=${review.id}">쪽지</a>
                     </span>
                         </a>
                     </div>

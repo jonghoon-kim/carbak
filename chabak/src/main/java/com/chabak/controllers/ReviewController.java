@@ -16,6 +16,7 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -41,7 +42,7 @@ public class ReviewController {
     public ModelAndView reviewList(HttpSession session,
                                    @RequestParam (required = false,defaultValue = "regDate") String sortType,
                                    @RequestParam (required = false,defaultValue = "") String searchText,
-                                   @RequestParam (required = false,defaultValue = "") String pageOwnerId){
+                                   @RequestParam (required = false,defaultValue = "") String pageOwnerId) {
 
         ModelAndView mv = new ModelAndView();
 
@@ -82,7 +83,7 @@ public class ReviewController {
     @SneakyThrows
     @ResponseBody
     @RequestMapping("/listAjax")
-    public String listAjax(HttpServletRequest request,HttpSession session,
+    public String listAjax(HttpSession session,
                            @RequestParam (required = false,defaultValue = "regDate") String sortType,
                            @RequestParam (required = false,defaultValue = "") String searchText,
                            @RequestParam (required = false,defaultValue = "") String pageOwnerId,
@@ -148,20 +149,29 @@ public class ReviewController {
         //작성자 설정
         review.setId(id);
 
-
         System.out.println("review(Bean modified):"+review);
 
         reviewService.setTitleImg(review);
 
+        try{
+            reviewService.insertReview(review);
+        }
+        catch (Exception e){
+            e.printStackTrace();
+            Utility.printAlertMessage("작업 중 에러가 발생했습니다.",response);
+            return null;
+        }
         //리뷰 저장
-        reviewService.insertReview(review);
 
-        mv.setViewName("redirect:/review");
+
+        mv.setViewName("redirect:/review/list");
 
         return mv;
     } //리뷰 저장
 
+
     //리뷰 수정 페이지로 이동
+    @SneakyThrows
     @RequestMapping(value ="/modify", method=RequestMethod.GET)
     public ModelAndView modifyForm(@RequestParam int reviewNo,HttpSession session,HttpServletResponse response){
 
@@ -177,18 +187,24 @@ public class ReviewController {
         //수정 권한 체크
         try{
             review = reviewService.selectReviewDetail(reviewNo);
-            reviewService.compareSessionAndWriterId(id,review.getId(),response);
+            boolean authorityYn = id.equals(review.getId()) ? true:false;
+            //권한 없으면
+            if(!authorityYn){
+                Utility.printAlertMessage("권한이 없습니다.",response);
+                return null;
+            }
+
         } //해당 리뷰번호에 해당하는 작성자가 없으면
         catch (NullPointerException e){
-            Utility.printAlertMessage(response,"잘못된 접근입니다.");
-            mv.setViewName("/review");
-            return mv;
+            Utility.printAlertMessage("잘못된 접근입니다.",response);
+            return null;
+            
         }
+        //정상일 때 수정 페이지 이동
+         mv.addObject("review",review);
+         mv.setViewName("community/community_update");
 
-        mv.addObject("review",review);
-        mv.setViewName("community/community_update");
-
-        return mv;
+         return mv;
     }
 
     @RequestMapping(value ="/modify", method=RequestMethod.POST)
@@ -209,9 +225,16 @@ public class ReviewController {
 
         System.out.println("review:"+review);
 
-        reviewService.updateReview(review);
+        try{
+            reviewService.updateReview(review);
+        }
+        catch (Exception e){
+            e.printStackTrace();
+            Utility.printAlertMessage("작업 중 에러가 발생했습니다.",response);
+            return null;
+        }
 
-        mv.setViewName("redirect:/review");
+        mv.setViewName("redirect:/review/list");
 
         return mv;
     }
@@ -231,18 +254,26 @@ public class ReviewController {
         //삭제 권한 체크
         try{
             review = reviewService.selectReviewDetail(reviewNo);
-            reviewService.compareSessionAndWriterId(id,review.getId(),response);
+            boolean authorityYn = id.equals(review.getId()) ? true:false;
+            //권한 없으면
+            if(!authorityYn){
+                Utility.printAlertMessage("권한이 없습니다.",response);
+                return null;
+            }
+             //리뷰 삭제
+             reviewService.deleteReview(reviewNo);
+
         } //해당 리뷰번호에 해당하는 작성자가 없으면
         catch (NullPointerException e){
-            Utility.printAlertMessage(response,"잘못된 접근입니다.");
-            mv.setViewName("/review");
-            return mv;
+            Utility.printAlertMessage("잘못된 접근입니다.",response);
+            return null;
         }
-
-        //리뷰 삭제
-        reviewService.deleteReview(reviewNo);
-
-        mv.setViewName("redirect:/review");
+        catch (Exception e){
+            e.printStackTrace();
+            Utility.printAlertMessage("작업 중 에러가 발생했습니다.",response);
+            return null;
+        }
+        mv.setViewName("redirect:/review/list");
 
         return mv;
     }
@@ -264,9 +295,8 @@ public class ReviewController {
 
         //해당 리뷰가 존재하지 않으면
         if(review == null){
-            Utility.printAlertMessage(response,"잘못된 접근입니다.");
-            mv.setViewName("/review");
-            return mv;
+            Utility.printAlertMessage("잘못된 접근입니다.",response);
+            return null;
         }
 
         //조회수 1 증가

@@ -70,19 +70,6 @@ public class ReviewService {
         return pagination;
     }
 
-    //세션 아이디와 작성자 아이디를 파라미터로 받아 다르면 경고창을 띄우고 이전 페이지로 이동
-    @SneakyThrows
-    public boolean compareSessionAndWriterId(String sessionId, String writerId, HttpServletResponse response){
-
-        if(sessionId.equals(writerId)){
-            return true;
-        }
-        Utility.printAlertMessage(response,"해당 권한이 없습니다.");
-
-        Utility.pageBackward(response);
-        return false;
-    }
-
     public int insertReview(Review review){
         int insertedCount = reviewDao.insertReview(review);
         return insertedCount;

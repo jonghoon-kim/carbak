@@ -25,10 +25,10 @@ import java.util.Map;
 public class CampSiteController {
     @Autowired
     CampSiteService campSiteService;
-    @Autowired
-    BlogService blogService;
-    @Autowired
-    ImageService imageService;
+//    @Autowired
+//    BlogService blogService;
+//    @Autowired
+//    ImageService imageService;
 
     //campsite 경로 지정
     @RequestMapping(value= {"", "/", "campsite"}, method= {RequestMethod.GET,RequestMethod.POST})

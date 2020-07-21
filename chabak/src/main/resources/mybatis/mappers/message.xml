@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- SQL Mapping 설정 -->
+<mapper namespace="message">
+	<!-- SQL 객체 --><!-- sql parameterType은 이미 alias를 설정했으므로 전체경로를 쓸 필요 없다-->
+	<!-- insert,update,delete 객체는 영향받은 레코드의 카운트를 정수로 반환 -->
+
+	<select id="selectMessageList" parameterType="Map" resultType="Message">
+		SELECT *
+		FROM MESSAGE
+		where 1=1
+		<if test="receiveId !=null and receiveId !=''">
+			and RECEIVEID = #{receiveId}
+		</if>
+		<if test="sendId !=null and sendId !=''">
+			and SENDID = #{sendId}
+		</if>
+	</select>
+
+	<select id="selectMessageDetail" parameterType="int" resultType="Message">
+		SELECT *
+		FROM MESSAGE
+		WHERE MESSAGENO = #{messageNo}
+	</select>
+
+	<insert id="insertMessage" parameterType="Message">
+		INSERT INTO Message(messageNo,sendId,receiveId,title,content)
+		VALUES(
+		MESSAGENO_SEQ.nextval,
+		#{sendId},
+		#{receiveId},
+		#{title},
+		#{content}
+		)
+	</insert>
+
+	<delete id="deleteMessage" parameterType="int">
+		DELETE  Message
+		where messageNo = #{messageNo}
+	</delete>
+</mapper>
