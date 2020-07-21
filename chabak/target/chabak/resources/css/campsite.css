@@ -38,6 +38,13 @@ a:visited{
     margin-bottom: 20px;
     font-family: 'Jeju Gothic', sans-serif;
 }
+<<<<<<<<< Temporary merge branch 1
+/* 지역검색 */
+.campsite_section{
+    margin-left:140px;
+}
+=========
+>>>>>>>>> Temporary merge branch 2
 /* 지역선택 */
 .address_select{
     margin-left: 200px;
@@ -71,6 +78,17 @@ a:visited{
     width: 100px;
     height: 30px;
 }
+<<<<<<<<< Temporary merge branch 1
+#map{
+    margin-left:200px;
+    float:left;
+}
+#map img{
+    width: 570px;
+    height: 570px;
+}
+=========
+>>>>>>>>> Temporary merge branch 2
 
 /*야영지 검색*/
 .campsite_aticle{
@@ -83,6 +101,38 @@ a:visited{
     font-family: 'Jeju Gothic', sans-serif;
     text-align:center;
     margin-right:30px;
+<<<<<<<<< Temporary merge branch 1
+}
+/*야영지 검색정보*/
+.campsite_info{
+    margin-top:50px;
+    width:590px;
+    height:490px;
+    border: 3px solid rgb(105, 179, 149);
+    border-radius: 10px;
+    overflow:auto;
+}
+.campsite_info ul li{
+    margin-top: 50px;
+    margin-left: 50px;
+    font-family: 'Jeju Gothic', sans-serif;
+    font-weight:
+    font-size:22px;
+    list-style: none;
+}
+.campsite_info ul li p a{
+    color: #000;
+    text-decoration:none;
+}
+.campsite_info ul li p a:hover{
+    color: rgb(105, 179, 149);
+    text-decoration:none;
+}
+.campsite_info ul li .address{
+    margin-top: 10px;
+    font-size:14px;
+=========
+>>>>>>>>> Temporary merge branch 2
 }
 
 /*커뮤니티*/
@@ -286,7 +336,11 @@ a:visited{
     font-size:14px;
 }
 .campsite_select ul li p a{
+<<<<<<<<< Temporary merge branch 1
+    color: #000000;
+=========
     color: #000;
+>>>>>>>>> Temporary merge branch 2
     text-decoration:none;
 }
 .campsite_select ul li p a:hover{
@@ -297,6 +351,9 @@ a:visited{
     margin-bottom:50px;
     font-size:24px;
     font-weight:bold;
+<<<<<<<<< Temporary merge branch 1
+}
+=========
 }
 
 /*searchPlaces*/
@@ -336,3 +393,4 @@ a:visited{
 #pagination {margin:10px auto;text-align: center;}
 #pagination a {display:inline-block;margin-right:10px;}
 #pagination .on {font-weight: bold; cursor: default;color:#777;}
+>>>>>>>>> Temporary merge branch 2

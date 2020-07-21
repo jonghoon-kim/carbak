@@ -77,6 +77,8 @@ function getUrlString(searchText,sortType){
 function ajaxReviewList(sessionId,isSearchButton,curPage) {
 
     var searchText = $("#search_text").val();
+    var pageOwnerIdVar = $("#pageOwnerIdSaved").val();
+    console.log("pageOwnerVar:"+pageOwnerIdVar);
     //검색 버튼 누른 경우
     if(isSearchButton==true){
         $("#search_text_saved").val(searchText);
@@ -93,6 +95,7 @@ function ajaxReviewList(sessionId,isSearchButton,curPage) {
         dataType:'json',
         data :{"sortType": $("#sortType option:selected").val(),//서버로 전송하는 데이터(정렬방식)
             "searchText": searchText,
+            "pageOwnerId": pageOwnerIdVar,
             "curPage": curPage       }, //검색창의 텍스트값
         success : function(data) {
 
@@ -116,6 +119,10 @@ function ajaxReviewList(sessionId,isSearchButton,curPage) {
 
                 var writer = newReview.find(".writer-id");  //작성자
                 writer.html(this["id"]);  //작성자 설정
+
+                //프로필 이미지
+                var profileImg = newReview.find(".centered img");
+                profileImg.attr("src",this["savePath"]+this["saveName"]);
 
                 var reviewImg =  newReview.find(".review-img img")  //리뷰 이미지
                 reviewImg.attr("src",this["titleImageSrc"]);  //리뷰 타이틀이미지 src
@@ -166,11 +173,25 @@ function ajaxReviewList(sessionId,isSearchButton,curPage) {
             var curRangeVar = pagenation["curRange"];
             var rangeCntVar = pagenation["rangeCnt"];
             var nextPageVar = pagenation["nextPage"];
+            var prevPageVar = pagenation["prevPage"];
 
+            console.log("nextPageVar:"+nextPageVar+"prevPageVar:"+prevPageVar);
             console.log("총 페이지 수 : "+pageCntVar+ "/ 현재 페이지 : "+ curPageVar + "/ 현재 블럭 : "+ curRangeVar + "/ 총 블럭 수 : "+ rangeCntVar);
 
             var pagingDiv = $("#pagingDiv");
             pagingDiv.empty();
+
+            if(curRangeVar != 1){
+                var tag = $("#curRange_ne_1").clone(true);
+                tag.attr("style","display:inline-block");
+                pagingDiv.append(tag);
+            }
+            if(curPageVar != 1){
+                var tag = $("#curPage_ne_1").clone(true);
+                tag.attr("onclick","fn_paging('"+ prevPageVar +"')");
+                tag.attr("style","display:inline-block");
+                pagingDiv.append(tag);
+            }
             for(var i=startPageVar;i<= endPageVar;i++){
                 if(i==curPageVar){
                     var span1 = $("#i_eq_curPage").clone(true);
@@ -236,4 +257,30 @@ function commonCheckInputNotEmpty(obj,errorMessage) {
     }
     return true;
 
+}
+
+function ajaxReviewLikeToggle(reviewNo,imgTag,sessionId){
+    if(sessionId == "" || sessionId==null){
+        var confirmYn = confirm("로그인이 필요한 서비스입니다.로그인 하시겠습니까?") ;
+        if(confirmYn)
+            location.href="/member/login";
+    }
+    else{
+        $.ajax({
+            url:"/reviewLike/toggleAjax",
+            type : "post",
+            data :{"reviewNo": reviewNo},
+            success : function(data) {
+                if(data==1){
+                    $(imgTag).attr("src","/img/community/heart2.png");
+                }
+                else{
+                    $(imgTag).attr("src","/img/community/heart.png");
+                }
+            },
+            error:function(error){
+                alert(error)
+            }
+        });
+    }
 }

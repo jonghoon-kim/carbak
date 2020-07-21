@@ -11,17 +11,25 @@
 	<typeAlias alias="FileUpload" type="com.chabak.vo.FileUpload"/>
 	<typeAlias alias="Follow" type="com.chabak.vo.Follow"/>
 	<typeAlias alias="Member" type="com.chabak.vo.Member"/>
+<<<<<<<<< Temporary merge branch 1
 	<typeAlias alias="Reply" type="com.chabak.vo.Reply"/>
 	<typeAlias alias="Review" type="com.chabak.vo.Review"/>
 	<typeAlias alias="ReviewLike" type="com.chabak.vo.ReviewLike"/>
+
+=========
+	<typeAlias alias="TestFileVo" type="com.chabak.vo.TestFileVo"/>
 	<typeAlias alias="Campsite" type="com.chabak.vo.Campsite"/>
+>>>>>>>>> Temporary merge branch 2
 	</typeAliases>
 	
 	<!-- 실제 SQL과 객체 매핑을 위한 매핑 정보 xml -->
 	<mappers>
 		<mapper resource = "/mybatis/mappers/member.xml"/>
 		<mapper resource = "/mybatis/mappers/fileUpload.xml"/>
-		<mapper resource = "/mybatis/mappers/campSite.xml"/>
+<<<<<<<<< Temporary merge branch 1
 		<mapper resource = "/mybatis/mappers/review.xml"/>
+=========
+		<mapper resource = "/mybatis/mappers/campSite.xml"/>
+>>>>>>>>> Temporary merge branch 2
 	</mappers>
 </configuration>

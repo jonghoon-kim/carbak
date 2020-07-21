@@ -10,35 +10,45 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
     <script type="text/javascript" src=" http://code.jquery.com/jquery-latest.min.js"></script>
     <script type="text/javascript" src="js/jquery.FadeWideBgImg.js"></script>
-    <!--<script type="text/javascript" src="js/3dRotaingButton.js"></script>-->
+    <script type="text/javascript" src="/js/reviewScript.js" charset='UTF-8'></script>
     <script type="text/javascript">
         //배너 롤링
+
         (function($){
             jQuery(document).ready(function(){
                 $('.slideshow').FadeWideBgImg({interval:2000});
+
+                convertK();
             });
         }(window.jQuery,window));
 
         function test(){
             document.querySelector("#test").style.backgroundImage="url('http://www.nnj.kr/data/file/c_photo/2943355932_f8RqZtQW_1.jpg')";
         }
-        // ♥icon 클릭 이벤트
-        var cnt=1;
-        function imgToggle(){
-            var like_empty_img = document.getElementById("like_empty_img");
-            var like_full_img = document.getElementById("like_full_img");
-            if(cnt%2==1){
-                like_empty_img.src="img/community/heart2.png";
-                like_full_img.src="img/community/heart.png";
-            } else{
-                like_empty_img.src="img/community/heart.png";
-                like_full_img.src="img/community/heart2.png";
-            }
-            cnt++;
+
+        //반복문을 돌며 조회수를 변환(1000이 넘으면 단위를 K로)
+        function convertK(){
+
+            var bestViewTags = $(".best_views_span");
+            var readCount;
+            $(bestViewTags).each(function(index,element){
+                readCount = parseInt($(element).text());
+                console.log("index:"+index+" item:"+element+ " readCount:"+readCount)
+                var resultValue;
+                if(readCount >= 1000){
+                    resultValue = (readCount/1000).toFixed(1) + 'K';
+                }
+                else{
+                    resultValue = readCount;
+                }
+                $(element).text("views "+resultValue);
+            });
+
         }
     </script>
 </head>
 <body>
+
 <%
     // 로그인한 회원 정보 담기
     String id = null;
@@ -64,7 +74,7 @@
     <!-- nav바 -->
     <div id="header_left_but">
         <div class="search_but">
-            <button onclick="location.href ='/campsite/campsite'">Campsite Info</button>
+            <button onclick="location.href ='/campsite'">Campsite Info</button>
         </div>
         <div class="community_but">
             <button onclick="location.href ='/review'">Community</button>
@@ -91,7 +101,7 @@
         <% }%>
     </div>
     <div class="logo">
-        <a href="index.html"><img src="img/header/main_logo.png"></a>
+        <a href="/index"><img src="img/header/main_logo.png"></a>
     </div>
 </header>
 
@@ -103,8 +113,10 @@
 
 <!-- 검색창 -->
 <div class="index_search">
-    <input type="text" class="index_search_text" placeholder=" 원하는 야영지를 검색해주세요.">
-    <button type="submit" class="index_search_but"></button>
+    <form method="POST" action="/campsite" onsubmit="return commonCheckInputNotEmpty(this,'검색어를 입력하세요.')">
+        <input type="text" class="index_search_text" placeholder=" 원하는 야영지를 검색해주세요." name="keyword">
+        <button type="submit" class="index_search_but"></button>
+    </form>
 </div>
 
 <hr class="none_hr">
@@ -119,39 +131,41 @@
     <h2>인기리뷰 모아보기</h2>
     <hr>
     <div class="community_link">
-        <a href="community.html">더보기</a>
+        <a href="/review/">더보기</a>
     </div>
     <div class="best_review">
         <ul>
+         <c:forEach var="review" items="${reviewList}" varStatus="loop">
             <li>
-                <p class="best_id">ID:차박차박</p>
+                <p class="best_id">ID:${review.id}</p>
                 <div class="best_img">
-                    <img src="img/reviews/01.jpg">
+                    <img src="${review.titleImageSrc}">
                 </div>
-                <p class="best_views">views 1.24k
-                    <button class="like-but" onclick="imgToggle()">
-                        <img class="like-img" id="like_empty_img" src="img/community/heart.png">
-                        <img class="like-img" id="like_full_img" src="img/community/heart2.png">
-                    </button>
+                <p class="best_views"><span class="best_views_span">${review.readCount}</span>
+                <c:choose>
+                    <c:when test="${sessionScope.id != null and review.likeYn==1}">
+                        <button class="like-but">
+                            <img class="like-img" src="img/community/heart2.png" onclick="ajaxReviewLikeToggle('${review.reviewNo}',this,'${sessionScope.id}')">
+                        </button>
+                    </c:when>
+                    <c:otherwise>
+                        <button class="like-but">
+                            <img class="like-img" src="img/community/heart.png" onclick="ajaxReviewLikeToggle('${review.reviewNo}',this,'${sessionScope.id}')">
+                        </button>
+                    </c:otherwise>
+                </c:choose>
+
+
                 </p>
-                <p class="best_title">슬기로운 차박생활♥</p>
-                <p class="best_content">이날은 우리 하동여행 갔던날 설레고 긴장되는 첫 차박을 꿈꾸며...
-                    이날은 우리 하동여행 갔던날 설레고 긴장되는 첫 차박을 꿈꾸며...
-                    이날은 우리 하동여행 갔던날 설레고 긴장되는 첫 차박을 꿈꾸며...
-                    이날은 우리 하동여행 갔던날 설레고 긴장되는 첫 차박을 꿈꾸며...
-                    이날은 우리 하동여행 갔던날 설레고 긴장되는 첫 차박을 꿈꾸며...
-                    이날은 우리 하동여행 갔던날 설레고 긴장되는 첫 차박을 꿈꾸며...
-                    이날은 우리 하동여행 갔던날 설레고 긴장되는 첫 차박을 꿈꾸며...
-                    이날은 우리 하동여행 갔던날 설레고 긴장되는 첫 차박을 꿈꾸며...
-                    이날은 우리 하동여행 갔던날 설레고 긴장되는 첫 차박을 꿈꾸며...
-                    이날은 우리 하동여행 갔던날 설레고 긴장되는 첫 차박을 꿈꾸며
-                </p>
-                <p class="select_community"><a href="community.html">자세히보기</a></p>
+                <p class="best_title">${review.title}</p>
+                <div class="best_content">${review.content}</div>
+                <p class="select_community"><a href="/review/detail?reviewNo=${review.reviewNo}">자세히보기</a></p>
             </li>
-            <li><img><p>영역 나누기2</p></li>
-            <li><img><p>영역 나누기3</p></li>
-            <li><img><p>영역 나누기4</p></li>
-            <li><img><p>영역 나누기5</p></li>
+        </c:forEach>
+            <c:forEach begin="${reviewList.size()}" end="4">
+                <li>
+                </li>
+            </c:forEach>
         </ul>
     </div>
 </div>

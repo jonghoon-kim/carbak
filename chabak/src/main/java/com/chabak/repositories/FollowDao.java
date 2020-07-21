@@ -15,7 +15,7 @@ import java.util.Map;
     // 게시글 갖고오기 + 뿌리기
 
 
-    @Repository("FollowDao")
+    @Repository("followDao")
     public class FollowDao {
         @Autowired
         SqlSession sqlSession;
@@ -33,7 +33,7 @@ import java.util.Map;
             Map<String , String> map = new HashMap<String, String>();
             map.put("id" , id);
             map.put("followUserId", followUserId);
-            System.out.println("map test followDao:" + map);
+
             return sqlSession.delete("deleteFollowingUser", map);
         }
 
@@ -41,7 +41,7 @@ import java.util.Map;
             Map<String , String> map = new HashMap<String, String>();
             map.put("id" , id);
             map.put("followerUserId", followerUserId);
-            System.out.println("map test followerDao:" + map);
+
             return sqlSession.delete("deleteFollowerUser", map);
         }
 
@@ -49,7 +49,7 @@ import java.util.Map;
             Map<String , String> map = new HashMap<String, String>();
             map.put("id" , id);
             map.put("selectedUserId", selectedUserId);
-            System.out.println("map test :" + map);
+
             return sqlSession.insert("clickFollowBtn", map);
         }
 
@@ -57,7 +57,7 @@ import java.util.Map;
             Map<String , String> map = new HashMap<String, String>();
             map.put("id" , id);
             map.put("selectedUserId", selectedUserId);
-            System.out.println("map test :" + map);
+
             return sqlSession.insert("clickFollowingBtn", map);
         }
 
@@ -65,8 +65,15 @@ import java.util.Map;
             Map<String , String> map = new HashMap<String, String>();
             map.put("sessionId", sessionId);
             map.put("userId", userId);
-            System.out.println("here btnFollowStatus Dao :" + map);
 
             return sqlSession.selectOne("follow.btnFollowStatus", map);
+        }
+
+        public int countFollower(String pageOwnerId)  throws Exception {
+            return sqlSession.selectOne("countFollower", pageOwnerId);
+        }
+
+        public int countFollowing(String pageOwnerId)  throws Exception {
+            return sqlSession.selectOne("countFollowing", pageOwnerId);
         }
 }

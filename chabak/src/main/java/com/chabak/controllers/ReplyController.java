@@ -1,12 +1,13 @@
 package com.chabak.controllers;
 
-import com.chabak.repositories.ReplyDao;
-import com.chabak.repositories.ReviewDao;
+import com.chabak.services.ReplyService;
+import com.chabak.services.ReviewService;
 import com.chabak.util.Utility;
 import com.chabak.vo.Reply;
 import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.http.HttpServletRequest;
@@ -19,11 +20,12 @@ import javax.servlet.http.HttpSession;
 public class ReplyController {
 
     @Autowired
-    ReviewDao reviewDao;
+    ReviewService reviewService;
     @Autowired
-    ReplyDao replyDao;
+    ReplyService replyService;
 
     //댓글 달기
+    @Transactional
     @RequestMapping(value ="/writeReply", method=RequestMethod.POST)
     public ModelAndView writeReply( @ModelAttribute Reply reply, HttpSession session,HttpServletResponse response){
 
@@ -35,16 +37,16 @@ public class ReplyController {
         reply.setId(id);
         System.out.println("reply:"+reply);
 
-
-        replyDao.insertReply(reply);
+        replyService.insertReply(reply);
         //리뷰 댓글 수 증가
-        reviewDao.increaseReplyCount(reply.getReviewNo());
+        reviewService.increaseReplyCount(reply.getReviewNo());
 
         mv.setViewName("redirect:/review/detail?reviewNo="+reply.getReviewNo());
         return mv;//이동 주소는 수정할 것
     }
 
     //대댓글 달기
+    @Transactional
     @RequestMapping(value ="/writeReReply", method=RequestMethod.POST)
     public ModelAndView writeReReply(HttpSession session,HttpServletResponse response,@ModelAttribute Reply reply){
 
@@ -60,11 +62,11 @@ public class ReplyController {
         System.out.println("checkReReplyCondition reply:"+reply);
 
         //1번 쿼리: 대댓글 들어갈 위치 조건 결정(댓글 사이에 끼워넣을지,끝에 넣을지)
-        int condition = replyDao.checkReReplyCondition(reply);
+        int condition = replyService.checkReReplyCondition(reply);
 
         if(condition==0){
             //2번 쿼리
-            int groupOrder = replyDao.selectGroupOrder(reply);
+            int groupOrder = replyService.selectGroupOrder(reply);
             //groupOrder 값을 2번 쿼리값으로 설정정
             reply.setGroupOrder(groupOrder);
             //lv 값을 부모 lv+1로 설정
@@ -79,17 +81,17 @@ public class ReplyController {
             reply.setGroupOrder(groupOrder);
 
             //들어갈 댓글 아래의 groupOrder 1씩 증가
-            replyDao.updateGroupOrder(reply);
+            replyService.updateGroupOrder(reply);
 
             reply.setLv(reply.getLv()+1);
 
 
         }
         //대댓글 insert
-        replyDao.insertReReply(reply);
+        replyService.insertReReply(reply);
 
         //리뷰 댓글 수 증가
-        reviewDao.increaseReplyCount(reply.getReviewNo());
+        reviewService.increaseReplyCount(reply.getReviewNo());
 
         mv.setViewName("redirect:/review/detail?reviewNo="+reply.getReviewNo());
         System.out.println(mv.getViewName());
@@ -111,8 +113,7 @@ public class ReplyController {
         reply.setId(id);
 
         System.out.println("reply/modify reply:"+reply);
-        //TODO:로직 작성
-        replyDao.updateReply(reply);
+        replyService.updateReply(reply);
 
         mv.setViewName("redirect:/review/detail?reviewNo="+reply.getReviewNo());
         System.out.println(mv.getViewName());
@@ -129,10 +130,10 @@ public class ReplyController {
         int replyNo = Integer.parseInt(request.getParameter("replyNo"));
 
         //ReplyNo로 Reply 1개 확정
-        Reply reply = replyDao.selectReply(replyNo);
+        Reply reply = replyService.selectReply(replyNo);
 
         //해당 Reply을 부모로 갖는 자녀 리플 수
-        int countChild = replyDao.countChildReply(reply);
+        int countChild = replyService.countChildReply(reply);
 
         System.out.println("countChild:"+countChild);
         return countChild;
@@ -141,22 +142,20 @@ public class ReplyController {
 
 
     //댓글 삭제(댓글,대댓글 공통)
+    @Transactional
     @RequestMapping(value ="/delete", method=RequestMethod.GET)
     public ModelAndView deleteReply(@RequestParam int replyNo){
         System.out.println("reply/delete replyNo:"+replyNo);
 
-        //TODO:로직 작성
         //replyNo로 해당 리플 select
-        Reply reply = replyDao.selectReply(replyNo);
+        Reply reply = replyService.selectReply(replyNo);
         //reviewNo 얻어오기
         int reviewNo = reply.getReviewNo();
 
         //replyNo로 리플 삭제
-        replyDao.deleteReplyWithReplyNo(replyNo);
-        //리뷰 댓글 수 증가
-        reviewDao.decreaseReplyCount(reply.getReviewNo());
-
-
+        replyService.deleteReplyWithReplyNo(replyNo);
+        //리뷰 댓글 수 감소
+        reviewService.decreaseReplyCount(reply.getReviewNo());
 
         ModelAndView mv = new ModelAndView();
 

@@ -17,17 +17,19 @@
     margin-top:70px;
     margin-bottom:70px;
     font-family: 'Jeju Gothic', sans-serif;
-    height : 900px;
+    height : 1500px;
 }
 /* top title */
 .top {
     text-align: center;
+    display: inline;
+    margin-bottom:50px;
 }
 /* 프로필 사진 설정 */
 .thumbnail-wrapper {
     width: 150px;
     height: 150px;
-    margin : 0 auto;
+    margin: 0 auto;
 }
 .thumbnail {
     border : 2px solid rgb(105, 179, 149);
@@ -61,14 +63,16 @@
 }
 .sessionId {
     text-align :center;
+    float: left;
 }
 .sessionId .updateMember {
-    margin: 10px 0px 0px 40px;
-    font-size: 16px;
+    margin: 10px 0px 0px 0px;
+    font-size: 20px;
     font-family: 'Roboto', sans-serif;
     font-weight:bold;
     background-color: transparent;
     text-transform: uppercase;
+    width: 150px;
     border-top: none;
     border-left: none;
     border-right: none;
@@ -79,19 +83,38 @@
 }
 .sessionId .updateMember:hover,
 .sessionId .updateMember:hover:before{
-    margin: 10px 5px 5px 12px;
+    margin: 10px 5px 5px 0px;
     content:"회원정보 수정";
     font-family: 'Jeju Gothic', sans-serif;
     background-color: #fff;
+    width:150px;
 }
 .sessionId .updateMember:focus {
     outline: none;
 }
-
-.button_menu {
-    margin: 80px 0px 0px 520px;
+/* guestVisit으로 갔을 때 id 버튼 */
+.sessionId .pageOwnerId{
+    margin: 10px 0px 0px 0px;
+    font-size: 20px;
+    font-family: 'Roboto', sans-serif;
+    font-weight:bold;
+    background-color: transparent;
+    text-transform: uppercase;
+    width: 150px;
+    border-top: none;
+    border-left: none;
+    border-right: none;
+    border-bottom: 2px solid rgb(105, 179, 149);
 }
-.button_menu button {
+.button_menu {
+    margin-top : 150px;
+}
+
+.button_menu{ text-align: center; }
+
+.button_menu .reviewListId,
+.button_menu .follower,
+.button_menu .following{
     width: 150px;
     height : 40px;
     font-size: 18px;
@@ -103,17 +126,149 @@
     transition : .35s;
     margin-left: 100px;
 }
-.button_menu button:hover{
+.button_menu .reviewListId:hover,
+.button_menu .follower:hover,
+.button_menu .following:hover{
     font-size: 20px;
 }
-.button_menu button:focus {
+.button_menu .reviewListId:focus,
+.button_menu .follower:focus,
+.button_menu .following:focus {
     outline: none;
 }
-.but_img {
-    width: 120px;
-    height: 120px;
+.button_menu .review_btn {
+    float: left;
+}
+.button_menu .follower_btn {
+    float: left;
+}
+.button_menu .following_btn {
+    float: left;
+}
+.button_menu .countMenu {
+    margin : 20px 0px 20px 10px;
+    font-size: 80px;
+}
+
+.listForm {
+    text-align:center;
+    position:absolute;
+    margin : 350px 0px 0px 300px;
+    width: 1500px;
+}
+.reviewList {
+    float: left;
+    border : 2px solid rgb(105, 179, 149);
+    overflow: hidden;
+}
+.reviewList .reviewImg{
+    width: 250px;
+    height: 250px;
+    top: 0;
+    right : 0;
+    left : 0;
+    bottom :0;
+    transform: translate(50%,50%);
+    -webkit-transform: translate(50%, 50%);
+    -ms-transform: translate(50%, 50%);
+}
+.reviewList .reviewImg img {
+    max-height: 100%;
+    position: absolute;
+    top: 0;
+    right : 0;
+    left : 0;
+    bottom :0;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transform: translate(-50%,-50%);
+}
+.reviewList .reviewImg img:hover{
+    max-height: 110%;
+    opacity: 0.8;
+}
+
+/* 팔로우 리스트 */
+.userListAll {
+    float: left;
+    width: 500px;
+    margin-left: 170px;
+    margin-right: -80px;
     margin-bottom: 50px;
 }
+.userListAll .U_Img_Id {
+    float: left;
+    width: 80px;
+    height: 80px;
+    border : 2px solid rgb(105, 179, 149);
+    border-radius: 80px;
+    position: relative;
+    overflow: hidden;
+}
+.userListAll .U_Img_Id .U_Img {
+    float: left;
+    position: absolute;
+    top: 0;
+    right : 0;
+    left : 0;
+    bottom :0;
+    transform: translate(50%,50%);
+    -webkit-transform: translate(50%, 50%);
+    -ms-transform: translate(50%, 50%);
+}
+.userListAll .U_Img_Id .U_Img img {
+    max-height: 100%;
+    position: absolute;
+    top: 0;
+    right : 0;
+    left : 0;
+    bottom :0;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transform: translate(-50%,-50%);
+}
+.userListAll .U_Id {
+    float: left;
+    margin: 30px 0px 0px 20px;
+    position: relative;
+    font-size: 20px;
+    font-family: 'Roboto', sans-serif;
+    font-weight:bold;
+    background-color: transparent;
+    text-transform: uppercase;
+    border-top: none;
+    border-left: none;
+    border-right: none;
+    cursor: pointer;
+}
+.userListAll .U_Id{
+    outline: none;
+}
+.userListAll .followSelector{
+    float: left;
+    margin: 30px 0px 0px 40px;
+    position: relative;
+}
+.userListAll .followSelector button{
+    width: 60px;
+    height: 30px;
+    font-family: 'Jeju Gothic', sans-serif;
+    background-color: rgb(105, 179, 149);
+    border : 2px solid rgb(105, 179, 149);
+    border-radius: 8px;
+    color : white;
+    transition : .35s;
+}
+.userListAll .followSelector button:hover
+{
+    font-size: 16px;
+    outline:none;
+}
+
 /* footer */
 .footer {
     margin-top: 200px;

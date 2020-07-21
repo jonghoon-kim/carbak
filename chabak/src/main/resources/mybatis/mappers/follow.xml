@@ -42,4 +42,12 @@
         where followerId=#{userId} and followingId = #{sessionId}
     </select>
 
+    <select id="countFollower" resultType="int">
+        select count(*) from follow where followerid = #{id}
+    </select>
+
+    <select id="countFollowing" resultType="int">
+        select count(*) from follow where followingid = #{id}
+    </select>
+
     </mapper>

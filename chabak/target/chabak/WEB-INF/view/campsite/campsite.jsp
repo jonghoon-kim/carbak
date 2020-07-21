@@ -11,7 +11,11 @@ prefix="c" %>
     <link href="/resources/css/campsite.css" rel="stylesheet">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
     <script type="text/javascript" src=" http://code.jquery.com/jquery-latest.min.js"></script>
+<<<<<<<<< Temporary merge branch 1
+    <script type="text/javascript" src="js/address_select.js" charset='UTF-8'></script>
+=========
     <script type="text/javascript" src="/resources/js/address_select.js"></script>
+>>>>>>>>> Temporary merge branch 2
     <meta name='viewport' content='width=device-width, initial-scale=1'>
     <script src='https://kit.fontawesome.com/a076d05399.js'></script>
 </head>

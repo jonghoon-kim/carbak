@@ -9,8 +9,6 @@
     <meta http-equiv="Cache-Control" content="no-cache"/>
     <meta http-equiv="Expires" content="0"/>
     <meta http-equiv="Pragma" content="no-cache"/>
-
-
     <link href="/css/community.css" rel="stylesheet">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
     <script type="text/javascript" src=" http://code.jquery.com/jquery-latest.min.js"></script>
@@ -22,6 +20,8 @@
             var selectSortType = $("#sortType");
             selectSortType.val("${sortType}");
 
+            var pageOwnerIdVar = "${pageOwnerId}";
+
             console.log("searchText:"+"${searchText}"+ " sortType:"+"${sortType}");
             if ( event.persisted || (window.performance && window.performance.navigation.type === 2)) {
                 // Back Forward Cache로 브라우저가 로딩될 경우 혹은 브라우저 뒤로가기 했을 경우
@@ -29,31 +29,7 @@
                 window.location.reload();
             }
         }
-        function ajaxReviewLikeToggle(reviewNo,imgTag,sessionId){
-            if(sessionId == "" || sessionId==null){
-                var confirmYn = confirm("로그인이 필요한 서비스입니다.로그인 하시겠습니까?") ;
-                if(confirmYn)
-                    location.href="/member/login";
-            }
-            else{
-                $.ajax({
-                    url:"/reviewLike/toggleAjax",
-                    type : "post",
-                    data :{"reviewNo": reviewNo},
-                    success : function(data) {
-                        if(data==1){
-                            $(imgTag).attr("src","/img/community/heart2.png");
-                        }
-                        else{
-                            $(imgTag).attr("src","/img/community/heart.png");
-                        }
-                    },
-                    error:function(error){
-                        alert(error)
-                    }
-                });
-            }
-        }
+
         function fn_paging(curPage) {
             ajaxReviewList('${sessionScope.id}',true,curPage);
         }
@@ -70,7 +46,8 @@
         <h1>커뮤니티</h1>
     </div>
     <div class="search">
-
+<%--        pageOwnerId 저장하는 hidden input--%>
+        <input type = "hidden" id="pageOwnerIdSaved" value="${pageOwnerId}">
         <input type="text" class="search_text" placeholder=" 지역 검색" name="searchText" id="search_text" value="${searchText}">
         <%--        검색버튼 눌렀을 때 검색어 저장 input--%>
         <input type="hidden" name="search_text_saved" id="search_text_saved" value="${searchText}">
@@ -97,12 +74,12 @@
             <div class="thumbnail-wrapper">
                 <div class="thumbnail">
                     <div class="centered">
+                        <img src="">
                     </div>
                 </div>
             </div>
             <div class="writer">
-                    <span class="writer-id">
-
+                    <span>class="writer-id">
                     </span>
             </div>
         </div>
@@ -129,7 +106,7 @@
     <%-- 리뷰글 원형 끝           --%>
 
     <%--    reviewListDiv 시작--%>
-    <div style="margin-top: 170px;" id="reviewListDiv">
+    <div id="reviewListDiv">
         <!-- 게시글 리스트 -->
         <c:forEach var="review" items="${reviewList}">
 
@@ -139,13 +116,16 @@
                     <div class="thumbnail-wrapper">
                         <div class="thumbnail">
                             <div class="centered">
+                                <img src="${review.savePath}${review.saveName}">
                             </div>
                         </div>
                     </div>
                     <div class="writer">
+                        <a href="/mypage/guestVisit?id=${review.id}" target="_blank">
                     <span class="writer-id">
                             ${review.id}
                     </span>
+                        </a>
                     </div>
                 </div>
                 <div class="content">
@@ -185,47 +165,46 @@
     </div>
     <%--    reviewListDiv 끝--%>
     <!-- pagination{s} -->
-    <span id="i_eq_curPage" style="font-weight: bold;display: none"><a onclick=""></a></span>
+    <a class="paginationBut1" id="curRange_ne_1" onclick="fn_paging(1)" style="display: none">[처음]</a>
 
-    <a id="i_ne_curPage" style="display: none" onclick=""></a>
+    <a class="paginationBut1" id="curPage_ne_1" onclick="" style="display:none">[이전]</a>
 
-    <a id="curPage_ne_pageCnt" style="display: none" onclick="">[다음]</a>
+    <span class="paginationBut1" id="i_eq_curPage" style="font-weight: bold; display: none;"><a onclick=""></a></span>
 
-    <a id="curRange_ne_rangeCnt" style="display: none" onclick="">[끝]</a>
+    <a class="paginationBut1" id="i_ne_curPage" style="display: none" onclick=""></a>
 
+    <a class="paginationBut1" id="curPage_ne_pageCnt" style="display: none" onclick="">[다음]</a>
+
+    <a class="paginationBut1" id="curRange_ne_rangeCnt" style="display: none" onclick="">[끝]</a>
 
 
     <div id="pagingDiv">
         <c:if test="${pagination.curRange ne 1 }">
-            <a onclick="fn_paging(1)">[처음]</a>
+            <a class="paginationBut" onclick="fn_paging(1)">[처음]</a>
         </c:if>
         <c:if test="${pagination.curPage ne 1}">
-            <a onclick="fn_paging('${pagination.prevPage }')">[이전]</a>
+            <a class="paginationBut" onclick="fn_paging('${pagination.prevPage }')">[이전]</a>
         </c:if>
         <c:forEach var="pageNum" begin="${pagination.startPage }" end="${pagination.endPage }">
             <c:choose>
                 <c:when test="${pageNum eq  pagination.curPage}">
-                    <span style="font-weight: bold;"><a onclick="fn_paging('${pageNum }')">${pageNum }</a></span>
+                    <span style="font-weight: bold;"><a class="paginationBut" onclick="fn_paging('${pageNum }')">${pageNum }</a></span>
                 </c:when>
                 <c:otherwise>
-                    <a onclick="fn_paging('${pageNum }')">${pageNum }</a>
+                    <a class="paginationBut" onclick="fn_paging('${pageNum }')">${pageNum }</a>
                 </c:otherwise>
             </c:choose>
         </c:forEach>
         <c:if test="${pagination.curPage ne pagination.pageCnt && pagination.pageCnt > 0}">
-            <a onclick="fn_paging('${pagination.nextPage }')">[다음]</a>
+            <a class="paginationBut" onclick="fn_paging('${pagination.nextPage }')">[다음]</a>
         </c:if>
         <c:if test="${pagination.curRange ne pagination.rangeCnt && pagination.rangeCnt > 0}">
-            <a onclick="fn_paging('${pagination.pageCnt }')">[끝]</a>
+            <a class="paginationBut" onclick="fn_paging('${pagination.pageCnt }')">[끝]</a>
         </c:if>
-        <div>
-            총 게시글 수 : ${pagination.listCnt } /    총 페이지 수 : ${pagination.pageCnt } / 현재 페이지 : ${pagination.curPage } / 현재 블럭 : ${pagination.curRange } / 총 블럭 수 : ${pagination.rangeCnt }
-        </div>
+<%--        <div>--%>
+<%--            총 게시글 수 : ${pagination.listCnt } /    총 페이지 수 : ${pagination.pageCnt } / 현재 페이지 : ${pagination.curPage } / 현재 블럭 : ${pagination.curRange } / 총 블럭 수 : ${pagination.rangeCnt }--%>
+<%--        </div>--%>
     </div>
-
-
-
-
     <!-- pagination{e} -->
 </div>
 <%--/container--%>
