@@ -277,14 +277,13 @@ prefix="c" %>
 
     // 검색결과 항목을 Element로 반환하는 함수입니다
     function getListItem(index, places, placePosition) {
-
         var el = document.createElement('li'),
             itemStr = '<span class="markerbg marker_' + (index+1) + '"></span>' +
-                '<form id="campsitePlacseDetail"><div class="info" data-ga="' + placePosition.Ga +'" data-ha="' + placePosition.Ha + '">' +
+                '<form id="campsitePlacseDetail"><div class="info" data-ga="' + placePosition.Ga +'" data-ha="' + placePosition.Ha + '" data-ta="' + places.place_name +'">' +
 
                 // 클릭 이벤트로 선택된 야영지 위도,경도 데이터 보내는 이벤트
                 "<h5><a href='#' onclick='selectPlaces(this.parentNode.parentNode)'>" +
-                "<input type='hidden' name='latitude'><input type='hidden' name='longitude'>"
+                "<input type='hidden' name='latitude'><input type='hidden' name='longitude'><input type='hidden' name='plname'>"
 
 
                 + places.place_name + '</a></h5>';
@@ -309,13 +308,14 @@ prefix="c" %>
     // 장소 선택하고 난 후 위도,경도 가져오는 함수
           function selectPlaces(obj) {
               var lat = $(obj).data("ha"), //위도
-                  long = $(obj).data("ga");//경도
-
+                  long = $(obj).data("ga"),//경도
+                  plse = $(obj).data("ta");
 
               var campsiteTest=document.getElementById("campsitePlacseDetail");
 
               campsiteTest.latitude.value = lat;
               campsiteTest.longitude.value = long;
+              campsiteTest.plname.value = plse;
               campsiteTest.action="campsitePlaceDetail";
               campsiteTest.method="post"; //POST방식
               campsiteTest.submit();

@@ -156,7 +156,7 @@
             </ul>
 
             <!-- 페이지 버튼 -->
-            <div class="blog_community_link">
+            <div class="blog_community_link" data-pl="<c:out value="${plname}"/>">
                 <c:set var="startNo" value="${startPageNo}" />
                     <button class='fas fa-angle-left' id="prevPageNo" onClick="javascript:goPage(<c:out value="${startNo}"/>-5)"></button>
 
@@ -167,9 +167,7 @@
                     <button class='fas fa-angle-right' id="nextPageNo" onClick="javascript:goPage(<c:out value="${startNo}"/>+5)"></button>
 
                 <div class="blogabout">
-                <c:forEach var="test12" items="${lstSelectCampsitePlace}" varStatus="status">
-                    <a href="https://search.naver.com/search.naver?where=post&sm=tab_jum&query=${test12.campsitename}" target="_blank">블로그내용 더보기</a>
-                </c:forEach>
+                            <a href="https://search.naver.com/search.naver?where=post&sm=tab_jum&query=<c:out value="${plname}"/>" target="_blank">블로그내용 더보기</a>
                 </div>
             </div>
         </div>
@@ -184,16 +182,59 @@
 <script>
     // 마커를 담을 배열입니다
     var markers = [];
+    var campsitenamepl = document.getElementById('campsitename');       //야영장 이름
+    var campsitename;
+    if(campsitenamepl){
+        campsitename = campsitenamepl.value;
+    }
+    else {
+        campsitename = '<c:out value="${plname}"/>';
+    }
+    var categorypl = document.getElementById('category');                  //야영지 종류
+    if(categorypl){
+        category = categorypl.value;
+    }
+    else {
+        category = "정보 없음";
+    }
+    var latitudepl = document.getElementById('latitude');                  //위도
+    if(latitudepl){
+        latitude = latitudepl.value;
+    }
+    else {
+        latitude = 37.566826;
+    }
+    var longitudepl = document.getElementById('longitude');               //경도
+    if(longitudepl){
+        longitude = longitudepl.value;
+    }
+    else {
+        longitude = 126.9786567;
+    }
+    var addresspl = document.getElementById('address');                    //상세 주소
+    if(addresspl){
+        address = addresspl.value;
+    }
+    else {
+        address = "정보 없음";
+    }
+    var convenience1pl = document.getElementById('convenience1');          //편의 시설
+    if(convenience1pl){
+        convenience1 = convenience1pl.value;
+    }
+    else {
+        convenience1 = "정보 없음";
+    }
+    var convenience2pl = document.getElementById('convenience2');         //부가 시설
+    if(convenience2pl){
+        convenience2 = convenience2pl.value;
+    }
+    else {
+        convenience2 = "정보 없음";
+    }
 
-    var campsitename = document.getElementById('campsitename').value;   //야영지 이름
-    var category = document.getElementById('category').value;           //야영지 종류
-    var latitude = document.getElementById('latitude').value;           //위도
-    var longitude = document.getElementById('longitude').value;         //경도
-    var sido = document.getElementById('sido').value;                   //도/시
-    var gugun = document.getElementById('gugun').value;                 //구/군
-    var address = document.getElementById('address').value;             //상세 주소
-    var convenience1 = document.getElementById('convenience1').value;   //편의 시설
-    var convenience2 = document.getElementById('convenience2').value;   //부가 시설
+    var sido = document.getElementById('sido').value;                          //도/시
+    var gugun = document.getElementById('gugun').value;                        //구/군
 
     var mapContainer = document.getElementById('map'), // 지도를 표시할 div
         mapOption = {
@@ -218,7 +259,6 @@
             alert('키워드를 입력해주세요!');
             return false;
         }
-
         var campsiteSearch=document.getElementById("campsiteSearch");   //검색 FORM
         console.log(keyword);
         campsiteSearch.keyword.value = keyword;
@@ -311,14 +351,13 @@
 
     // 검색결과 항목을 Element로 반환하는 함수입니다
     function getListItem(index, places, placePosition) {
-
         var el = document.createElement('li'),
             itemStr = '<span class="markerbg marker_' + (index+1) + '"></span>' +
-                '<form id="campsitePlacseDetail"><div class="info" data-ga="' + placePosition.Ga +'" data-ha="' + placePosition.Ha + '">' +
+                '<form id="campsitePlacseDetail"><div class="info" data-ga="' + placePosition.Ga +'" data-ha="' + placePosition.Ha + '" data-ta="' + places.place_name +'">' +
 
                 // 클릭 이벤트로 선택된 야영지 위도,경도 데이터 보내는 이벤트
                 "<h5><a href='#' onclick='selectPlaces(this.parentNode.parentNode)'>" +
-                "<input type='hidden' name='latitude'><input type='hidden' name='longitude'>"
+                "<input type='hidden' name='latitude'><input type='hidden' name='longitude'><input type='hidden' name='plname'>"
 
                 + places.place_name + '</a></h5>';
 
@@ -342,7 +381,7 @@
         itemStr += ' <br><span class="convenience"><h2>부가 시설</h2> <br>' + convenience2  + '</span><br>';
         el.innerHTML = itemStr;
         el.className = 'item';
-        console.log("convenience2 : " + convenience2);
+
         return el;
 
     }
@@ -350,13 +389,14 @@
     // 장소 선택하고 난 후 위도,경도 가져오는 함수
     function selectPlaces(obj) {
         var lat = $(obj).data("ha"), //위도
-            long = $(obj).data("ga");//경도
-        console.log("success1"+lat);
-        console.log("success2"+long);
+            long = $(obj).data("ga"),//경도
+            plse = $(obj).data("ta");
 
         var campsiteTest=document.getElementById("campsitePlacseDetail");
+
         campsiteTest.latitude.value = lat;
         campsiteTest.longitude.value = long;
+        campsiteTest.plname.value = plse;
         campsiteTest.action="campsitePlaceDetail";
         campsiteTest.method="post"; //POST방식
         campsiteTest.submit();

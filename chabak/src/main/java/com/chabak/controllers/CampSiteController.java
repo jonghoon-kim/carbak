@@ -15,6 +15,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -39,7 +42,7 @@ public class CampSiteController {
             keyword = "차박";
         }
         model.addAttribute("keyword", keyword);
-        System.out.println(keyword);
+
         return "campsite/campsite";
     }
 
@@ -49,56 +52,77 @@ public class CampSiteController {
         ModelAndView campsitePlaceDetail = new ModelAndView();
         String lat = request.getParameter("latitude"); //위도
         String lon = request.getParameter("longitude");//경도
+        String plname = request.getParameter("plname");//db에 없는 야영장이름;
+        try {
+            //시작 페이지 설정
+            String startPageNo = "1";
+            int pageNo = Integer.parseInt(startPageNo);
 
-        //시작 페이지 설정
-       String startPageNo = "1";
-        int pageNo = Integer.parseInt(startPageNo);
+            String latitude = lat.substring(0, 7);
+            String longitude = lon.substring(0, 8);
 
-        String latitude = lat.substring(0, 7);
-        String longitude = lon.substring(0, 8);
+            //선택된 야영지 데이터 조회
+            List<Campsite> lstSelectCampsitePlace = campSiteService.getlstSelectCampsitePlace(latitude, longitude);
+            String keyword;
 
-        //선택된 야영지 데이터 조회
-        List<Campsite> lstSelectCampsitePlace = campSiteService.getlstSelectCampsitePlace(latitude,longitude);
-        String keyword = lstSelectCampsitePlace.get(0).getCampsitename();
+            if(lstSelectCampsitePlace.size()!=0){
+                keyword = lstSelectCampsitePlace.get(0).getCampsitename();
+            }
+            else{
+                keyword = plname;
+            }
 
+            //블로그와 이미지 호출
+            BlogService service = new BlogService();
+            ImageService serviceTest = new ImageService();
+            List<Blog> b = service.searchBlog(keyword, 15, pageNo);
+            List<Image> a = serviceTest.searchImage(keyword, 15, pageNo);
 
-        //블로그와 이미지 호출
-        BlogService service = new BlogService();
-        ImageService serviceTest = new ImageService();
-        List<Blog> b = service.searchBlog(keyword, 20, pageNo);
-        List<Image> a = serviceTest.searchImage(keyword, 20, pageNo);
+            campsitePlaceDetail.addObject("startPageNo", startPageNo);                       //naver blog, 썸네일 시작 페이지
+            campsitePlaceDetail.addObject("blogInfo", b);                                    //naver blog정보
+            campsitePlaceDetail.addObject("imgInfo", a);                                     //naver 썸네일 정보
+            campsitePlaceDetail.addObject("latitude", latitude);                             //위도
+            campsitePlaceDetail.addObject("longitude", longitude);                           //경도
+            campsitePlaceDetail.addObject("plname", plname);                             //DB에 없는 데이터야영지 이름
+            campsitePlaceDetail.addObject("lstSelectCampsitePlace", lstSelectCampsitePlace); //선택된 야영지 위치+상세정보
+            campsitePlaceDetail.setViewName("campsite/campsitePlaceDetail");
+            return campsitePlaceDetail;
+        }
+        catch (Exception e){
+            System.out.println("3. IndexOutOfBoundsException 에러 : ");
+            e.printStackTrace(System.out);
+            System.out.println("==============================================");
 
-        campsitePlaceDetail.addObject("startPageNo",startPageNo);                       //naver blog, 썸네일 시작 페이지
-        campsitePlaceDetail.addObject("blogInfo",b);                                    //naver blog정보
-        campsitePlaceDetail.addObject("imgInfo",a);                                     //naver 썸네일 정보
-        campsitePlaceDetail.addObject("latitude",latitude);                             //위도
-        campsitePlaceDetail.addObject("longitude",longitude);                           //경도
-        campsitePlaceDetail.addObject("lstSelectCampsitePlace",lstSelectCampsitePlace); //선택된 야영지 위치+상세정보
-        campsitePlaceDetail.setViewName("campsite/campsitePlaceDetail");
-        return campsitePlaceDetail;
+            return campsitePlaceDetail;
+        }
     }
 
     @RequestMapping(value = "blogPaging", produces = "application/json; charset=utf8")
     @ResponseBody
-    public Map<String, List> blogPaging(HttpServletRequest request) {
+    public Map<String, List> blogPaging(HttpServletRequest request){
         Map<String, List> blogPageNumber = new HashMap<String, List>();
 
         //현재 페이지, 야영지명 함수값 호출
         String pageNo = request.getParameter("startPageNo");
         String keyword = request.getParameter("keyword");
         int nowPageNo = Integer.parseInt(pageNo);
+        int pageBoolean = 1;
+
+        if(nowPageNo >= 16){
+            pageBoolean = 0;
+            nowPageNo=11;
+        }
 
         BlogService service = new BlogService();
         ImageService serviceTest = new ImageService();
         List<Blog> b = service.searchBlog(keyword, 15, nowPageNo);
         List<Image> a = serviceTest.searchImage(keyword, 15, nowPageNo);
 
-        System.out.printf("test a : " + a);
-
         blogPageNumber.put("blogInfo", b);
         blogPageNumber.put("imageInfo", a);
         blogPageNumber.put("campsitekeyword", Collections.singletonList(keyword));
         blogPageNumber.put("nowPageNo", Collections.singletonList(nowPageNo));
+        blogPageNumber.put("pageBoolean", Collections.singletonList(pageBoolean));
         return blogPageNumber;
     }
 }
