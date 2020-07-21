@@ -370,7 +370,7 @@ public class MemberController {
         return "redirect:/mypage/myInfo";
     }
 
-    // 회원탈퇴 페이지로 이동
+    // withdrawal.jsp 페이지로 이동
     @RequestMapping("/withdrawal")
     public String withdrawal(){ return "member/withdrawal"; }
 
