@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- SQL Mapping 설정 -->
+<mapper namespace="review">
+	<!-- SQL 객체 --><!-- 게시물 추가 sql parameterType은 이미 alias를 설정했으므로 전체경로를 쓸 필요 없다-->
+	<!-- insert,update,delete 객체는 영향받은 레코드의 카운트를 정수로 반환 -->
+	<insert id="insertReview" parameterType="Review">
+		INSERT INTO Review(reviewNo,id,title,sido,gugun,content,titleImageSrc)
+		VALUES(
+				  REVIEWNO_SEQ.nextval,
+				  #{id},
+				  #{title},
+				  #{sido},
+				  #{gugun},
+				  #{content},
+				  #{titleImageSrc}
+			  )
+	</insert>
+
+<!--	변수값이 칼럼명일 경우 ${}를 사용한다.-->
+<!--	<select id="selectReviewList" parameterType="Map" resultType="Review">-->
+<!--		select reviewNo,id,title,sido,gugun,content,titleImageSrc,readCount,likeCount,replyCount,regDate,modifyDate-->
+<!--		from Review-->
+<!--		<if test="searchText !=null and searchText !=''">-->
+<!--			where sido||' '||gugun LIKE '%'||#{searchText}||'%'-->
+<!--		</if>-->
+<!--		<if test="sortType !=null and sortType !=''">-->
+<!--			order by ${sortType} desc-->
+<!--		</if>-->
+<!--	</select>-->
+	<select id="maxReviewCount" resultType="int">
+		select count(*) from review
+		<if test="searchText !=null and searchText !=''">
+			where sido||' '||gugun LIKE '%'||#{searchText}||'%'
+		</if>
+	</select>
+<!--	<select id="selectReviewList" parameterType="Map" resultType="ReviewAndLike">-->
+<!--		select r.reviewNo,r.id,r.title,r.sido,r.gugun,r.content,r.titleImageSrc,r.readCount,r.likeCount,r.replyCount,r.regDate,r.modifyDate,-->
+<!--		       nvl2(l.reviewNo,1,0) as likeYn-->
+<!--		from Review r,ReviewLike l-->
+<!--		where r.reviewNo = l.reviewNo(+)-->
+
+<!--		<choose>-->
+<!--			<when test="id != null and id != ''">-->
+<!--				and #{id} = l.id(+)-->
+<!--			</when>-->
+<!--			<otherwise>-->
+<!--				and l.id(+) is null-->
+<!--			</otherwise>-->
+<!--		</choose>-->
+
+<!--		<if test="searchText !=null and searchText !=''">-->
+<!--			and sido||' '||gugun LIKE '%'||#{searchText}||'%'-->
+<!--		</if>-->
+<!--		<if test="sortType !=null and sortType !=''">-->
+<!--			order by ${sortType} desc-->
+<!--		</if>-->
+<!--	</select>-->
+
+	<select id="selectReviewList" parameterType="Map" resultType="ReviewAndLike">
+		select reviewNo,id,title,sido,gugun,content,titleImageSrc,readCount,likeCount,replyCount,regDate,modifyDate,likeYn
+		from
+			(
+				select *
+				from
+				(
+					select rownum as num, A.*
+					from
+					(
+						select r.reviewNo,r.id,r.title,r.sido,r.gugun,r.content,r.titleImageSrc,r.readCount,r.likeCount,r.replyCount,r.regDate,r.modifyDate,
+						nvl2(l.reviewNo,1,0) as likeYn
+						from Review r,ReviewLike l
+						where r.reviewNo = l.reviewNo(+)
+
+						<choose>
+							<when test="id != null and id != ''">
+							and #{id} = l.id(+)
+							</when>
+							<otherwise>
+							and l.id(+) is null
+							</otherwise>
+						</choose>
+
+						<if test="searchText !=null and searchText !=''">
+						and sido||' '||gugun LIKE '%'||#{searchText}||'%'
+						</if>
+						<if test="sortType !=null and sortType !=''">
+						order by ${sortType} desc
+						</if>
+					) A
+				)
+				where num <![CDATA[>=]]>  #{startIndex}
+		    )
+		    where rownum <![CDATA[<=]]> #{pageSize}
+	</select>
+
+	<select id="selectReviewDetail" parameterType="int" resultType="Review">
+		select reviewNo,id,title,sido,gugun,content,titleImageSrc,readCount,likeCount,regDate,modifyDate
+		from Review
+		where REVIEWNO = #{reviewNo}
+	</select>
+
+	<update id="updateReview" parameterType="Review">
+		UPDATE REVIEW SET TITLE = #{title},
+						  SIDO = #{sido},
+						  GUGUN = #{gugun},
+						  CONTENT = #{content},
+						  TITLEIMAGESRC = #{titleImageSrc},
+						  MODIFYDATE = sysdate
+		WHERE REVIEWNO = #{reviewNo}
+	</update>
+
+	<update id="updateReadCount" parameterType="int">
+		UPDATE REVIEW SET READCOUNT = READCOUNT+1
+		WHERE REVIEWNO = #{reviewNo}
+	</update>
+
+	<update id="increaseLikeCount" parameterType="int">
+		UPDATE REVIEW SET LIKECOUNT = LIKECOUNT+1
+		WHERE REVIEWNO = #{reviewNo}
+	</update>
+
+	<update id="decreaseLikeCount" parameterType="int">
+		UPDATE REVIEW SET LIKECOUNT = LIKECOUNT-1
+		WHERE REVIEWNO = #{reviewNo}
+	</update>
+
+	<update id="increaseReplyCount" parameterType="int">
+		UPDATE REVIEW SET REPLYCOUNT = REPLYCOUNT+1
+		WHERE REVIEWNO = #{reviewNo}
+	</update>
+
+	<update id="decreaseReplyCount" parameterType="int">
+		UPDATE REVIEW SET REPLYCOUNT = REPLYCOUNT-1
+		WHERE REVIEWNO = #{reviewNo}
+	</update>
+
+	<delete id="deleteReview" parameterType="int">
+		delete REVIEW
+		where REVIEWNO = #{reviewNo}
+
+	</delete>
+
+</mapper>

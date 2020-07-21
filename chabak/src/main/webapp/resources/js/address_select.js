@@ -26,6 +26,7 @@ $('document').ready(function () {
         $selsido.next().append("<option value=''>구/군 선택</option>");
     });
 
+
     // 시/도 선택시 구/군 설정
     $("select[name^=sido]").change(function () {
         var area = "area" + $("option", $(this)).index($("option:selected", $(this))); // 선택지역의 구군 Array
@@ -36,7 +37,7 @@ $('document').ready(function () {
             $gugun.append("<option value=''>구/군 선택</option>");
         else {
             $.each(eval(area), function () {
-                $gugun.append("<option value='" + this + "' name='guSelect'>" + this + "</option>");
+                $gugun.append("<option value='" + this + "'>" + this + "</option>");
             });
         }
     });

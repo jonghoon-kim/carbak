@@ -1,16 +1,27 @@
 @import url(//fonts.googleapis.com/earlyaccess/jejugothic.css);
 
 /* 전체 */
-hr {
-    width: 80%;
-    margin-bottom: 15px;
+/* 헤더 */
+#header {
+    padding-bottom: 200px;
+}
+.top_hr{
+    border: 1px solid rgb(105, 179, 149);
+    width: 1535px;
+    display: inline-block;
+    margin: 70px 200px 0px 200px;
+}
+/* 전체 */
+body {
+    height : 900px;
+    margin: auto;
 }
 .container {
     text-align: center;
-    margin: auto;
+    margin-top:70px;
+    margin-bottom:70px;
     font-family: 'Jeju Gothic', sans-serif;
 }
-
 /* 타이틀 */
 .top {
     font-family: 'Jeju Gothic', sans-serif;
@@ -63,7 +74,7 @@ ul.tabs li.current{
 }
 
 /* input & button */
-#id, #name {
+input[name="id"], input[name="name"] {
     width: 200px;
     height: 42px;
     padding-left: 15px;
@@ -73,8 +84,8 @@ ul.tabs li.current{
     border-bottom: 2px solid rgb(105, 179, 149);
     font-family: 'Jeju Gothic', sans-serif;
 }
-#id:focus,
-#name:focus {
+input[name="id"]:focus,
+input[name="name"]:focus {
     outline :none;
 }
 
@@ -137,7 +148,7 @@ ul.tabs li.current{
     display: block;
     position: relative;
     overflow: hidden;
-    transition: all .35s ease-in-out .35s;
+    transition: all .10s ease-in-out .10s;
     margin: 30px 0px 0px 90px;
     width: 220px;
     height:35px;
@@ -154,7 +165,7 @@ ul.tabs li.current{
     outline: none;
 }
 
-/* 로그인 회원가입 버튼 */
+/* 아이디 찾기 버튼 */
 .bottom button {
     margin:20px 10px 0px 10px;
     font-size: small;
@@ -174,4 +185,109 @@ ul.tabs li.current{
 
 .bottom button:focus {
     outline: none;
+}
+
+.footer {
+    margin-top: 200px;
+}
+
+/* idFind.jsp */
+.idFind_container {
+    font-family: 'Jeju Gothic', sans-serif;
+    text-align: center;
+    height : 300px;
+    margin-top:70px;
+    margin-bottom:70px;
+}
+.idFind_container .content {
+    padding-top: 30px;
+    padding-bottom: 30px;
+}
+.idFind_container .content #idSpan {
+    margin-top: 20px;
+    font-size: 20px;
+}
+.idFind_container .bottom {
+
+    padding-top: 30px;
+    padding-bottom: 30px;
+}
+.idFind_container .bottom button {
+    margin : 0 auto;
+    background: rgb(105, 179, 149);
+    border: 2px solid #fff;
+    border-radius: 35px;
+    padding: 2px;
+    cursor: pointer;
+    display: block;
+    position: relative;
+    overflow: hidden;
+    transition: all .10s ease-in-out .10s;
+    width: 200px;
+    height:35px;
+    text-align: center;
+    color :white;
+    font-weight: bolder;
+    font-family: 'Jeju Gothic', sans-serif;
+    font-weight: normal;
+}
+.idFind_container .bottom button:hover{
+    font-size: 14px;
+}
+
+/* pwUpdate.jsp */
+.pwUpdate_container {
+    font-family: 'Jeju Gothic', sans-serif;
+    text-align: center;
+    height : 300px;
+    margin-top:50px;
+    margin-bottom:40px;
+}
+.pwUpdate_container .content {
+    padding-top: 20px;
+    padding-bottom: 30px;
+}
+.pwUpdate_container .content input::placeholder {
+    width: 210px;
+    height: 42px;
+    border-top : none;
+    border-right :none;
+    border-left:none;
+    border-bottom: 2px solid rgb(105, 179, 149);
+    font-family: 'Jeju Gothic', sans-serif;
+}
+.pwUpdate_container .content input[type=password] {
+    width: 210px;
+    height: 42px;
+    padding-left: 15px;
+    border-top : none;
+    border-right :none;
+    border-left:none;
+    border-bottom: 2px solid rgb(105, 179, 149);
+    font-family: 'pass', 'Roboto', Helvetica, Arial, sans-serif;
+}
+.pwUpdate_container .content input:focus {
+    outline :none;
+}
+.pwUpdate_container .bottom button {
+    margin : 0 auto;
+    background: rgb(105, 179, 149);
+    border: 2px solid #fff;
+    border-radius: 35px;
+    padding: 2px;
+    cursor: pointer;
+    display: block;
+    position: relative;
+    overflow: hidden;
+    transition: all .10s ease-in-out .10s;
+    width: 200px;
+    height:35px;
+    text-align: center;
+    color :white;
+    font-weight: bolder;
+    font-family: 'Jeju Gothic', sans-serif;
+    font-weight: normal;
+}
+.pwUpdate_container .bottom button:hover{
+    font-size: 14px;
 }
