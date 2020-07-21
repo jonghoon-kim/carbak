@@ -13,6 +13,7 @@
     <script type="text/javascript" src="/js/profile_preview.js" charset='UTF-8'></script>
     <!-- 아이디 및 이메일 중복 체크, 유효성 검사 -->
     <script type="text/javascript" src="/js/memberUpdate.js" charset='UTF-8'></script>
+    <script type="text/javascript" src="/js/withdrawal.js" charset='UTF-8'></script>
 </head>
 <body>
 <!-- header -->
@@ -101,11 +102,13 @@
             <button id="update_but" type="submit">정보 수정 완료</button>
         </div>
     </form>
+    <div class="moveWithdrawal">
+        <button class="btn_withdrawal" onclick="window.open('withdrawal','_blank', 'top=200, left=500, width=400, height=300, scrollbars = yes, resizable=yes')">회원탈퇴</button>
+    </div>
 </div>
 <div class="footer">
     <img src="/img/footer/footer.png">
 </div>
-</div>
-</body>
 
+</body>
 </html>

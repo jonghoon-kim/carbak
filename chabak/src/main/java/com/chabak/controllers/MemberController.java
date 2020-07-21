@@ -14,6 +14,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.ModelAndViewDefiningException;
 import org.springframework.web.servlet.view.RedirectView;
+import sun.plugin.dom.core.Element;
 
 import javax.inject.Inject;
 import javax.mail.internet.MimeMessage;
@@ -367,5 +368,30 @@ public class MemberController {
             model.addAttribute("member", memberService.getMember(member.getId()));
 
         return "redirect:/mypage/myInfo";
+    }
+
+    // withdrawal.jsp 페이지로 이동
+    @RequestMapping("/withdrawal")
+    public String withdrawal(){ return "member/withdrawal"; }
+
+    // 회원탈퇴
+    @RequestMapping(value = {"", "/", "memberWithdrawal"}, method = RequestMethod.POST)
+    public String memberWithdrawal(HttpSession session, @RequestParam String password) {
+        String loginId = (String) session.getAttribute("id");
+
+        System.out.println("password : " + password);
+
+//        if(passwordFlag){ // 비밀번호가 일치할 경우
+//
+//        }
+//        else if(passwordFlag){
+//
+//        }
+//
+//
+//        return "Susecess";
+//    }
+
+        return password;
     }
 }
