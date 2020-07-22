@@ -225,6 +225,9 @@
             <div class="title">
                 [${review.sido}][${review.gugun}] ${review.title}
             </div>
+            <div class="regDate">
+                ${review.regDate}
+            </div>
             <div class="content-icon">
                 <span>${review.likeCount}+</span>
                 <button class="like-img">

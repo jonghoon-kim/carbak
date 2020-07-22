@@ -73,6 +73,15 @@ function getUrlString(searchText,sortType){
 
 }
 
+function getFormatDate(date) {
+    var year = date.getFullYear();              //yyyy
+    var month = (1 + date.getMonth());          //M
+    month = month >= 10 ? month : '0' + month;  //month 두자리로 저장
+    var day = date.getDate();                   //d
+    day = day >= 10 ? day : '0' + day;          //day 두자리로 저장
+    return  year + '-' + month + '-' + day;       //'-' 추가하여 yyyy-mm-dd 형태 생성 가능
+}
+
 // 리뷰 리스트를 ajax로 출력
 function ajaxReviewList(sessionId,isSearchButton,curPage) {
 
@@ -133,6 +142,10 @@ function ajaxReviewList(sessionId,isSearchButton,curPage) {
 
                 var title = newReview.find(".content-title");   //리뷰 타이틀
                 title.text('['+this["sido"]+']'+'['+this["gugun"]+']'+this["title"]);                      //리뷰 타이틀 설정 [sido][gugun][title]
+
+                //등록일자 추가
+                var regDate = newReview.find(".regDate");
+                regDate.text(getFormatDate(new Date(this["regDate"])));
 
                 //좋아요 토글될 이미지 선택
                 var toggleImage = newReview.find(".toggle-like-img");

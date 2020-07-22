@@ -79,8 +79,10 @@
                 </div>
             </div>
             <div class="writer">
-                    <span>class="writer-id">
+                    <span class="writer-id">
                     </span>
+            </div>
+            <div class="regDate">
             </div>
         </div>
         <div class="content">
@@ -123,9 +125,12 @@
                     <div class="writer">
                         <a href="/mypage/guestVisit?id=${review.id}" target="_blank">
                     <span class="writer-id">
-                            ${review.id}<a href="/message/list?id=${review.id}">쪽지</a>
+                    ${review.id}
                     </span>
                         </a>
+                    </div>
+                    <div class="regDate">
+                        ${review.regDate}
                     </div>
                 </div>
                 <div class="content">
