@@ -53,7 +53,6 @@
 		)
 		where rownum <![CDATA[<=]]> 5
 	</select>
-
 	<select id="selectReviewList" parameterType="Map" resultType="Review">
 		select *
 		from
@@ -82,7 +81,7 @@
 							and r.id = #{pageOwnerId}
 						</if>
 						<if test="searchText !=null and searchText !=''">
-						and sido||' '||gugun LIKE '%'||#{searchText}||'%'
+						and r.sido||' '||r.gugun LIKE '%'||#{searchText}||'%'
 						</if>
 						<if test="sortType !=null and sortType !=''">
 						order by ${sortType} desc

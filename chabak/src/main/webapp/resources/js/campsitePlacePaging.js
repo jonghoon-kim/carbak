@@ -31,7 +31,6 @@ function goPage(pageNo) {
                         imageInfo = data.imageInfo,
                         campsitekeyword = data.campsitekeyword;
                         pageBoolean = parseInt(data.pageBoolean);
-                    console.log("campsitekeyword : " + campsitekeyword);
                     changePage(nowPageNo, blogInfo, imageInfo, campsitekeyword, pageBoolean);
                 },
                 error : function(data, status, error) {
@@ -57,9 +56,12 @@ function changePage(nowPageNo, blogInfo, imageInfo, campsitekeyword){
         postdate_year = postdate.substring(0,4);
         postdate_month = postdate.substring(4,6);
         postdate_day = postdate.substring(6,8);
+        console.log(i + " Testet123" + imageInfo[i].thumbnail);
+        if(imageInfo[i].thumbnail == "undefined"){
+            imageInfo[i].thumbnail="/resources/img/campsite/nullImage.png";
+        }
 
-        row //= "<ul id='blogUl'>"
-            += "<li id='blogLi'>"
+        row += "<li id='blogLi'>"
             + "<p class='blog_best_id'>ID : <a href="+blogInfo[i].bloggerlink+" target='_blank'>" + blogInfo[i].bloggername + "</a></p>"
             + "<div class='blog_best_img'>"
             + "<img src="+imageInfo[i].thumbnail+">"
@@ -69,8 +71,7 @@ function changePage(nowPageNo, blogInfo, imageInfo, campsitekeyword){
             + "<p class='blog_select_community'>"+postdate_year+"-"+postdate_month+"-"+postdate_day+" "
             + "<a href="+blogInfo[i].link+" target='_blank'>자세히보기</a></p>"
             + "</li>"
-            //+ "</ul>"
-            console.log(typeof row);
+
     }
     row += "</ul>"
     $('.blog_aticle').append(row);

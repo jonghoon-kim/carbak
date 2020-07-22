@@ -3,9 +3,8 @@ package com.chabak.controllers;
 import com.chabak.services.BlogService;
 import com.chabak.services.CampSiteService;
 import com.chabak.services.ImageService;
-import com.chabak.vo.Blog;
-import com.chabak.vo.Campsite;
-import com.chabak.vo.Image;
+import com.chabak.services.ReviewService;
+import com.chabak.vo.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -16,6 +15,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Collections;
@@ -32,6 +32,8 @@ public class CampSiteController {
     BlogService blogService;
     @Autowired
     ImageService imageService;
+    @Autowired
+    ReviewService reviewService;
 
     //campsite 경로 지정
     @RequestMapping(value= {"", "/", "/campsite"}, method= {RequestMethod.GET,RequestMethod.POST})
@@ -43,16 +45,20 @@ public class CampSiteController {
         }
         model.addAttribute("keyword", keyword);
 
+
+
         return "campsite/campsite";
     }
 
     //야영지 선택 경로 지정(selectPlaceDetail)
     @RequestMapping(value = "/campsitePlaceDetail", method= {RequestMethod.GET,RequestMethod.POST})
-    public ModelAndView campsitePlaceDetail(HttpServletRequest request) {
+    public ModelAndView campsitePlaceDetail(HttpServletRequest request, HttpSession session) {
         ModelAndView campsitePlaceDetail = new ModelAndView();
+
         String lat = request.getParameter("latitude"); //위도
         String lon = request.getParameter("longitude");//경도
-        String plname = request.getParameter("plname");//db에 없는 야영장이름;
+        String plname = request.getParameter("plname");//db에 없는 야영장이름
+
         try {
             //시작 페이지 설정
             String startPageNo = "1";
@@ -71,6 +77,19 @@ public class CampSiteController {
             else{
                 keyword = plname;
             }
+
+            //커뮤니티 호출
+            Map map = new HashMap<String,String>();
+            Pagination pagination = new Pagination();
+            map.put("sortType", "readCount");
+            map.put("searchText", keyword);
+            map.put("startIndex", pagination.getStartIndex());
+            int listCnt = reviewService.maxReviewCount(map);
+            map.put("pageSize",listCnt);
+
+            List<Review> reviewList = reviewService.selectReviewList(map);
+            System.out.println(reviewList);
+            campsitePlaceDetail.addObject("reviewList",reviewList);
 
             //블로그와 이미지 호출
             BlogService service = new BlogService();
