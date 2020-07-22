@@ -162,7 +162,7 @@ function btnProfileFollowStatus(clickedId){
 
 
 $(document).ready(function(){
-    var clickedId =  $("#pageOwnerId").find("button span").text();
+    var clickedId =  $("#pageOwnerId").find("div").text();
     btnProfileFollowStatus(clickedId);
 })
 
