@@ -76,6 +76,11 @@
 		WHERE REPLYNO = #{replyNo}
 	</update>
 
+	<update id="updateReplyId" parameterType="Map">
+		UPDATE REPLY SET ID = #{deletedId}
+		WHERE ID = #{id}
+	</update>
+
 	<delete id="deleteReplyWithReviewNo" parameterType="int">
 		DELETE  REPLY
 		where REVIEWNO = #{reviewNo}

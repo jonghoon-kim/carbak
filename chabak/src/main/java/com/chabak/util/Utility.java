@@ -11,6 +11,8 @@ import java.io.PrintWriter;
 
 public class Utility {
 
+    public final static String deletedId = "@deletedId";
+
     //이전 페이지로 돌아감
     @SneakyThrows
     public static void pageBackward(HttpServletResponse response){
@@ -72,15 +74,22 @@ public class Utility {
         return id;
     }
 
-    /**파라미터로 받은 에러 메시지 띄우고 이전 페이지로 이동<br>주의:이전 페이지로 이동하기 때문에 ModelAndView 객체를 null로 리턴해야 함**/
+    /**파라미터로 받은 에러 메시지 띄우고 이전 페이지로 이동<br>주의:이전 페이지로 이동하기 때문에 ModelAndView 객체를 null로 리턴해야 함
+     * <br>파라미터: String alert 띄울 메시지,String 이동할 페이지 주소(null이면 이전페이지),HttpServletResponse 객체<br>*현재 url이동 작동 오류 중**/
     @SneakyThrows
-    public static void printAlertMessage(String alertMessage,HttpServletResponse response) {
+    public static void printAlertMessage(String alertMessage,String url,HttpServletResponse response) {
         response.setContentType("text/html; charset=UTF-8");
         PrintWriter out = response.getWriter();
 
         out.println("<script>");
         out.println("alert(\""+alertMessage+"\") ;");
-        out.println("history.back();");
+        if(url==null){
+            out.println("history.back();");
+        }
+        else{
+            System.out.println("url not null-url:"+url);
+            out.println("location.href='"+url+"'");
+        }
         out.println("</script>");
         out.flush();
     }

@@ -158,7 +158,7 @@ public class ReviewController {
         }
         catch (Exception e){
             e.printStackTrace();
-            Utility.printAlertMessage("작업 중 에러가 발생했습니다.",response);
+            Utility.printAlertMessage("작업 중 에러가 발생했습니다.",null,response);
             return null;
         }
         //리뷰 저장
@@ -190,13 +190,13 @@ public class ReviewController {
             boolean authorityYn = id.equals(review.getId()) ? true:false;
             //권한 없으면
             if(!authorityYn){
-                Utility.printAlertMessage("권한이 없습니다.",response);
+                Utility.printAlertMessage("권한이 없습니다.",null,response);
                 return null;
             }
 
         } //해당 리뷰번호에 해당하는 작성자가 없으면
         catch (NullPointerException e){
-            Utility.printAlertMessage("잘못된 접근입니다.",response);
+            Utility.printAlertMessage("잘못된 접근입니다.",null,response);
             return null;
             
         }
@@ -230,7 +230,7 @@ public class ReviewController {
         }
         catch (Exception e){
             e.printStackTrace();
-            Utility.printAlertMessage("작업 중 에러가 발생했습니다.",response);
+            Utility.printAlertMessage("작업 중 에러가 발생했습니다.",null,response);
             return null;
         }
 
@@ -257,7 +257,7 @@ public class ReviewController {
             boolean authorityYn = id.equals(review.getId()) ? true:false;
             //권한 없으면
             if(!authorityYn){
-                Utility.printAlertMessage("권한이 없습니다.",response);
+                Utility.printAlertMessage("권한이 없습니다.",null,response);
                 return null;
             }
              //리뷰 삭제
@@ -265,12 +265,12 @@ public class ReviewController {
 
         } //해당 리뷰번호에 해당하는 작성자가 없으면
         catch (NullPointerException e){
-            Utility.printAlertMessage("잘못된 접근입니다.",response);
+            Utility.printAlertMessage("잘못된 접근입니다.",null,response);
             return null;
         }
         catch (Exception e){
             e.printStackTrace();
-            Utility.printAlertMessage("작업 중 에러가 발생했습니다.",response);
+            Utility.printAlertMessage("작업 중 에러가 발생했습니다.",null,response);
             return null;
         }
         mv.setViewName("redirect:/review/list");
@@ -295,7 +295,7 @@ public class ReviewController {
 
         //해당 리뷰가 존재하지 않으면
         if(review == null){
-            Utility.printAlertMessage("잘못된 접근입니다.",response);
+            Utility.printAlertMessage("잘못된 접근입니다.",null,response);
             return null;
         }
 

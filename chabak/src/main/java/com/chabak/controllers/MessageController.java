@@ -25,25 +25,24 @@ public class MessageController {
     MessageService messageService;
 
     @RequestMapping(value ={"", "/", "/list"}, method=RequestMethod.GET)
-    public ModelAndView messageList(HttpSession session,HttpServletResponse response){
+    public ModelAndView messageList(HttpSession session,HttpServletResponse response,@RequestParam (required = false,defaultValue = "receive") String type){
 
         ModelAndView mv = new ModelAndView();
 
         //세션에서 로그인한 아이디 가져와 설정(return: id or null)
         String id = Utility.getIdForSessionOrMoveIndex(mv,session,response);
 
-        //받은 편지함 리스트
         Map map = new HashMap<String,String>();
-        map.put("receiveId",id);
-        List<Message> receiveList = messageService.selectMessageList(map);
+        if(type.equals("receive")){
+            map.put("receiveId",id);
+        }
+        else{
+            map.put("sendId",id);
+        }
+        List<Message> messageList = messageService.selectMessageList(map);
 
-        //보낸 편지함 리스트
-        map.clear();
-        map.put("sendId",id);
-        List<Message> sendList = messageService.selectMessageList(map);
-
-        mv.addObject("receiveList",receiveList);
-        mv.addObject("sendList",sendList);
+        mv.addObject("messageList",messageList);
+        mv.addObject("type",type);
         mv.setViewName("message/message");
 
 
@@ -67,16 +66,10 @@ public class MessageController {
         String id = Utility.getIdForSessionOrMoveIndex(mv,session,response);
 
         message.setSendId(id);
-        try{
-            messageService.insertMessage(message);
-        }
-        catch (Exception e){
-            e.printStackTrace();
-            Utility.printAlertMessage("작업 중 에러가 발생했습니다.",response);
-            return null;
-        }
+        messageService.insertMessage(message);
 
-       mv.setViewName("redirect:/message/list");
+        mv.setViewName("redirect:/message/list");
+
         return mv;
     } //리뷰 리스트 출력
 
@@ -90,16 +83,17 @@ public class MessageController {
 
         //endregion
 
-        //리뷰 선택
+        //메시지 선택
         Message message = messageService.selectMessageDetail(messageNo);
 
-        //해당 리뷰가 존재하지 않으면
+        //해당 메시지가 존재하지 않으면
         if(message == null){
-            Utility.printAlertMessage("잘못된 접근입니다.",response);
+            Utility.printAlertMessage("잘못된 접근입니다.","redirect:/message/list",response);
             return null;
         }
 
         //TODO:메시지 열람여부 변경(받은 메시지일때만)
+
         mv.addObject("message",message);
         mv.setViewName("message/message_detail");
         return mv;
@@ -124,12 +118,12 @@ public class MessageController {
             System.out.println("authorityYn:"+authorityYn);
             //권한 없으면
             if(!authorityYn){
-                Utility.printAlertMessage("권한이 없습니다.",response);
+                Utility.printAlertMessage("권한이 없습니다.","redirect:/message/list",response);
                 return null;
             }
         } //메시지 받은 아이디가 없으면
         catch (NullPointerException e){
-            Utility.printAlertMessage("잘못된 접근입니다.",response);
+            Utility.printAlertMessage("잘못된 접근입니다.","redirect:/message/list",response);
             return null;
         }
 

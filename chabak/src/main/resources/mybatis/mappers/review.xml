@@ -132,6 +132,11 @@
 		WHERE REVIEWNO = #{reviewNo}
 	</update>
 
+	<update id="updateReviewId" parameterType="Map">
+		UPDATE REVIEW SET ID = #{deletedId}
+		WHERE ID = #{id}
+	</update>
+
 	<update id="updateReadCount" parameterType="int">
 		UPDATE REVIEW SET READCOUNT = READCOUNT+1
 		WHERE REVIEWNO = #{reviewNo}
