@@ -1,4 +1,5 @@
 /* 아이디 중복 체크, 체크 여부 판별 */
+/* 아이디 중복 체크, 체크 여부 판별 */
 var idChk=false;
 var emailChk=false;
 
@@ -112,5 +113,6 @@ function checkValue() {
     }
 
     alert("회원가입이 완료되었습니다.");
-}
 
+
+}

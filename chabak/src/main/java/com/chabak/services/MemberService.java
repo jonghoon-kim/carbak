@@ -111,4 +111,10 @@ public class MemberService {
     public int memberUpdate(Member member) {
         return memberDao.memberUpdate(member);
     }
+
+    // 비밀번호 확인
+//
+//    public boolean passwordCheck(String sessionId, String password){
+//
+//    }
 }

@@ -51,29 +51,34 @@
                     <!-- 방문 id가 세션 id랑 비교해서 같으면 나의 id를 / 다르면 click id를 선택 -->
                     <c:choose>
                         <c:when test="${empty pageOwner.id}">
-                            <button class="updateMember"
+                            <div class="pageOwnerId">${sessionScope.id}</div>
+                            <button class="updateMember" id="btn_updateMember" style="display: inline;"
                                     onclick="location.href='/member/memberUpdate?id=${sessionScope.id}';">
-                                <span class="spanId">${sessionScope.id}</span></button>
+                                회원정보수정
+                            </button>
                         </c:when>
                         <c:when test="${sessionScope.id ne pageOwner.id}">
-                            <button class="pageOwnerId"><span class="spanId">${pageOwner.id}</span></button>
+                            <div class="pageOwnerId">${pageOwner.id}</div>
                         </c:when>
                         <c:otherwise>
-                            <button class="updateMember"
+                            <div class="pageOwnerId">${sessionScope.id}</div>
+                            <button class="updateMember" id="btn_updateMember" style="display: inline;"
                                     onclick="location.href='/member/memberUpdate?id=${sessionScope.id}';">
-                                <span class="spanId">${sessionScope.id}</span></button>
+                                회원정보수정
+                            </button>
                         </c:otherwise>
                     </c:choose>
                 </div>
-                <div class="profileFollowBtn"> <!-- todo: 프로필 사진 옆 팔로우/팔로잉 버튼 -->
+                <div class="profileFollowBtn">
                     <button id="btn_profile_follow" style="display: none;"></button>
                 </div>
+
                 <!--게시글 수 보이게, 클릭시 자기가 작성한 리뷰글 조회 + 게시글 수 추가-->
                 <c:choose>
                     <c:when test="${empty pageOwner.id}">
                         <div class="review_btn">
                             <div class="countMenu">${countReview}</div>
-                            <button type="button" id="" onclick="printReviewList('${sessionScope.id}')">
+                            <button type="button" class="reviewListId" onclick="printReviewList('${sessionScope.id}')">
                                 게시글
                             </button>
                         </div>
