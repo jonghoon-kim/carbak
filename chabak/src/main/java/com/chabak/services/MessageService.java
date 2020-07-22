@@ -29,6 +29,12 @@ public class MessageService {
         return insertCount;
     }
 
+    public int updateReadYn(int messageNo){
+        int updateCount = messageDao.updateReadYn(messageNo);
+        return updateCount;
+    }
+
+
     public int deleteMessage(int messageNo){
         int deleteCount = messageDao.deleteMessage(messageNo);
         return deleteCount;

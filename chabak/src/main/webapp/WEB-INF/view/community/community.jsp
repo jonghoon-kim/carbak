@@ -126,6 +126,7 @@
                         <a href="/mypage/guestVisit?id=${review.id}" target="_blank">
                     <span class="writer-id">
                     ${review.id}
+                        <a href="/message/list?id=${review.id}">쪽지</a>
                     </span>
                         </a>
                     </div>
@@ -215,9 +216,6 @@
 <%--/container--%>
 <div class="footer">
     <img src="/img/footer/footer.png">
-</div>
-
-</div>
 </div>
 </body>
 </html>

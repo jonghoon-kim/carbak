@@ -29,6 +29,11 @@ public class MessageDao {
         return insertCount;
     }
 
+    public int updateReadYn(int messageNo){
+        int updateCount = sqlSession.update("message.updateReadYn",messageNo);
+        return updateCount;
+    }
+
     public int deleteMessage(int messageNo){
         int deleteCount = sqlSession.delete("message.deleteMessage",messageNo);
         return deleteCount;

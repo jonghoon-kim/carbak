@@ -35,6 +35,11 @@
 		)
 	</insert>
 
+	<update id="updateReadYn" parameterType="int">
+		UPDATE MESSAGE SET READYN = 'y'
+		WHERE MESSAGENO = #{messageNo}
+	</update>
+
 	<delete id="deleteMessage" parameterType="int">
 		DELETE  Message
 		where messageNo = #{messageNo}

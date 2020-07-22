@@ -67,9 +67,8 @@ public class MessageController {
 
         message.setSendId(id);
         messageService.insertMessage(message);
-
-        mv.setViewName("redirect:/message/list");
-
+        //새창 띄우므로 null이어도 됨
+        mv.setViewName("redirect:message/list");
         return mv;
     } //리뷰 리스트 출력
 
@@ -88,11 +87,18 @@ public class MessageController {
 
         //해당 메시지가 존재하지 않으면
         if(message == null){
-            Utility.printAlertMessage("잘못된 접근입니다.","redirect:/message/list",response);
+            Utility.printAlertMessage("잘못된 접근입니다.",null,response);
             return null;
         }
 
-        //TODO:메시지 열람여부 변경(받은 메시지일때만)
+        //메시지 읽음 여부 y로 업데이트
+        try{
+            messageService.updateReadYn(messageNo);
+        }
+        catch (Exception e){
+            e.printStackTrace();
+            Utility.printAlertMessage("작업 중 에러가 발생했습니다.",null,response);
+        }
 
         mv.addObject("message",message);
         mv.setViewName("message/message_detail");
@@ -118,20 +124,20 @@ public class MessageController {
             System.out.println("authorityYn:"+authorityYn);
             //권한 없으면
             if(!authorityYn){
-                Utility.printAlertMessage("권한이 없습니다.","redirect:/message/list",response);
+                Utility.printAlertMessage("권한이 없습니다.",null,response);
                 return null;
+            }
+            else{
+                //메시지 삭제
+                messageService.deleteMessage(messageNo);
             }
         } //메시지 받은 아이디가 없으면
         catch (NullPointerException e){
-            Utility.printAlertMessage("잘못된 접근입니다.","redirect:/message/list",response);
+            Utility.printAlertMessage("잘못된 접근입니다.",null,response);
             return null;
         }
 
-        //메시지 삭제
-        messageService.deleteMessage(messageNo);
-
         mv.setViewName("redirect:/message/list");
-
         return mv;
     }
 }
