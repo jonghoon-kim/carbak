@@ -383,6 +383,41 @@
                                 <div class="reply-date">
                                         ${relist.regDate}
                                 </div>
+                                <script>
+                                    $(document).ready(function(){
+                                        //add BT DD show event
+                                        $(".dropdown").on("show.bs.dropdown", function() {
+                                            console.log("dropdown!!!!!!!!!!!!!!!!!!");
+                                            var $btnDropDown = $(this).find(".dropbtn");
+                                            var $listHolder = $(this).find(".dropdown-content");
+                                            //reset position property for DD container
+                                            $(this).css("position", "static");
+                                            $listHolder.css({
+                                                "top": ($btnDropDown.offset().top + $btnDropDown.outerHeight(true)) + "px",
+                                                "left": $btnDropDown.offset().left + "px"
+                                            });
+                                            $listHolder.data("open", true);
+                                        });
+                                        //add BT DD hide event
+                                        $(".dropdown").on("hidden.bs.dropdown", function() {
+                                            var $listHolder = $(this).find(".dropdown-content");
+                                            $listHolder.data("open", false);
+                                        });
+                                        //add on scroll for table holder
+                                        $(".re-reply").scroll(function() {
+                                            var $ddHolder = $(this).find(".dropdown")
+                                            var $btnDropDown = $(this).find(".dropbtn");
+                                            var $listHolder = $(this).find(".dropdown-content");
+                                            if ($listHolder.data("open")) {
+                                                $listHolder.css({
+                                                    "top": ($btnDropDown.offset().top + $btnDropDown.outerHeight(true)) + "px",
+                                                    "left": $btnDropDown.offset().left + "px"
+                                                });
+                                                $ddHolder.toggleClass("open", ($btnDropDown.offset().left > $(this).offset().left))
+                                            }
+                                        })
+                                    });
+                                </script>
                                 <div class="dropdown">
                                     <button class="dropbtn"><img class="dropbtnImgRe" src="/img/community/menu.png"
                                                                  onclick="myFunction('reply',${relist.replyNo})">
