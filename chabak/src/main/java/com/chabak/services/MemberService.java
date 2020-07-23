@@ -51,7 +51,7 @@ public class MemberService {
 
         if(dbMember != null) {
             if(dbMember.getPassword().contentEquals(member.getPassword())) {
-                System.out.println(dbMember.getSavePath());
+              //  System.out.println(dbMember.getSavePath());
 //                String saveName = (memberDao.getMember(member.getId())).getSaveName();
 //                String savePath = (memberDao.getMember(member.getId())).getSavePath();
                 return true;
@@ -113,8 +113,25 @@ public class MemberService {
     }
 
     // 비밀번호 확인
-//
-//    public boolean passwordCheck(String sessionId, String password){
-//
-//    }
+    public boolean confirmPassword(Member member){
+        // member : 입력값
+        // dbMember : db에 있는 값
+        Member dbMember = memberDao.find(member.getEmail());
+        // System.out.println(memberDao.id_find(member.getEmail()));
+
+        if(dbMember != null) {
+            if(dbMember.getName().contentEquals(member.getName())) {
+                return true;
+            }else {
+                return false;
+            }
+        } else {
+            return false;
+        }
+    }
+
+    // 삭제 회원 관리 id
+    public int memberDelete(String loginId){
+        return memberDao.memberDelete(loginId);
+    }
 }

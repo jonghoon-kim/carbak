@@ -51,7 +51,7 @@ public class MemberController {
 
     @RequestMapping("/loginAction")
     public String loginAction(Member member, HttpSession session, HttpServletResponse response, Model model) throws Exception {
-        boolean loginFlag = memberService.loginCheck(member);
+        boolean loginFlag = memberService.loginCheck(member); //
 
         if (loginFlag) {
             session.setAttribute("id", member.getId());
@@ -216,6 +216,8 @@ public class MemberController {
             return re;
 
         }
+        String result = Integer.toString(resul);
+        re.put("result", result);
         return re;
     }
 
@@ -342,7 +344,7 @@ public class MemberController {
     }
 
     @PostMapping("/memberUpdate")
-    public String memberUpdateAction(Member member, Model model, HttpSession session) throws Exception {
+    public String memberUpdateAction(Member member, Model model) throws Exception {
 
         MultipartFile f = member.getFile();
 
@@ -375,23 +377,25 @@ public class MemberController {
     public String withdrawal(){ return "member/withdrawal"; }
 
     // 회원탈퇴
-    @RequestMapping(value = {"", "/", "memberWithdrawal"}, method = RequestMethod.POST)
-    public String memberWithdrawal(HttpSession session, @RequestParam String password) {
+    @ResponseBody
+    @RequestMapping(value = {"", "/", "memberDelete"}, method = RequestMethod.POST)
+    public Map<String, String> memberDelete(HttpSession session, Member member) {
         String loginId = (String) session.getAttribute("id");
+        Map<String, String> map = new HashMap<>();
 
-        System.out.println("password : " + password);
+        member.setId(loginId);
+        boolean flag = memberService.loginCheck(member);
 
-//        if(passwordFlag){ // 비밀번호가 일치할 경우
-//
-//        }
-//        else if(passwordFlag){
-//
-//        }
-//
-//
-//        return "Susecess";
-//    }
+        System.out.println(flag);
 
-        return password;
+        int result;
+        if(flag){
+            result = memberService.memberDelete(loginId);
+        }else{
+            result = 0;
+        }
+
+        map.put("result",  Integer.toString(result));
+        return map;
     }
 }

@@ -7,6 +7,9 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import java.util.HashMap;
+import java.util.Map;
+
 @Repository("memberDao")
 public class MemberDao {
     @Autowired
@@ -33,7 +36,7 @@ public class MemberDao {
         return sqlSession.selectOne("member.getMember", id);
     }
 
-    /* 아이디 찾기 */
+    /* 아이디, 비밀번호 찾기 */
     public Member find(String email) {
 
         return sqlSession.selectOne("member.find", email);
@@ -47,5 +50,10 @@ public class MemberDao {
     public int memberUpdate(Member member) {
         System.out.println("dao :"+member);
         return sqlSession.update("member.memberUpdate", member);
+    }
+
+    /* 회원 삭제 -> 값 변경 */
+    public int memberDelete(String loginId) {
+        return sqlSession.delete("member.memberDelete", loginId);
     }
 }
