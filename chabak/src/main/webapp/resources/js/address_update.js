@@ -1,5 +1,9 @@
 $('document').ready(function () {
-    var area0 = ["시/도 선택", "서울특별시", "인천광역시", "대전광역시", "광주광역시", "대구광역시", "울산광역시", "부산광역시", "경기도", "강원도", "충청북도", "충청남도", "전라북도", "전라남도", "경상북도", "경상남도", "제주도"];
+    var selectSido = document.getElementById("selectSido").value;
+    var selectGugun = document.getElementById("selectGugun").value;
+    console.log(selectSido + selectGugun);
+
+    var area0 = [selectSido, "서울특별시", "인천광역시", "대전광역시", "광주광역시", "대구광역시", "울산광역시", "부산광역시", "경기도", "강원도", "충청북도", "충청남도", "전라북도", "전라남도", "경상북도", "경상남도", "제주도"];
     var area1 = ["구/군 선택", "강남구", "강동구", "강북구", "강서구", "관악구", "광진구", "구로구", "금천구", "노원구", "도봉구", "동대문구", "동작구", "마포구", "서대문구", "서초구", "성동구", "성북구", "송파구", "양천구", "영등포구", "용산구", "은평구", "종로구", "중구", "중랑구"];
     var area2 = ["구/군 선택", "계양구", "남구", "남동구", "동구", "부평구", "서구", "연수구", "중구", "강화군", "옹진군"];
     var area3 = ["구/군 선택", "대덕구", "동구", "서구", "유성구", "중구"];
@@ -23,7 +27,7 @@ $('document').ready(function () {
         $.each(eval(area0), function () {
             $selsido.append("<option value='" + this + "'>" + this + "</option>");
         });
-        $selsido.next().append("<option value=''>구/군 선택</option>");
+        $selsido.next().append("<option value=''>"+selectGugun+"</option>");
     });
 
     // 시/도 선택시 구/군 설정
@@ -36,7 +40,7 @@ $('document').ready(function () {
             $gugun.append("<option value=''>구/군 선택</option>");
         else {
             $.each(eval(area), function () {
-                $gugun.append("<option value='" + this + "' name='guSelect'>" + this + "</option>");
+                $gugun.append("<option value='" + this + "'>" + this + "</option>");
             });
         }
     });
