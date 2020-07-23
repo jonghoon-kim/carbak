@@ -1,7 +1,6 @@
 package com.chabak.repositories;
 
 import com.chabak.vo.Reply;
-import com.chabak.vo.Review;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;

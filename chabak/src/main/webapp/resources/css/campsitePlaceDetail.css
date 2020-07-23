@@ -1,0 +1,383 @@
+@import url(https://fonts.googleapis.com/earlyaccess/jejugothic.css);
+b{display: none;}
+.top_hr{
+    border: 1px solid rgb(105, 179, 149);
+    width: 1535px;
+    display: inline-block;
+    margin: 70px 200px 0px 200px;
+}
+/* a태그 기본설정 */
+a{
+    color: #000;
+    text-decoration:none;
+}
+a:hover{
+    color: rgb(105, 179, 149);
+    text-decoration:none;
+}
+a:active{
+    color: rgb(105, 179, 149);
+    text-decoration:none;
+}
+a:visited{
+    color: #000;
+    text-decoration:none;
+}
+
+/*campsite Container*/
+.container{
+    margin-top: 50px;
+    display: inline-block;
+    width:1920px;
+}
+
+/* 타이틀 */
+.top {
+    margin-right: 45px;
+    text-align: center;
+    margin-bottom: 20px;
+    font-family: 'Jeju Gothic', sans-serif;
+}
+/* 지역선택 */
+.address_select{
+    margin-left: 200px;
+    margin-bottom: 30px;
+}
+.address_select select {
+    margin-top: 10px;
+    font-family: 'Jeju Gothic', sans-serif;
+    border: 2px solid rgb(105, 179, 149);
+    border-radius: 10px;
+    width: 100px;
+    height: 30px;
+    margin-right: 15px;
+}
+.address_select select:focus {
+    outline: none;
+}
+.address_select input{
+    font-family: 'Jeju Gothic', sans-serif;
+    border: 1px solid rgb(105, 179, 149);
+    border-radius: 10px;
+    width: 200px;
+    height: 30px;
+    margin-right: 15px;
+}
+.address_select button{
+    font-family: 'Jeju Gothic', sans-serif;
+    color:white;
+    background-color:rgb(105, 179, 149);
+    border-radius: 10px;
+    width: 100px;
+    height: 30px;
+}
+
+/*야영지 검색*/
+.campsite_aticle{
+    display:block;
+    width:600px;
+    height:570px;
+    margin-left:980px;
+}
+.campsite_aticle h2{
+    font-family: 'Jeju Gothic', sans-serif;
+    text-align:center;
+    margin-right:30px;
+}
+/*야영지 검색정보*/
+.campsite_info{
+    margin-top:50px;
+    width:590px;
+    height:490px;
+    border: 3px solid rgb(105, 179, 149);
+    border-radius: 10px;
+    overflow:auto;
+}
+.campsite_info ul li{
+    margin-top: 50px;
+    margin-left: 50px;
+    font-family: 'Jeju Gothic', sans-serif;
+    font-weight:
+    font-size:22px;
+    list-style: none;
+}
+.campsite_info ul li p a{
+    color: #000;
+    text-decoration:none;
+}
+.campsite_info ul li p a:hover{
+    color: rgb(105, 179, 149);
+    text-decoration:none;
+}
+.campsite_info ul li .address{
+    margin-top: 10px;
+    font-size:14px;
+}
+
+/*커뮤니티*/
+.community_aticle{
+    margin-top:50px;
+    margin-bottom:50px;
+}
+.community_aticle h2{
+    font-family: 'Jeju Gothic', sans-serif;
+    text-align:center;
+    margin-right:30px;
+    margin-bottom:30px;
+}
+
+.community_aticle ul{
+    margin-left:203px;
+    height:420px;
+}
+.community_aticle ul li{
+    width:260px;
+    height:400px;
+    margin-right:51px;
+    list-style:none;
+    float:left;
+    border-radius: 25px;
+    border: 1px solid rgba(255, 255, 255, .4);
+    box-shadow: 0px 5px 10px #609367;
+}
+.community_aticle ul li .best_img{
+    margin: 10px 9px 5px 9px;
+    width:240px;
+    height:200px;
+
+    border: 1px solid black;
+    border-radius: 18px;
+}
+.community_aticle ul li .best_img img{
+    width:240px;
+    height:200px;
+    border-radius: 18px;
+}
+.community_aticle ul li p{
+    margin-left:9px;
+    font-family: 'Jeju Gothic', sans-serif;
+}
+.community_aticle ul li .best_title{
+    margin-top:7px;
+}
+.community_aticle ul li .best_views{
+    width:240px;
+    font-family: 'Roboto', sans-serif;
+    font-size: 12px;
+}
+
+/*리뷰 내용*/
+.community_aticle ul li .best_content{
+    font-family: 'Jeju Gothic', sans-serif;
+    font-size:11px;
+    margin: 10px 9px 5px 9px;
+    resize:none;
+    width:240px;
+    height:70px;
+    text-overflow: ellipsis;
+    overflow:hidden;
+    outline:0;
+    border:0;
+}
+.community_aticle ul li .best_id{
+    margin:15px 9px 5px 14px;
+    font-family: 'Jeju Gothic', sans-serif;
+    font-size:12px;
+}
+.community_link{
+    margin-top:20px;
+    margin-bottom:35px;
+    margin-right:20px;
+    text-align:center;
+    font-family: 'Jeju Gothic', sans-serif;
+}
+.community_link button{
+    background-color:#fff;
+    font-size:20px;
+}
+.community_link .fa-angle-left{
+    color:rgb(105, 179, 149);
+    margin-right:15px;
+    font-size:24px;
+}
+.community_link .fa-angle-left:hover{
+    color:#000;
+}
+.community_link .fa-angle-right{
+    color:rgb(105, 179, 149);
+    margin-left:15px;
+    font-size:24px;
+}
+.community_link .fa-angle-right:hover{
+    color:#000;
+}
+.community_link .fa-circle{
+    color:rgb(105, 179, 149);
+}
+
+/*블로그*/
+.blog_aticle{
+    margin-top:50px;
+    margin-bottom:50px;
+}
+.blog_aticle h2{
+    font-family: 'Jeju Gothic', sans-serif;
+    text-align:center;
+    margin-right:30px;
+    margin-bottom:30px;
+}
+
+.blog_aticle ul{
+    margin-left:203px;
+    height:420px;
+}
+.blog_aticle ul li{
+    width:260px;
+    height:400px;
+    margin-right:51px;
+    list-style:none;
+    float:left;
+    border-radius: 25px;
+    border: 1px solid rgba(255, 255, 255, .4);
+    box-shadow: 0px 5px 10px #609367;
+}
+.blog_aticle ul li .blog_best_img{
+    margin: 10px 9px 5px 9px;
+    width:240px;
+    height:200px;
+
+    border: 1px solid black;
+    border-radius: 18px;
+}
+.blog_aticle ul li .blog_best_img img{
+    width:240px;
+    height:200px;
+    border-radius: 18px;
+}
+.blog_aticle ul li p{
+    margin-left:9px;
+    font-family: 'Jeju Gothic', sans-serif;
+}
+.blog_aticle ul li .blog_best_title{
+    margin-top:7px;
+}
+.blog_aticle ul li .blog_best_views{
+    width:240px;
+    font-family: 'Roboto', sans-serif;
+    font-size: 12px;
+}
+
+/*리뷰 내용*/
+.blog_aticle ul li .blog_best_content{
+    font-family: 'Jeju Gothic', sans-serif;
+    font-size:11px;
+    margin: 10px 9px 5px 9px;
+    resize:none;
+    width:240px;
+    height:70px;
+    text-overflow: ellipsis;
+    overflow:hidden;
+    outline:0;
+    border:0;
+}
+.blog_aticle ul li .blog_best_id{
+    margin:15px 9px 5px 14px;
+    font-family: 'Jeju Gothic', sans-serif;
+    font-size:12px;
+}
+.blog_select_community{
+    float:right;
+    margin-right:20px;
+    margin-top:3px;
+    font-family: 'Jeju Gothic', sans-serif;
+    font-size:9px;
+}
+.blog_community_link{
+    margin-top:20px;
+    margin-bottom:35px;
+    margin-right:20px;
+    text-align:center;
+    font-family: 'Jeju Gothic', sans-serif;
+}
+.blog_community_link button{
+    background-color:#fff;
+    font-size:20px;
+}
+.blog_community_link .fa-angle-left{
+    color:rgb(105, 179, 149);
+    margin-right:15px;
+    font-size:24px;
+}
+.blog_community_link .fa-angle-left:hover{
+    color:#000;
+}
+.blog_community_link .fa-angle-right{
+    color:rgb(105, 179, 149);
+    margin-left:15px;
+    font-size:24px;
+}
+.blog_community_link .fa-angle-right:hover{
+    color:#000;
+}
+.blog_community_link .fa-circle{
+    color:rgb(105, 179, 149);
+}
+
+/*야영지 선택 후*/
+/*야영지 검색정보*/
+.campsite_select{
+    margin-top:50px;
+    width:590px;
+    height:490px;
+    border: 3px solid rgb(105, 179, 149);
+    border-radius: 10px;
+    overflow:auto;
+}
+.campsite_select ul li{
+    margin-top: 50px;
+    margin-left: 50px;
+    font-family: 'Jeju Gothic', sans-serif;
+    font-size:18px;
+    list-style: none;
+}
+.campsite_select ul li p{
+    margin-bottom: 25px;
+    font-size:14px;
+}
+.campsite_select ul li p a{
+    color: #000;
+    text-decoration:none;
+}
+.campsite_select ul li p a:hover{
+    color: rgb(105, 179, 149);
+    text-decoration:none;
+}
+.campsite_select ul li .name{
+    margin-bottom:50px;
+    font-size:24px;
+    font-weight:bold;
+}
+
+/*searchPlaces*/
+.map_wrap, .map_wrap * {margin:0; padding:0;font-family:'Malgun Gothic',dotum,'돋움',sans-serif;font-size:12px;}
+.map_wrap a, .map_wrap a:hover, .map_wrap a:active{color:#000;text-decoration: none;}
+.map_wrap {position:relative;width:1533px;height:570px; margin-left: 200px;}
+#menu_wrap {position:absolute;top:0;left:1200px;bottom:0;width:300px;margin:10px 0 30px 10px;padding:5px;overflow-y:auto;background:rgba(255, 255, 255, 0.7);z-index: 1;font-size:12px;border-radius: 10px;}
+.bg_white {background:#fff;}
+#menu_wrap hr {display: block; height: 1px;border: 0; border-top: 2px solid #5F5F5F;margin:3px 0;}
+.option{text-align: center; display: inline-block;}
+#menu_wrap .option p {margin:10px 0;}
+#menu_wrap .option button {margin-left:5px;}
+#placesList li {list-style: none;}
+#placesList .item {position:relative;border-bottom:1px solid #888;overflow: hidden;cursor: pointer;min-height: 65px;}
+#placesList .item span {display: block;margin-top:4px;}
+#placesList .item h5, #placesList .item .info {text-overflow: ellipsis;overflow: hidden;white-space: nowrap;}
+#placesList .item .info{padding:10px 0 10px 55px;}
+#placesList .info .gray {color:#8a8a8a;}
+#placesList .info .jibun {padding-left:26px;background:url(https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/places_jibun.png) no-repeat;}
+#placesList .info .tel {color:#009900;}
+#placesList .item .markerbg {float:left;position:absolute;width:36px; height:37px;margin:10px 0 0 10px;background:url(https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/marker_number_blue.png) no-repeat;}
+#placesList .item .marker_1 {background-position: 0 -10px;}
+
+.convenience{margin-left: 54px;}
+.convenience h2 {font-size: 12px; font-weight: bold;}

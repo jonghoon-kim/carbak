@@ -73,6 +73,15 @@ function getUrlString(searchText,sortType){
 
 }
 
+function getFormatDate(date) {
+    var year = date.getFullYear();              //yyyy
+    var month = (1 + date.getMonth());          //M
+    month = month >= 10 ? month : '0' + month;  //month 두자리로 저장
+    var day = date.getDate();                   //d
+    day = day >= 10 ? day : '0' + day;          //day 두자리로 저장
+    return  year + '-' + month + '-' + day;       //'-' 추가하여 yyyy-mm-dd 형태 생성 가능
+}
+
 // 리뷰 리스트를 ajax로 출력
 function ajaxReviewList(sessionId,isSearchButton,curPage) {
 
@@ -120,6 +129,10 @@ function ajaxReviewList(sessionId,isSearchButton,curPage) {
                 var writer = newReview.find(".writer-id");  //작성자
                 writer.html(this["id"]);  //작성자 설정
 
+                //프로필 이미지
+                var profileImg = newReview.find(".centered img");
+                profileImg.attr("src",this["savePath"]+this["saveName"]);
+
                 var reviewImg =  newReview.find(".review-img img")  //리뷰 이미지
                 reviewImg.attr("src",this["titleImageSrc"]);  //리뷰 타이틀이미지 src
 
@@ -129,6 +142,10 @@ function ajaxReviewList(sessionId,isSearchButton,curPage) {
 
                 var title = newReview.find(".content-title");   //리뷰 타이틀
                 title.text('['+this["sido"]+']'+'['+this["gugun"]+']'+this["title"]);                      //리뷰 타이틀 설정 [sido][gugun][title]
+
+                //등록일자 추가
+                var regDate = newReview.find(".regDate");
+                regDate.text(getFormatDate(new Date(this["regDate"])));
 
                 //좋아요 토글될 이미지 선택
                 var toggleImage = newReview.find(".toggle-like-img");
@@ -169,11 +186,25 @@ function ajaxReviewList(sessionId,isSearchButton,curPage) {
             var curRangeVar = pagenation["curRange"];
             var rangeCntVar = pagenation["rangeCnt"];
             var nextPageVar = pagenation["nextPage"];
+            var prevPageVar = pagenation["prevPage"];
 
+            console.log("nextPageVar:"+nextPageVar+"prevPageVar:"+prevPageVar);
             console.log("총 페이지 수 : "+pageCntVar+ "/ 현재 페이지 : "+ curPageVar + "/ 현재 블럭 : "+ curRangeVar + "/ 총 블럭 수 : "+ rangeCntVar);
 
             var pagingDiv = $("#pagingDiv");
             pagingDiv.empty();
+
+            if(curRangeVar != 1){
+                var tag = $("#curRange_ne_1").clone(true);
+                tag.attr("style","display:inline-block");
+                pagingDiv.append(tag);
+            }
+            if(curPageVar != 1){
+                var tag = $("#curPage_ne_1").clone(true);
+                tag.attr("onclick","fn_paging('"+ prevPageVar +"')");
+                tag.attr("style","display:inline-block");
+                pagingDiv.append(tag);
+            }
             for(var i=startPageVar;i<= endPageVar;i++){
                 if(i==curPageVar){
                     var span1 = $("#i_eq_curPage").clone(true);
@@ -239,4 +270,30 @@ function commonCheckInputNotEmpty(obj,errorMessage) {
     }
     return true;
 
+}
+
+function ajaxReviewLikeToggle(reviewNo,imgTag,sessionId){
+    if(sessionId == "" || sessionId==null){
+        var confirmYn = confirm("로그인이 필요한 서비스입니다.로그인 하시겠습니까?") ;
+        if(confirmYn)
+            location.href="/member/login";
+    }
+    else{
+        $.ajax({
+            url:"/reviewLike/toggleAjax",
+            type : "post",
+            data :{"reviewNo": reviewNo},
+            success : function(data) {
+                if(data==1){
+                    $(imgTag).attr("src","/img/community/heart2.png");
+                }
+                else{
+                    $(imgTag).attr("src","/img/community/heart.png");
+                }
+            },
+            error:function(error){
+                alert(error)
+            }
+        });
+    }
 }

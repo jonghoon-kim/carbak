@@ -5,7 +5,6 @@ import com.chabak.repositories.ReviewDao;
 import com.chabak.util.Utility;
 import com.chabak.vo.Pagination;
 import com.chabak.vo.Review;
-import com.chabak.vo.ReviewAndLike;
 import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -42,6 +41,15 @@ public class ReviewService {
         return false;
     }
 
+    //index 페이지 top5 리뷰 content에서 이미지는 출력되지 않도록 제외
+    public String deleteImgTag(String originalString){
+
+        String regex = "<img[^>]*src=[\"']?([^>\"']+)[\"']?[^>]*>"; //img 태그 src 추출 정규표현식
+        String resultString = originalString.replaceAll(regex,"");
+        System.out.println("deleteImgTag resultString:"+resultString);
+        return resultString;
+    }
+
     //리뷰 리스트 select 관련 파라미터 설정 후 리턴
     public Pagination setReviewListParameterMap(Map map,HttpSession session,String sortType,String searchText,String pageOwnerId,int listCnt,int curPage) {
         map.put("sortType",sortType);
@@ -62,19 +70,6 @@ public class ReviewService {
         return pagination;
     }
 
-    //세션 아이디와 작성자 아이디를 파라미터로 받아 다르면 경고창을 띄우고 이전 페이지로 이동
-    @SneakyThrows
-    public boolean compareSessionAndWriterId(String sessionId, String writerId, HttpServletResponse response){
-
-        if(sessionId.equals(writerId)){
-            return true;
-        }
-        Utility.printAlertMessage(response,"해당 권한이 없습니다.");
-
-        Utility.pageBackward(response);
-        return false;
-    }
-
     public int insertReview(Review review){
         int insertedCount = reviewDao.insertReview(review);
         return insertedCount;
@@ -85,19 +80,19 @@ public class ReviewService {
         return maxCount;
     }
 
-    public List<ReviewAndLike> selectReviewTop5(String id){
-        List<ReviewAndLike> reviewList = null;
+    public List<Review> selectReviewTop5(String id){
+        List<Review> reviewList = null;
         reviewList = reviewDao.selectReviewTop5(id);
         return reviewList;
     }
-    public List<ReviewAndLike> selectReviewList(Map map){
-        List<ReviewAndLike> reviewList = null;
+    public List<Review> selectReviewList(Map map){
+        List<Review> reviewList = null;
         reviewList = reviewDao.selectReviewList(map);
         return reviewList;
     }
 
-    public List<ReviewAndLike> selectReviewListMyPage(Map map){
-        List<ReviewAndLike> reviewList = null;
+    public List<Review> selectReviewListMyPage(Map map){
+        List<Review> reviewList = null;
         reviewList = reviewDao.selectReviewListMyPage(map);
         return reviewList;
     }

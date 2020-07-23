@@ -19,16 +19,7 @@
 	</insert>
 
 <!--	변수값이 칼럼명일 경우 ${}를 사용한다.-->
-<!--	<select id="selectReviewList" parameterType="Map" resultType="Review">-->
-<!--		select reviewNo,id,title,sido,gugun,content,titleImageSrc,readCount,likeCount,replyCount,regDate,modifyDate-->
-<!--		from Review-->
-<!--		<if test="searchText !=null and searchText !=''">-->
-<!--			where sido||' '||gugun LIKE '%'||#{searchText}||'%'-->
-<!--		</if>-->
-<!--		<if test="sortType !=null and sortType !=''">-->
-<!--			order by ${sortType} desc-->
-<!--		</if>-->
-<!--	</select>-->
+
 	<select id="maxReviewCount" parameterType="Map" resultType="int">
 		select count(*) from review
 		where 1=1
@@ -40,7 +31,7 @@
 		</if>
 	</select>
 
-	<select id="selectReviewTop5" parameterType="string" resultType="ReviewAndLike">
+	<select id="selectReviewTop5" parameterType="string" resultType="Review">
 		select *
 		from
 		(
@@ -62,31 +53,9 @@
 		)
 		where rownum <![CDATA[<=]]> 5
 	</select>
-<!--	<select id="selectReviewList" parameterType="Map" resultType="ReviewAndLike">-->
-<!--		select r.reviewNo,r.id,r.title,r.sido,r.gugun,r.content,r.titleImageSrc,r.readCount,r.likeCount,r.replyCount,r.regDate,r.modifyDate,-->
-<!--		       nvl2(l.reviewNo,1,0) as likeYn-->
-<!--		from Review r,ReviewLike l-->
-<!--		where r.reviewNo = l.reviewNo(+)-->
 
-<!--		<choose>-->
-<!--			<when test="id != null and id != ''">-->
-<!--				and #{id} = l.id(+)-->
-<!--			</when>-->
-<!--			<otherwise>-->
-<!--				and l.id(+) is null-->
-<!--			</otherwise>-->
-<!--		</choose>-->
-
-<!--		<if test="searchText !=null and searchText !=''">-->
-<!--			and sido||' '||gugun LIKE '%'||#{searchText}||'%'-->
-<!--		</if>-->
-<!--		<if test="sortType !=null and sortType !=''">-->
-<!--			order by ${sortType} desc-->
-<!--		</if>-->
-<!--	</select>-->
-
-	<select id="selectReviewList" parameterType="Map" resultType="ReviewAndLike">
-		select reviewNo,id,title,sido,gugun,content,titleImageSrc,readCount,likeCount,replyCount,regDate,modifyDate,likeYn
+	<select id="selectReviewList" parameterType="Map" resultType="Review">
+		select *
 		from
 			(
 				select *
@@ -96,10 +65,10 @@
 					from
 					(
 						select r.reviewNo,r.id,r.title,r.sido,r.gugun,r.content,r.titleImageSrc,r.readCount,r.likeCount,r.replyCount,r.regDate,r.modifyDate,
-						nvl2(l.reviewNo,1,0) as likeYn
-						from Review r,ReviewLike l
+						nvl2(l.reviewNo,1,0) as likeYn,m.name,m.saveName, m.savePath
+						from Review r,ReviewLike l,Member m
 						where r.reviewNo = l.reviewNo(+)
-
+						and r.id = m.id
 						<choose>
 							<when test="id != null and id != ''">
 							and #{id} = l.id(+)
@@ -113,7 +82,7 @@
 							and r.id = #{pageOwnerId}
 						</if>
 						<if test="searchText !=null and searchText !=''">
-						and sido||' '||gugun LIKE '%'||#{searchText}||'%'
+						and r.sido||' '||r.gugun LIKE '%'||#{searchText}||'%'
 						</if>
 						<if test="sortType !=null and sortType !=''">
 						order by ${sortType} desc
@@ -125,7 +94,7 @@
 		    where rownum <![CDATA[<=]]> #{pageSize}
 	</select>
 
-	<select id="selectReviewListMyPage" parameterType="string" resultType="ReviewAndLike">
+	<select id="selectReviewListMyPage" parameterType="string" resultType="Review">
 		select r.reviewNo,r.id,r.title,r.sido,r.gugun,r.content,r.titleImageSrc,r.readCount,r.likeCount,r.replyCount,r.regDate,r.modifyDate,
 		nvl2(l.reviewNo,1,0) as likeYn
 		from Review r,ReviewLike l
@@ -147,9 +116,10 @@
 	</select>
 
 	<select id="selectReviewDetail" parameterType="int" resultType="Review">
-		select reviewNo,id,title,sido,gugun,content,titleImageSrc,readCount,likeCount,regDate,modifyDate
-		from Review
+		select reviewNo,r.id,title,r.sido,r.gugun,content,titleImageSrc,readCount,likeCount,r.regDate,r.modifyDate,m.name,m.saveName,m.savePath
+		from Review r,Member m
 		where REVIEWNO = #{reviewNo}
+		and r.id = m.id
 	</select>
 
 	<update id="updateReview" parameterType="Review">
@@ -160,6 +130,11 @@
 						  TITLEIMAGESRC = #{titleImageSrc},
 						  MODIFYDATE = sysdate
 		WHERE REVIEWNO = #{reviewNo}
+	</update>
+
+	<update id="updateReviewId" parameterType="Map">
+		UPDATE REVIEW SET ID = #{deletedId}
+		WHERE ID = #{id}
 	</update>
 
 	<update id="updateReadCount" parameterType="int">

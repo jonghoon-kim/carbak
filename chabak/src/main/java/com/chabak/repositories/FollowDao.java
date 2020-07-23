@@ -15,7 +15,7 @@ import java.util.Map;
     // 게시글 갖고오기 + 뿌리기
 
 
-    @Repository("FollowDao")
+    @Repository("followDao")
     public class FollowDao {
         @Autowired
         SqlSession sqlSession;

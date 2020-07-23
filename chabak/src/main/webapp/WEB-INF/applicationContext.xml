@@ -3,18 +3,23 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xmlns:context="http://www.springframework.org/schema/context"
 	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	   xmlns:mybatis="http://mybatis.org/schema/mybatis-spring"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd
-		http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-4.3.xsd">
+		http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-4.3.xsd
+		http://mybatis.org/schema/mybatis-spring
+		http://mybatis.org/schema/mybatis-spring.xsd">
 
 	<context:annotation-config/>
 
 
-	<context:component-scan base-package="com.chabak.repositories com.chabak.services">
+	<context:component-scan base-package="com.chabak.repositories com.chabak.mapper com.chabak.services">
 
 	<context:exclude-filter expression="org.springframework.stereotype.Controller" type="annotation"/>
 
 </context:component-scan>
+	<!-- 매퍼 인터페이스의 스캔을 활성화한다. -->
+	<mybatis:scan base-package="com.chabak.mapper" />
 
 	<!-- 연쇄반응 주의! -->
 	<!-- 1. DataSource (Oracle) -->
@@ -26,6 +31,12 @@
 <!--		<property name="connectionCachingEnabled" value="true" />-->
 	</bean>
 
+
+	<bean id="jsonView" class="net.sf.json.spring.web.servlet.view.JsonView"/>
+	<bean id="viewResolver" class="org.springframework.web.servlet.view.BeanNameViewResolver">
+		<property name="order" value="1"/>
+	</bean>
+
 	<!-- 2. MyBatis SqlSessionFactory -->
 	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
 		<!-- 설정한 DataSource의 id를 참조로 전달해야 한다 -->
@@ -34,11 +45,20 @@
 		<property name="configLocation" value="classpath:mybatis/configuration.xml" />
 	</bean>
 
+
+
 	<!-- 3. MyBatis SqlSessionTemplate -->
 	<bean id="sqlSession" class="org.mybatis.spring.SqlSessionTemplate">
 		<!-- Bean 생성자 호출 -->
 		<constructor-arg index="0" ref="sqlSessionFactory" /> <!-- 생성자의 아규먼트 0번째에 ref주소를 전달 -->
 	</bean>
+
+	<!-- 트랜젝션 관리 객체 -->
+	<bean id="transactionManager"
+		  class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="oracleDatasource" />
+	</bean>
+
 
 
 	<!-- file Upload -->

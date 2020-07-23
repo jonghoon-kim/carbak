@@ -1,7 +1,8 @@
 package com.chabak.controllers;
 
-import com.chabak.repositories.ReplyDao;
-import com.chabak.repositories.ReviewLikeDao;
+import com.chabak.services.MemberService;
+import com.chabak.services.ReplyService;
+import com.chabak.services.ReviewLikeService;
 import com.chabak.services.ReviewService;
 import com.chabak.util.Utility;
 import com.chabak.vo.*;
@@ -15,6 +16,7 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -27,16 +29,20 @@ public class ReviewController {
     ReviewService reviewService;
 
     @Autowired
-    ReplyDao replyDao;
+    ReplyService replyService;
 
      @Autowired
-    ReviewLikeDao reviewLikeDao;
+    ReviewLikeService reviewLikeService;
+
+     @Autowired
+     MemberService memberService;
+
 
     @RequestMapping(value ={"", "/", "/list"}, method=RequestMethod.GET)
     public ModelAndView reviewList(HttpSession session,
                                    @RequestParam (required = false,defaultValue = "regDate") String sortType,
                                    @RequestParam (required = false,defaultValue = "") String searchText,
-                                   @RequestParam (required = false,defaultValue = "") String pageOwnerId){
+                                   @RequestParam (required = false,defaultValue = "") String pageOwnerId) {
 
         ModelAndView mv = new ModelAndView();
 
@@ -56,7 +62,7 @@ public class ReviewController {
 
         System.out.println("pagination:"+pagination);
         //리뷰 리스트 select
-        List<ReviewAndLike> reviewList = reviewService.selectReviewList(map);
+        List<Review> reviewList = reviewService.selectReviewList(map);
 
 
         mv.setViewName("community/community");
@@ -77,7 +83,7 @@ public class ReviewController {
     @SneakyThrows
     @ResponseBody
     @RequestMapping("/listAjax")
-    public String listAjax(HttpServletRequest request,HttpSession session,
+    public String listAjax(HttpSession session,
                            @RequestParam (required = false,defaultValue = "regDate") String sortType,
                            @RequestParam (required = false,defaultValue = "") String searchText,
                            @RequestParam (required = false,defaultValue = "") String pageOwnerId,
@@ -98,7 +104,7 @@ public class ReviewController {
         Pagination pagination = reviewService.setReviewListParameterMap(map,session,sortType,searchText,pageOwnerId,listCnt,curPage);
 
         //리뷰 리스트 select
-        List<ReviewAndLike> reviewList = reviewService.selectReviewList(map);
+        List<Review> reviewList = reviewService.selectReviewList(map);
 
 
         //화면으로 보낼 맵
@@ -123,7 +129,7 @@ public class ReviewController {
         ModelAndView mv = new ModelAndView();
 
         //region checkLogin(세션에서 로그인한 아이디 가져와 설정+비로그인시 로그인 페이지로 이동(return: id or null))
-        String id = Utility.getIdForSessionOrMoveIndex(mv,session,response);
+        Utility.getIdForSessionOrMoveIndex(mv,session,response);
 
         //endregion
 
@@ -143,20 +149,29 @@ public class ReviewController {
         //작성자 설정
         review.setId(id);
 
-
-        System.out.println("review:"+review);
+        System.out.println("review(Bean modified):"+review);
 
         reviewService.setTitleImg(review);
 
+        try{
+            reviewService.insertReview(review);
+        }
+        catch (Exception e){
+            e.printStackTrace();
+            Utility.printAlertMessage("작업 중 에러가 발생했습니다.",null,response);
+            return null;
+        }
         //리뷰 저장
-        reviewService.insertReview(review);
 
-        mv.setViewName("redirect:/review");
+
+        mv.setViewName("redirect:/review/list");
 
         return mv;
     } //리뷰 저장
 
+
     //리뷰 수정 페이지로 이동
+    @SneakyThrows
     @RequestMapping(value ="/modify", method=RequestMethod.GET)
     public ModelAndView modifyForm(@RequestParam int reviewNo,HttpSession session,HttpServletResponse response){
 
@@ -172,18 +187,24 @@ public class ReviewController {
         //수정 권한 체크
         try{
             review = reviewService.selectReviewDetail(reviewNo);
-            reviewService.compareSessionAndWriterId(id,review.getId(),response);
+            boolean authorityYn = id.equals(review.getId()) ? true:false;
+            //권한 없으면
+            if(!authorityYn){
+                Utility.printAlertMessage("권한이 없습니다.",null,response);
+                return null;
+            }
+
         } //해당 리뷰번호에 해당하는 작성자가 없으면
         catch (NullPointerException e){
-            Utility.printAlertMessage(response,"잘못된 접근입니다.");
-            mv.setViewName("/review");
-            return mv;
+            Utility.printAlertMessage("잘못된 접근입니다.",null,response);
+            return null;
+            
         }
+        //정상일 때 수정 페이지 이동
+         mv.addObject("review",review);
+         mv.setViewName("community/community_update");
 
-        mv.addObject("review",review);
-        mv.setViewName("community/community_update");
-
-        return mv;
+         return mv;
     }
 
     @RequestMapping(value ="/modify", method=RequestMethod.POST)
@@ -204,9 +225,16 @@ public class ReviewController {
 
         System.out.println("review:"+review);
 
-        reviewService.updateReview(review);
+        try{
+            reviewService.updateReview(review);
+        }
+        catch (Exception e){
+            e.printStackTrace();
+            Utility.printAlertMessage("작업 중 에러가 발생했습니다.",null,response);
+            return null;
+        }
 
-        mv.setViewName("redirect:/review");
+        mv.setViewName("redirect:/review/list");
 
         return mv;
     }
@@ -226,18 +254,26 @@ public class ReviewController {
         //삭제 권한 체크
         try{
             review = reviewService.selectReviewDetail(reviewNo);
-            reviewService.compareSessionAndWriterId(id,review.getId(),response);
+            boolean authorityYn = id.equals(review.getId()) ? true:false;
+            //권한 없으면
+            if(!authorityYn){
+                Utility.printAlertMessage("권한이 없습니다.",null,response);
+                return null;
+            }
+             //리뷰 삭제
+             reviewService.deleteReview(reviewNo);
+
         } //해당 리뷰번호에 해당하는 작성자가 없으면
         catch (NullPointerException e){
-            Utility.printAlertMessage(response,"잘못된 접근입니다.");
-            mv.setViewName("/review");
-            return mv;
+            Utility.printAlertMessage("잘못된 접근입니다.",null,response);
+            return null;
         }
-
-        //리뷰 삭제
-        reviewService.deleteReview(reviewNo);
-
-        mv.setViewName("redirect:/review");
+        catch (Exception e){
+            e.printStackTrace();
+            Utility.printAlertMessage("작업 중 에러가 발생했습니다.",null,response);
+            return null;
+        }
+        mv.setViewName("redirect:/review/list");
 
         return mv;
     }
@@ -259,9 +295,8 @@ public class ReviewController {
 
         //해당 리뷰가 존재하지 않으면
         if(review == null){
-            Utility.printAlertMessage(response,"잘못된 접근입니다.");
-            mv.setViewName("/review");
-            return mv;
+            Utility.printAlertMessage("잘못된 접근입니다.",null,response);
+            return null;
         }
 
         //조회수 1 증가
@@ -279,11 +314,14 @@ public class ReviewController {
             reviewLike.setId(id);
 
             //로그인시 사용자의 좋아요 누름 여부(1/0) check
-            int likeYn = reviewLikeDao.checkReviewLike(reviewLike);
+            int likeYn = reviewLikeService.checkReviewLike(reviewLike);
             System.out.println("likeYn:"+likeYn);
 
             //로그인시 사용자의 좋아요 누름 여부(1/0)
             mv.addObject("likeYn",likeYn);
+
+            mv.addObject("session", memberService.getMember(id));
+
         }
 
 
@@ -292,7 +330,7 @@ public class ReviewController {
 
         //해당 리뷰에 달린 댓글들
 
-        List<Reply> replyList = replyDao.selectReplyList(reviewNo);
+        List<Reply> replyList = replyService.selectReplyList(reviewNo);
 
         System.out.println("replyList:"+replyList);
 

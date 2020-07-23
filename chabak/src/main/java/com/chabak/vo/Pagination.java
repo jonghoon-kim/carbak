@@ -5,7 +5,7 @@ import lombok.Data;
 @Data
 public class Pagination {
     /** 한 페이지당 게시글 수 **/
-    private int pageSize = 3;
+    private int pageSize = 5;
 
     /** 한 블럭(range)당 페이지 수 **/
     private int rangeSize = 10;

@@ -7,7 +7,7 @@ import com.chabak.services.ReviewService;
 import com.chabak.util.Utility;
 import com.chabak.vo.Follow;
 import com.chabak.vo.Pagination;
-import com.chabak.vo.ReviewAndLike;
+import com.chabak.vo.Review;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -56,7 +56,7 @@ public class MyPageController {
         } else {
             map.put("id", loginId);
             map.put("pageOwnerId", loginId);
-            List<ReviewAndLike> list = reviewService.selectReviewListMyPage(map);
+            List<Review> list = reviewService.selectReviewListMyPage(map);
 
             mv.setViewName("/mypage/myInformation");
             mv.addObject("countFollower",followService.countFollower(loginId));
@@ -122,7 +122,7 @@ public class MyPageController {
 
         map.put("id", clickedId);
         map.put("pageOwnerId", clickedId);
-        List<ReviewAndLike> list = reviewService.selectReviewListMyPage(map);
+        List<Review> list = reviewService.selectReviewListMyPage(map);
 
         mv.setViewName("/mypage/myInformation");
         mv.addObject("countFollower", followService.countFollower(clickedId));
@@ -222,15 +222,15 @@ public class MyPageController {
     //follow 버튼 클릭 이벤트 컨트롤러(follow -> following)
     @ResponseBody
     @RequestMapping(value = {"", "/", "printReviewList"}, method = {RequestMethod.GET, RequestMethod.POST}) //
-    public HashMap<String, List<ReviewAndLike>> printReviewList(HttpSession session, @RequestParam String pageOwnerId) throws Exception {
+    public HashMap<String, List<Review>> printReviewList(HttpSession session, @RequestParam String pageOwnerId) throws Exception {
         String loginId = (String) session.getAttribute("id");
         Map map = new HashMap();
-        HashMap<String, List<ReviewAndLike>> resultMap = new HashMap<>();
+        HashMap<String, List<Review>> resultMap = new HashMap<>();
 
         if (loginId == pageOwnerId) {
             map.put("id", loginId);
             map.put("pageOwnerId", loginId);
-            List<ReviewAndLike> list =  reviewService.selectReviewListMyPage(map);
+            List<Review> list =  reviewService.selectReviewListMyPage(map);
 
             resultMap.put("reviewList", list);
             return resultMap;
@@ -239,7 +239,7 @@ public class MyPageController {
             System.out.println(pageOwnerId);
             map.put("id", pageOwnerId);
             map.put("pageOwnerId", pageOwnerId);
-            List<ReviewAndLike> list =  reviewService.selectReviewListMyPage(map);
+            List<Review> list =  reviewService.selectReviewListMyPage(map);
 
             resultMap.put("reviewList", list);
             return resultMap;
