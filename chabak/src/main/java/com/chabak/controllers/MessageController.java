@@ -45,9 +45,8 @@ public class MessageController {
         mv.addObject("type",type);
         mv.setViewName("message/message");
 
-
         return mv;
-    } //리뷰 리스트 출력
+    }
 
     @RequestMapping(value ={"/write"}, method=RequestMethod.GET)
     public ModelAndView writeForm(){
@@ -55,7 +54,7 @@ public class MessageController {
         ModelAndView mv = new ModelAndView();
         mv.setViewName("message/message_write");
         return mv;
-    } //리뷰 리스트 출력
+    }
 
     @RequestMapping(value ={"/write"}, method=RequestMethod.POST)
     public ModelAndView writeMessage(@ModelAttribute Message message,HttpSession session,HttpServletResponse response){

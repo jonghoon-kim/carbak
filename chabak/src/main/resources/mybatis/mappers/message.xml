@@ -35,6 +35,11 @@
 		)
 	</insert>
 
+	<update id="updateBoxDeletedYn" parameterType="Map">
+		UPDATE MESSAGE SET ${columnName} = 'y'
+		WHERE MESSAGENO = #{messageNo}
+	</update>
+
 	<update id="updateReadYn" parameterType="int">
 		UPDATE MESSAGE SET READYN = 'y'
 		WHERE MESSAGENO = #{messageNo}

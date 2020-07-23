@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -29,6 +30,15 @@ public class MessageService {
         return insertCount;
     }
 
+    /**파라미터 :<br>String columnName("sendBoxDeletedYn" 또는 "receiveBoxDeletedYn" 중 선택),<br>int messageNo**/
+    public int updateBoxDeletedYn(String columnName,int messageNo){
+        Map map = new HashMap<String,String>();
+        map.put("columnName",columnName);
+        map.put("messageNo",messageNo);
+        int updateCount = messageDao.updateBoxDeletedYn(map);
+        return updateCount;
+    }
+    
     public int updateReadYn(int messageNo){
         int updateCount = messageDao.updateReadYn(messageNo);
         return updateCount;
