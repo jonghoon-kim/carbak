@@ -11,7 +11,7 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
     <script type="text/javascript" src=" http://code.jquery.com/jquery-latest.min.js"></script>
     <script type="text/javascript" src="/js/smarteditor2/js/HuskyEZCreator.js"></script>
-    <script type="text/javascript" src="/js/address_select.js" charset='UTF-8'></script>
+    <script type="text/javascript" src="/js/address_update.js" charset="UTF-8"></script>
     <script type="text/javascript" src="/js/reviewScript.js" charset='UTF-8'></script>
     <script>
         $(document).ready(function(){
@@ -39,8 +39,10 @@
                 <input type="text" class="content" id="title" name="title" value="${review.title}" onkeyup="checkLengthValidate(this, 40)">
             </div>
             <div class="set">
-                <span class="title">리뷰 지역???</span>
+                <span class="title">리뷰 지역 선택</span>
                 <span class="title" style="color: red;">(필수 *)</span>
+                <input type="hidden" id="selectSido" value="${review.sido}">
+                <input type="hidden" id="selectGugun" value="${review.gugun}">
                 <select class="content" name="sido" id="sido"></select>
                 <select class="content" name="gugun" id="gugun"></select>
             </div>
