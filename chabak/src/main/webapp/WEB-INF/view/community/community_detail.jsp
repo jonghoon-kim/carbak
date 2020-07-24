@@ -60,6 +60,18 @@
                 }
             }
 
+            //작성자 드롭다운 숨기기
+            // dropdowns = document.getElementsByClassName("dropdown-content-writer");
+            //
+            // for (i = 0; i < dropdowns.length; i++) {
+            //     var openDropdown = dropdowns[i];
+            //
+            //     if (openDropdown.classList.contains('show')) {
+            //         openDropdown.classList.remove('show');
+            //     }
+            // }
+
+            //리뷰 드롭다운 이미지 클릭시
             if (flag == 'review') {
 
                 if(${sessionScope.id eq null}){
@@ -75,18 +87,23 @@
 
                 document.getElementById("myDropdown").classList.toggle("show");
 
-            } else {
+            }
+            //작성자 클릭시
+            else if(flag == 'writer'){
+                document.getElementById("myDropdownWriter").classList.toggle("show");
+            }
+            else{ //댓글 클릭시
                 document.getElementById("myDropdown" + replyNo).classList.toggle("show");
             }
         }
 
         window.onclick = function (event) {
-            if (!event.target.matches('.dropbtnImg') && !event.target.matches('.dropbtnImgRe')) {
+            if (!event.target.matches('.dropbtnImg') && !event.target.matches('.dropbtnImgRe') && !event.target.matches('.dropbtnWriter')) {
 
                 var dropdowns = document.getElementsByClassName("dropdown-content");
 
                 var i;
-
+                //리뷰,댓글 드롭다운 hide
                 for (i = 0; i < dropdowns.length; i++) {
                     var openDropdown = dropdowns[i];
 
@@ -94,6 +111,16 @@
                         openDropdown.classList.remove('show');
                     }
                 }
+                //작성자 클릭 드롭다운 hide
+                // dropdowns = document.getElementsByClassName("dropdown-content-writer");
+                //
+                // for (i = 0; i < dropdowns.length; i++) {
+                //     var openDropdown = dropdowns[i];
+                //
+                //     if (openDropdown.classList.contains('show')) {
+                //         openDropdown.classList.remove('show');
+                //     }
+                // }
             }
         }
 
@@ -193,6 +220,11 @@
                 });
             }
         }
+
+        //쪽지 작성 팝업 띄움
+        function openWinMessageWrite(receiveId){
+            window.open("/message/write?receiveId="+receiveId, "쪽지 작성", "width=800, height=700, toolbar=no, menubar=no, scrollbars=no, resizable=yes" );
+        }
     </script>
 
 <body>
@@ -217,10 +249,22 @@
                 </div>
             </div>
             <div class="writer">
-                    <span class="writer-id" id="writerId">
-                        ${review.id}
-                    </span>
+
+<%--            작성자 드롭다운 시작--%>
+                <div class="dropdown" id="dropdown-review">
+                    <button class="dropbtn">
+                        <span class="dropbtnWriter" id="writerId" onclick="myFunction('writer',null)">
+                            ${review.id}
+                        </span>
+                    </button>
+                    <div class="dropdown-content" id="myDropdownWriter">
+                        <a href="/mypage/guestVisit?id=${review.id}" target="_blank">마이페이지</a>
+                        <a onclick="openWinMessageWrite('${review.id}')">쪽지 보내기</a>
+                    </div>
+                </div>
+<%--            작성자 드롭다운 끝--%>
             </div>
+
             <div class="title">
                 [${review.sido}][${review.gugun}] ${review.title}
             </div>
