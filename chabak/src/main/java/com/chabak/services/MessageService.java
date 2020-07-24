@@ -15,7 +15,21 @@ public class MessageService {
     @Autowired
     MessageDao messageDao;
 
-    public List<Message> selectMessageList(Map map){
+    /**파라미터<br>1.sessionId:로그인한 유저 id,<br>2.messageBox: send(출력할 메시지가 보낸메시지함일 경우),
+     *<br>receive 또는 그외(받은 메시지함일 경우)**/
+    public List<Message> selectMessageList(String sessionId,String messageBox){
+
+        //출력할 메시지가 보낸메시지함인지 받은메시지함인지에 따라 map에 파라미터 설정
+        Map map = new HashMap<String,String>();
+        if(messageBox.equals("send")){
+            map.put("sendId",sessionId);
+            map.put("columnName","sendBoxDeletedYn");
+        }
+        else{
+            map.put("receiveId",sessionId);
+            map.put("columnName","receiveBoxDeletedYn");
+        }
+
         List<Message> messageList = messageDao.selectMessageList(map);
         return messageList;
     }
@@ -30,10 +44,18 @@ public class MessageService {
         return insertCount;
     }
 
-    /**파라미터 :<br>String columnName("sendBoxDeletedYn" 또는 "receiveBoxDeletedYn" 중 선택),<br>int messageNo**/
-    public int updateBoxDeletedYn(String columnName,int messageNo){
+    /**파라미터 :<br>String messageBox(view 에서 보낸 messageBox 값 : "send" 또는 그 외의 값),<br>int messageNo**/
+    public int updateBoxDeletedYn(String messageBox,int messageNo){
         Map map = new HashMap<String,String>();
-        map.put("columnName",columnName);
+
+        //삭제 처리(flag 수정)할 칼럼 이름을 map에 넣기
+        if(messageBox.equals("send")){
+            map.put("columnName","sendBoxDeletedYn");
+        }
+        else{
+            map.put("columnName","receiveBoxDeletedYn");
+        }
+
         map.put("messageNo",messageNo);
         int updateCount = messageDao.updateBoxDeletedYn(map);
         return updateCount;

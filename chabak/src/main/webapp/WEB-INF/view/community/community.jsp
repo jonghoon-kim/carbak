@@ -33,6 +33,47 @@
         function fn_paging(curPage) {
             ajaxReviewList('${sessionScope.id}',true,curPage);
         }
+
+        //드롭다운 영역 클릭시 드롭다운 보이게
+        function myFunction(reviewNo) {
+            console.log("myFunction()");
+            var dropdowns = document.getElementsByClassName("dropdown-content");
+
+            var i;
+
+            for (i = 0; i < dropdowns.length; i++) {
+                var openDropdown = dropdowns[i];
+
+                if (openDropdown.classList.contains('show')) {
+                    openDropdown.classList.remove('show');
+                }
+            }
+             document.getElementById("myDropdown"+reviewNo).classList.toggle("show");
+
+        }
+
+        //드롭다운 영역이 아닌 곳을 클릭하면 드롭다운 닫힘
+        window.onclick = function (event) {
+            if (!event.target.matches('.writer-id')) {
+                var dropdowns = document.getElementsByClassName("dropdown-content");
+
+                var i;
+
+                for (i = 0; i < dropdowns.length; i++) {
+                    var openDropdown = dropdowns[i];
+
+                    if (openDropdown.classList.contains('show')) {
+                        console.log("openList:" + openDropdown);
+                        openDropdown.classList.remove('show');
+                    }
+                }
+            }
+        }
+
+        //쪽지 작성 팝업 띄움
+        function openWinMessageWrite(receiveId){
+            window.open("/message/write?receiveId="+receiveId, "쪽지 작성", "width=800, height=700, toolbar=no, menubar=no, scrollbars=no, resizable=yes" );
+        }
     </script>
 <body>
 <!-- header -->
@@ -79,8 +120,16 @@
                 </div>
             </div>
             <div class="writer">
-                    <span class="writer-id">
-                    </span>
+                <div class="dropdown">
+                    <button class="dropbtn">
+                         <span class="writer-id" onclick="">
+                          </span>
+                    </button>
+                    <div class="dropdown-content" id="">
+                        <a class="mypage" href="" target="_blank">마이페이지</a>
+                        <a class="message" onclick="">쪽지 보내기</a>
+                    </div>
+                </div>
             </div>
             <div class="regDate">
             </div>
@@ -123,17 +172,27 @@
                         </div>
                     </div>
                     <div class="writer">
-                        <a href="/mypage/guestVisit?id=${review.id}" target="_blank">
-                    <span class="writer-id">
-                    ${review.id}
-                        <a href="/message/list?id=${review.id}">쪽지</a>
-                    </span>
-                        </a>
+
+                        <div class="dropdown">
+                            <button class="dropbtn">
+                                <span class="writer-id" onclick="myFunction('${review.reviewNo}')">
+                                    ${review.id}
+                                </span>
+                           </button>
+                            <div class="dropdown-content" id="myDropdown${review.reviewNo}">
+                                <a href="/mypage/guestVisit?id=${review.id}" target="_blank">마이페이지</a>
+                                <a onclick="openWinMessageWrite('${review.id}')">쪽지 보내기</a>
+                            </div>
+                        </div>
+
+
+
                     </div>
                     <div class="regDate">
                         ${review.regDate}
                     </div>
                 </div>
+
                 <div class="content">
 
                     <div class="review-img">

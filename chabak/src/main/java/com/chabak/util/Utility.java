@@ -11,8 +11,6 @@ import java.io.PrintWriter;
 
 public class Utility {
 
-    public final static String deletedId = "@deletedId";
-
     //이전 페이지로 돌아감
     @SneakyThrows
     public static void pageBackward(HttpServletResponse response){
@@ -33,6 +31,18 @@ public class Utility {
 
         out.println("<script>");
         out.println("location.href=\""+url+"\"");
+        out.println("</script>");
+        out.flush();
+    }
+
+    //특정 페이지로 이동함
+    @SneakyThrows
+    public static void closeWindow(HttpServletResponse response){
+        response.setContentType("text/html; charset=UTF-8");
+        PrintWriter out = response.getWriter();
+
+        out.println("<script>");
+        out.println("window.close();");
         out.println("</script>");
         out.flush();
     }
@@ -59,7 +69,6 @@ public class Utility {
 
             return null;
         }
-        System.out.println("id from session:"+id);
         return id;
     }
 

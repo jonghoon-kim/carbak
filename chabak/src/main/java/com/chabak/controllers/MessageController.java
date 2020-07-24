@@ -7,6 +7,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -25,33 +26,30 @@ public class MessageController {
     MessageService messageService;
 
     @RequestMapping(value ={"", "/", "/list"}, method=RequestMethod.GET)
-    public ModelAndView messageList(HttpSession session,HttpServletResponse response,@RequestParam (required = false,defaultValue = "receive") String type){
+    public ModelAndView messageList(HttpSession session,HttpServletResponse response,@RequestParam (defaultValue = "receive") String messageBox){
 
         ModelAndView mv = new ModelAndView();
 
         //세션에서 로그인한 아이디 가져와 설정(return: id or null)
         String id = Utility.getIdForSessionOrMoveIndex(mv,session,response);
 
-        Map map = new HashMap<String,String>();
-        if(type.equals("receive")){
-            map.put("receiveId",id);
-        }
-        else{
-            map.put("sendId",id);
-        }
-        List<Message> messageList = messageService.selectMessageList(map);
+        //messageBox값(send||receive)에 따라서 보낸메시지함||받은메시지함 메시지 리스트 출력
+        List<Message> messageList = messageService.selectMessageList(id,messageBox);
 
         mv.addObject("messageList",messageList);
-        mv.addObject("type",type);
+        mv.addObject("messageBox",messageBox);
         mv.setViewName("message/message");
 
         return mv;
     }
 
     @RequestMapping(value ={"/write"}, method=RequestMethod.GET)
-    public ModelAndView writeForm(){
+    public ModelAndView writeForm(@RequestParam (required = false)String receiveId){
 
         ModelAndView mv = new ModelAndView();
+        if(receiveId!=null){
+            mv.addObject("receiveId",receiveId);
+        }
         mv.setViewName("message/message_write");
         return mv;
     }
@@ -63,16 +61,23 @@ public class MessageController {
 
         //세션에서 로그인한 아이디 가져와 설정(return: id or null)
         String id = Utility.getIdForSessionOrMoveIndex(mv,session,response);
-
+        System.out.println("message:"+message);
         message.setSendId(id);
-        messageService.insertMessage(message);
-        //새창 띄우므로 null이어도 됨
-        mv.setViewName("redirect:message/list");
-        return mv;
+        try{
+            messageService.insertMessage(message);
+        }
+        catch (Exception e){
+            e.printStackTrace();
+            Utility.printAlertMessage("작업 중 에러가 발생했습니다.",null,response);
+        }
+
+        //새창 닫기
+        Utility.closeWindow(response);
+        return null;
     } //리뷰 리스트 출력
 
     @RequestMapping(value ="/detail", method=RequestMethod.GET)
-    public ModelAndView detailMessage(@RequestParam int messageNo,HttpSession session,HttpServletResponse response){
+    public ModelAndView detailMessage(@RequestParam int messageNo,@RequestParam String messageBox, HttpSession session,HttpServletResponse response){
 
         ModelAndView mv = new ModelAndView();
 
@@ -100,12 +105,14 @@ public class MessageController {
         }
 
         mv.addObject("message",message);
+        mv.addObject("messageBox",messageBox);
         mv.setViewName("message/message_detail");
         return mv;
     }
 
+    @Transactional
     @RequestMapping(value ="/delete", method=RequestMethod.GET)
-    public ModelAndView deleteReview(@RequestParam int messageNo,HttpSession session,HttpServletResponse response){
+    public ModelAndView deleteReview(@RequestParam int messageNo,@RequestParam String messageBox,HttpSession session,HttpServletResponse response){
 
         ModelAndView mv = new ModelAndView();
 
@@ -115,11 +122,21 @@ public class MessageController {
         //endregion
 
         Message message;
-
+        
         //삭제 권한 체크
         try{
+            //messageNo로 선택한 메시지 1개 불러옴
             message = messageService.selectMessageDetail(messageNo);
-            boolean authorityYn = id.equals(message.getReceiveId()) ? true:false;
+            
+            //권한 체크용 변수
+            boolean authorityYn;
+            if(messageBox.equals("send")){
+                authorityYn = id.equals(message.getSendId()) ? true:false;
+            }
+            else{ //messageBox 값이 send가 아니면
+                authorityYn = id.equals(message.getReceiveId()) ? true:false;
+            }
+           
             System.out.println("authorityYn:"+authorityYn);
             //권한 없으면
             if(!authorityYn){
@@ -127,13 +144,24 @@ public class MessageController {
                 return null;
             }
             else{
-                //메시지 삭제
-                messageService.deleteMessage(messageNo);
+                messageService.updateBoxDeletedYn(messageBox,messageNo);
+                //보낸메시지함,받은메시지함에서 해당 메시지가 지워졌는지 확인을 위해 다시 메시지 불러오기
+                message = messageService.selectMessageDetail(messageNo);
+                //해당 메시지가 받은편지함과 보낸편지함에서 둘다 지워지면(flag값이 y가 되면)
+                if(message.getReceiveBoxDeletedYn().equals("y") && message.getSendBoxDeletedYn().equals("y")){
+                    //메시지 완전 삭제
+                    messageService.deleteMessage(messageNo);                   
+                }
+
             }
         } //메시지 받은 아이디가 없으면
         catch (NullPointerException e){
             Utility.printAlertMessage("잘못된 접근입니다.",null,response);
             return null;
+        }
+        catch (Exception e){
+            e.printStackTrace();
+            Utility.printAlertMessage("작업 중 에러가 발생했습니다.",null,response);
         }
 
         mv.setViewName("redirect:/message/list");

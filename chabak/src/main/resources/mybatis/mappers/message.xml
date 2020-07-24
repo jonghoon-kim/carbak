@@ -16,6 +16,9 @@
 		<if test="sendId !=null and sendId !=''">
 			and SENDID = #{sendId}
 		</if>
+		<if test="columnName !=null and columnName !=''">
+			and ${columnName} = 'n'
+		</if>
 	</select>
 
 	<select id="selectMessageDetail" parameterType="int" resultType="Message">

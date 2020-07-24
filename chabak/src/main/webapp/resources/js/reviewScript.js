@@ -121,13 +121,24 @@ function ajaxReviewList(sessionId,isSearchButton,curPage) {
                 //            원형 복사시 수정할 부분: #dummy-review(id),  .writer-id(value),    .review-img img(src,onclick) .content-title(value)
 
                 var reviewNo = this["reviewNo"];
-                var reviewId = "review"+reviewNo;
+                var reviewElementId = "review"+reviewNo;
+                var writerId = this["id"];
 
-                newReview.attr("id",reviewId);
+                newReview.attr("id",reviewElementId);
 
+
+                //작성자 영역&&드롭다운 영역
 
                 var writer = newReview.find(".writer-id");  //작성자
+
                 writer.html(this["id"]);  //작성자 설정
+                writer.attr("onclick","myFunction("+ reviewNo +")");
+
+
+                var dropdownContent = newReview.find(".dropdown-content");
+                dropdownContent.attr("id","myDropdown"+reviewNo);
+                dropdownContent.find(".mypage").attr("href","/mypage/guestVisit?id="+writerId);
+                dropdownContent.find(".message").attr("onclick","openWinMessageWrite('"+writerId+"')");
 
                 //프로필 이미지
                 var profileImg = newReview.find(".centered img");

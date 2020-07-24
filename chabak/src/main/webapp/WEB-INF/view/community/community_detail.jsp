@@ -91,7 +91,6 @@
                     var openDropdown = dropdowns[i];
 
                     if (openDropdown.classList.contains('show')) {
-                        console.log("openList:" + openDropdown);
                         openDropdown.classList.remove('show');
                     }
                 }
