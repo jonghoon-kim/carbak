@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.regex.Matcher;
@@ -46,28 +47,8 @@ public class ReviewService {
 
         String regex = "<img[^>]*src=[\"']?([^>\"']+)[\"']?[^>]*>"; //img 태그 src 추출 정규표현식
         String resultString = originalString.replaceAll(regex,"");
-        System.out.println("deleteImgTag resultString:"+resultString);
+//        System.out.println("deleteImgTag resultString:"+resultString);
         return resultString;
-    }
-
-    //리뷰 리스트 select 관련 파라미터 설정 후 리턴
-    public Pagination setReviewListParameterMap(Map map,HttpSession session,String sortType,String searchText,String pageOwnerId,int listCnt,int curPage) {
-        map.put("sortType",sortType);
-        map.put("searchText",searchText);
-        map.put("pageOwnerId",pageOwnerId);
-        map.put("id",Utility.getIdForSessionNotMoveIndex(session));//세션에서 가져온 id map에 넣기
-
-        //페이징 관련 파라미터
-        //reviewList 행의 수
-        System.out.println("setReviewListParameterMap(Service) start listCnt:"+listCnt);
-        Pagination pagination = new Pagination(listCnt,curPage);
-        System.out.println("setReviewListParameterMap(Service) start pagination:"+pagination);
-        int startIndex = pagination.getStartIndex();
-        int pageSize = pagination.getPageSize();
-        map.put("startIndex",startIndex);
-        map.put("pageSize",pageSize);
-
-        return pagination;
     }
 
     public int insertReview(Review review){
@@ -75,19 +56,40 @@ public class ReviewService {
         return insertedCount;
     }
 
-    public int maxReviewCount(Map map){
+    /**파라미터<br>1.isFollowerSearch : 값 있으면 팔로워 리뷰 검색<br>
+     * 2.searchText : 검색어<br>3. pageOwnerId : 마이페이지 관련<br>4. id : 로그인 아이디**/
+    public int maxReviewCount(String isFollowerSearch,String searchText,String pageOwnerId,String id){
+        Map map = new HashMap<String,String>();
+        map.put("isFollowerSearch",isFollowerSearch);
+        map.put("searchText",searchText);
+        map.put("pageOwnerId",pageOwnerId);
+        map.put("id",id);
+
         int maxCount = reviewDao.maxReviewCount(map);
         return maxCount;
     }
 
     public List<Review> selectReviewTop5(String id){
-        List<Review> reviewList = null;
-        reviewList = reviewDao.selectReviewTop5(id);
+        List<Review> reviewList = reviewDao.selectReviewTop5(id);
         return reviewList;
     }
-    public List<Review> selectReviewList(Map map){
-        List<Review> reviewList = null;
-        reviewList = reviewDao.selectReviewList(map);
+
+    /**파라미터<br>1.isFollowerSearch : 값 있으면 팔로워 리뷰 검색<br>
+     * 2.searchText : 검색어<br>3. pageOwnerId : 마이페이지 관련<br>
+     * 4. id : 로그인 아이디<br>5. sortType 정렬타입(regDate||readCount||likeCount)<br>
+     *6. startIndex : Pagination의 startIndex(필수)<br>7. pageSize : 한페이지에 들어가는 리뷰 개수(필수)**/
+    public List<Review> selectReviewList(String isFollowerSearch,String searchText,String pageOwnerId,String id,
+                                         String sortType,int startIndex,int pageSize){
+        Map map = new HashMap<String,String>();
+        map.put("isFollowerSearch",isFollowerSearch);
+        map.put("searchText",searchText);
+        map.put("pageOwnerId",pageOwnerId);
+        map.put("id",id);//세션에서 가져온 id map에 넣기
+        map.put("sortType",sortType);
+        map.put("startIndex",startIndex);
+        map.put("pageSize",pageSize);
+
+        List<Review> reviewList = reviewDao.selectReviewList(map);
         return reviewList;
     }
 

@@ -6,9 +6,6 @@
 <head>
     <meta charset="UTF-8">
     <title>슬기로운 차박생활</title>
-    <meta http-equiv="Cache-Control" content="no-cache"/>
-    <meta http-equiv="Expires" content="0"/>
-    <meta http-equiv="Pragma" content="no-cache"/>
     <link href="/css/community.css" rel="stylesheet">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
     <script type="text/javascript" src=" http://code.jquery.com/jquery-latest.min.js"></script>
@@ -89,6 +86,8 @@
     <div class="search">
 <%--        pageOwnerId 저장하는 hidden input--%>
         <input type = "hidden" id="pageOwnerIdSaved" value="${pageOwnerId}">
+<%--    팔로워 리뷰 글 검색용 체크박스--%>
+        <input type = "checkbox" id="isFollowerSearch" value="y" onchange="ajaxReviewList('${sessionScope.id}',false,'1')">
         <input type="text" class="search_text" placeholder=" 지역 검색" name="searchText" id="search_text" value="${searchText}">
         <%--        검색버튼 눌렀을 때 검색어 저장 input--%>
         <input type="hidden" name="search_text_saved" id="search_text_saved" value="${searchText}">
@@ -115,7 +114,7 @@
             <div class="thumbnail-wrapper">
                 <div class="thumbnail">
                     <div class="centered">
-                        <img src="">
+                        <img src="" alt="profile image">
                     </div>
                 </div>
             </div>
@@ -139,7 +138,7 @@
             <div class="review-img">
 
                 <img src=""
-                     onclick="">
+                     onclick="" alt="review image">
             </div>
             <div class="review-content">
                 <div class="content-title">
@@ -147,8 +146,8 @@
                 </div>
                 <div class="content-icon">
                     <button class="like-img"><img class="toggle-like-img" src="/img/community/heart.png"
-                                                  onclick=""></button>
-                    <button class="comment-img"><img src="/img/community/comment.png"></button>
+                                                  onclick="" alt="like toggle image"></button>
+                    <button class="comment-img"><img src="/img/community/comment.png" alt="comment image"></button>
                 </div>
             </div>
 

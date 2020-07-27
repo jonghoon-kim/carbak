@@ -42,27 +42,22 @@ public class ReviewController {
     public ModelAndView reviewList(HttpSession session,
                                    @RequestParam (required = false,defaultValue = "regDate") String sortType,
                                    @RequestParam (required = false,defaultValue = "") String searchText,
-                                   @RequestParam (required = false,defaultValue = "") String pageOwnerId) {
+                                   @RequestParam (required = false,defaultValue = "") String pageOwnerId,
+                                   @RequestParam (required = false,defaultValue = "") String isFollowerSearch) {
 
         ModelAndView mv = new ModelAndView();
 
-        //페이징을 위한 리뷰 리스트 갯수를 가져올 파라미터 맵
-        Map countReviewMap = new HashMap<String,String>();
-        countReviewMap.put("pageOwnerId",pageOwnerId);
-        countReviewMap.put("searchText",searchText);
+        //세션에서 가져온 id
+        String id = (String)(session.getAttribute("id"));
 
-        //리스트 출력을 위한 파라미터를 저장할 맵
-        Map map = new HashMap<String,String>();
+        //페이징 설정
+        int listCnt = reviewService.maxReviewCount(isFollowerSearch,searchText,pageOwnerId,id);
+        Pagination pagination = new Pagination(listCnt,1);
+        int startIndex = pagination.getStartIndex();
+        int pageSize = pagination.getPageSize();
 
-        int listCnt = reviewService.maxReviewCount(countReviewMap);
-
-
-        //리뷰 리스트의 모든 파라미터 설정 후 Pagination 반환
-        Pagination pagination = reviewService.setReviewListParameterMap(map,session,sortType,searchText,pageOwnerId,listCnt,1);
-
-        System.out.println("pagination:"+pagination);
         //리뷰 리스트 select
-        List<Review> reviewList = reviewService.selectReviewList(map);
+        List<Review> reviewList = reviewService.selectReviewList(isFollowerSearch,searchText,pageOwnerId,id,sortType,startIndex,pageSize);
 
 
         mv.setViewName("community/community");
@@ -73,9 +68,9 @@ public class ReviewController {
         mv.addObject("searchText",searchText);
         mv.addObject("pageOwnerId",pageOwnerId);
 
-        System.out.println("/list parameter map:"+map);
+//        System.out.println("/list parameter map:"+map);
         System.out.println("(/review/list)result reviewList:"+reviewList);
-        System.out.println("review/list result pagination:"+pagination);
+//        System.out.println("review/list result pagination:"+pagination);
 
         return mv;
     } //리뷰 리스트 출력
@@ -87,25 +82,22 @@ public class ReviewController {
                            @RequestParam (required = false,defaultValue = "regDate") String sortType,
                            @RequestParam (required = false,defaultValue = "") String searchText,
                            @RequestParam (required = false,defaultValue = "") String pageOwnerId,
-                           @RequestParam (required = false,defaultValue = "1") int curPage){
+                           @RequestParam (required = false,defaultValue = "1") int curPage,
+                           @RequestParam (required = false,defaultValue = "") String isFollowerSearch){
 
-        System.out.println("in ajax Controller pageOwnerId:"+pageOwnerId);
-        //페이징을 위한 리뷰 리스트 갯수를 가져올 파라미터 맵
-        Map countReviewMap = new HashMap<String,String>();
-        countReviewMap.put("pageOwnerId",pageOwnerId);
-        countReviewMap.put("searchText",searchText);
+        System.out.println("in ajax Controller isFollowerSearch:"+isFollowerSearch);
 
-        //파라미터를 저장할 맵 생성
-        Map map = new HashMap<String,String>();
+        //세션에서 가져온 id
+        String id = (String)(session.getAttribute("id"));
 
-        int listCnt = reviewService.maxReviewCount(countReviewMap);
-
-        //리뷰 리스트의 모든 파라미터 설정 후 Pagination 반환
-        Pagination pagination = reviewService.setReviewListParameterMap(map,session,sortType,searchText,pageOwnerId,listCnt,curPage);
+        //페이징 설정
+        int listCnt = reviewService.maxReviewCount(isFollowerSearch,searchText,pageOwnerId,id);
+        Pagination pagination = new Pagination(listCnt,curPage);
+        int startIndex = pagination.getStartIndex();
+        int pageSize = pagination.getPageSize();
 
         //리뷰 리스트 select
-        List<Review> reviewList = reviewService.selectReviewList(map);
-
+        List<Review> reviewList = reviewService.selectReviewList(isFollowerSearch,searchText,pageOwnerId,id,sortType,startIndex,pageSize);
 
         //화면으로 보낼 맵
         Map resultMap = new HashMap<String,String>();
@@ -115,13 +107,9 @@ public class ReviewController {
         ObjectMapper mapper = new ObjectMapper();
         String jsonString = mapper.writeValueAsString(resultMap);
 
-        System.out.println("parameterMap:"+map);
         System.out.println("in listAjax(resultMap):"+resultMap);
-        System.out.println("jsonString:"+jsonString);
         return jsonString;
     }
-
-
 
     @RequestMapping(value ="/writeForm", method=RequestMethod.GET)
     public ModelAndView writeReviewForm(HttpSession session,HttpServletResponse response){
@@ -182,30 +170,29 @@ public class ReviewController {
         //endregion
 
         System.out.println("/modify(GET) reviewNo:"+reviewNo);
-        Review review = null;
+
 
         //수정 권한 체크
         try{
-            review = reviewService.selectReviewDetail(reviewNo);
-            boolean authorityYn = id.equals(review.getId()) ? true:false;
+            Review review = reviewService.selectReviewDetail(reviewNo);
+            boolean authorityYn = id.equals(review.getId());
             //권한 없으면
             if(!authorityYn){
                 Utility.printAlertMessage("권한이 없습니다.",null,response);
                 return null;
             }
+            //정상일 때 수정 페이지 이동
+            mv.addObject("review",review);
+            mv.setViewName("community/community_update");
+
+            return mv;
 
         } //해당 리뷰번호에 해당하는 작성자가 없으면
         catch (NullPointerException e){
             Utility.printAlertMessage("잘못된 접근입니다.",null,response);
             return null;
-            
         }
-        //정상일 때 수정 페이지 이동
-         mv.addObject("review",review);
-         mv.setViewName("community/community_update");
-
-         return mv;
-    }
+   }
 
     @RequestMapping(value ="/modify", method=RequestMethod.POST)
     public ModelAndView modifyReview(@ModelAttribute Review review,HttpSession session,HttpServletResponse response){
@@ -249,19 +236,19 @@ public class ReviewController {
 
         //endregion
 
-        Review review;
-
         //삭제 권한 체크
         try{
-            review = reviewService.selectReviewDetail(reviewNo);
-            boolean authorityYn = id.equals(review.getId()) ? true:false;
+            Review review = reviewService.selectReviewDetail(reviewNo);
+            boolean authorityYn = id.equals(review.getId());
             //권한 없으면
             if(!authorityYn){
                 Utility.printAlertMessage("권한이 없습니다.",null,response);
                 return null;
             }
              //리뷰 삭제
-             reviewService.deleteReview(reviewNo);
+            reviewService.deleteReview(reviewNo);
+            mv.setViewName("redirect:/review/list");
+            return mv;
 
         } //해당 리뷰번호에 해당하는 작성자가 없으면
         catch (NullPointerException e){
@@ -273,9 +260,6 @@ public class ReviewController {
             Utility.printAlertMessage("작업 중 에러가 발생했습니다.",null,response);
             return null;
         }
-        mv.setViewName("redirect:/review/list");
-
-        return mv;
     }
 
     @RequestMapping(value ="/detail", method=RequestMethod.GET)
@@ -283,12 +267,8 @@ public class ReviewController {
 
         ModelAndView mv = new ModelAndView();
 
-        //region checkLogin(세션에서 로그인한 아이디 가져와 설정+비로그인시 로그인 페이지로 이동(return: id or null))
-        String id = Utility.getIdForSessionNotMoveIndex(session);
-
-        //endregion
-
-        System.out.println("reviewNo:"+reviewNo);
+        //session에서 id 가져오기
+        String id = (String)(session.getAttribute("id"));
 
         //리뷰 선택
         Review review = reviewService.selectReviewDetail(reviewNo);
@@ -319,14 +299,9 @@ public class ReviewController {
 
             //로그인시 사용자의 좋아요 누름 여부(1/0)
             mv.addObject("likeYn",likeYn);
-
             mv.addObject("session", memberService.getMember(id));
-
         }
-
-
         System.out.println("review:"+review);
-
 
         //해당 리뷰에 달린 댓글들
 

@@ -72,17 +72,6 @@ public class Utility {
         return id;
     }
 
-    @SneakyThrows
-    public static String getIdForSessionNotMoveIndex(HttpSession session){
-        String id = (String)(session.getAttribute("id"));
-        System.out.println("in getIdForSessionNotMoveIndex id:"+id);
-        if(id==null){
-            return null;
-        }
-        System.out.println("id from session:"+id);
-        return id;
-    }
-
     /**파라미터로 받은 에러 메시지 띄우고 이전 페이지로 이동<br>주의:이전 페이지로 이동하기 때문에 ModelAndView 객체를 null로 리턴해야 함
      * <br>파라미터: String alert 띄울 메시지,String 이동할 페이지 주소(null이면 이전페이지),HttpServletResponse 객체<br>*현재 url이동 작동 오류 중**/
     @SneakyThrows

@@ -81,20 +81,21 @@ function getFormatDate(date) {
 
 // 리뷰 리스트를 ajax로 출력
 function ajaxReviewList(sessionId,isSearchButton,curPage) {
-
+    console.log("ajaxReviewList()");
     var searchText = $("#search_text").val();
     var pageOwnerIdVar = $("#pageOwnerIdSaved").val();
-    console.log("pageOwnerVar:"+pageOwnerIdVar);
-    //검색 버튼 누른 경우
+    var isFollowerSearchVar = $('input:checkbox[id="isFollowerSearch"]:checked').val();
+
+    //검색 버튼 누른 경우만 searchText 갱신
     if(isSearchButton==true){
         $("#search_text_saved").val(searchText);
     }
     else{
-        //검색 버튼 안 누른 경우(검색 초기화상태에서 select onchange)
+        //검색 버튼 안 누른 경우(기존에 검색한 결과 그대로 사용)
         searchText = $("#search_text_saved").val();
         $("#search_text").val(searchText);
     }
-    console.log("ajaxReviewList curPage:"+curPage);
+
     $.ajax({
         url : "/review/listAjax",
         type : "post",
@@ -102,7 +103,8 @@ function ajaxReviewList(sessionId,isSearchButton,curPage) {
         data :{"sortType": $("#sortType option:selected").val(),//서버로 전송하는 데이터(정렬방식)
             "searchText": searchText,
             "pageOwnerId": pageOwnerIdVar,
-            "curPage": curPage       }, //검색창의 텍스트값
+            "curPage": curPage,
+             "isFollowerSearch":isFollowerSearchVar}, //검색창의 텍스트값
         success : function(data) {
 
             //받은 sessionId 값이 문자열이 아니므로(따옴표로 감싸이지 않았음) 따옴표 추가
@@ -146,7 +148,6 @@ function ajaxReviewList(sessionId,isSearchButton,curPage) {
 
                 var onclickLink =  "location.href='/review/detail?reviewNo="+ reviewNo+"'"; //리뷰 타이틀 이미지 링크
                 reviewImg.attr("onclick",onclickLink);
-                console.log("onclickLink:"+ onclickLink);
 
                 var title = newReview.find(".content-title");   //리뷰 타이틀
                 title.text('['+this["sido"]+']'+'['+this["gugun"]+']'+this["title"]);                      //리뷰 타이틀 설정 [sido][gugun][title]
@@ -163,8 +164,6 @@ function ajaxReviewList(sessionId,isSearchButton,curPage) {
                 //onclick 속성 추가(함수 실행)
                 toggleImage.attr("onclick","ajaxReviewLikeToggle('"+reviewNo+"',this,"+sessionId+")");
 
-                console.log(sessionId);
-
                 if(sessionId=="" || sessionId==null || this["likeYn"]==0){
 
                     toggleImage.attr("src","/img/community/heart.png");
@@ -176,7 +175,6 @@ function ajaxReviewList(sessionId,isSearchButton,curPage) {
                 var communityImg = newReview.find(".comment-img");
 
                 var onclickLink2 = "location.href='/review/detail?reviewNo="+ reviewNo+"#reply'";
-                console.log("onclickLink2:"+onclickLink2);
 
                 communityImg.attr("onclick",onclickLink2);
 
