@@ -81,10 +81,8 @@ public class MessageController {
 
         ModelAndView mv = new ModelAndView();
 
-        //region checkLogin(세션에서 로그인한 아이디 가져와 설정+비로그인시 로그인 페이지로 이동(return: id or null))
-        String id = Utility.getIdForSessionNotMoveIndex(session);
-
-        //endregion
+        //세션에서 가져온 id
+        String id = (String)(session.getAttribute("id"));
 
         //메시지 선택
         Message message = messageService.selectMessageDetail(messageNo);
@@ -131,10 +129,10 @@ public class MessageController {
             //권한 체크용 변수
             boolean authorityYn;
             if(messageBox.equals("send")){
-                authorityYn = id.equals(message.getSendId()) ? true:false;
+                authorityYn = id.equals(message.getSendId());
             }
             else{ //messageBox 값이 send가 아니면
-                authorityYn = id.equals(message.getReceiveId()) ? true:false;
+                authorityYn = id.equals(message.getReceiveId());
             }
            
             System.out.println("authorityYn:"+authorityYn);
