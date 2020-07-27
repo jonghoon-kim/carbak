@@ -18,16 +18,15 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Controller
 @RequestMapping("/campsite")
 public class CampSiteController {
     @Autowired
     CampSiteService campSiteService;
+    int campsiteReviewCnt;
+
     @Autowired
     BlogService blogService;
     @Autowired
@@ -37,17 +36,63 @@ public class CampSiteController {
 
     //campsite 경로 지정
     @RequestMapping(value= {"", "/", "/campsite"}, method= {RequestMethod.GET,RequestMethod.POST})
-    public String campSite(HttpServletRequest request, Model model)
-    {
+    public String campSite(HttpServletRequest request, Model model) {
         String keyword = request.getParameter("keyword");
-        if(keyword == null || keyword == " " || keyword == ""){
+        if (keyword == null || keyword == " " || keyword == "") {
             keyword = "차박";
         }
+        String crntpageNo = request.getParameter("crnt");						//페이지 번호
+        String startPageNo = request.getParameter("start");					    //시작페이지 번호
+        String endPageNo = request.getParameter("end");							//마지막페이지 번호
+        if(crntpageNo == null || crntpageNo == "undefined") {
+            crntpageNo = "1";						//페이지 번호
+            startPageNo = "1";					    //시작페이지 번호
+            endPageNo = "5";						//마지막페이지 번호
+        }
+
+        List<Review> lstSelectCampsiteReview = campSiteService.getlstSelectCampsiteReview(startPageNo,endPageNo);
+        campsiteReviewCnt = campSiteService.pagingCnt();
+
+        model.addAttribute("lstSelectCampsiteReview", lstSelectCampsiteReview);
         model.addAttribute("keyword", keyword);
-
-
-
+        model.addAttribute("paging",Paging(Integer.parseInt(crntpageNo),5, campsiteReviewCnt));
         return "campsite/campsite";
+    }
+    /*
+     * 야영장 커뮤니티 페이지 변경 & 검색
+     */
+    @RequestMapping(value = "/campsiteCommunityPaging", produces = "application/json; charset=utf8")
+    @ResponseBody
+    public Map<String, Object> changePage(HttpServletRequest request) {
+        String crntpageNo = request.getParameter("crntpageNo");						//페이지 번호
+        String startPageNo = request.getParameter("startPageNo");					//시작페이지 번호
+        String endPageNo = request.getParameter("endPageNo");						//마지막페이지 번호
+
+        Map<String, Object> campsiteCommunityPageChange = new HashMap<String, Object>();
+
+        List<Review> lstSelectCampsiteReview = campSiteService.getlstSelectCampsiteReview(startPageNo,endPageNo);
+        Object reviewBoolean = "true";
+        if(lstSelectCampsiteReview.size()!=5){
+            reviewBoolean = "false";
+        }
+
+        System.out.println("lstSelectCampsiteReview : " + lstSelectCampsiteReview);
+        campsiteCommunityPageChange.put("lstSelectCampsiteReview",lstSelectCampsiteReview);
+        campsiteCommunityPageChange.put("reviewBoolean", reviewBoolean);
+        campsiteCommunityPageChange.put("paging", Paging(Integer.parseInt(crntpageNo), 5, campsiteReviewCnt));
+        return campsiteCommunityPageChange;
+    }
+
+    /*
+     * 페이징
+     */
+    public CampsiteCommunityPagingVO Paging(int crntpageNo, int PageSize, int TotCount) { // 페이징
+        CampsiteCommunityPagingVO paging = new CampsiteCommunityPagingVO();
+        paging.setPageNo(crntpageNo); // 페이지번호
+        paging.setPageSize(PageSize); // 한페이지에 출력 개수
+        paging.setTotalCount(TotCount); // 총개수
+
+        return paging;
     }
 
     //야영지 선택 경로 지정(selectPlaceDetail)
@@ -88,8 +133,6 @@ public class CampSiteController {
             map.put("pageSize",listCnt);
 
             List<Review> reviewList = reviewService.selectReviewList(map);
-            System.out.println(reviewList);
-            campsitePlaceDetail.addObject("reviewList",reviewList);
 
             //블로그와 이미지 호출
             BlogService service = new BlogService();
@@ -97,6 +140,7 @@ public class CampSiteController {
             List<Blog> b = service.searchBlog(keyword, 15, pageNo);
             List<Image> a = serviceTest.searchImage(keyword, 15, pageNo);
 
+            campsitePlaceDetail.addObject("reviewList",reviewList);                          //review 정보(조회수 순)
             campsitePlaceDetail.addObject("startPageNo", startPageNo);                       //naver blog, 썸네일 시작 페이지
             campsitePlaceDetail.addObject("blogInfo", b);                                    //naver blog정보
             campsitePlaceDetail.addObject("imgInfo", a);                                     //naver 썸네일 정보

@@ -7,7 +7,7 @@
 	<!-- insert,update,delete 객체는 영향받은 레코드의 카운트를 정수로 반환 -->
 
 	<select id="getlstSelectCampsitePlace" resultType="Campsite">
-	   select
+	   SELECT
 			CAMPSITENAME
 			, CATEGORY
 			, LATITUDE
@@ -17,12 +17,29 @@
 			, ADDRESS
 			, CONVENIENCE1
 			, CONVENIENCE2
-		 from
+		 FROM
 		    CAMPSITE
 	    WHERE
 	        LATITUDE like #{latitude} || '%'
 		  AND
 		    LONGITUDE like #{longitude} || '%'
 	</select>
-
+	<select id="getlstSelectCampsiteReview" resultType="Review">
+    SELECT *
+      FROM (
+            SELECT ROW_NUMBER() OVER (ORDER BY REVIEWNO) NUM
+                 , R.*
+		      FROM REVIEW R
+		     WHERE 1=1
+	         ORDER BY READCOUNT DESC
+            )
+      WHERE NUM BETWEEN #{startPageNo} AND #{endPageNo}
+	</select>
+	<!-- 페이징 카운트 -->
+	<select id="pagingCnt" resultType="int">
+        SELECT
+			 COUNT(DISTINCT REVIEWNO)
+		  FROM
+			 REVIEW
+    </select>
 	</mapper>
