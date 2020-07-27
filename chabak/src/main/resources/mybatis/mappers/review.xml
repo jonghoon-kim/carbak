@@ -22,14 +22,15 @@
 
 	<select id="maxReviewCount" parameterType="Map" resultType="int">
 		select count(*) from review r
-		<!--	isFollowerSearch : 값이 있으면 팔로워가 쓴 글 검색 -->
+		<!--	isFollowerSearch : 로그인시 isFollowerSearch 값이 있으면 팔로워가 쓴 글 검색 -->
 		<if test="id !=null and id !='' and isFollowerSearch !=null and isFollowerSearch !=''">
 			,follow f
 		</if>
 		where 1=1
-		<!--	isFollowerSearch : 값이 있으면 팔로워가 쓴 글 검색 -->
+		<!--	isFollowerSearch : 로그인시 isFollowerSearch 값이 있으면 팔로워가 쓴 글 검색 -->
 		<if test="id !=null and id !='' and isFollowerSearch !=null and isFollowerSearch !=''">
 			and r.id = f.followerId
+			and #{id} = f.FOLLOWINGID
 		</if>
 		<if test="searchText !=null and searchText !=''">
 			and sido||' '||gugun LIKE '%'||#{searchText}||'%'
@@ -75,14 +76,16 @@
 						select r.reviewNo,r.id,r.title,r.sido,r.gugun,r.content,r.titleImageSrc,r.readCount,r.likeCount,r.replyCount,r.regDate,r.modifyDate,
 						nvl2(l.reviewNo,1,0) as likeYn,m.name,m.saveName, m.savePath
 						from Review r,ReviewLike l,Member m
-						<!--	isFollowerSearch : 값이 있으면 팔로워가 쓴 글 검색 -->
+						<!--	isFollowerSearch : 로그인시 isFollowerSearch 값이 있으면 팔로워가 쓴 글 검색 -->
 						<if test="id !=null and id !='' and isFollowerSearch !=null and isFollowerSearch !=''">
 							,Follow f
 						</if>
 						where
-						<!--	isFollowerSearch : 값이 있으면 팔로워가 쓴 글 검색 -->
+						<!--	isFollowerSearch : 로그인시 isFollowerSearch 값이 있으면 팔로워가 쓴 글 검색 -->
 						<if test="id !=null and id !='' and isFollowerSearch !=null and isFollowerSearch !=''">
-							r.id = f.followerId and
+							r.id = f.followerId
+							and #{id} = f.FOLLOWINGID
+							and
 						</if>
 						r.reviewNo = l.reviewNo(+)
 						and r.id = m.id
