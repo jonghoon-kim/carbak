@@ -3,8 +3,6 @@ package com.chabak.controllers;
 import com.chabak.services.*;
 import com.chabak.util.Utility;
 import com.chabak.vo.*;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
@@ -30,7 +28,7 @@ public class MessageController {
 
         ModelAndView mv = new ModelAndView();
 
-        //세션에서 로그인한 아이디 가져와 설정(return: id or null)
+        //세션에서 로그인한 아이디 가져와 설정.없으면 로그인 페이지로(return: id or null)
         String id = Utility.getIdForSessionOrMoveIndex(mv,session,response);
 
         //messageBox값(send||receive)에 따라서 보낸메시지함||받은메시지함 메시지 리스트 출력
@@ -44,9 +42,12 @@ public class MessageController {
     }
 
     @RequestMapping(value ={"/write"}, method=RequestMethod.GET)
-    public ModelAndView writeForm(@RequestParam (required = false)String receiveId){
+    public ModelAndView writeForm(@RequestParam (required = false) String receiveId,HttpSession session,HttpServletResponse response){
 
         ModelAndView mv = new ModelAndView();
+        //세션에서 로그인한 아이디 가져와 설정.없으면 로그인 페이지로(return: id or null)
+        Utility.getIdForSessionOrMoveIndex(mv,session,response);
+
         if(receiveId!=null){
             mv.addObject("receiveId",receiveId);
         }
@@ -61,6 +62,7 @@ public class MessageController {
 
         //세션에서 로그인한 아이디 가져와 설정(return: id or null)
         String id = Utility.getIdForSessionOrMoveIndex(mv,session,response);
+
         System.out.println("message:"+message);
         message.setSendId(id);
         try{
@@ -70,36 +72,54 @@ public class MessageController {
             e.printStackTrace();
             Utility.printAlertMessage("작업 중 에러가 발생했습니다.",null,response);
         }
-
         //새창 닫기
         Utility.closeWindow(response);
         return null;
     } //리뷰 리스트 출력
 
     @RequestMapping(value ="/detail", method=RequestMethod.GET)
-    public ModelAndView detailMessage(@RequestParam int messageNo,@RequestParam String messageBox, HttpSession session,HttpServletResponse response){
-
+    public ModelAndView detailMessage(@RequestParam (defaultValue = "-1") int messageNo,
+                                      @RequestParam (defaultValue = "-1") String messageBox,
+                                      HttpSession session,HttpServletResponse response){
         ModelAndView mv = new ModelAndView();
 
-        //세션에서 가져온 id
-        String id = (String)(session.getAttribute("id"));
+        //세션에서 로그인한 아이디 가져와 설정(return: id or null)
+        String id = Utility.getIdForSessionOrMoveIndex(mv,session,response);
 
         //메시지 선택
         Message message = messageService.selectMessageDetail(messageNo);
 
-        //해당 메시지가 존재하지 않으면
-        if(message == null){
+        //권한 체크용 변수
+        boolean authorityYn;
+        if(messageBox.equals("send")){
+            authorityYn = id.equals(message.getSendId());
+        }
+        else if(messageBox.equals("receive")){ //messageBox 값이 receive
+            authorityYn = id.equals(message.getReceiveId());
+        }
+        else{  //messageBox 값이 receive/send 둘다 아니면
+            Utility.printAlertMessage("잘못된 접근입니다.",null,response);
+            return null;
+        }
+
+        //해당 메시지가 존재하지 않거나 messageBox 값이 들어오지 않으면
+        if(message == null || messageBox.equals("-1") || !authorityYn){
             Utility.printAlertMessage("잘못된 접근입니다.",null,response);
             return null;
         }
 
         //메시지 읽음 여부 y로 업데이트
         try{
-            messageService.updateReadYn(messageNo);
+            //받은 메시지함이고 이전에 해당 메시지를 읽은 적 없으면 
+            if(messageBox.equals("receive") && message.getReadYn().equals("n")){
+                //메시지를 읽음 상태로 변경
+                messageService.updateReadYn(messageNo);
+            }
         }
         catch (Exception e){
             e.printStackTrace();
             Utility.printAlertMessage("작업 중 에러가 발생했습니다.",null,response);
+            return null;
         }
 
         mv.addObject("message",message);
@@ -108,31 +128,38 @@ public class MessageController {
         return mv;
     }
 
-    @Transactional
     @RequestMapping(value ="/delete", method=RequestMethod.GET)
-    public ModelAndView deleteReview(@RequestParam int messageNo,@RequestParam String messageBox,HttpSession session,HttpServletResponse response){
-
+    public ModelAndView deleteReview(@RequestParam (defaultValue = "-1") int messageNo,
+                                     @RequestParam (defaultValue = "-1") String messageBox,
+                                     HttpSession session,HttpServletResponse response){
         ModelAndView mv = new ModelAndView();
 
         //region checkLogin(세션에서 로그인한 아이디 가져와 설정+비로그인시 로그인 페이지로 이동(return: id or null))
         String id = Utility.getIdForSessionOrMoveIndex(mv,session,response);
-
         //endregion
 
-        Message message;
-        
         //삭제 권한 체크
         try{
             //messageNo로 선택한 메시지 1개 불러옴
-            message = messageService.selectMessageDetail(messageNo);
-            
+            Message message = messageService.selectMessageDetail(messageNo);
+
+            //해당 메시지가 존재하지 않거나 messageBox 값이 들어오지 않으면
+            if(message == null || messageBox.equals("-1")){
+                Utility.printAlertMessage("잘못된 접근입니다.",null,response);
+                return null;
+            }
+
             //권한 체크용 변수
             boolean authorityYn;
             if(messageBox.equals("send")){
                 authorityYn = id.equals(message.getSendId());
             }
-            else{ //messageBox 값이 send가 아니면
+            else if(messageBox.equals("receive")){ //messageBox 값이 receive
                 authorityYn = id.equals(message.getReceiveId());
+            }
+            else{  //messageBox 값이 receive/send 둘다 아니면
+                Utility.printAlertMessage("잘못된 접근입니다.",null,response);
+                return null;
             }
            
             System.out.println("authorityYn:"+authorityYn);
@@ -142,14 +169,8 @@ public class MessageController {
                 return null;
             }
             else{
-                messageService.updateBoxDeletedYn(messageBox,messageNo);
-                //보낸메시지함,받은메시지함에서 해당 메시지가 지워졌는지 확인을 위해 다시 메시지 불러오기
-                message = messageService.selectMessageDetail(messageNo);
-                //해당 메시지가 받은편지함과 보낸편지함에서 둘다 지워지면(flag값이 y가 되면)
-                if(message.getReceiveBoxDeletedYn().equals("y") && message.getSendBoxDeletedYn().equals("y")){
-                    //메시지 완전 삭제
-                    messageService.deleteMessage(messageNo);                   
-                }
+                //메시지 삭제
+                messageService.deleteMessage(messageBox,messageNo);
 
             }
         } //메시지 받은 아이디가 없으면
@@ -160,6 +181,7 @@ public class MessageController {
         catch (Exception e){
             e.printStackTrace();
             Utility.printAlertMessage("작업 중 에러가 발생했습니다.",null,response);
+            throw e; //트랜젝션을 위해 예외 던짐
         }
 
         mv.setViewName("redirect:/message/list");

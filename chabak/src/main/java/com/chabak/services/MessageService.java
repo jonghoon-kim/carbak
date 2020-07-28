@@ -66,9 +66,17 @@ public class MessageService {
         return updateCount;
     }
 
+    /**기능: 받은메시지함,보낸메시지함의 삭제 flag를 수정한 후 둘다 삭제상태이면 테이블에서 해당 row 삭제**/
+    @Transactional
+    public void deleteMessage(String messageBox,int messageNo){
+        this.updateBoxDeletedYn(messageBox,messageNo);
+        //보낸메시지함,받은메시지함에서 해당 메시지가 지워졌는지 확인을 위해 다시 메시지 불러오기
+        Message message = this.selectMessageDetail(messageNo);
+        //해당 메시지가 받은편지함과 보낸편지함에서 둘다 지워지면(flag값이 y가 되면)
+        if(message.getReceiveBoxDeletedYn().equals("y") && message.getSendBoxDeletedYn().equals("y")){
+            //메시지 완전 삭제
+            int deleteCount = messageDao.deleteMessage(messageNo);
+        }
 
-    public int deleteMessage(int messageNo){
-        int deleteCount = messageDao.deleteMessage(messageNo);
-        return deleteCount;
     }
 }

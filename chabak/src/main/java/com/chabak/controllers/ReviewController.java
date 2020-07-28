@@ -1,9 +1,6 @@
 package com.chabak.controllers;
 
-import com.chabak.services.MemberService;
-import com.chabak.services.ReplyService;
-import com.chabak.services.ReviewLikeService;
-import com.chabak.services.ReviewService;
+import com.chabak.services.*;
 import com.chabak.util.Utility;
 import com.chabak.vo.*;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -37,6 +34,8 @@ public class ReviewController {
      @Autowired
      MemberService memberService;
 
+    @Autowired
+    ReadCountService readCountService;
 
     @RequestMapping(value ={"", "/", "/list"}, method=RequestMethod.GET)
     public ModelAndView reviewList(HttpSession session,
@@ -210,8 +209,6 @@ public class ReviewController {
 
         reviewService.setTitleImg(review);
 
-        System.out.println("review:"+review);
-
         try{
             reviewService.updateReview(review);
         }
@@ -222,7 +219,6 @@ public class ReviewController {
         }
 
         mv.setViewName("redirect:/review/list");
-
         return mv;
     }
 
@@ -233,7 +229,6 @@ public class ReviewController {
 
         //region checkLogin(세션에서 로그인한 아이디 가져와 설정+비로그인시 로그인 페이지로 이동(return: id or null))
         String id = Utility.getIdForSessionOrMoveIndex(mv,session,response);
-
         //endregion
 
         //삭제 권한 체크
@@ -278,12 +273,17 @@ public class ReviewController {
             Utility.printAlertMessage("잘못된 접근입니다.",null,response);
             return null;
         }
-
-        //조회수 1 증가
-        reviewService.updateReadCount(reviewNo);
+        try{
+            //ReadCount 테이블,Review 테이블의 조회수 update
+            reviewService.updateReadCount(reviewNo,id);
+        }
+        catch (Exception e){
+            e.printStackTrace();
+            Utility.printAlertMessage("작업 중 에러가 발생했습니다.",null,response);
+            return null;
+        }
 
         //리뷰의 좋아요
-
         //로그인시
         if(id !=null){
             System.out.println("reviewDetail");
@@ -301,17 +301,13 @@ public class ReviewController {
             mv.addObject("likeYn",likeYn);
             mv.addObject("session", memberService.getMember(id));
         }
-        System.out.println("review:"+review);
 
         //해당 리뷰에 달린 댓글들
 
         List<Reply> replyList = replyService.selectReplyList(reviewNo);
 
-        System.out.println("replyList:"+replyList);
-
         mv.addObject("review",review);
         mv.addObject("replyList",replyList);
-
         mv.setViewName("community/community_detail");
         return mv;
     }

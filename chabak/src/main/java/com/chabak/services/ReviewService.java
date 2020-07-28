@@ -1,13 +1,16 @@
 package com.chabak.services;
 
 
+import com.chabak.repositories.ReadCountDao;
 import com.chabak.repositories.ReviewDao;
 import com.chabak.util.Utility;
 import com.chabak.vo.Pagination;
+import com.chabak.vo.ReadCount;
 import com.chabak.vo.Review;
 import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -22,6 +25,8 @@ public class ReviewService {
 
     @Autowired
     ReviewDao reviewDao;
+    @Autowired
+    ReadCountDao readCountDao;
 
     public boolean setTitleImg(Review review){
         //대표 이미지 저장
@@ -111,33 +116,32 @@ public class ReviewService {
         return updateCount;
     }
 
-    public int updateReadCount(int reviewNo){
-        int updateCount = reviewDao.updateReadCount(reviewNo);
-        return updateCount;
-    }
-
-    public int increaseLikeCount(int reviewNo){
-        int updateLikeCount = reviewDao.increaseLikeCount(reviewNo);
-        return updateLikeCount;
-    }
-
-    public int decreaseLikeCount(int reviewNo){
-        int updateLikeCount = reviewDao.decreaseLikeCount(reviewNo);
-        return updateLikeCount;
+    /**기능 : ReadCount 테이블,Review 테이블의 조회수 update <br>
+     * Transaction 처리 <br>
+     * 리턴 : boolean db 처리 이상 여부**/
+    @Transactional
+    public boolean updateReadCount(int reviewNo,String id) throws Exception{
+        //readCount의 조회수 update,review의 조회수 update
+        int count=0;
+        if(id!=null){
+            //로그인 상태면 해당 리뷰의 readCount 테이블 조회수를 확인
+            // 조회수가 0이면 insert / 0이 아니면 update
+            ReadCount readCount = new ReadCount(id,reviewNo);
+            ReadCount selectedReadCount = readCountDao.selectReadCount(readCount);
+            if(selectedReadCount==null){
+                count = readCountDao.insertReadCount(readCount);
+            }
+            else{
+                count = readCountDao.updateReadCount(readCount);
+            }
+        }
+        //review의 조회수 update
+        int updateReviewCount = reviewDao.updateReadCount(reviewNo);
+        return (count ==1 && updateReviewCount ==1);
     }
 
     public int deleteReview(int reviewNo){
         int deleteCount = reviewDao.deleteReview(reviewNo);
         return deleteCount;
-    }
-
-    public int increaseReplyCount(int reviewNo){
-        int updateLikeCount = reviewDao.increaseReplyCount(reviewNo);
-        return updateLikeCount;
-    }
-
-    public int decreaseReplyCount(int reviewNo){
-        int updateLikeCount = reviewDao.decreaseReplyCount(reviewNo);
-        return updateLikeCount;
     }
 }
