@@ -150,7 +150,7 @@ function ajaxReviewList(sessionId,isSearchButton,curPage) {
                 reviewImg.attr("onclick",onclickLink);
 
                 var title = newReview.find(".content-title");   //리뷰 타이틀
-                title.text('['+this["sido"]+']'+'['+this["gugun"]+']'+this["title"]);                      //리뷰 타이틀 설정 [sido][gugun][title]
+                title.text('['+this["sido"]+']'+'['+this["gugun"]+']'+' '+this["title"]);                      //리뷰 타이틀 설정 [sido][gugun][title]
 
                 //등록일자 추가
                 var regDate = newReview.find(".regDate");

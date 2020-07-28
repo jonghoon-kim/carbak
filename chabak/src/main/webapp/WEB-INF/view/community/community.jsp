@@ -146,7 +146,7 @@
                 </div>
                 <div class="content-icon">
                     <button class="like-img"><img class="toggle-like-img" src="/img/community/heart.png"
-                                                  onclick="" alt="like toggle image"></button>
+                                                  onclick="" alt="like heart empty image"></button>
                     <button class="comment-img"><img src="/img/community/comment.png" alt="comment image"></button>
                 </div>
             </div>
@@ -166,7 +166,7 @@
                     <div class="thumbnail-wrapper">
                         <div class="thumbnail">
                             <div class="centered">
-                                <img src="${review.savePath}${review.saveName}">
+                                <img src="${review.savePath}${review.saveName}" alt="profile image">
                             </div>
                         </div>
                     </div>
@@ -183,9 +183,6 @@
                                 <a onclick="openWinMessageWrite('${review.id}')">쪽지 보내기</a>
                             </div>
                         </div>
-
-
-
                     </div>
                     <div class="regDate">
                         ${review.regDate}
@@ -197,7 +194,7 @@
                     <div class="review-img">
 
                         <img src="${review.titleImageSrc}"
-                             onclick="location.href='/review/detail?reviewNo=${review.reviewNo}'">
+                             onclick="location.href='/review/detail?reviewNo=${review.reviewNo}'" alt="review image">
 
                     </div>
                     <div class="review-content">
@@ -210,15 +207,15 @@
                             <c:choose>
                                 <c:when test="${sessionScope.id != null and review.likeYn==1}">
                                     <button class="like-img"><img class="toggle-like-img" id="like-img${review.reviewNo}" src="/img/community/heart2.png"
-                                                                  onclick="ajaxReviewLikeToggle('${review.reviewNo}',this,'${sessionScope.id}')"></button>
+                                                                  onclick="ajaxReviewLikeToggle('${review.reviewNo}',this,'${sessionScope.id}')" alt="like heart full image"></button>
                                 </c:when>
                                 <c:otherwise>
                                     <button class="like-img"><img class="toggle-like-img" id="like-img${review.reviewNo}" src="/img/community/heart.png"
-                                                                  onclick="ajaxReviewLikeToggle('${review.reviewNo}',this,'${sessionScope.id}')"></button>
+                                                                  onclick="ajaxReviewLikeToggle('${review.reviewNo}',this,'${sessionScope.id}')" alt="like heart empty image"></button>
                                 </c:otherwise>
                             </c:choose>
 
-                            <button class="comment-img"><img src="/img/community/comment.png" onclick="location.href='/review/detail?reviewNo='+'${review.reviewNo}'+'#reply'"></button>
+                            <button class="comment-img"><img src="/img/community/comment.png" onclick="location.href='/review/detail?reviewNo='+'${review.reviewNo}'+'#reply'"  alt="comment image"></button>
                         </div>
                     </div>
 
