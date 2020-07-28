@@ -47,13 +47,14 @@ public class Utility {
         out.flush();
     }
 
+
+    /**기능:비로그인 상태일때 로그인 페이지로 이동<br>리턴 : 로그인 아이디(session)**/
     @SneakyThrows
     public static String getIdForSessionOrMoveIndex(ModelAndView mv, HttpSession session, HttpServletResponse response){
         //세션에서 아이디 가져오기
         String id = (String)(session.getAttribute("id"));
         if(id==null){
             //아이디 없으면 alert 띄우고 로그인 페이지로 이동
-            System.out.println("no session");
             mv.setViewName("member/login");
 
             //화면에 로그인 할지 여부 confirm 띄우기

@@ -44,7 +44,8 @@
 	</update>
 
 	<update id="updateReadYn" parameterType="int">
-		UPDATE MESSAGE SET READYN = 'y'
+		UPDATE MESSAGE SET READYN = 'y',
+		READDATE = sysdate
 		WHERE MESSAGENO = #{messageNo}
 	</update>
 

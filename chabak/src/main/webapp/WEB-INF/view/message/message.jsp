@@ -43,7 +43,7 @@
             <div class="message">
                 <span>보낸사람:${message.sendId}</span>
                 <span>제목:${message.title}</span>
-                <span>내용:<a href="/message/detail?messageNo=${message.messageNo}">${message.content}</a></span>
+                <span>내용:<a href="/message/detail?messageNo=${message.messageNo}&messageBox=${messageBox}">${message.content}</a></span>
                 <button type="button" onclick="location.href='/message/delete?messageNo=${message.messageNo}&messageBox=${messageBox}'">삭제</button>
 
 

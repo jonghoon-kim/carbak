@@ -188,14 +188,6 @@
 
         }
 
-        //Controller를
-        //로그인 할지 물어보고 ok이면 로그인 페이지로 이동
-        function askLogin() {
-            var confirmYn = confirm("로그인이 필요한 서비스입니다. 로그인 하시겠습니까?");
-            if (confirmYn)
-                location.href = "/member/login";
-        }
-
         function ajaxReviewLikeToggle(reviewNo, imgTag, sessionId) {
 
             if (sessionId == "" || sessionId == null) {

@@ -136,8 +136,8 @@ function ajaxReviewList(sessionId,isSearchButton,curPage) {
 
                 var dropdownContent = newReview.find(".dropdown-content");
                 dropdownContent.attr("id","myDropdown"+reviewNo);
-                dropdownContent.find(".mypage").attr("href","/mypage/guestVisit?id="+writerId);
-                dropdownContent.find(".message").attr("onclick","openWinMessageWrite('"+writerId+"')");
+                dropdownContent.find(".mypage").attr("onclick","goMyPage('"+writerId+"','"+sessionId+"')");
+                dropdownContent.find(".message").attr("onclick","openWinMessageWrite('"+writerId+"','"+sessionId+"')");
 
                 //프로필 이미지
                 var profileImg = newReview.find(".centered img");
@@ -302,4 +302,11 @@ function ajaxReviewLikeToggle(reviewNo,imgTag,sessionId){
             }
         });
     }
+}
+
+//로그인 할지 물어보고 ok이면 로그인 페이지로 이동
+function askLogin() {
+    var confirmYn = confirm("로그인이 필요한 서비스입니다. 로그인 하시겠습니까?");
+    if (confirmYn)
+        location.href = "/member/login";
 }

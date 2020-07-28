@@ -68,8 +68,21 @@
         }
 
         //쪽지 작성 팝업 띄움
-        function openWinMessageWrite(receiveId){
-            window.open("/message/write?receiveId="+receiveId, "쪽지 작성", "width=800, height=700, toolbar=no, menubar=no, scrollbars=no, resizable=yes" );
+        function openWinMessageWrite(receiveId,sessionId){
+            if (sessionId == "" || sessionId == null) {
+                askLogin();
+            }else{
+                window.open("/message/write?receiveId="+receiveId, "쪽지 작성", "width=800, height=700, toolbar=no, menubar=no, scrollbars=no, resizable=yes" );
+            }
+        }
+
+        function goMyPage(reviewId,sessionId) {
+            if (sessionId == "" || sessionId == null) {
+                askLogin();
+            }else{
+                location.href="/mypage/guestVisit?id="+reviewId;
+            }
+
         }
     </script>
 <body>
@@ -179,8 +192,8 @@
                                 </span>
                            </button>
                             <div class="dropdown-content" id="myDropdown${review.reviewNo}">
-                                <a href="/mypage/guestVisit?id=${review.id}" target="_blank">마이페이지</a>
-                                <a onclick="openWinMessageWrite('${review.id}')">쪽지 보내기</a>
+                                <a onclick="goMyPage('${review.id}','${sessionScope.id}')" target="_blank">마이페이지</a>
+                                <a onclick="openWinMessageWrite('${review.id}','${sessionScope.id}')">쪽지 보내기</a>
                             </div>
                         </div>
                     </div>
