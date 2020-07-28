@@ -12,6 +12,7 @@
     <script type="text/javascript" src=" http://code.jquery.com/jquery-latest.min.js"></script>
     <script type="text/javascript" src="/resources/js/address_select.js"></script>
     <script type="text/javascript" src="/resources/js/campsitePlacePaging.js"></script>
+    <script type="text/javascript" src="/resources/js/campsiteCommunityPaging.js"></script>
     <meta name='viewport' content='width=device-width, initial-scale=1'>
     <script src='https://kit.fontawesome.com/a076d05399.js'></script>
 </head>
@@ -70,44 +71,78 @@
     </div>
         <hr class="top_hr">
 
-        <!-- 커뮤니티 리뷰 -->
-        <div class="community_aticle">
-            <h2>커뮤니티 리뷰</h2>
-            <ul>
-                <li>
-                    <p class="best_id">ID:차박차박</p>
-                    <div class="best_img">
-                        <img src="/resources/img/reviews/01.jpg">
-                    </div>
-                    </p>
-                    <p class="best_title">슬기로운 차박생활♥</p>
-                    <p class="best_content">이날은 우리 하동여행 갔던날 설레고 긴장되는 첫 차박을 꿈꾸며...
-                        이날은 우리 하동여행 갔던날 설레고 긴장되는 첫 차박을 꿈꾸며...
-                        이날은 우리 하동여행 갔던날 설레고 긴장되는 첫 차박을 꿈꾸며...
-                        이날은 우리 하동여행 갔던날 설레고 긴장되는 첫 차박을 꿈꾸며...
-                        이날은 우리 하동여행 갔던날 설레고 긴장되는 첫 차박을 꿈꾸며...
-                        이날은 우리 하동여행 갔던날 설레고 긴장되는 첫 차박을 꿈꾸며...
-                        이날은 우리 하동여행 갔던날 설레고 긴장되는 첫 차박을 꿈꾸며...
-                        이날은 우리 하동여행 갔던날 설레고 긴장되는 첫 차박을 꿈꾸며...
-                        이날은 우리 하동여행 갔던날 설레고 긴장되는 첫 차박을 꿈꾸며...
-                        이날은 우리 하동여행 갔던날 설레고 긴장되는 첫 차박을 꿈꾸며
-                    </p>
-                    <p class="select_community"><a href="community.html">자세히보기</a></p>
-                </li>
-                <li><img><p>영역 나누기2</p></li>
-                <li><img><p>영역 나누기3</p></li>
-                <li><img><p>영역 나누기4</p></li>
-                <li><img><p>영역 나누기5</p></li>
-            </ul>
-            <!-- 페이지 버튼 -->
-            <div class="community_link">
-                <button class='fas fa-angle-left'></button>
-                <button class='fas fa-circle'></button>
-                <button class='far fa-circle'></button>
-                <button class='far fa-circle'></button>
-                <button class='fas fa-angle-right'></button>
-            </div>
-        </div>
+    <!-- 커뮤니티리뷰 -->
+    <div class="community_aticle">
+        <h2>커뮤니티 리뷰</h2>
+        <ul id="blogUl">
+        <c:set var="tie" value="${campsiteDetailReviewBoolean}"/>
+            <c:choose>
+                <c:when test="${tie ne 'false'}">
+                    <c:forEach var="re" items="${getlstSelectCampsiteDetailReview}" varStatus="status" begin="0" end="4">
+                            <li id="communityLi">
+                                <p class="community_best_id">ID : ${re.id}</p>
+                                <div class="community_best_img">
+                                    <img src="${re.titleImageSrc}">
+                                </div>
+                                <p class="community_best_views">Likes :&nbsp;<span class="best_views_span">${re.likeCount}</span>
+                                <p class="community_best_title">${re.title}</p>
+                                <div class="community_best_content">${re.content}</div>
+                                <p class="community_select_community">${re.regDate}
+                                    &nbsp;<a href="http://localhost:8030/review/detail?reviewNo=${re.reviewNo}" target="_blank">자세히보기</a>
+                                </p>
+                            </li>
+                    </c:forEach>
+                </c:when>
+                <c:otherwise>
+                    <c:forEach var="i" begin="1" end="5" step="1">
+                        <li id="communityLi">
+                            <p class="community_best_id">ID : 없음</p>
+                            <div class="community_best_img">
+                                <img src="/resources/img/campsite/nullImage.png">
+                            </div>
+                            <p class="community_best_views">Likes :&nbsp;<span class="best_views_span">조회 불가</span>
+                            <p class="community_best_title">제목 없음</p>
+                            <div class="community_best_content">내용 없음</div>
+                            <p class="community_select_community">날짜조회 불가
+                                &nbsp;<a href="http://localhost:8030/review/detail?reviewNo=" target="_blank">자세히보기</a>
+                            </p>
+                        </li>
+                    </c:forEach>
+                </c:otherwise>
+            </c:choose>
+        </ul>
+        <c:choose>
+            <c:when test="${tie ne 'false'}">
+                <!-- 페이지 버튼 -->
+                <div class="community_link" data-pl="<c:out value="${plname}"/>">
+                    <button class='fas fa-angle-left' onClick="javascript:CommunityDetailPage(${paging.grStartPageNo})"></button>
+
+                    <c:forEach var="i" begin="${paging.startPageNo}" end="${paging.endPageNo}" step="1">
+                        <c:choose>
+                            <c:when test="${i eq paging.pageNo}">
+                                <button class='fas fa-circle' onClick="javascript:CommunityDetailPage(${i})">${i}</button>
+                            </c:when>
+                            <c:otherwise>
+                                <button class='far fa-circle' onClick="javascript:CommunityDetailPage(${i})">${i}</button>
+                            </c:otherwise>
+                        </c:choose>
+                    </c:forEach>
+
+                    <button class='fas fa-angle-right' onClick="javascript:CommunityDetailPage(${paging.pageNo}+1)"></button>
+                </div>
+            </c:when>
+            <c:otherwise>
+                <!-- 페이지 버튼 -->
+                <div class="community_link" data-pl="<c:out value="${plname}"/>">
+                <button class='fas fa-angle-left' onClick="javascript:CommunityDetailPage(1)"></button>
+
+                     <button class='fas fa-circle' onClick="javascript:CommunityDetailPage(1)">1</button>
+
+                <button class='fas fa-angle-right' onClick="javascript:CommunityDetailPage(1)"></button>
+                </div>
+            </c:otherwise>
+        </c:choose>
+    </div>
 
         <hr class="top_hr">
 

@@ -13,6 +13,7 @@ public interface CampSiteMapper {
 
     List<Review> getlstSelectCampsiteReview(@Param("startPageNo")String startPageNo, @Param("endPageNo")String endPageNo);
 
+    List<Review> getlstSelectCampsiteDetailReview(@Param("keyword")String keyword, @Param("startPageNo")String startPageNo, @Param("endPageNo")String endPageNo);
     int pagingCnt();
 }
 

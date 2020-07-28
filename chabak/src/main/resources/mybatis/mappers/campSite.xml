@@ -6,6 +6,7 @@
 	<!-- SQL 객체 --><!-- 게시물 추가 sql parameterType은 이미 alias를 설정했으므로 전체경로를 쓸 필요 없다-->
 	<!-- insert,update,delete 객체는 영향받은 레코드의 카운트를 정수로 반환 -->
 
+	<!-- 야영장 검색 -->
 	<select id="getlstSelectCampsitePlace" resultType="Campsite">
 	   SELECT
 			CAMPSITENAME
@@ -24,6 +25,7 @@
 		  AND
 		    LONGITUDE like #{longitude} || '%'
 	</select>
+	<!-- 커뮤니티 리뷰 -->
 	<select id="getlstSelectCampsiteReview" resultType="Review">
     SELECT *
       FROM (
@@ -32,6 +34,22 @@
 		      FROM REVIEW R
 		     WHERE 1=1
 	         ORDER BY READCOUNT DESC
+            )
+      WHERE NUM BETWEEN #{startPageNo} AND #{endPageNo}
+	</select>
+	<!-- Detail 커뮤니티 리뷰 -->
+	<select id="getlstSelectCampsiteDetailReview" resultType="Review">
+    SELECT *
+      FROM (
+            SELECT ROW_NUMBER() OVER (ORDER BY REVIEWNO) NUM
+                 , R.*
+		      FROM REVIEW R
+		     WHERE 1=1
+			   AND
+			 <if test="keyword != null and !keyword.equals('')">
+				   (TITLE LIKE '%'||#{keyword}||'%' OR CONTENT LIKE '%'||#{keyword}||'%')
+			 </if>
+	         ORDER BY LIKECOUNT DESC
             )
       WHERE NUM BETWEEN #{startPageNo} AND #{endPageNo}
 	</select>

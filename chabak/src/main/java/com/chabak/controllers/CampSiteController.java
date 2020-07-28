@@ -59,7 +59,7 @@ public class CampSiteController {
         return "campsite/campsite";
     }
     /*
-     * 야영장 커뮤니티 페이지 변경 & 검색
+     * 야영장 커뮤니티 페이징
      */
     @RequestMapping(value = "/campsiteCommunityPaging", produces = "application/json; charset=utf8")
     @ResponseBody
@@ -83,21 +83,9 @@ public class CampSiteController {
         return campsiteCommunityPageChange;
     }
 
-    /*
-     * 페이징
-     */
-    public CampsiteCommunityPagingVO Paging(int crntpageNo, int PageSize, int TotCount) { // 페이징
-        CampsiteCommunityPagingVO paging = new CampsiteCommunityPagingVO();
-        paging.setPageNo(crntpageNo); // 페이지번호
-        paging.setPageSize(PageSize); // 한페이지에 출력 개수
-        paging.setTotalCount(TotCount); // 총개수
-
-        return paging;
-    }
-
     //야영지 선택 경로 지정(selectPlaceDetail)
     @RequestMapping(value = "/campsitePlaceDetail", method= {RequestMethod.GET,RequestMethod.POST})
-    public ModelAndView campsitePlaceDetail(HttpServletRequest request, HttpSession session) {
+    public ModelAndView campsitePlaceDetail(HttpServletRequest request) {
         ModelAndView campsitePlaceDetail = new ModelAndView();
 
         String lat = request.getParameter("latitude"); //위도
@@ -106,7 +94,14 @@ public class CampSiteController {
 
         try {
             //시작 페이지 설정
-            String startPageNo = "1";
+            String startPageNo = request.getParameter("startPageNo");					//시작페이지 번호
+            String crntpageNo = request.getParameter("crnt");						//페이지 번호
+            String endPageNo = request.getParameter("end");							//마지막페이지 번호
+            if(crntpageNo == null || crntpageNo == "undefined") {
+                crntpageNo = "1";						//페이지 번호
+                startPageNo = "1";					    //시작페이지 번호
+                endPageNo = "5";						//마지막페이지 번호
+            }
             int pageNo = Integer.parseInt(startPageNo);
 
             String latitude = lat.substring(0, 7);
@@ -119,20 +114,25 @@ public class CampSiteController {
             if(lstSelectCampsitePlace.size()!=0){
                 keyword = lstSelectCampsitePlace.get(0).getCampsitename();
             }
+            else if(plname ==""|| plname==null || plname==" "){
+                keyword = "야영장";
+            }
             else{
                 keyword = plname;
             }
 
             //커뮤니티 호출
-            Map map = new HashMap<String,String>();
-            Pagination pagination = new Pagination();
-            map.put("sortType", "readCount");
-            map.put("searchText", keyword);
-            map.put("startIndex", pagination.getStartIndex());
-            int listCnt = reviewService.maxReviewCount(map);
-            map.put("pageSize",listCnt);
-
-            List<Review> reviewList = reviewService.selectReviewList(map);
+            List<Review> getlstSelectCampsiteDetailReview = campSiteService.getlstSelectCampsiteDetailReview(keyword,startPageNo,endPageNo);
+            campsiteReviewCnt = campSiteService.pagingCnt();
+            String campsiteDetailReviewBoolean = "true";
+            if(getlstSelectCampsiteDetailReview.size()!=5){
+                campsiteDetailReviewBoolean = "false";
+            }
+            System.out.println(getlstSelectCampsiteDetailReview.size());
+            campsitePlaceDetail.addObject("campsiteDetailReviewBoolean", campsiteDetailReviewBoolean);
+            campsitePlaceDetail.addObject("getlstSelectCampsiteDetailReview", getlstSelectCampsiteDetailReview); //review 정보(조회수 순)
+            campsitePlaceDetail.addObject("keyword", keyword);
+            campsitePlaceDetail.addObject("paging",Paging(Integer.parseInt(crntpageNo),5, campsiteReviewCnt));
 
             //블로그와 이미지 호출
             BlogService service = new BlogService();
@@ -140,7 +140,7 @@ public class CampSiteController {
             List<Blog> b = service.searchBlog(keyword, 15, pageNo);
             List<Image> a = serviceTest.searchImage(keyword, 15, pageNo);
 
-            campsitePlaceDetail.addObject("reviewList",reviewList);                          //review 정보(조회수 순)
+
             campsitePlaceDetail.addObject("startPageNo", startPageNo);                       //naver blog, 썸네일 시작 페이지
             campsitePlaceDetail.addObject("blogInfo", b);                                    //naver blog정보
             campsitePlaceDetail.addObject("imgInfo", a);                                     //naver 썸네일 정보
@@ -160,6 +160,43 @@ public class CampSiteController {
         }
     }
 
+
+    /*
+     * 페이징
+     */
+    public CampsiteCommunityPagingVO Paging(int crntpageNo, int PageSize, int TotCount) { // 페이징
+        CampsiteCommunityPagingVO paging = new CampsiteCommunityPagingVO();
+        paging.setPageNo(crntpageNo); // 페이지번호
+        paging.setPageSize(PageSize); // 한페이지에 출력 개수
+        paging.setTotalCount(TotCount); // 총개수
+
+        return paging;
+    }
+
+    //야영장 선택 후 커뮤니티 리뷰 페이징
+    @RequestMapping(value = "/campsiteDetailCommunityPaging", produces = "application/json; charset=utf8")
+    @ResponseBody
+    public Map<String, Object> communityChangePage(HttpServletRequest request) {
+        String crntpageNo = request.getParameter("crntpageNo");						//페이지 번호
+        String startPageNo = request.getParameter("startPageNo");					//시작페이지 번호
+        String endPageNo = request.getParameter("endPageNo");						//마지막페이지 번호
+        String keyword = request.getParameter("keyword");                            //야영장 키워드
+        
+        Map<String, Object> campsiteCommunityDetailPageChange = new HashMap<String, Object>();
+
+        List<Review> getlstSelectCampsiteDetailReview = campSiteService.getlstSelectCampsiteDetailReview(keyword,startPageNo,endPageNo);
+        Object reviewBoolean = "true";
+        if(getlstSelectCampsiteDetailReview.size()!=5){
+            reviewBoolean = "false";
+        }
+
+        campsiteCommunityDetailPageChange.put("getlstSelectCampsiteDetailReview",getlstSelectCampsiteDetailReview);
+        campsiteCommunityDetailPageChange.put("keyword", keyword);
+        campsiteCommunityDetailPageChange.put("reviewBoolean", reviewBoolean);
+        campsiteCommunityDetailPageChange.put("paging", Paging(Integer.parseInt(crntpageNo), 5, campsiteReviewCnt));
+        return campsiteCommunityDetailPageChange;
+    }
+    //야영장 선택 후 블로그 페이징
     @RequestMapping(value = "/blogPaging", produces = "application/json; charset=utf8")
     @ResponseBody
     public Map<String, List> blogPaging(HttpServletRequest request){

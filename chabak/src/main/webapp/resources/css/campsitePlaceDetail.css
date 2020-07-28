@@ -114,7 +114,7 @@ a:visited{
     font-size:14px;
 }
 
-/*커뮤니티*/
+/*야영지 검색*/
 .community_aticle{
     margin-top:50px;
     margin-bottom:50px;
@@ -140,7 +140,7 @@ a:visited{
     border: 1px solid rgba(255, 255, 255, .4);
     box-shadow: 0px 5px 10px #609367;
 }
-.community_aticle ul li .best_img{
+.community_aticle ul li .community_best_img{
     margin: 10px 9px 5px 9px;
     width:240px;
     height:200px;
@@ -148,7 +148,7 @@ a:visited{
     border: 1px solid black;
     border-radius: 18px;
 }
-.community_aticle ul li .best_img img{
+.community_aticle ul li .community_best_img img{
     width:240px;
     height:200px;
     border-radius: 18px;
@@ -157,17 +157,16 @@ a:visited{
     margin-left:9px;
     font-family: 'Jeju Gothic', sans-serif;
 }
-.community_aticle ul li .best_title{
+.community_aticle ul li .community_best_title{
     margin-top:7px;
 }
-.community_aticle ul li .best_views{
+.community_aticle ul li .community_best_views{
     width:240px;
     font-family: 'Roboto', sans-serif;
     font-size: 12px;
 }
-
 /*리뷰 내용*/
-.community_aticle ul li .best_content{
+.community_aticle ul li .community_best_content{
     font-family: 'Jeju Gothic', sans-serif;
     font-size:11px;
     margin: 10px 9px 5px 9px;
@@ -179,10 +178,20 @@ a:visited{
     outline:0;
     border:0;
 }
-.community_aticle ul li .best_id{
+.community_aticle ul li .community_best_content p{
+    margin-left: 0px;
+}
+.community_aticle ul li .community_best_id{
     margin:15px 9px 5px 14px;
     font-family: 'Jeju Gothic', sans-serif;
     font-size:12px;
+}
+.community_select_community{
+    float:right;
+    margin-right:20px;
+    margin-top:3px;
+    font-family: 'Jeju Gothic', sans-serif;
+    font-size:9px;
 }
 .community_link{
     margin-top:20px;

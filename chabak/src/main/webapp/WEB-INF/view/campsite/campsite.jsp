@@ -164,7 +164,9 @@ prefix="c" %>
             }
             keyword = sido+" "+gugun+" "+keyword;
         }
-
+        if(keyword == null || keyword =="" || keyword == " "){
+            keyword = "자동차야영장";
+        }
         if (!keyword.replace(/^\s+|\s+$/g, '')) {
             alert('키워드를 입력해주세요!');
             return false;

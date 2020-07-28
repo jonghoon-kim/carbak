@@ -21,6 +21,10 @@ public class CampSiteService {
         return campSiteMapper.getlstSelectCampsiteReview(startPageNo, endPageNo);
     }
 
+    public List<Review> getlstSelectCampsiteDetailReview(String keyword,String startPageNo, String endPageNo){
+        return campSiteMapper.getlstSelectCampsiteDetailReview(keyword, startPageNo, endPageNo);
+    }
+
     public int pagingCnt() {
         return campSiteMapper.pagingCnt();
     }
