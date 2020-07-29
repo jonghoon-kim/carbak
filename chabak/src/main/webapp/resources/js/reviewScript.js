@@ -107,9 +107,6 @@ function ajaxReviewList(sessionId,isSearchButton,curPage) {
              "isFollowerSearch":isFollowerSearchVar}, //검색창의 텍스트값
         success : function(data) {
 
-            //받은 sessionId 값이 문자열이 아니므로(따옴표로 감싸이지 않았음) 따옴표 추가
-            sessionId = "'"+sessionId+"'";
-
             var reviewListDiv = $("#reviewListDiv"); //리뷰가 추가되는 영역
             reviewListDiv.empty();  //리뷰 추가 영역 초기화
 
@@ -162,7 +159,7 @@ function ajaxReviewList(sessionId,isSearchButton,curPage) {
                 toggleImage.attr("id","like-img"+reviewNo);
 
                 //onclick 속성 추가(함수 실행)
-                toggleImage.attr("onclick","ajaxReviewLikeToggle('"+reviewNo+"',this,"+sessionId+")");
+                toggleImage.attr("onclick","ajaxReviewLikeToggle('"+reviewNo+"',this,'"+sessionId+"')");
 
                 if(sessionId=="" || sessionId==null || this["likeYn"]==0){
 

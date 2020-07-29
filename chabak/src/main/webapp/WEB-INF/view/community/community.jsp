@@ -138,7 +138,7 @@
                           </span>
                     </button>
                     <div class="dropdown-content" id="">
-                        <a class="mypage" href="" target="_blank">마이페이지</a>
+                        <a class="mypage" onclick="" target="_blank">마이페이지</a>
                         <a class="message" onclick="">쪽지 보내기</a>
                     </div>
                 </div>
