@@ -16,16 +16,21 @@ public class CampSiteService {
     public List<Campsite> getlstSelectCampsitePlace(String latitude, String longitude){
         return campSiteMapper.getlstSelectCampsitePlace(latitude, longitude);
     }
-
+    //campsite review
     public List<Review> getlstSelectCampsiteReview(String startPageNo, String endPageNo){
         return campSiteMapper.getlstSelectCampsiteReview(startPageNo, endPageNo);
     }
-
+    //campsitedetail review
     public List<Review> getlstSelectCampsiteDetailReview(String keyword,String startPageNo, String endPageNo){
         return campSiteMapper.getlstSelectCampsiteDetailReview(keyword, startPageNo, endPageNo);
     }
-
+    //campsite pagingcount
     public int pagingCnt() {
         return campSiteMapper.pagingCnt();
+    }
+
+    //campsitedetail pagingcount
+    public int detailPagingCnt(String keyword) {
+        return campSiteMapper.detailPagingCnt(keyword);
     }
 }

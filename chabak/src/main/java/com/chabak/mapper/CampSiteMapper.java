@@ -11,9 +11,16 @@ import java.util.List;
 public interface CampSiteMapper {
     List<Campsite> getlstSelectCampsitePlace(@Param("latitude") String latitude, @Param("longitude") String longitude);
 
+    //campsite review
     List<Review> getlstSelectCampsiteReview(@Param("startPageNo")String startPageNo, @Param("endPageNo")String endPageNo);
 
+    //campsitedetail review
     List<Review> getlstSelectCampsiteDetailReview(@Param("keyword")String keyword, @Param("startPageNo")String startPageNo, @Param("endPageNo")String endPageNo);
+
+    //campsite pagingcount
     int pagingCnt();
+
+    //campsitedetail pagingcount
+    int detailPagingCnt(@Param("keyword")String keyword);
 }
 

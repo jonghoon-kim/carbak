@@ -12,7 +12,7 @@
     <script type="text/javascript" src=" http://code.jquery.com/jquery-latest.min.js"></script>
     <script type="text/javascript" src="/resources/js/address_select.js"></script>
     <script type="text/javascript" src="/resources/js/campsitePlacePaging.js"></script>
-    <script type="text/javascript" src="/resources/js/campsiteCommunityPaging.js"></script>
+    <script type="text/javascript" src="/resources/js/campsiteDetialCommunityPaging.js"></script>
     <meta name='viewport' content='width=device-width, initial-scale=1'>
     <script src='https://kit.fontawesome.com/a076d05399.js'></script>
 </head>
@@ -96,7 +96,7 @@
                 <c:otherwise>
                     <c:forEach var="i" begin="1" end="5" step="1">
                         <li id="communityLi">
-                            <p class="community_best_id">ID : 없음</p>
+                            <p class="community_best_id">ID : 아이디 조회 불가</p>
                             <div class="community_best_img">
                                 <img src="/resources/img/campsite/nullImage.png">
                             </div>

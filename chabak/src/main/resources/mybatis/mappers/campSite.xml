@@ -53,11 +53,28 @@
             )
       WHERE NUM BETWEEN #{startPageNo} AND #{endPageNo}
 	</select>
-	<!-- 페이징 카운트 -->
+	<!-- Campsite 페이징 카운트 -->
 	<select id="pagingCnt" resultType="int">
         SELECT
 			 COUNT(DISTINCT REVIEWNO)
 		  FROM
 			 REVIEW
+    </select>
+	<!-- CampsiteDetail 페이징 카운트 -->
+	<select id="detailPagingCnt" resultType="int">
+        SELECT
+			 COUNT(*)
+		  FROM
+			 (
+			 SELECT ROW_NUMBER() OVER (ORDER BY REVIEWNO) NUM
+			 , R.*
+			 FROM REVIEW R
+			 WHERE 1=1
+			 AND
+			 <if test="keyword != null and !keyword.equals('')">
+			 	 (TITLE LIKE '%'||#{keyword}||'%' OR CONTENT LIKE '%'||#{keyword}||'%')
+			 </if>
+			 ORDER BY LIKECOUNT DESC
+			 )
     </select>
 	</mapper>
