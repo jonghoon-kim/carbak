@@ -3,13 +3,14 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core"
            prefix="c" %>
 <!DOCTYPE html>
-
+<html>
 <head>
     <meta charset="UTF-8">
     <title>슬기로운 차박생활</title>
     <link href="/css/login.css" rel="stylesheet">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
     <script type="text/javascript" src=" http://code.jquery.com/jquery-latest.min.js"></script>
+</head>
 <body>
 <!-- header -->
 <div id="header">

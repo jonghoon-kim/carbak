@@ -3,6 +3,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core"
            prefix="c" %>
 <!DOCTYPE html>
+<html>
 <head>
     <meta charset="UTF-8">
     <title>슬기로운 차박생활</title>
@@ -85,6 +86,7 @@
 
         }
     </script>
+</head>
 <body>
 <!-- header -->
 <div id="header">
