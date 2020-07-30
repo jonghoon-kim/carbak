@@ -8,7 +8,7 @@
 	<insert id="insertReview" parameterType="Review">
 		INSERT INTO Review(reviewNo,id,title,sido,gugun,content,titleImageSrc)
 		VALUES(
-				  REVIEWNO_SEQ.nextval,
+				  #{reviewNo},
 				  #{id},
 				  #{title},
 				  #{sido},
@@ -17,6 +17,10 @@
 				  #{titleImageSrc}
 			  )
 	</insert>
+
+	<select id="selectReviewNo" resultType="int">
+		select REVIEWNO_SEQ.nextval from dual
+	</select>
 
 <!--	변수값이 칼럼명일 경우 ${}를 사용한다.-->
 

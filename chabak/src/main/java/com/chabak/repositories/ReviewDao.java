@@ -13,6 +13,11 @@ public class ReviewDao {
     @Autowired
     SqlSession sqlSession;
 
+    /* reviewNo 값 가져오기 */
+    public int selectReviewNo(){
+        int reviewNo =sqlSession.selectOne("review.selectReviewNo");
+        return reviewNo;
+    }
     public int insertReview(Review review){
         int insertedCount = sqlSession.insert("review.insertReview",review);
         return insertedCount;

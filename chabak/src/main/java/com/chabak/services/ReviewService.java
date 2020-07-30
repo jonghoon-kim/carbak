@@ -6,6 +6,7 @@ import com.chabak.util.Utility;
 import com.chabak.vo.Pagination;
 import com.chabak.vo.Review;
 import lombok.SneakyThrows;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -46,7 +47,6 @@ public class ReviewService {
 
         String regex = "<img[^>]*src=[\"']?([^>\"']+)[\"']?[^>]*>"; //img 태그 src 추출 정규표현식
         String resultString = originalString.replaceAll(regex,"");
-        System.out.println("deleteImgTag resultString:"+resultString);
         return resultString;
     }
 
@@ -59,15 +59,17 @@ public class ReviewService {
 
         //페이징 관련 파라미터
         //reviewList 행의 수
-        System.out.println("setReviewListParameterMap(Service) start listCnt:"+listCnt);
         Pagination pagination = new Pagination(listCnt,curPage);
-        System.out.println("setReviewListParameterMap(Service) start pagination:"+pagination);
         int startIndex = pagination.getStartIndex();
         int pageSize = pagination.getPageSize();
         map.put("startIndex",startIndex);
         map.put("pageSize",pageSize);
 
         return pagination;
+    }
+    public int selectReviewNo() {
+        int reviewNo = reviewDao.selectReviewNo();
+        return reviewNo;
     }
 
     public int insertReview(Review review){
@@ -137,5 +139,16 @@ public class ReviewService {
     public int decreaseReplyCount(int reviewNo){
         int updateLikeCount = reviewDao.decreaseReplyCount(reviewNo);
         return updateLikeCount;
+    }
+
+    //해쉬태그 변환 프로시저
+    public String specialCharacter_replace(String str) {
+        str = StringUtils.replaceChars(str, "-_+=!@#$%^&*()[]{}|\\;:'\"<>,.?/~`） ","");
+
+        if(str.length() < 1) {
+            return null;
+        }
+
+        return str;
     }
 }

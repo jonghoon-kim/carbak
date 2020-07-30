@@ -22,9 +22,6 @@ function checkReviewValidate(){
         return false;
 
     return true;
-
-
-
 }
 
 //필드 글자 수 제한

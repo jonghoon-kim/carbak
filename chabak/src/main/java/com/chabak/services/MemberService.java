@@ -130,7 +130,7 @@ public class MemberService {
         }
     }
 
-    // 삭제 회원 관리 id
+    // 회원 삭제
     public int memberDelete(String loginId){
         return memberDao.memberDelete(loginId);
     }

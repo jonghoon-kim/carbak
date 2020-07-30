@@ -386,8 +386,6 @@ public class MemberController {
         member.setId(loginId);
         boolean flag = memberService.loginCheck(member);
 
-        System.out.println(flag);
-
         int result;
         if(flag){
             result = memberService.memberDelete(loginId);

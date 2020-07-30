@@ -52,7 +52,7 @@ public class MemberDao {
         return sqlSession.update("member.memberUpdate", member);
     }
 
-    /* 회원 삭제 -> 값 변경 */
+    /* 회원 삭제 */
     public int memberDelete(String loginId) {
         return sqlSession.delete("member.memberDelete", loginId);
     }
