@@ -12,4 +12,7 @@ public class ReadCount {
         this.id = id;
         this.reviewNo = reviewNo;
     }
+    public ReadCount(){
+
+    }
 }

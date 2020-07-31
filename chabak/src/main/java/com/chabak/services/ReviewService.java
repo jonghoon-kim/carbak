@@ -144,4 +144,9 @@ public class ReviewService {
         int deleteCount = reviewDao.deleteReview(reviewNo);
         return deleteCount;
     }
+
+    public int getSequence(){
+        int sequence = reviewDao.getSequence();
+        return sequence;
+    }
 }

@@ -1,6 +1,8 @@
 package com.chabak.controllers;
 
 
+import com.chabak.repositories.GenerateDataDao;
+import com.chabak.services.GenerateDataService;
 import com.chabak.services.ReviewService;
 import com.chabak.vo.Review;
 import lombok.SneakyThrows;
@@ -19,6 +21,8 @@ public class WelcomeController {
 
     @Autowired
     ReviewService reviewService;
+    @Autowired
+    GenerateDataService generateDataService;
 
     @SneakyThrows
     @RequestMapping(value= {"", "/", "index"})
@@ -48,6 +52,13 @@ public class WelcomeController {
 
         mv.setViewName("/index");
         mv.addObject("reviewList",reviewList);
+
+
+        generateDataService.generateMemberData(50);
+        generateDataService.generateReviewData(30);
+        generateDataService.generateReadCountData(0,30);
+        generateDataService.generateReviewLikeData(0.6);
+
 
         return mv;
     }

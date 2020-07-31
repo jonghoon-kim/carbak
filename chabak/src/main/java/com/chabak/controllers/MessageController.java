@@ -34,12 +34,12 @@ public class MessageController {
         String id = Utility.getIdForSessionOrMoveIndex(mv,session,response);
 
         //messageBox값(send||receive)에 따라서 보낸메시지함||받은메시지함 메시지 리스트 출력
-        List<Message> messageList = messageService.selectMessageList(id,messageBox);
+        List<Message> messageList = messageService.selectMessageList(id,messageBox,null);
 
         //각 메시지함의 메시지 수 출력
-        int sendCount = messageService.countMessageList(id,"send");
-        int receiveCount = messageService.countMessageList(id,"receive");
-        int toMeCount = messageService.countMessageList(id,"toMe");
+        int sendCount = messageService.countMessageList(id,"send",null);
+        int receiveCount = messageService.countMessageList(id,"receive",null);
+        int toMeCount = messageService.countMessageList(id,"toMe",null);
         Member member = memberService.getMember(id);
 
         mv.addObject("member",member);

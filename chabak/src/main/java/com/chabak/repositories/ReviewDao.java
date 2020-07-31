@@ -13,6 +13,10 @@ public class ReviewDao {
     @Autowired
     SqlSession sqlSession;
 
+    public int getSequence(){
+        int sequence = sqlSession.selectOne("review.getSequence");
+        return sequence;
+    }
     public int insertReview(Review review){
         int insertedCount = sqlSession.insert("review.insertReview",review);
         return insertedCount;

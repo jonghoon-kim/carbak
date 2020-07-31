@@ -27,5 +27,6 @@
 		<mapper resource = "/mybatis/mappers/campSite.xml"/>
 		<mapper resource = "/mybatis/mappers/message.xml"/>
 		<mapper resource = "/mybatis/mappers/readCount.xml"/>
+		<mapper resource = "/mybatis/mappers/generateData.xml"/>
 	</mappers>
 </configuration>
