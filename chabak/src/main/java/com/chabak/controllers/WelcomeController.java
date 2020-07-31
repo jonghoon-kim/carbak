@@ -54,9 +54,9 @@ public class WelcomeController {
         mv.addObject("reviewList",reviewList);
 
 
-        generateDataService.generateMemberData(50);
-        generateDataService.generateReviewData(30);
-        generateDataService.generateReadCountData(0,30);
+//        generateDataService.generateMemberData(50);
+//        generateDataService.generateReviewData(30);
+//        generateDataService.generateReadCountData(0,30);
         generateDataService.generateReviewLikeData(0.6);
 
 

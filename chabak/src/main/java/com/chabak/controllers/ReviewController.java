@@ -141,6 +141,8 @@ public class ReviewController {
         reviewService.setTitleImg(review);
 
         try{
+            int sequence = reviewService.getSequence();
+            review.setReviewNo(sequence);
             reviewService.insertReview(review);
         }
         catch (Exception e){

@@ -15,7 +15,7 @@ public class GenerateDataDao {
     SqlSession sqlSession;
 
     public List<Member> getAllMember(){
-        return sqlSession.selectList("generateData.getAllMember",null);
+        return sqlSession.selectList("generateData.getAllMember");
     }
 
     public List<ReadCount> selectAllReadCount(){

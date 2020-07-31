@@ -6,6 +6,7 @@ import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.sql.Date;
 import java.util.List;
 
 @Service
@@ -70,7 +71,13 @@ public class GenerateDataService {
             review.setGugun("계양구");
             review.setContent("content"+sequenceNo);
             review.setTitleImageSrc("");
+            review.setReadCount(0);
+            review.setLikeCount(0);
+            review.setReplyCount(0);
+            review.setRegDate(null);
+            review.setModifyDate(null);
             reviewService.insertReview(review);
+
         }
 
 
