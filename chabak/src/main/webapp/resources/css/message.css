@@ -1,0 +1,136 @@
+@import url(//fonts.googleapis.com/earlyaccess/jejugothic.css);
+@import url(https://fonts.googleapis.com/css2?family=Oldenburg&display=swap);
+
+/* 헤더 */
+#header {
+    padding-bottom: 200px;
+}
+.top_hr{
+    border: 1px solid rgb(105, 179, 149);
+    width: 1535px;
+    display: inline-block;
+    margin: 70px 200px 0px 200px;
+}
+/* 전체 container */
+.container {
+    text-align: center;
+    margin-top:70px;
+    margin-bottom:70px;
+    font-family: 'Jeju Gothic', sans-serif;
+    height : 1500px;
+}
+/* top title */
+.top {
+    text-align: center;
+    display: inline;
+    margin-bottom:50px;
+}
+/* 프로필 사진 설정 */
+.thumbnail-wrapper {
+    width: 150px;
+    height: 150px;
+    margin: 0px 0px 0px 550px;
+}
+.thumbnail {
+    border : 2px solid rgb(105, 179, 149);
+    border-radius: 90px;
+    position: relative;
+    padding-top : 100%;
+    overflow: hidden;
+}
+.thumbnail .centered {
+    position: absolute;
+    top: 0;
+    right : 0;
+    left : 0;
+    bottom :0;
+    transform: translate(50%,50%);
+    -webkit-transform: translate(50%, 50%);
+    -ms-transform: translate(50%, 50%);
+}
+.thumbnail .centered img {
+    max-height: 100%;
+    position: absolute;
+    top: 0;
+    right : 0;
+    left : 0;
+    bottom :0;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transform: translate(-50%,-50%);
+}
+.sessionId {
+    float: left;
+}
+/* myPage 주인 id div */
+.sessionId .pageOwnerId{
+    margin: 84px 0px 5px 99px;
+    font-size: 20px;
+    font-family: 'Roboto', sans-serif;
+    font-weight: bold;
+    background-color: transparent;
+    text-transform: uppercase;
+    width: 150px;
+    border-top: none;
+    border-left: none;
+    border-right: none;
+}
+.button_menu {
+    margin: -75px 0px 0px 450px;
+}
+
+.button_menu .writeMessage,
+.button_menu .sendMessageBox,
+.button_menu .receiveMessageBox,
+.button_menu .toMeMessageBox,
+.button_menu .updateMember{
+    width: 150px;
+    height : 40px;
+    font-size: 18px;
+    font-family: 'Jeju Gothic', sans-serif;
+    background-color: rgb(105, 179, 149);
+    border : 2px solid rgb(105, 179, 149);
+    border-radius: 10px;
+    color : white;
+    transition : .35s;
+    margin-left: 100px;
+}
+
+.button_menu .writeMessage:hover,
+.button_menu .sendMessageBox:hover,
+.button_menu .receiveMessageBox:hover,
+.button_menu .toMeMessageBox:hover,
+.button_menu .updateMember:hover{
+    font-size: 20px;
+}
+
+.button_menu .writeMessage:focus,
+.button_menu .sendMessageBox:focus,
+.button_menu .receiveMessageBox:focus,
+.button_menu .toMeMessageBox:focus,
+.button_menu .updateMember:focus{
+    outline: none;
+}
+
+.button_menu .menu_btn {
+    float: left;
+}
+.button_menu .countMenu {
+    margin : 20px 0px 20px 10px;
+    font-size: 70px;
+}
+
+.listForm {
+    text-align: center;
+    position: absolute;
+    margin: 280px 0px 0px 300px;
+    width: 1500px;
+}
+
+/* footer */
+.footer {
+    margin-top: 200px;
+}
+

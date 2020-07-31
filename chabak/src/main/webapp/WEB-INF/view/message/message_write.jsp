@@ -17,11 +17,8 @@
     function submitFunction() {
         //var form = $("#writeMessageForm");
         //JQuery로 하니 안되는 듯?
-        document.getElementById("writeMessageForm").action ="/message/write";
         alert("쪽지가 작성되었습니다.");
         document.getElementById("writeMessageForm").submit();
-        // window.open("about:blank","_self").close();
-        //onsubmit="return beforeSubmit();"
     }
 </script>
 <body>

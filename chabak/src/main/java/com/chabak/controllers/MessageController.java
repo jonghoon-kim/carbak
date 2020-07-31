@@ -22,6 +22,8 @@ public class MessageController {
 
     @Autowired
     MessageService messageService;
+    @Autowired
+    MemberService memberService;
 
     @RequestMapping(value ={"", "/", "/list"}, method=RequestMethod.GET)
     public ModelAndView messageList(HttpSession session,HttpServletResponse response,@RequestParam (defaultValue = "receive") String messageBox){
@@ -34,8 +36,18 @@ public class MessageController {
         //messageBox값(send||receive)에 따라서 보낸메시지함||받은메시지함 메시지 리스트 출력
         List<Message> messageList = messageService.selectMessageList(id,messageBox);
 
+        //각 메시지함의 메시지 수 출력
+        int sendCount = messageService.countMessageList(id,"send");
+        int receiveCount = messageService.countMessageList(id,"receive");
+        int toMeCount = messageService.countMessageList(id,"toMe");
+        Member member = memberService.getMember(id);
+
+        mv.addObject("member",member);
         mv.addObject("messageList",messageList);
         mv.addObject("messageBox",messageBox);
+        mv.addObject("sendCount",sendCount);
+        mv.addObject("receiveCount",receiveCount);
+        mv.addObject("toMeCount",toMeCount);
         mv.setViewName("message/message");
 
         return mv;
@@ -72,6 +84,8 @@ public class MessageController {
             e.printStackTrace();
             Utility.printAlertMessage("작업 중 에러가 발생했습니다.",null,response);
         }
+        //부모창 새로고침
+        Utility.parentReload(response);
         //새창 닫기
         Utility.closeWindow(response);
         return null;
@@ -97,13 +111,15 @@ public class MessageController {
         else if(messageBox.equals("receive")){ //messageBox 값이 receive
             authorityYn = id.equals(message.getReceiveId());
         }
-        else{  //messageBox 값이 receive/send 둘다 아니면
-            Utility.printAlertMessage("잘못된 접근입니다.",null,response);
-            return null;
+        else if(messageBox.equals("toMe")){ //messageBox 값이 toMe
+            authorityYn = id.equals(message.getReceiveId());
+        }
+        else{  //그 외의 경우
+            authorityYn = false;
         }
 
         //해당 메시지가 존재하지 않거나 messageBox 값이 들어오지 않으면
-        if(message == null || messageBox.equals("-1") || !authorityYn){
+        if(message == null || !authorityYn){
             Utility.printAlertMessage("잘못된 접근입니다.",null,response);
             return null;
         }
@@ -157,7 +173,10 @@ public class MessageController {
             else if(messageBox.equals("receive")){ //messageBox 값이 receive
                 authorityYn = id.equals(message.getReceiveId());
             }
-            else{  //messageBox 값이 receive/send 둘다 아니면
+            else if(messageBox.equals("toMe")){ //messageBox 값이 receive
+                authorityYn = id.equals(message.getSendId());
+            }            
+            else{  //messageBox 값이 receive/send/toMe 전부 아니면 잘못된 접근
                 Utility.printAlertMessage("잘못된 접근입니다.",null,response);
                 return null;
             }
@@ -183,7 +202,7 @@ public class MessageController {
             Utility.printAlertMessage("작업 중 에러가 발생했습니다.",null,response);
             throw e; //트랜젝션을 위해 예외 던짐
         }
-
+        mv.addObject("messageBox",messageBox);
         mv.setViewName("redirect:/message/list");
         return mv;
     }
