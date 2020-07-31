@@ -35,5 +35,14 @@
 	<select id="getAllMember" resultType="Member">
 		select * from member
 	</select>
+	<select id="getLastCreateMemberByTest" resultType="String">
+    select id
+    from
+		(select id
+		from member
+		where id like 'id%'
+		order by regdate desc)
+		where rownum = 1
+	</select>
 
 </mapper>

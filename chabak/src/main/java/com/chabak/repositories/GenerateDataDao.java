@@ -18,6 +18,10 @@ public class GenerateDataDao {
         return sqlSession.selectList("generateData.getAllMember");
     }
 
+    public Member getLastCreateMemberByTest(){
+        return sqlSession.selectOne("generateData.getLastCreateMemberByTest");
+    }
+
     public List<ReadCount> selectAllReadCount(){
         return sqlSession.selectList("generateData.selectAllReadCount",null);
     }

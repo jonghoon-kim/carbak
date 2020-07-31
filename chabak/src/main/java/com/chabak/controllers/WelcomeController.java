@@ -57,7 +57,7 @@ public class WelcomeController {
 //        generateDataService.generateMemberData(50);
 //        generateDataService.generateReviewData(30);
 //        generateDataService.generateReadCountData(0,30);
-        generateDataService.generateReviewLikeData(0.6);
+//        generateDataService.generateReviewLikeData(0.6);
 
 
         return mv;

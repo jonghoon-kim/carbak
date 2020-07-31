@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.sql.Date;
+import java.text.SimpleDateFormat;
 import java.util.List;
 
 @Service
@@ -26,16 +27,22 @@ public class GenerateDataService {
     public void generateMemberData(int numberOfGenerate){
         Member member = new Member();
         try{
-            for(int i=0;i<numberOfGenerate;i++){
+            SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMddHHmmss");
+            String today;
+            String createdString;
+             for(int i=0;i<numberOfGenerate;i++){
+                today= formatter.format(new java.util.Date());
+                createdString = today+"-"+i;
 
-                member.setId("id"+i);
-                member.setName("name"+i);
+
+                member.setId("id"+createdString);
+                member.setName("name"+createdString);
                 member.setPassword("1");
                 member.setGender("m");
                 member.setSido("");
                 member.setGugun("");
-                member.setName("name"+i);
-                member.setEmail("email"+i);
+                member.setName("name"+createdString);
+                member.setEmail("email"+createdString);
                 member.setSaveName("");
                 member.setSavePath("");
                 System.out.println("member:"+member);
@@ -92,6 +99,7 @@ public class GenerateDataService {
         Pagination pagination = new Pagination(listCnt,1);
         List<Review> reviewList = reviewService.selectReviewList(null,null,null,null,null,pagination.getStartIndex(),pagination.getPageSize());
         int randomValue = 0;
+        int count=0;
 
         for(Member member: memberList){
             ///
@@ -109,10 +117,11 @@ public class GenerateDataService {
                     generateDataDao.insertReadCountForTest(readCount);
                     System.out.println("readCount:"+readCount);
                 }
-
+                count++;
                 generateDataDao.updateReadCountForTest(readCount);
             }
         }
+        System.out.println("generateReadCountData count :"+count);
     }
 
     public void generateReviewLikeData(double likeChance){
@@ -146,12 +155,5 @@ public class GenerateDataService {
 
     }
 
-    public int updateReadCountForTest(ReadCount readCount){
-        int updateCount = generateDataDao.updateReadCountForTest(readCount);
-        return updateCount;
-    }
 
-    public List<Member> getAllMember(){
-        return generateDataDao.getAllMember();
-    }
 }
