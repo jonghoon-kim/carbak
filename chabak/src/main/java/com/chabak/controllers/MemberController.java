@@ -4,21 +4,25 @@ import com.chabak.services.MemberService;
 import com.chabak.vo.Member;
 
 
+import lombok.SneakyThrows;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import okhttp3.*;
+import okhttp3.OkHttpClient;
+import okhttp3.FormBody;
+import okhttp3.RequestBody;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.ModelAndViewDefiningException;
-import org.springframework.web.servlet.view.RedirectView;
-import sun.plugin.dom.core.Element;
 
 import javax.inject.Inject;
 import javax.mail.internet.MimeMessage;
-import javax.print.attribute.PrintJobAttributeSet;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -60,9 +64,58 @@ public class MemberController {
             session.setAttribute("profile", (memberService.getMember(member.getId())).getSavePath() + (memberService.getMember(member.getId())).getSaveName());
             session.setAttribute("path", (memberService.getMember(member.getId())).getSavePath());
 
+            System.out.println("LoginAction Controller id : " + member.getId());
 
-            System.out.println("id : " + member.getId());
-            System.out.println((memberService.getMember(member.getId())).getSavePath() + (memberService.getMember(member.getId())).getSaveName());
+
+
+            try{
+                String requestURL = "http://localhost:5000/find_similar_users";
+                String postBody =""+ "{" + "\"id\":"+ member.getId()+"}"+"";
+                String sessionId = member.getId();
+
+                System.out.println("postBody : "+postBody);
+
+                RequestBody formBody = new FormBody.Builder()
+                        .add("id", sessionId)
+                        .build();
+
+                OkHttpClient client = new OkHttpClient();
+
+//                RequestBody requestBody = RequestBody.create(postBody, MediaType.parse("application/json; charset=utf-8"));
+
+                Request request = new Request.Builder()
+                        .url(requestURL)  // "  http://localhost:8000/find_similar_users  이거나,  http://192.168.20.123:8000/find_similar_users  "
+                        .post(formBody)
+                        .build();
+
+                //비동기 처리 (enqueue 사용)
+                client.newCall(request).enqueue(new Callback() {
+                    //비동기 처리를 위해 Callback 구현
+                    @Override
+                    public void onFailure(Call call, IOException e) {
+                        System.out.println("error + Connect Server Error is " + e.toString());
+                    }
+
+                    @SneakyThrows
+                    @Override
+                    public void onResponse(Call call, Response response) throws IOException {
+                        System.out.println("Response Body is " + response.body().string());
+                        // response.body 가 {"similar_users":[1,2,3,4]} 일거임.
+                        // 이거를 파싱해서 가져오면 되는데....
+                        String jsonData = response.body().string();  // https://stackoverflow.com/questions/28221555/how-does-okhttp-get-json-string
+                        JSONParser parser = new JSONParser();
+                        Object obj = parser.parse(jsonData);
+                        JSONObject jsonObject = (JSONObject)obj;
+
+                        System.out.println(jsonObject);
+                        // response.body() <---> java object (POJO)  i.e. class Review { User reviewer; String comment; Boolean liked; } <---- json을 java class로 바꿔주는 헬퍼들을 deserializer라고 한다. ---- {"user": {"id":1, "nickname": "gogo"}, comment: "이영화재밌네요", "liked": true, "rate": "4.5"}
+                    }
+                });
+
+            } catch (Exception e) {
+                System.err.println(e.toString());
+            }
+
 
             return "redirect:/index";
         } else {
