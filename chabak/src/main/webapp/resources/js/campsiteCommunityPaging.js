@@ -1,6 +1,6 @@
 //campsite 리뷰 페이징
 function CommunityPage(page){
-    console.log("Test : " + page);
+
         if(page == 0){
             page=1;
         }

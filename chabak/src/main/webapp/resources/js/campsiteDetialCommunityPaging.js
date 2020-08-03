@@ -31,7 +31,6 @@ function CommunityDetailPage(page){
             var lstSelectCampsiteDetailReview = data.lstSelectCampsiteDetailReview;
             var keyword = data.keyword;
             var paging = data.paging;
-            console.log("lstSelectCampsiteDetailReview : " + lstSelectCampsiteDetailReview);
             communityDetailChangePage(keyword, paging, lstSelectCampsiteDetailReview, reviewBoolean, lstSize);
         },
         error : function(data) {

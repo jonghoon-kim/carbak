@@ -213,10 +213,7 @@ public class CampSiteController {
             lstSize = lstSelectCampsiteDetailReview.size();
             reviewBoolean = "true";
         }
-        System.out.println("lstSize : " + lstSize);
-        System.out.println("campsiteDetailReviewCnt : " + campsiteDetailReviewCnt);
-        System.out.println("lstSelectCampsiteDetailReview : " + lstSelectCampsiteDetailReview);
-        System.out.println("getlstSelectCampsiteDetailReview : " + lstSelectCampsiteDetailReview.size());
+
         campsiteCommunityDetailPageChange.put("lstSelectCampsiteDetailReview",lstSelectCampsiteDetailReview);
         campsiteCommunityDetailPageChange.put("keyword", keyword);
         campsiteCommunityDetailPageChange.put("reviewBoolean", reviewBoolean);
