@@ -76,6 +76,10 @@
     border-top: none;
     border-left: none;
     border-right: none;
+    /*id 길어지면 ...으로 줄여서 보여줌*/
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 .button_menu {
     margin: -75px 0px 0px 450px;
@@ -118,8 +122,13 @@
     float: left;
 }
 .button_menu .countMenu {
-    margin : 20px 0px 20px 10px;
-    font-size: 70px;
+    width: 150px;
+    margin : 20px 0px 20px 100px;
+    font-size: 60px;
+    /*숫자 길어지면 ...으로 줄여서 보여줌 메시지 저장 갯수를 제한하면 없어도 될지도?*/
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .listForm {

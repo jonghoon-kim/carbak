@@ -34,12 +34,12 @@ public class MessageController {
         String id = Utility.getIdForSessionOrMoveIndex(mv,session,response);
 
         //messageBox값(send||receive)에 따라서 보낸메시지함||받은메시지함 메시지 리스트 출력
-        List<Message> messageList = messageService.selectMessageList(id,messageBox);
+        List<Message> messageList = messageService.selectMessageList(id,messageBox,null);
 
         //각 메시지함의 메시지 수 출력
-        int sendCount = messageService.countMessageList(id,"send");
-        int receiveCount = messageService.countMessageList(id,"receive");
-        int toMeCount = messageService.countMessageList(id,"toMe");
+        int sendCount = messageService.countMessageList(id,"send",null);
+        int receiveCount = messageService.countMessageList(id,"receive",null);
+        int toMeCount = messageService.countMessageList(id,"toMe",null);
         Member member = memberService.getMember(id);
 
         mv.addObject("member",member);
@@ -126,7 +126,7 @@ public class MessageController {
 
         //메시지 읽음 여부 y로 업데이트
         try{
-            //받은 메시지함이고 이전에 해당 메시지를 읽은 적 없으면 
+            //받은 메시지함이고 이전에 해당 메시지를 읽은 적 없으면
             if(messageBox.equals("receive") && message.getReadYn().equals("n")){
                 //메시지를 읽음 상태로 변경
                 messageService.updateReadYn(messageNo);
@@ -175,12 +175,12 @@ public class MessageController {
             }
             else if(messageBox.equals("toMe")){ //messageBox 값이 receive
                 authorityYn = id.equals(message.getSendId());
-            }            
+            }
             else{  //messageBox 값이 receive/send/toMe 전부 아니면 잘못된 접근
                 Utility.printAlertMessage("잘못된 접근입니다.",null,response);
                 return null;
             }
-           
+
             System.out.println("authorityYn:"+authorityYn);
             //권한 없으면
             if(!authorityYn){

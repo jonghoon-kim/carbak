@@ -15,8 +15,8 @@ public class MessageService {
     @Autowired
     MessageDao messageDao;
 
-    /**기능 : countMessageList 또는 selectMessageList에 필요한 파라미터를 넣어 Map으로 반환**/
-    public Map inputMessageListParameter(String sessionId,String messageBox,String readYn,Map map){
+    /**기능 : countMessageList 또는 selectMessageList에 필요한 파라미터를 받아 Map에 넣음**/
+    public void inputMessageListParameter(String sessionId,String messageBox,String readYn,Map map){
         if(messageBox.equals("send")){
             map.put("sendId",sessionId);
             map.put("columnName","sendBoxDeletedYn");
@@ -31,7 +31,6 @@ public class MessageService {
             map.put("toMeId",sessionId);
             map.put("readYn",readYn);
         }
-        return map;
     }
 
     /**파라미터<br>1.String sessionId:로그인한 유저 id,<br>

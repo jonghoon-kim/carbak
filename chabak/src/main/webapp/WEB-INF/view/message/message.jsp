@@ -45,9 +45,9 @@
                 <div class="countMenu" style="color: transparent;">1</div>
                 <button type="button" class="writeMessage" onclick="openWinMessageWrite()">쪽지쓰기</button>
             </div>
-
+<%--            ${sendCount}--%>
             <div class="menu_btn">
-                <div class="countMenu">${sendCount}</div>
+                <div class="countMenu">9999</div>
                 <button type="button" class="sendMessageBox"
                         onclick="location.href='/message/list?messageBox=send'">보낸쪽지함</button>
             </div>
