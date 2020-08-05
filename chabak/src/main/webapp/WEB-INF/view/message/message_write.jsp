@@ -22,16 +22,18 @@
     }
 </script>
 <body>
-<div>
-    Message write[id:${sessionScope.id}]
-</div>
-<div>
-    <form action ="/message/write" method="POST" id="writeMessageForm" onsubmit="return beforeSubmit();">
-        <input type="text" name="receiveId" placeholder="보낼 아이디를 입력하세요." value="${receiveId}">
-        <input type="text" name="title" placeholder="제목을 입력하세요.">
-        <textarea name="content" placeholder="내용을 입력하세요."></textarea>
-        <input type="submit" value="작성완료">
-    </form>
+<div class="container">
+    <div class="top">
+        <h1>회원정보 수정</h1>
+    </div>
+    <div>
+        <form action ="/message/write" method="POST" id="writeMessageForm" onsubmit="return beforeSubmit();">
+            <input type="text" name="receiveId" placeholder="보낼 아이디를 입력하세요." value="${receiveId}">
+            <input type="text" name="title" placeholder="제목을 입력하세요.">
+            <textarea name="content" placeholder="내용을 입력하세요."></textarea>
+            <input type="submit" value="작성완료">
+        </form>
+    </div>
 </div>
 </body>
 </html>
