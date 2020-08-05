@@ -7,13 +7,14 @@
 <configuration>
 	<!-- MyBatis에서 사용할 매개 변수, 혹은 반환 객체의 별칭 -->
 	<typeAliases>
-		<typeAlias alias="Campsite" type="com.chabak.vo.Campsite"/>
-		<typeAlias alias="Follow" type="com.chabak.vo.Follow"/>
-		<typeAlias alias="Member" type="com.chabak.vo.Member"/>
-		<typeAlias alias="Reply" type="com.chabak.vo.Reply"/>
-		<typeAlias alias="Review" type="com.chabak.vo.Review"/>
-		<typeAlias alias="ReviewLike" type="com.chabak.vo.ReviewLike"/>
-		<typeAlias alias="Message" type="com.chabak.vo.Message"/>
+	<typeAlias alias="Campsite" type="com.chabak.vo.Campsite"/>
+	<typeAlias alias="Follow" type="com.chabak.vo.Follow"/>
+	<typeAlias alias="Member" type="com.chabak.vo.Member"/>
+	<typeAlias alias="Reply" type="com.chabak.vo.Reply"/>
+	<typeAlias alias="Review" type="com.chabak.vo.Review"/>
+	<typeAlias alias="ReviewLike" type="com.chabak.vo.ReviewLike"/>
+	<typeAlias alias="Message" type="com.chabak.vo.Message"/>
+	<typeAlias alias="ReadCount" type="com.chabak.vo.ReadCount"/>
 		<typeAlias alias="HashTag" type="com.chabak.vo.HashTag"/>
 	</typeAliases>
 	
@@ -26,6 +27,7 @@
 		<mapper resource = "/mybatis/mappers/reply.xml"/>
 		<mapper resource = "/mybatis/mappers/campSite.xml"/>
 		<mapper resource = "/mybatis/mappers/message.xml"/>
+		<mapper resource = "/mybatis/mappers/readCount.xml"/>
 		<mapper resource = "/mybatis/mappers/hashTag.xml"/>
 	</mappers>
 </configuration>

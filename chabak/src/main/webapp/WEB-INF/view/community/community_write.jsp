@@ -3,7 +3,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core"
            prefix="c" %>
 <!DOCTYPE html>
-
+<html>
 <head>
     <meta charset="UTF-8">
     <title>슬기로운 차박생활</title>
@@ -13,8 +13,7 @@
     <script type="text/javascript" src="/js/smarteditor2/js/HuskyEZCreator.js"></script>
     <script type="text/javascript" src="/js/address_select.js" charset='UTF-8'></script>
     <script type="text/javascript" src="/js/reviewScript.js" charset='UTF-8'></script>
-    <script type="text/javascript" src="/js/hashtags.js" charset='UTF-8'></script>
-
+</head>
 <body>
 <!-- header -->
 <div id="header">

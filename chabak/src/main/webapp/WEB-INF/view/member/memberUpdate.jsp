@@ -12,6 +12,7 @@
     <!-- 프로필 사진 미리 보기 -->
     <script type="text/javascript" src="/js/profile_preview.js" charset='UTF-8'></script>
     <!-- 아이디 및 이메일 중복 체크, 유효성 검사 -->
+    <script type="text/javascript" src="/js/address_update.js" charset="UTF-8"></script>
     <script type="text/javascript" src="/js/memberUpdate.js" charset='UTF-8'></script>
     <script type="text/javascript" src="/js/withdrawal.js" charset='UTF-8'></script>
 </head>

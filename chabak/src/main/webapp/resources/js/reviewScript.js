@@ -81,20 +81,21 @@ function getFormatDate(date) {
 
 // 리뷰 리스트를 ajax로 출력
 function ajaxReviewList(sessionId,isSearchButton,curPage) {
-
+    console.log("ajaxReviewList()");
     var searchText = $("#search_text").val();
     var pageOwnerIdVar = $("#pageOwnerIdSaved").val();
-    console.log("pageOwnerVar:"+pageOwnerIdVar);
-    //검색 버튼 누른 경우
+    var isFollowerSearchVar = $('input:checkbox[id="isFollowerSearch"]:checked').val();
+
+    //검색 버튼 누른 경우만 searchText 갱신
     if(isSearchButton==true){
         $("#search_text_saved").val(searchText);
     }
     else{
-        //검색 버튼 안 누른 경우(검색 초기화상태에서 select onchange)
+        //검색 버튼 안 누른 경우(기존에 검색한 결과 그대로 사용)
         searchText = $("#search_text_saved").val();
         $("#search_text").val(searchText);
     }
-    console.log("ajaxReviewList curPage:"+curPage);
+
     $.ajax({
         url : "/review/listAjax",
         type : "post",
@@ -102,11 +103,9 @@ function ajaxReviewList(sessionId,isSearchButton,curPage) {
         data :{"sortType": $("#sortType option:selected").val(),//서버로 전송하는 데이터(정렬방식)
             "searchText": searchText,
             "pageOwnerId": pageOwnerIdVar,
-            "curPage": curPage       }, //검색창의 텍스트값
+            "curPage": curPage,
+             "isFollowerSearch":isFollowerSearchVar}, //검색창의 텍스트값
         success : function(data) {
-
-            //받은 sessionId 값이 문자열이 아니므로(따옴표로 감싸이지 않았음) 따옴표 추가
-            sessionId = "'"+sessionId+"'";
 
             var reviewListDiv = $("#reviewListDiv"); //리뷰가 추가되는 영역
             reviewListDiv.empty();  //리뷰 추가 영역 초기화
@@ -118,13 +117,24 @@ function ajaxReviewList(sessionId,isSearchButton,curPage) {
                 //            원형 복사시 수정할 부분: #dummy-review(id),  .writer-id(value),    .review-img img(src,onclick) .content-title(value)
 
                 var reviewNo = this["reviewNo"];
-                var reviewId = "review"+reviewNo;
+                var reviewElementId = "review"+reviewNo;
+                var writerId = this["id"];
 
-                newReview.attr("id",reviewId);
+                newReview.attr("id",reviewElementId);
 
+
+                //작성자 영역&&드롭다운 영역
 
                 var writer = newReview.find(".writer-id");  //작성자
+
                 writer.html(this["id"]);  //작성자 설정
+                writer.attr("onclick","myFunction("+ reviewNo +")");
+
+
+                var dropdownContent = newReview.find(".dropdown-content");
+                dropdownContent.attr("id","myDropdown"+reviewNo);
+                dropdownContent.find(".mypage").attr("onclick","goMyPage('"+writerId+"','"+sessionId+"')");
+                dropdownContent.find(".message").attr("onclick","openWinMessageWrite('"+writerId+"','"+sessionId+"')");
 
                 //프로필 이미지
                 var profileImg = newReview.find(".centered img");
@@ -135,10 +145,9 @@ function ajaxReviewList(sessionId,isSearchButton,curPage) {
 
                 var onclickLink =  "location.href='/review/detail?reviewNo="+ reviewNo+"'"; //리뷰 타이틀 이미지 링크
                 reviewImg.attr("onclick",onclickLink);
-                console.log("onclickLink:"+ onclickLink);
 
                 var title = newReview.find(".content-title");   //리뷰 타이틀
-                title.text('['+this["sido"]+']'+'['+this["gugun"]+']'+this["title"]);                      //리뷰 타이틀 설정 [sido][gugun][title]
+                title.text('['+this["sido"]+']'+'['+this["gugun"]+']'+' '+this["title"]);                      //리뷰 타이틀 설정 [sido][gugun][title]
 
                 //등록일자 추가
                 var regDate = newReview.find(".regDate");
@@ -150,9 +159,7 @@ function ajaxReviewList(sessionId,isSearchButton,curPage) {
                 toggleImage.attr("id","like-img"+reviewNo);
 
                 //onclick 속성 추가(함수 실행)
-                toggleImage.attr("onclick","ajaxReviewLikeToggle('"+reviewNo+"',this,"+sessionId+")");
-
-                console.log(sessionId);
+                toggleImage.attr("onclick","ajaxReviewLikeToggle('"+reviewNo+"',this,'"+sessionId+"')");
 
                 if(sessionId=="" || sessionId==null || this["likeYn"]==0){
 
@@ -165,7 +172,6 @@ function ajaxReviewList(sessionId,isSearchButton,curPage) {
                 var communityImg = newReview.find(".comment-img");
 
                 var onclickLink2 = "location.href='/review/detail?reviewNo="+ reviewNo+"#reply'";
-                console.log("onclickLink2:"+onclickLink2);
 
                 communityImg.attr("onclick",onclickLink2);
 
@@ -293,4 +299,11 @@ function ajaxReviewLikeToggle(reviewNo,imgTag,sessionId){
             }
         });
     }
+}
+
+//로그인 할지 물어보고 ok이면 로그인 페이지로 이동
+function askLogin() {
+    var confirmYn = confirm("로그인이 필요한 서비스입니다. 로그인 하시겠습니까?");
+    if (confirmYn)
+        location.href = "/member/login";
 }

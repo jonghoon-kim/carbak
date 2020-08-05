@@ -11,8 +11,6 @@ import java.io.PrintWriter;
 
 public class Utility {
 
-    public final static String deletedId = "@deletedId";
-
     //이전 페이지로 돌아감
     @SneakyThrows
     public static void pageBackward(HttpServletResponse response){
@@ -37,13 +35,26 @@ public class Utility {
         out.flush();
     }
 
+    //특정 페이지로 이동함
+    @SneakyThrows
+    public static void closeWindow(HttpServletResponse response){
+        response.setContentType("text/html; charset=UTF-8");
+        PrintWriter out = response.getWriter();
+
+        out.println("<script>");
+        out.println("window.close();");
+        out.println("</script>");
+        out.flush();
+    }
+
+
+    /**기능:비로그인 상태일때 로그인 페이지로 이동<br>리턴 : 로그인 아이디(session)**/
     @SneakyThrows
     public static String getIdForSessionOrMoveIndex(ModelAndView mv, HttpSession session, HttpServletResponse response){
         //세션에서 아이디 가져오기
         String id = (String)(session.getAttribute("id"));
         if(id==null){
             //아이디 없으면 alert 띄우고 로그인 페이지로 이동
-            System.out.println("no session");
             mv.setViewName("member/login");
 
             //화면에 로그인 할지 여부 confirm 띄우기
@@ -59,18 +70,6 @@ public class Utility {
 
             return null;
         }
-        System.out.println("id from session:"+id);
-        return id;
-    }
-
-    @SneakyThrows
-    public static String getIdForSessionNotMoveIndex(HttpSession session){
-        String id = (String)(session.getAttribute("id"));
-        System.out.println("in getIdForSessionNotMoveIndex id:"+id);
-        if(id==null){
-            return null;
-        }
-        System.out.println("id from session:"+id);
         return id;
     }
 

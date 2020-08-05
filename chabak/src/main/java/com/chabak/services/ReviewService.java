@@ -1,17 +1,21 @@
 package com.chabak.services;
 
 
+import com.chabak.repositories.ReadCountDao;
 import com.chabak.repositories.ReviewDao;
 import com.chabak.util.Utility;
 import com.chabak.vo.Pagination;
+import com.chabak.vo.ReadCount;
 import com.chabak.vo.Review;
 import lombok.SneakyThrows;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.regex.Matcher;
@@ -22,6 +26,8 @@ public class ReviewService {
 
     @Autowired
     ReviewDao reviewDao;
+    @Autowired
+    ReadCountDao readCountDao;
 
     public boolean setTitleImg(Review review){
         //대표 이미지 저장
@@ -47,6 +53,7 @@ public class ReviewService {
 
         String regex = "<img[^>]*src=[\"']?([^>\"']+)[\"']?[^>]*>"; //img 태그 src 추출 정규표현식
         String resultString = originalString.replaceAll(regex,"");
+//        System.out.println("deleteImgTag resultString:"+resultString);
         return resultString;
     }
 
@@ -77,19 +84,40 @@ public class ReviewService {
         return insertedCount;
     }
 
-    public int maxReviewCount(Map map){
+    /**파라미터<br>1.isFollowerSearch : 값 있으면 팔로워 리뷰 검색<br>
+     * 2.searchText : 검색어<br>3. pageOwnerId : 마이페이지 관련<br>4. id : 로그인 아이디**/
+    public int maxReviewCount(String isFollowerSearch,String searchText,String pageOwnerId,String id){
+        Map map = new HashMap<String,String>();
+        map.put("isFollowerSearch",isFollowerSearch);
+        map.put("searchText",searchText);
+        map.put("pageOwnerId",pageOwnerId);
+        map.put("id",id);
+
         int maxCount = reviewDao.maxReviewCount(map);
         return maxCount;
     }
 
     public List<Review> selectReviewTop5(String id){
-        List<Review> reviewList = null;
-        reviewList = reviewDao.selectReviewTop5(id);
+        List<Review> reviewList = reviewDao.selectReviewTop5(id);
         return reviewList;
     }
-    public List<Review> selectReviewList(Map map){
-        List<Review> reviewList = null;
-        reviewList = reviewDao.selectReviewList(map);
+
+    /**파라미터<br>1.isFollowerSearch : 값 있으면 팔로워 리뷰 검색<br>
+     * 2.searchText : 검색어<br>3. pageOwnerId : 마이페이지 관련<br>
+     * 4. id : 로그인 아이디<br>5. sortType 정렬타입(regDate||readCount||likeCount)<br>
+     *6. startIndex : Pagination의 startIndex(필수)<br>7. pageSize : 한페이지에 들어가는 리뷰 개수(필수)**/
+    public List<Review> selectReviewList(String isFollowerSearch,String searchText,String pageOwnerId,String id,
+                                         String sortType,int startIndex,int pageSize){
+        Map map = new HashMap<String,String>();
+        map.put("isFollowerSearch",isFollowerSearch);
+        map.put("searchText",searchText);
+        map.put("pageOwnerId",pageOwnerId);
+        map.put("id",id);//세션에서 가져온 id map에 넣기
+        map.put("sortType",sortType);
+        map.put("startIndex",startIndex);
+        map.put("pageSize",pageSize);
+
+        List<Review> reviewList = reviewDao.selectReviewList(map);
         return reviewList;
     }
 
@@ -118,19 +146,28 @@ public class ReviewService {
         return updateCount;
     }
 
-    public int updateReadCount(int reviewNo){
-        int updateCount = reviewDao.updateReadCount(reviewNo);
-        return updateCount;
-    }
-
-    public int increaseLikeCount(int reviewNo){
-        int updateLikeCount = reviewDao.increaseLikeCount(reviewNo);
-        return updateLikeCount;
-    }
-
-    public int decreaseLikeCount(int reviewNo){
-        int updateLikeCount = reviewDao.decreaseLikeCount(reviewNo);
-        return updateLikeCount;
+    /**기능 : ReadCount 테이블,Review 테이블의 조회수 update <br>
+     * Transaction 처리 <br>
+     * 리턴 : boolean db 처리 이상 여부**/
+    @Transactional
+    public boolean updateReadCount(int reviewNo,String id) throws Exception{
+        //readCount의 조회수 update,review의 조회수 update
+        int count=0;
+        if(id!=null){
+            //로그인 상태면 해당 리뷰의 readCount 테이블 조회수를 확인
+            // 조회수가 0이면 insert / 0이 아니면 update
+            ReadCount readCount = new ReadCount(id,reviewNo);
+            ReadCount selectedReadCount = readCountDao.selectReadCount(readCount);
+            if(selectedReadCount==null){
+                count = readCountDao.insertReadCount(readCount);
+            }
+            else{
+                count = readCountDao.updateReadCount(readCount);
+            }
+        }
+        //review의 조회수 update
+        int updateReviewCount = reviewDao.updateReadCount(reviewNo);
+        return (count ==1 && updateReviewCount ==1);
     }
 
     public int deleteReview(int reviewNo){
