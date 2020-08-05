@@ -27,19 +27,28 @@ public class WelcomeController {
 
     @SneakyThrows
     @RequestMapping(value= {"", "/", "index"})
-    public ModelAndView index(HttpSession session, Member member){
+    public ModelAndView index(HttpSession session){
         ModelAndView mv = new ModelAndView();
-//        System.out.println("WelcomeController");
 
-//        session.setAttribute("id","fakeId");
-//        session.setAttribute("id","id1");
         String id = (String)session.getAttribute("id");
         List<Review> reviewList = null;
         if(id==null){
             reviewList = reviewService.selectReviewTop5(null);
+
+            //리스트의 content에서 이미지 태그 지우기
+            for(Review review:reviewList){
+                String modifiedContent = reviewService.deleteImgTag(review.getContent());
+                review.setContent(modifiedContent);
+            }
+            mv.setViewName("/index");
+            mv.addObject("reviewList",reviewList);
+
+            return mv;
+
         }
         else{//TODO:로그인 사용자는 별도의 리스트를 출력하므로 나중에 지우기
             try{
+                ModelAndView mv1 = new ModelAndView();
                 String requestURL = "http://localhost:5000/find_similar_users";
                 String postBody =""+ "{" + "\"id\":"+ id+"}"+"";
                 String sessionId = id;
@@ -57,7 +66,8 @@ public class WelcomeController {
                         .post(formBody)
                         .build();
 
-                Map<String, String> map = new HashMap<>();
+                Map<String, Object> map = new HashMap<>();
+
 
                 //비동기 처리 (enqueue 사용)
                 client.newCall(request).enqueue(new Callback() {
@@ -70,37 +80,58 @@ public class WelcomeController {
                     @SneakyThrows
                     @Override
                     public void onResponse(Call call, Response response) throws IOException {
+                        List<Review> reviewList = null;
 
                         String similarUsers = response.body().string();
                         //System.out.println(similarUsers);
 
-                        String[] similarUsersId = similarUsers.split(", ");
+                        String similarUsersId[] = similarUsers.split(", ");
 
-                        for(int i=0; i < similarUsersId.length; i++) {
-                            map.put("similarUsersId["+i+"]", similarUsersId[i]);
-                            System.out.println(similarUsersId[i]);
-                        }
+                        map.put("id1", similarUsersId[0]);
+                        map.put("id2", similarUsersId[1]);
+                        map.put("id3", similarUsersId[2]);
+                        map.put("id4", similarUsersId[3]);
+                        map.put("id5", similarUsersId[4]);
+
+
+//                        for(int i=0; i < similarUsersId.length; i++) {
+//                            map.put(""+i+"", similarUsersId[i]);
+//                            System.out.println(i+ similarUsersId[i]);
+//                        }
 
                         map.put("sessionId", sessionId);
+
+                        System.out.println("mapValues : "+ map.values());
+
+                        reviewList = reviewService.selectSimilarUsersReview(map);
+
+                        //리스트의 content에서 이미지 태그 지우기
+                        for(Review review:reviewList){
+                            String modifiedContent = reviewService.deleteImgTag(review.getContent());
+                            review.setContent(modifiedContent);
+                        }
+
+                        mv1.setViewName("/index");
+                        mv1.addObject("reviewList",reviewList);
+
+                        System.out.println(reviewList);
+
                     }
+
+
                 });
-                reviewList = reviewService.selectSimilarUsersReview(map);
+Thread.sleep(2000);
+                return mv1;
+
             } catch (Exception e) {
                 System.err.println(e.toString());
             }
+
         }
 
-        //리스트의 content에서 이미지 태그 지우기
-        for(Review review:reviewList){
-            String modifiedContent = reviewService.deleteImgTag(review.getContent());
-            review.setContent(modifiedContent);
-        }
-
-
-        mv.setViewName("/index");
-        mv.addObject("reviewList",reviewList);
-
+        System.out.println(mv);
         return mv;
+
     }
 
     @RequestMapping("/header")

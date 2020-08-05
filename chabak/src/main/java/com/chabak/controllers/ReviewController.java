@@ -62,10 +62,6 @@ public class ReviewController {
         int startIndex = pagination.getStartIndex();
         int pageSize = pagination.getPageSize();
 
-
-        //리뷰 리스트의 모든 파라미터 설정 후 Pagination 반환
-        Pagination pagination = reviewService.setReviewListParameterMap(map,session,sortType,searchText,pageOwnerId,listCnt,1);
-
         //리뷰 리스트 select
         List<Review> reviewList = reviewService.selectReviewList(isFollowerSearch,searchText,pageOwnerId,id,sortType,startIndex,pageSize);
 

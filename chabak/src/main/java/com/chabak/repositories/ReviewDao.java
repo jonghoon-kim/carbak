@@ -54,6 +54,7 @@ public class ReviewDao {
     // similarUsersReview
     public List<Review> selectSimilarUsersReview(Map map) {
         List<Review> reviewList = sqlSession.selectList("review.selectSimilarUsersReview", map);
+        System.out.println("dao : " +  reviewList);
         return reviewList;
     }
 

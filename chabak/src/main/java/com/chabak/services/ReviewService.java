@@ -57,23 +57,6 @@ public class ReviewService {
         return resultString;
     }
 
-    //리뷰 리스트 select 관련 파라미터 설정 후 리턴
-    public Pagination setReviewListParameterMap(Map map,HttpSession session,String sortType,String searchText,String pageOwnerId,int listCnt,int curPage) {
-        map.put("sortType",sortType);
-        map.put("searchText",searchText);
-        map.put("pageOwnerId",pageOwnerId);
-        map.put("id",Utility.getIdForSessionNotMoveIndex(session));//세션에서 가져온 id map에 넣기
-
-        //페이징 관련 파라미터
-        //reviewList 행의 수
-        Pagination pagination = new Pagination(listCnt,curPage);
-        int startIndex = pagination.getStartIndex();
-        int pageSize = pagination.getPageSize();
-        map.put("startIndex",startIndex);
-        map.put("pageSize",pageSize);
-
-        return pagination;
-    }
     public int selectReviewNo() {
         int reviewNo = reviewDao.selectReviewNo();
         return reviewNo;
@@ -136,7 +119,8 @@ public class ReviewService {
     // similarUsersReview
     public List<Review> selectSimilarUsersReview(Map map) {
         List<Review> reviewList = reviewDao.selectSimilarUsersReview(map);
-        System.out.println("Service : "+ map);
+        System.out.println("Service");
+        System.out.println(map.values());
         return reviewList;
     }
 
@@ -156,7 +140,9 @@ public class ReviewService {
         if(id!=null){
             //로그인 상태면 해당 리뷰의 readCount 테이블 조회수를 확인
             // 조회수가 0이면 insert / 0이 아니면 update
-            ReadCount readCount = new ReadCount(id,reviewNo);
+            ReadCount readCount = new ReadCount();
+            readCount.setId(id);
+            readCount.setReviewNo(reviewNo);
             ReadCount selectedReadCount = readCountDao.selectReadCount(readCount);
             if(selectedReadCount==null){
                 count = readCountDao.insertReadCount(readCount);
