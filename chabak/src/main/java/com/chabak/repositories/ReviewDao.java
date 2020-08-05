@@ -51,6 +51,12 @@ public class ReviewDao {
         return review;
     }
 
+    // similarUsersReview
+    public List<Review> selectSimilarUsersReview(Map map) {
+        List<Review> reviewList = sqlSession.selectList("review.selectSimilarUsersReview", map);
+        return reviewList;
+    }
+
     public int updateReview(Review review) {
         System.out.println("review in ReviewDao:"+review);
         int updateCount = sqlSession.update("review.updateReview",review);

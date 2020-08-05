@@ -105,6 +105,13 @@ public class ReviewService {
         return review;
     }
 
+    // similarUsersReview
+    public List<Review> selectSimilarUsersReview(Map map) {
+        List<Review> reviewList = reviewDao.selectSimilarUsersReview(map);
+        System.out.println("Service : "+ map);
+        return reviewList;
+    }
+
     public int updateReview(Review review) {
 
         int updateCount = reviewDao.updateReview(review);

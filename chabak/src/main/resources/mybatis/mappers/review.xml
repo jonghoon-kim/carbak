@@ -126,6 +126,24 @@
 		and r.id = m.id
 	</select>
 
+	<select id = "selectSimilarUsersReview" parameterType="map">
+		SELECT *
+FROM review
+where reviewno in
+((SELECT distinct reviewno
+FROM reviewlike
+WHERE id = #{similarUsersId[0]} or id = #{similarUsersId[1]} or id = #{similarUsersId[2]} or id = #{similarUsersId[3]} or id = #{similarUsersId[4]})
+minus
+(select reviewno
+from readcount
+where id = #{sessionId}
+union
+select reviewno
+from reviewlike
+where id =#{sessionId}))
+order by regdate desc;
+	</select>
+
 	<update id="updateReview" parameterType="Review">
 		UPDATE REVIEW SET TITLE = #{title},
 						  SIDO = #{sido},
