@@ -36,6 +36,12 @@
 		WHERE id = #{id}
 	</select>
 
+	<select id="getAllMemberId" parameterType="String" resultType="String">
+        SELECT id
+		FROM Member
+		WHERE id LIKE #{searchText}||'%'
+	</select>
+
 	<select id="find" resultType="Member">
 		SELECT id, password, name
 		FROM Member

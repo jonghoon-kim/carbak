@@ -7,6 +7,8 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository("memberDao")
 public class MemberDao {
     @Autowired
@@ -33,6 +35,9 @@ public class MemberDao {
         return sqlSession.selectOne("member.getMember", id);
     }
 
+    /* 메시지 보낼 아이디 검색시(ajax) 출력할 리스트*/
+    public List<String> getAllMemberId(String searchText){ return  sqlSession.selectList("member.getAllMemberId",searchText);  }
+    
     /* 아이디 찾기 */
     public Member find(String email) {
 
