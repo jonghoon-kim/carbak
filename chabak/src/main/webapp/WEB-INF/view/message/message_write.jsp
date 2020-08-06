@@ -3,9 +3,14 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core"
            prefix="c" %>
 <!DOCTYPE html>
+<html>
 
 <head>
-    <title>Message Home[id:${sessionScope.id}]</title>
+    <meta charset="UTF-8">
+    <title>쪽지 보내기</title>
+    <link href="/css/message_write.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+    <script type="text/javascript" src=" http://code.jquery.com/jquery-latest.min.js"></script>
 </head>
 <script>
 
@@ -24,7 +29,7 @@
 <body>
 <div class="container">
     <div class="top">
-        <h1>회원정보 수정</h1>
+        <h1>쪽지 쓰기</h1>
     </div>
     <div>
         <form action ="/message/write" method="POST" id="writeMessageForm" onsubmit="return beforeSubmit();">
