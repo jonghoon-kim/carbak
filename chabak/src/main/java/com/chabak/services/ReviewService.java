@@ -34,7 +34,7 @@ public class ReviewService {
         Matcher matcher = pattern.matcher(review.getContent());
 
         //리뷰 대표이미지 디폴트 이미지(이미지 등록 안 했을때 보여줄 이미지)
-        String titleImage = "/reviewImages/reviewTitleDefault.png";
+        String titleImage = "/resources/img/campsite/noImage1.png";
 
         while(matcher.find()){
             titleImage = matcher.group(1);

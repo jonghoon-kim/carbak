@@ -18,7 +18,6 @@ import sun.plugin.dom.core.Element;
 
 import javax.inject.Inject;
 import javax.mail.internet.MimeMessage;
-import javax.print.attribute.PrintJobAttributeSet;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -27,7 +26,6 @@ import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.HashMap;
-import java.util.Map;
 import java.util.Random;
 
 
@@ -53,6 +51,7 @@ public class MemberController {
     public String loginAction(Member member, HttpSession session, HttpServletResponse response, Model model) throws Exception {
         boolean loginFlag = memberService.loginCheck(member);
 
+        Boolean adminChk = true;
         if (loginFlag) {
             session.setAttribute("id", member.getId());
             session.setAttribute("password", member.getPassword());
@@ -60,11 +59,12 @@ public class MemberController {
             session.setAttribute("profile", (memberService.getMember(member.getId())).getSavePath() + (memberService.getMember(member.getId())).getSaveName());
             session.setAttribute("path", (memberService.getMember(member.getId())).getSavePath());
 
-
-            System.out.println("id : " + member.getId());
-            System.out.println((memberService.getMember(member.getId())).getSavePath() + (memberService.getMember(member.getId())).getSaveName());
-
-            return "redirect:/index";
+            if(member.getId().equals("admin")){
+                session.setAttribute("adminChk", false);
+               return "redirect:/admin";
+            }else {
+                return "redirect:/index";
+            }
         } else {
             response.setContentType("text/html; charset=UTF-8");
             PrintWriter out = response.getWriter();
@@ -82,7 +82,7 @@ public class MemberController {
     public String logout(HttpSession session, HttpServletResponse response) throws Exception {
         session.invalidate();
 
-        memberService.logout(response);
+        //memberService.logout(response);
         return "redirect:/index";
     }
 

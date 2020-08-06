@@ -12,6 +12,7 @@
     <script type="text/javascript" src=" http://code.jquery.com/jquery-latest.min.js"></script>
     <script type="text/javascript" src="/resources/js/address_select.js"></script>
     <script type="text/javascript" src="/resources/js/campsitePlacePaging.js"></script>
+    <script type="text/javascript" src="/resources/js/campsiteDetialCommunityPaging.js"></script>
     <meta name='viewport' content='width=device-width, initial-scale=1'>
     <script src='https://kit.fontawesome.com/a076d05399.js'></script>
 </head>
@@ -70,49 +71,83 @@
     </div>
         <hr class="top_hr">
 
-        <!-- 커뮤니티 리뷰 -->
-        <div class="community_aticle">
-            <h2>커뮤니티 리뷰</h2>
-            <ul>
-                <li>
-                    <p class="best_id">ID:차박차박</p>
-                    <div class="best_img">
-                        <img src="/resources/img/reviews/01.jpg">
-                    </div>
-                    </p>
-                    <p class="best_title">슬기로운 차박생활♥</p>
-                    <p class="best_content">이날은 우리 하동여행 갔던날 설레고 긴장되는 첫 차박을 꿈꾸며...
-                        이날은 우리 하동여행 갔던날 설레고 긴장되는 첫 차박을 꿈꾸며...
-                        이날은 우리 하동여행 갔던날 설레고 긴장되는 첫 차박을 꿈꾸며...
-                        이날은 우리 하동여행 갔던날 설레고 긴장되는 첫 차박을 꿈꾸며...
-                        이날은 우리 하동여행 갔던날 설레고 긴장되는 첫 차박을 꿈꾸며...
-                        이날은 우리 하동여행 갔던날 설레고 긴장되는 첫 차박을 꿈꾸며...
-                        이날은 우리 하동여행 갔던날 설레고 긴장되는 첫 차박을 꿈꾸며...
-                        이날은 우리 하동여행 갔던날 설레고 긴장되는 첫 차박을 꿈꾸며...
-                        이날은 우리 하동여행 갔던날 설레고 긴장되는 첫 차박을 꿈꾸며...
-                        이날은 우리 하동여행 갔던날 설레고 긴장되는 첫 차박을 꿈꾸며
-                    </p>
-                    <p class="select_community"><a href="community.html">자세히보기</a></p>
-                </li>
-                <li><img><p>영역 나누기2</p></li>
-                <li><img><p>영역 나누기3</p></li>
-                <li><img><p>영역 나누기4</p></li>
-                <li><img><p>영역 나누기5</p></li>
-            </ul>
-            <!-- 페이지 버튼 -->
-            <div class="community_link">
-                <button class='fas fa-angle-left'></button>
-                <button class='fas fa-circle'></button>
-                <button class='far fa-circle'></button>
-                <button class='far fa-circle'></button>
-                <button class='fas fa-angle-right'></button>
-            </div>
-        </div>
+    <!-- 커뮤니티리뷰 -->
+    <div class="community_aticle">
+        <h2>커뮤니티 리뷰</h2>
+        <ul id="blogUl">
+        <c:set var="tie" value="${campsiteDetailReviewBoolean}"/>
+            <c:choose>
+                <c:when test="${tie ne 'false'}">
+                    <c:forEach var="re" items="${getlstSelectCampsiteDetailReview}" varStatus="status" begin="0" end="4">
+                            <li id="communityLi">
+                                <p class="community_best_id">ID : ${re.id}</p>
+                                <div class="community_best_img">
+                                    <img src="${re.titleImageSrc}">
+                                </div>
+                                <p class="community_best_views">Likes :&nbsp;<span class="best_views_span">${re.likeCount}</span>
+                                <p class="community_best_title">${re.title}</p>
+                                <div class="community_best_content">${re.content}</div>
+                                <p class="community_select_community">${re.regDate}
+                                    &nbsp;<a href="http://localhost:8030/review/detail?reviewNo=${re.reviewNo}" target="_blank">자세히보기</a>
+                                </p>
+                            </li>
+                    </c:forEach>
+                </c:when>
+                <c:otherwise>
+                    <c:forEach var="i" begin="1" end="5" step="1">
+                        <li id="communityLi">
+                            <p class="community_best_id">ID : 아이디 조회 불가</p>
+                            <div class="community_best_img">
+                                <img src="/resources/img/campsite/nullImage.png">
+                            </div>
+                            <p class="community_best_views">Likes :&nbsp;<span class="best_views_span">조회 불가</span>
+                            <p class="community_best_title">제목 없음</p>
+                            <div class="community_best_content">내용 없음</div>
+                            <p class="community_select_community">날짜조회 불가
+                                &nbsp;<a href="http://localhost:8030/review/detail?reviewNo=" target="_blank">자세히보기</a>
+                            </p>
+                        </li>
+                    </c:forEach>
+                </c:otherwise>
+            </c:choose>
+        </ul>
+        <c:choose>
+            <c:when test="${tie ne 'false'}">
+                <!-- 페이지 버튼 -->
+                <div class="community_link" data-pl="<c:out value="${plname}"/>">
+                    <button class='fas fa-angle-left' onClick="javascript:CommunityDetailPage(${paging.grStartPageNo})"></button>
+
+                    <c:forEach var="i" begin="${paging.startPageNo}" end="${paging.endPageNo}" step="1">
+                        <c:choose>
+                            <c:when test="${i eq paging.pageNo}">
+                                <button class='fas fa-circle' onClick="javascript:CommunityDetailPage(${i})">${i}</button>
+                            </c:when>
+                            <c:otherwise>
+                                <button class='far fa-circle' onClick="javascript:CommunityDetailPage(${i})">${i}</button>
+                            </c:otherwise>
+                        </c:choose>
+                    </c:forEach>
+
+                    <button class='fas fa-angle-right' onClick="javascript:CommunityDetailPage(${paging.pageNo}+1)"></button>
+                </div>
+            </c:when>
+            <c:otherwise>
+                <!-- 페이지 버튼 -->
+                <div class="community_link" data-pl="<c:out value="${plname}"/>">
+                <button class='fas fa-angle-left' onClick="javascript:CommunityDetailPage(1)"></button>
+
+                     <button class='fas fa-circle' onClick="javascript:CommunityDetailPage(1)">1</button>
+
+                <button class='fas fa-angle-right' onClick="javascript:CommunityDetailPage(1)"></button>
+                </div>
+            </c:otherwise>
+        </c:choose>
+    </div>
 
         <hr class="top_hr">
 
         <!-- 블로그 -->
-         <div class="blog_aticle">
+         <div class="blog_aticle" >
             <h2>블로그</h2>
             <ul id="blogUl">
 
@@ -135,7 +170,7 @@
             </ul>
 
             <!-- 페이지 버튼 -->
-            <div class="blog_community_link">
+            <div class="blog_community_link" data-pl="<c:out value="${plname}"/>">
                 <c:set var="startNo" value="${startPageNo}" />
                     <button class='fas fa-angle-left' id="prevPageNo" onClick="javascript:goPage(<c:out value="${startNo}"/>-5)"></button>
 
@@ -145,10 +180,10 @@
 
                     <button class='fas fa-angle-right' id="nextPageNo" onClick="javascript:goPage(<c:out value="${startNo}"/>+5)"></button>
 
+                <div class="blogabout">
+                            <a href="https://search.naver.com/search.naver?where=post&sm=tab_jum&query=<c:out value="${plname}"/>" target="_blank">블로그내용 더보기</a>
+                </div>
             </div>
-            <c:forEach var="test12" items="${lstSelectCampsitePlace}" varStatus="status">
-            <a href="https://search.naver.com/search.naver?where=post&sm=tab_jum&query=${test12.campsitename}" target="_blank">블로그내용 더보기</a>
-            </c:forEach>
         </div>
 
         <!--footer-->
@@ -161,16 +196,59 @@
 <script>
     // 마커를 담을 배열입니다
     var markers = [];
+    var campsitenamepl = document.getElementById('campsitename');       //야영장 이름
+    var campsitename;
+    if(campsitenamepl){
+        campsitename = campsitenamepl.value;
+    }
+    else {
+        campsitename = '<c:out value="${plname}"/>';
+    }
+    var categorypl = document.getElementById('category');                  //야영지 종류
+    if(categorypl){
+        category = categorypl.value;
+    }
+    else {
+        category = "정보 없음";
+    }
+    var latitudepl = document.getElementById('latitude');                  //위도
+    if(latitudepl){
+        latitude = latitudepl.value;
+    }
+    else {
+        latitude = 37.566826;
+    }
+    var longitudepl = document.getElementById('longitude');               //경도
+    if(longitudepl){
+        longitude = longitudepl.value;
+    }
+    else {
+        longitude = 126.9786567;
+    }
+    var addresspl = document.getElementById('address');                    //상세 주소
+    if(addresspl){
+        address = addresspl.value;
+    }
+    else {
+        address = "정보 없음";
+    }
+    var convenience1pl = document.getElementById('convenience1');          //편의 시설
+    if(convenience1pl){
+        convenience1 = convenience1pl.value;
+    }
+    else {
+        convenience1 = "정보 없음";
+    }
+    var convenience2pl = document.getElementById('convenience2');         //부가 시설
+    if(convenience2pl){
+        convenience2 = convenience2pl.value;
+    }
+    else {
+        convenience2 = "정보 없음";
+    }
 
-    var campsitename = document.getElementById('campsitename').value;   //야영지 이름
-    var category = document.getElementById('category').value;           //야영지 종류
-    var latitude = document.getElementById('latitude').value;           //위도
-    var longitude = document.getElementById('longitude').value;         //경도
-    var sido = document.getElementById('sido').value;                   //도/시
-    var gugun = document.getElementById('gugun').value;                 //구/군
-    var address = document.getElementById('address').value;             //상세 주소
-    var convenience1 = document.getElementById('convenience1').value;   //편의 시설
-    var convenience2 = document.getElementById('convenience2').value;   //부가 시설
+    var sido = document.getElementById('sido').value;                          //도/시
+    var gugun = document.getElementById('gugun').value;                        //구/군
 
     var mapContainer = document.getElementById('map'), // 지도를 표시할 div
         mapOption = {
@@ -195,7 +273,6 @@
             alert('키워드를 입력해주세요!');
             return false;
         }
-
         var campsiteSearch=document.getElementById("campsiteSearch");   //검색 FORM
         console.log(keyword);
         campsiteSearch.keyword.value = keyword;
@@ -288,14 +365,13 @@
 
     // 검색결과 항목을 Element로 반환하는 함수입니다
     function getListItem(index, places, placePosition) {
-
         var el = document.createElement('li'),
             itemStr = '<span class="markerbg marker_' + (index+1) + '"></span>' +
-                '<form id="campsitePlacseDetail"><div class="info" data-ga="' + placePosition.Ga +'" data-ha="' + placePosition.Ha + '">' +
+                '<form id="campsitePlacseDetail"><div class="info" data-ga="' + placePosition.Ga +'" data-ha="' + placePosition.Ha + '" data-ta="' + places.place_name +'">' +
 
                 // 클릭 이벤트로 선택된 야영지 위도,경도 데이터 보내는 이벤트
                 "<h5><a href='#' onclick='selectPlaces(this.parentNode.parentNode)'>" +
-                "<input type='hidden' name='latitude'><input type='hidden' name='longitude'>"
+                "<input type='hidden' name='latitude'><input type='hidden' name='longitude'><input type='hidden' name='plname'>"
 
                 + places.place_name + '</a></h5>';
 
@@ -319,7 +395,7 @@
         itemStr += ' <br><span class="convenience"><h2>부가 시설</h2> <br>' + convenience2  + '</span><br>';
         el.innerHTML = itemStr;
         el.className = 'item';
-        console.log("convenience2 : " + convenience2);
+
         return el;
 
     }
@@ -327,13 +403,14 @@
     // 장소 선택하고 난 후 위도,경도 가져오는 함수
     function selectPlaces(obj) {
         var lat = $(obj).data("ha"), //위도
-            long = $(obj).data("ga");//경도
-        console.log("success1"+lat);
-        console.log("success2"+long);
+            long = $(obj).data("ga"),//경도
+            plse = $(obj).data("ta");
 
         var campsiteTest=document.getElementById("campsitePlacseDetail");
+
         campsiteTest.latitude.value = lat;
         campsiteTest.longitude.value = long;
+        campsiteTest.plname.value = plse;
         campsiteTest.action="campsitePlaceDetail";
         campsiteTest.method="post"; //POST방식
         campsiteTest.submit();

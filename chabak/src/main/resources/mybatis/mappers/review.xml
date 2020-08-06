@@ -62,7 +62,6 @@
 		)
 		where rownum <![CDATA[<=]]> 5
 	</select>
-
 	<select id="selectReviewList" parameterType="Map" resultType="Review">
 		select *
 		from

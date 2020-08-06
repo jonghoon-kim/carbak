@@ -1,16 +1,15 @@
 package com.chabak.services;
 
+import com.chabak.mapper.AdminMapper;
 import com.chabak.repositories.MemberDao;
 import com.chabak.vo.Member;
-//import com.sun.org.apache.bcel.internal.ExceptionConst;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletResponse;
-import java.io.PrintWriter;
-import java.util.Map;
+import java.util.List;
 
-@Service
+@Service("memberService")
 public class MemberService {
     @Autowired
     MemberDao memberDao;
@@ -26,16 +25,6 @@ public class MemberService {
     /* 아이디 중복 체크 */
     public Member idCheck(String id) throws Exception {
         return memberDao.idCheck(id);
-    }
-
-    /* 로그아웃 */
-    public void logout(HttpServletResponse response) throws Exception {
-        response.setContentType("text/html; charset=UTF-8");
-        PrintWriter out = response.getWriter();
-        out.println("<script>");
-        out.println("location.href=document.referrer;");
-        out.println("</script>");
-        out.close();
     }
 
     /* 이메일 중복 확인*/
