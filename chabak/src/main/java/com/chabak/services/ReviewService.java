@@ -119,8 +119,14 @@ public class ReviewService {
     // similarUsersReview
     public List<Review> selectSimilarUsersReview(Map map) {
         List<Review> reviewList = reviewDao.selectSimilarUsersReview(map);
-        System.out.println("Service");
-        System.out.println(map.values());
+        // System.out.println("Service :" + map.values());
+        return reviewList;
+    }
+
+    // recommendReview
+    public List<Review> selectRecommendReview(Map map) {
+        List<Review> reviewList = reviewDao.selectRecommendReview(map);
+        System.out.println("Service : " +  map.values());
         return reviewList;
     }
 

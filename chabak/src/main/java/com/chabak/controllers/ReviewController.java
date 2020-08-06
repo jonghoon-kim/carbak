@@ -346,4 +346,32 @@ public class ReviewController {
         mv.setViewName("community/community_detail");
         return mv;
     }
+
+    // 추천 리뷰 리스트
+    @RequestMapping(value ="/recommend", method={RequestMethod.GET,RequestMethod.POST})
+    public ModelAndView recommend(HttpServletRequest request, HttpSession session) {
+        ModelAndView mv = new ModelAndView();
+        Map<String, Object> map = new HashMap<>();
+        String similarUsers = request.getParameter("similarUsers");
+        String sessionId = (String)session.getAttribute("id");
+        System.out.println(similarUsers);
+
+        String similarUsersId[] = similarUsers.split(", ");
+
+        map.put("id1", similarUsersId[0]);
+        map.put("id2", similarUsersId[1]);
+        map.put("id3", similarUsersId[2]);
+        map.put("id4", similarUsersId[3]);
+        map.put("id5", similarUsersId[4]);
+        map.put("sessionId", sessionId);
+
+        List<Review> recommendReviewList = reviewService.selectRecommendReview(map);
+
+        System.out.println(recommendReviewList);
+        mv.addObject("recommendReviewList", recommendReviewList);
+        mv.setViewName("community/recommendReview");
+        return mv;
+
+    }
+
 }
