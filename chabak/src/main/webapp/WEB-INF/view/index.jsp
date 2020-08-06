@@ -129,12 +129,31 @@
 
 <div class="review_content">
 
-    <h1>Best Reviews 5</h1>
-    <h2>인기리뷰 모아보기</h2>
-    <hr>
-    <div class="community_link">
-        <a href="/review/">더보기</a>
-    </div>
+    <c:choose>
+        <c:when test="${sessionScope.id != null}">
+            <h1>추천 Reviews 5</h1>
+            <h2 class="h2Name">${sessionScope.name}님을 위한 추천리뷰 모아보기</h2>
+            <hr>
+<%--            <div class="community_link">--%>
+<%--                <a href="/review/recommend">더보기</a>--%>
+<%--            </div>--%>
+            <form METHOD="post" action="/review/recommend">
+                <input type="hidden" value="${similarUsers}" name="similarUsers">
+                <div class="community_link">
+                    <button class="more" type="submit">더보기</button>
+                </div>
+            </form>
+        </c:when>
+        <c:otherwise>
+            <h1>Best Reviews 5</h1>
+            <h2>인기리뷰 모아보기</h2>
+            <hr>
+            <div class="community_link">
+                <a class="more" href="/review/">더보기</a>
+            </div>
+        </c:otherwise>
+    </c:choose>
+
     <div class="best_review">
         <ul>
             <c:forEach var="review" items="${reviewList}" varStatus="loop">

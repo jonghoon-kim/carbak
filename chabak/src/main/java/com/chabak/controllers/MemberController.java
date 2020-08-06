@@ -64,11 +64,11 @@ public class MemberController {
         if (loginFlag) {
             session.setAttribute("id", member.getId());
             session.setAttribute("password", member.getPassword());
-            session.setAttribute("name", member.getName());
+            session.setAttribute("name", memberService.getMember(member.getId()).getName());
             session.setAttribute("profile", (memberService.getMember(member.getId())).getSavePath() + (memberService.getMember(member.getId())).getSaveName());
             session.setAttribute("path", (memberService.getMember(member.getId())).getSavePath());
 
-            // System.out.println("LoginAction Controller id : " + member.getId());
+            // System.out.println("LoginAction Controller name : " + memberService.getMember(member.getId()).getName());
 
             return "redirect:/index";
         } else {
