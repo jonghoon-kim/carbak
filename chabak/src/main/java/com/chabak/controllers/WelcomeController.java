@@ -107,7 +107,7 @@ public class WelcomeController {
 
                         map.put("sessionId", sessionId);
 
-                        System.out.println("mapValues : "+ map.values());
+                        System.out.println("mapValues : "+ similarUsers);
 
                         reviewList = reviewService.selectSimilarUsersReview(map);
 
@@ -118,15 +118,16 @@ public class WelcomeController {
                         }
 
                         mv1.setViewName("/index");
+                        mv1.addObject("similarUsers", similarUsers);
                         mv1.addObject("reviewList",reviewList);
 
-                        System.out.println(reviewList);
+                        //System.out.println(reviewList);
 
                     }
 
 
                 });
-Thread.sleep(2000);
+                Thread.sleep(1000);
                 return mv1;
 
             } catch (Exception e) {
