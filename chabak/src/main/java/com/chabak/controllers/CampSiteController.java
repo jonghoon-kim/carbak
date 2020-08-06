@@ -27,8 +27,8 @@ public class CampSiteController {
     CampSiteService campSiteService;
     int campsiteReviewCnt, campsiteDetailReviewCnt;
 
-    @Autowired
-    BlogService blogService;
+   @Autowired
+   BlogService blogService;
     @Autowired
     ImageService imageService;
     @Autowired

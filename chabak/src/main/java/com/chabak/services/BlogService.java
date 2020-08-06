@@ -18,7 +18,7 @@ import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 import org.xmlpull.v1.XmlPullParserFactory;
 
-//@Service("blogService")
+@Service("blogService")
 public class BlogService {
 
     private static String clientID = "ZASiEiikXllOHewfCz5D"; //api 사용 신청시 제공되는 아이디
