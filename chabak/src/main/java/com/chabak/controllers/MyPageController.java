@@ -64,7 +64,6 @@ public class MyPageController {
             mv.addObject("member", memberService.getMember(loginId));
             mv.addObject("countReview", list.size());
             mv.addObject("reviewList", list);
-
             return mv;
         }
     }

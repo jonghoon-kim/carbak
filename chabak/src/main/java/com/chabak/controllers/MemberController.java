@@ -1,20 +1,26 @@
 package com.chabak.controllers;
 
 import com.chabak.services.MemberService;
+import com.chabak.services.ReviewService;
 import com.chabak.vo.Member;
 
 
+import lombok.SneakyThrows;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import okhttp3.*;
+import okhttp3.OkHttpClient;
+import okhttp3.FormBody;
+import okhttp3.RequestBody;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.ModelAndViewDefiningException;
-import org.springframework.web.servlet.view.RedirectView;
-import sun.plugin.dom.core.Element;
 
 import javax.inject.Inject;
 import javax.mail.internet.MimeMessage;
@@ -36,6 +42,9 @@ public class MemberController {
     ServletContext servletContext;
 
     @Autowired
+    ReviewService reviewService;
+
+    @Autowired
     MemberService memberService;
 
     @Inject
@@ -49,7 +58,7 @@ public class MemberController {
 
     @RequestMapping("/loginAction")
     public String loginAction(Member member, HttpSession session, HttpServletResponse response, Model model) throws Exception {
-        boolean loginFlag = memberService.loginCheck(member);
+        boolean loginFlag = memberService.loginCheck(member); //
 
         Boolean adminChk = true;
         if (loginFlag) {
@@ -61,7 +70,7 @@ public class MemberController {
 
             if(member.getId().equals("admin")){
                 session.setAttribute("adminChk", false);
-               return "redirect:/admin";
+                return "redirect:/admin";
             }else {
                 return "redirect:/index";
             }
@@ -216,6 +225,8 @@ public class MemberController {
             return re;
 
         }
+        String result = Integer.toString(resul);
+        re.put("result", result);
         return re;
     }
 
@@ -342,7 +353,7 @@ public class MemberController {
     }
 
     @PostMapping("/memberUpdate")
-    public String memberUpdateAction(Member member, Model model, HttpSession session) throws Exception {
+    public String memberUpdateAction(Member member, Model model) throws Exception {
 
         MultipartFile f = member.getFile();
 
@@ -375,23 +386,23 @@ public class MemberController {
     public String withdrawal(){ return "member/withdrawal"; }
 
     // 회원탈퇴
-    @RequestMapping(value = {"", "/", "memberWithdrawal"}, method = RequestMethod.POST)
-    public String memberWithdrawal(HttpSession session, @RequestParam String password) {
+    @ResponseBody
+    @RequestMapping(value = {"", "/", "memberDelete"}, method = RequestMethod.POST)
+    public Map<String, String> memberDelete(HttpSession session, Member member) {
         String loginId = (String) session.getAttribute("id");
+        Map<String, String> map = new HashMap<>();
 
-        System.out.println("password : " + password);
+        member.setId(loginId);
+        boolean flag = memberService.loginCheck(member);
 
-//        if(passwordFlag){ // 비밀번호가 일치할 경우
-//
-//        }
-//        else if(passwordFlag){
-//
-//        }
-//
-//
-//        return "Susecess";
-//    }
+        int result;
+        if(flag){
+            result = memberService.memberDelete(loginId);
+        }else{
+            result = 0;
+        }
 
-        return password;
+        map.put("result",  Integer.toString(result));
+        return map;
     }
 }

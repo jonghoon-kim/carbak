@@ -5,6 +5,7 @@ import com.chabak.util.Utility;
 import com.chabak.vo.*;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.SneakyThrows;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -14,9 +15,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 @Controller
 @RequestMapping("/review")
@@ -33,6 +37,9 @@ public class ReviewController {
 
      @Autowired
      MemberService memberService;
+
+     @Autowired
+     HashTagService hashTagService;
 
     @Autowired
     ReadCountService readCountService;
@@ -68,7 +75,7 @@ public class ReviewController {
         mv.addObject("pageOwnerId",pageOwnerId);
 
 //        System.out.println("/list parameter map:"+map);
-        System.out.println("(/review/list)result reviewList:"+reviewList);
+//        System.out.println("(/review/list)result reviewList:"+reviewList);
 //        System.out.println("review/list result pagination:"+pagination);
 
         return mv;
@@ -140,9 +147,38 @@ public class ReviewController {
 
         reviewService.setTitleImg(review);
 
+        int reviewNo = reviewService.selectReviewNo();
+
+        System.out.println("reviewNo"+reviewNo);
+
+        review.setReviewNo(reviewNo);
+
+        HashTag hashTag = new HashTag();
+        // 해쉬태그 저장   todo: 수정했을 경우에 작동 생각하기 delete hashtag where(select reviewNo ~) 후 insert
+        String hashtag = null;
+        Pattern tag = Pattern.compile("\\#([0-9a-zA-Z가-힣]*)");
+        Matcher matcher = tag.matcher(review.getContent());
+        int result = 0; // 해쉬태그 성공 row 갯수 저장
+
+
+
+        System.out.println(result);
+
         try{
             reviewService.insertReview(review);
+
+            while(matcher.find()){
+
+                hashtag = reviewService.specialCharacter_replace(matcher.group());
+                hashTag.setReviewNo(reviewNo);
+                hashTag.setHashTag(hashtag);
+                result += hashTagService.insertHashTag(hashtag);
+
+                System.out.println("hashtag " + hashtag);
+            }
+            System.out.println("review Controller : ");
         }
+
         catch (Exception e){
             e.printStackTrace();
             Utility.printAlertMessage("작업 중 에러가 발생했습니다.",null,response);
@@ -155,7 +191,6 @@ public class ReviewController {
 
         return mv;
     } //리뷰 저장
-
 
     //리뷰 수정 페이지로 이동
     @SneakyThrows

@@ -8,6 +8,7 @@ import com.chabak.vo.Pagination;
 import com.chabak.vo.ReadCount;
 import com.chabak.vo.Review;
 import lombok.SneakyThrows;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -54,6 +55,11 @@ public class ReviewService {
         String resultString = originalString.replaceAll(regex,"");
 //        System.out.println("deleteImgTag resultString:"+resultString);
         return resultString;
+    }
+
+    public int selectReviewNo() {
+        int reviewNo = reviewDao.selectReviewNo();
+        return reviewNo;
     }
 
     public int insertReview(Review review){
@@ -110,6 +116,14 @@ public class ReviewService {
         return review;
     }
 
+    // similarUsersReview
+    public List<Review> selectSimilarUsersReview(Map map) {
+        List<Review> reviewList = reviewDao.selectSimilarUsersReview(map);
+        System.out.println("Service");
+        System.out.println(map.values());
+        return reviewList;
+    }
+
     public int updateReview(Review review) {
 
         int updateCount = reviewDao.updateReview(review);
@@ -126,7 +140,9 @@ public class ReviewService {
         if(id!=null){
             //로그인 상태면 해당 리뷰의 readCount 테이블 조회수를 확인
             // 조회수가 0이면 insert / 0이 아니면 update
-            ReadCount readCount = new ReadCount(id,reviewNo);
+            ReadCount readCount = new ReadCount();
+            readCount.setId(id);
+            readCount.setReviewNo(reviewNo);
             ReadCount selectedReadCount = readCountDao.selectReadCount(readCount);
             if(selectedReadCount==null){
                 count = readCountDao.insertReadCount(readCount);
@@ -143,5 +159,26 @@ public class ReviewService {
     public int deleteReview(int reviewNo){
         int deleteCount = reviewDao.deleteReview(reviewNo);
         return deleteCount;
+    }
+
+    public int increaseReplyCount(int reviewNo){
+        int updateLikeCount = reviewDao.increaseReplyCount(reviewNo);
+        return updateLikeCount;
+    }
+
+    public int decreaseReplyCount(int reviewNo){
+        int updateLikeCount = reviewDao.decreaseReplyCount(reviewNo);
+        return updateLikeCount;
+    }
+
+    //해쉬태그 변환 프로시저
+    public String specialCharacter_replace(String str) {
+        str = StringUtils.replaceChars(str, "-_+=!@#$%^&*()[]{}|\\;:'\"<>,.?/~`） ","");
+
+        if(str.length() < 1) {
+            return null;
+        }
+
+        return str;
     }
 }

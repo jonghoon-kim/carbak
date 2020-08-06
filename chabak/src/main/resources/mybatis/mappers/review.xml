@@ -8,7 +8,7 @@
 	<insert id="insertReview" parameterType="Review">
 		INSERT INTO Review(reviewNo,id,title,sido,gugun,content,titleImageSrc)
 		VALUES(
-				  REVIEWNO_SEQ.nextval,
+				  #{reviewNo},
 				  #{id},
 				  #{title},
 				  #{sido},
@@ -17,6 +17,10 @@
 				  #{titleImageSrc}
 			  )
 	</insert>
+
+	<select id="selectReviewNo" resultType="int">
+		select REVIEWNO_SEQ.nextval from dual
+	</select>
 
 <!--	변수값이 칼럼명일 경우 ${}를 사용한다.-->
 
@@ -141,6 +145,27 @@
 		from Review r,Member m
 		where REVIEWNO = #{reviewNo}
 		and r.id = m.id
+	</select>
+
+	<select id="selectSimilarUsersReview" parameterType="Map" resultType="Review">
+		select *
+		from
+			(SELECT *
+			FROM review
+			where reviewno in
+			((SELECT distinct reviewno
+			FROM reviewlike
+			WHERE id = #{id1} or id = #{id2} or id = #{id3} or id = #{id4} or id = #{id5})
+			minus
+			(select reviewno
+			from readcount
+			where id = #{sessionId}
+			union
+			select reviewno
+			from reviewlike
+			where id =#{sessionId}))
+			order by regdate desc)
+		where rownum <![CDATA[<=]]> 5
 	</select>
 
 	<update id="updateReview" parameterType="Review">
