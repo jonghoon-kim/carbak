@@ -34,13 +34,16 @@ function adminPage(page){
 //admin 회원 관리 페이징 html 구축
 function adminMemberChangePage(paging, adminMemberlist, adminwBoolean, lstSize) {
     $('.admin_tr').children('td').remove();
+    $('.admin_tr').remove();
     var adminRow;
     var indexlstSize = lstSize-1;
+    adminRow =+ "<form id='adminMemberDelete' name='adminMemberDelete' method='post'>"
     for (var i = 0; i < 10; i++) {
         var id, name, gender, sido, gugun, email, regDate, del
         if(adminwBoolean=="true" && i<=indexlstSize){
             var dt = new Date(adminMemberlist[i].regDate);
-
+            var escapeD = "\"";
+            var escape = "\'";
             id =adminMemberlist[i].id,
                 name = adminMemberlist[i].name,
                 gender = adminMemberlist[i].gender,
@@ -48,7 +51,7 @@ function adminMemberChangePage(paging, adminMemberlist, adminwBoolean, lstSize) 
                 gugun = adminMemberlist[i].gugun,
                 email = adminMemberlist[i].email,
                 regDate = dt.toISOString().substring(0, 10),
-                del = "<button >삭제</button>";
+                del = "<button onClick="+escapeD+"javascript:adminMemberDel("+escape+adminMemberlist[i].id+escape+")"+escapeD+">삭제</button>";
         }
         else{
             id =" ",
@@ -70,6 +73,7 @@ function adminMemberChangePage(paging, adminMemberlist, adminwBoolean, lstSize) 
             + "<td width='14%'>"+del+"</td></tr>"
 
     }
+    adminRow += "<input type='hidden' id='deleteId' name='deleteId'></form>"
     $('.admin_table').append(adminRow);
     $('.admin_aticle').children('.admin_link').remove();
 
@@ -104,4 +108,17 @@ function adminMemberChangePage(paging, adminMemberlist, adminwBoolean, lstSize) 
         + ")'></button>";
 
     $('.admin_aticle').append(adminMemberPageButton);
+}
+//관리자 권한 회원 삭제
+function adminMemberDel(id) {
+    if (confirm("아이디 : " + id + "를 삭제하시겠습니까?") == true) {
+        var adminMemberDelete=document.getElementById("adminMemberDelete");
+        document.getElementById("deleteId").value=id;
+        adminMemberDelete.action="/adminDel"
+        alert("삭제되었습니다.");
+    } else {
+        alert("취소하였습니다.");
+        return;
+    }
+    adminMemberDelete.submit();
 }

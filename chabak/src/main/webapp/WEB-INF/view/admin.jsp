@@ -12,21 +12,6 @@
     <script src='https://kit.fontawesome.com/a076d05399.js'></script>
     <script type="text/javascript" src="js/adminPaging.js"></script>
     <link href="css/admin.css" rel="stylesheet">
-    <script>
-        //관리자 권한 회원 삭제
-        function adminMemberDel(id) {
-            if (confirm("아이디 : " + id + "를 삭제하시겠습니까?") == true) {
-            var adminMemberDelete=document.getElementById("adminMemberDelete");
-            document.getElementById("deleteId").value=id;
-            adminMemberDelete.action="/adminDel"
-            alert("삭제되었습니다.");
-             } else {
-                 alert("취소하였습니다.");
-                 return;
-             }
-            //adminMemberDelete.submit();
-        }
-    </script>
 </head>
 <body>
 <!-- header -->
@@ -38,7 +23,6 @@
 <h2>회원 정보</h2>
 
 <div class="admin_aticle">
-    <form id="adminMemberDelete" name="adminMemberDelete" method="post">
     <table class="admin_table">
         <tr>
             <th>ID</th>
@@ -57,6 +41,7 @@
             <c:choose>
                 <c:when test="${tie eq 'true'}">
                     <c:forEach var="memberlist" items="${adminMemberlist}" begin="0" end="${lstSize}">
+                        <form id="adminMemberDelete" name="adminMemberDelete" method="post">
                             <tr class="admin_tr">
                                 <td width="14%">${memberlist.id}</td>
                                 <td width="12%">${memberlist.name}</td>
@@ -68,6 +53,7 @@
                                 <td width="14%"><button onClick="javascript:adminMemberDel('${memberlist.id}')">삭제</button></td>
                             </tr>
                             <input type="hidden" id="deleteId" name="deleteId">
+                        </form>
                     </c:forEach>
                     <c:set var="tie" value="false"/>
                 </c:when>
@@ -86,7 +72,6 @@
             </c:choose>
         </c:forEach>
     </table>
-    </form>
     <c:choose>
         <c:when test="${tie ne 'false'}">
         <!-- 페이지 버튼 -->

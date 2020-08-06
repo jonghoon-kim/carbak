@@ -17,7 +17,6 @@ import org.springframework.web.servlet.ModelAndView;
 
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.util.HashMap;
 import java.util.List;
@@ -81,6 +80,7 @@ public class WelcomeController {
             startPageNo = Integer.toString(Integer.parseInt(startPageNo)-10);					//시작페이지 번호
             endPageNo = Integer.toString(Integer.parseInt(endPageNo)-10);						//마지막페이지 번호
             adminMemberlist = adminService.getlstSelectAdminMemberlist(startPageNo,endPageNo);
+            System.out.println(adminMemberlist);
             lstSize = adminMemberlist.size()-1;
             adminwBoolean = "true";
         }
@@ -143,12 +143,14 @@ public class WelcomeController {
     }
     @RequestMapping(value = "/adminDel", method= {RequestMethod.GET, RequestMethod.POST}, produces = "application/json; charset=utf8")
     @ResponseBody
-    public String adminDel(HttpServletRequest request) {
+    public ModelAndView adminDel(HttpServletRequest request) {
+        ModelAndView mv = new ModelAndView();
         System.out.println("controller success");
     String deleteId = request.getParameter("deleteId");
     System.out.println("deleteId : " + deleteId);
     adminService.memberDelete(deleteId);
-        return "redirect:/admin";
+    mv.setViewName("redirect:/admin");
+        return mv;
     }
 
     @RequestMapping("/header")
