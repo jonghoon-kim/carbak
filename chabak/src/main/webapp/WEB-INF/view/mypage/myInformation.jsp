@@ -56,6 +56,10 @@
                                     onclick="location.href='/member/memberUpdate?id=${sessionScope.id}';">
                                 회원정보수정
                             </button>
+                            <button class="messageList" id="btn_messageList" style="display: inline;"
+                                    onclick="location.href='/message/list';">
+                                쪽지함
+                            </button>
                         </c:when>
                         <c:when test="${sessionScope.id ne pageOwner.id}">
                             <div class="pageOwnerId">${pageOwner.id}</div>
