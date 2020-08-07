@@ -7,6 +7,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletResponse;
+import java.io.PrintWriter;
+import java.util.List;
+import java.util.Map;
 import java.util.List;
 
 @Service("memberService")
@@ -21,6 +24,8 @@ public class MemberService {
     public Member getMember(String id) {
         return memberDao.getMember(id);
     }
+
+    public List<String> getAllMemberId(String searchText) { return memberDao.getAllMemberId(searchText); }
 
     /* 아이디 중복 체크 */
     public Member idCheck(String id) throws Exception {

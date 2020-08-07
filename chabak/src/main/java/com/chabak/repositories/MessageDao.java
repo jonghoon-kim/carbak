@@ -14,6 +14,11 @@ public class MessageDao {
     @Autowired
     SqlSession sqlSession;
 
+    public int countMessageList(Map map){
+        int count = sqlSession.selectOne("message.countMessageList",map);
+        return count;
+    }
+
     public List<Message> selectMessageList(Map map){
         List<Message> messageList = sqlSession.selectList("message.selectMessageList",map);
         return messageList;

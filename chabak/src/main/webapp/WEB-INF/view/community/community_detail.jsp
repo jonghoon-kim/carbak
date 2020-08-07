@@ -18,6 +18,7 @@
     <link href="/css/community_detail.css" rel="stylesheet">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
     <script type="text/javascript" src=" http://code.jquery.com/jquery-latest.min.js"></script>
+    <script type="text/javascript" src="/js/common.js" charset='UTF-8'></script>
     <script type="text/javascript" src="/js/reviewScript.js" charset='UTF-8'></script>
     <script type="text/javascript">
         //로그인 아이디 저장 변수
