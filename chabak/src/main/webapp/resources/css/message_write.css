@@ -24,7 +24,7 @@
 .top {
     font-family: 'Jeju Gothic', sans-serif;
 }
-.sign-up {
+.message {
     width: 400px;
     margin: 0 auto;
     margin-top: 50px;
@@ -33,114 +33,26 @@
 .sign-up-content {
     margin : 60px 0px 40px 0px;
 }
-/* 프로필 사진 설정 */
-.thumbnail-wrapper {
-    margin: 0 auto;
-    width: 25%;
-}
-.thumbnail {
-    border : 2px solid rgb(105, 179, 149);
-    border-radius: 50px;
-    position: relative;
-    padding-top : 100%;
-    overflow: hidden;
-}
-.thumbnail .centered {
-    position: absolute;
-    top: 0;
-    right : 0;
-    left : 0;
-    bottom :0;
-    transform: translate(50%,50%);
-    -webkit-transform: translate(50%, 50%);
-    -ms-transform: translate(50%, 50%);
-}
-.thumbnail .centered img {
-    max-height: 100%;
-    position: absolute;
-    top: 0;
-    right : 0;
-    left : 0;
-    bottom :0;
-    overflow: hidden;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transform: translate(-50%,-50%);
-}
-.filebox label {
-    font-family: 'Jeju Gothic', sans-serif;
-    margin-top:5px;
-    margin-bottom :15px;
-    display: inline-block;
-    padding : 7px 7px;
-    color: #fff;
-    font-size: 14px;
-    line-height: normal;
-    vertical-align: middle;
-    background-color: rgb(105, 179, 149);
-    cursor: pointer;
-    border: 1px solid rgb(105, 179, 149);
-    border-radius: 10px;
-    -webkit-transition: background-color 0.2s;
-    transition: background-color 0.2s;
-}
 
-.filebox label:hover {
-    color: black;
-}
-
-.filebox label:active {
-    background-color:  rgb(105, 179, 149);
-}
-
-.filebox input[type="file"] {
-    position: absolute;
-    width: 1px;
-    height: 1px;
-    padding: 0;
-    margin: -1px;
-    overflow: hidden;
-    clip: rect(0, 0, 0, 0);
-    border: 0;
-}
-/* input */
-/* input */
-#name {
-    width: 210px;
-    height: 42px;
-    padding-left: 15px;
-    border-top : none;
-    border-right :none;
-    border-left:none;
-    border-bottom: 2px solid rgb(105, 179, 149);
-    font-family: 'Jeju Gothic', sans-serif;
-
-}
-#password::placeholder, #password2::placeholder {
-    width: 210px;
-    height: 42px;
-    border-top : none;
-    border-right :none;
-    border-left:none;
-    border-bottom: 2px solid rgb(105, 179, 149);
-    font-family: 'Jeju Gothic', sans-serif;
-}
-
-#name:focus, #password:focus, #password2:focus {
+#receiveId:focus, #title:focus, #content:focus {
     outline :none;
 }
-input[type=password] {
-    width: 210px;
-    height: 42px;
+
+input[id=receiveId] {
+    width:150px;
+    height:42px;
+    margin:0 auto;
     padding-left: 15px;
     border-top : none;
     border-right :none;
     border-left:none;
     border-bottom: 2px solid rgb(105, 179, 149);
-    font-family: 'pass', 'Roboto', Helvetica, Arial, sans-serif;
+    font-family: 'Jeju Gothic', sans-serif;
+    display: block;
+    box-sizing: border-box;
 }
-input[id=id], input[id=email] {
+
+input[id=title] {
     width:230px;
     height:42px;
     margin:0 auto;
@@ -150,70 +62,17 @@ input[id=id], input[id=email] {
     border-left:none;
     border-bottom: 2px solid rgb(105, 179, 149);
     font-family: 'Jeju Gothic', sans-serif;
-    display: inline;
+    display: block;
     box-sizing: border-box;
 }
-input[id=id]:focus, input[id=email]:focus {
+input[id=receiveId]:focus, input[id=title]:focus {
     outline :none;
 }
-/* 성별 라디오 버튼 */
-.radio-but{
-    margin-top: 15px;
-    margin-bottom :30px;
-    color :black ;
-}
-.radio-but span {
-    font-family: 'Jeju Gothic', sans-serif;
-    font-size : small;
-    color : gray;
-}
-.box-radio-input input[type="radio"]{
-    display:none;
 
-}
-.box-radio-input input[type="radio"] + span{
-    font-family: 'Jeju Gothic', sans-serif;
-    display:inline-block;
-    background:none;
-    border:1px solid rgb(105, 179, 149);
-    padding:0px 10px;
-    text-align:center;
-    height:35px;
-    line-height:33px;
-    font-weight:500;
-    cursor:pointer;
-    border-radius: 10px;
-}
-
-.box-radio-input input[type="radio"]:checked + span{
-    border:1px solid rgb(105, 179, 149);
-    background:rgb(105, 179, 149);
-    color:#fff;
-}
-/* 시도 선택 셀렉트 박스 */
-.address_select span {
-    font-family: 'Jeju Gothic', sans-serif;
-    font-size : small;
-    color : gray;
-}
-select {
-    margin-top: 10px;
-    margin-bottom: 10px;
-    font-family: 'Jeju Gothic', sans-serif;
-    border : 2px solid rgb(105, 179, 149);
-    border-radius: 10px;
-    width: 100px;
-    height : 30px;
-}
-select:focus {
-    outline: none;
-}
-
-.update_but input {
+.submitBtn input {
     margin: 0px 0px 15px 0px;
 }
 
-/* 회원가입 버튼 */
 .bottom {
     margin-top: 20px;
     margin-bottom: 20px;

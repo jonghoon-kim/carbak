@@ -11,7 +11,7 @@
     <script type="text/javascript" src=" http://code.jquery.com/jquery-latest.min.js"></script>
     <script>
         function openWinMessageWrite(){
-            window.open("/message/write", "쪽지 작성", "width=800, height=700, toolbar=no, menubar=no, scrollbars=no, resizable=yes" );
+            window.open("/message/write", "쪽지 작성", "width=800, height=700, toolbar=no, menubar=no, scrollbars=no, resizable=no" );
         }
     </script>
 </head>

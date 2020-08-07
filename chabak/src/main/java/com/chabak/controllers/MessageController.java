@@ -3,6 +3,8 @@ package com.chabak.controllers;
 import com.chabak.services.*;
 import com.chabak.util.Utility;
 import com.chabak.vo.*;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
@@ -14,6 +16,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 @Controller
@@ -90,6 +93,26 @@ public class MessageController {
         Utility.closeWindow(response);
         return null;
     } //리뷰 리스트 출력
+
+
+
+    @RequestMapping(value ={"/searchId"}, method=RequestMethod.GET)
+    public ModelAndView searchId(){
+        ModelAndView mv = new ModelAndView();
+        mv.setViewName("message/searchId");
+        return mv;
+    }
+
+    @SneakyThrows
+    @ResponseBody
+    @RequestMapping(value = "/autoCompleteUserId", method = RequestMethod.GET, produces="text/plain;charset=UTF-8")
+    public String autoCompleteUserId(@RequestParam String searchText) {
+        System.out.println("searchText:"+searchText);
+        List<String> userIdList = memberService.getAllMemberId(searchText);
+        ObjectMapper mapper = new ObjectMapper();
+        String jsonString = mapper.writeValueAsString(userIdList);
+        return jsonString;
+    }
 
     @RequestMapping(value ="/detail", method=RequestMethod.GET)
     public ModelAndView detailMessage(@RequestParam (defaultValue = "-1") int messageNo,
