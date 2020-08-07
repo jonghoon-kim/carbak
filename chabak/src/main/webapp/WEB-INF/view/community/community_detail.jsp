@@ -231,67 +231,66 @@
     <div class="top">
         <h1>커뮤니티 리뷰 상세보기</h1>
     </div>
+    <div class="info">
+        <div class="thumbnail-wrapper">
+            <div class="thumbnail">
+                <div class="centered">
+                    <img src="${review.savePath}${review.saveName}">
+                </div>
+            </div>
+        </div>
+        <div class="writer">
+            <%--            작성자 드롭다운 시작--%>
+            <div class="dropdown" id="dropdown-review">
+                <button class="dropbtn">
+                            <span class="dropbtnWriter" id="writerId" onclick="myFunction('writer',null)">
+                                ${review.id}
+                            </span>
+                </button>
+                <div class="dropdown-content" id="myDropdownWriter">
+                    <a href="/mypage/guestVisit?id=${review.id}" target="_blank">마이페이지</a>
+                    <a onclick="openWinMessageWrite('${review.id}')">쪽지 보내기</a>
+                </div>
+            </div>
+            <%--            작성자 드롭다운 끝--%>
+        </div>
+    </div>
     <!-- 상세 내용 -->
     <div class="second">
         <div class="profile">
-            <div class="thumbnail-wrapper">
-                <div class="thumbnail">
-                    <div class="centered">
-                        <img src="${review.savePath}${review.saveName}">
-                    </div>
-                </div>
-            </div>
-            <div class="writer">
-
-<%--            작성자 드롭다운 시작--%>
-                <div class="dropdown" id="dropdown-review">
-                    <button class="dropbtn">
-                        <span class="dropbtnWriter" id="writerId" onclick="myFunction('writer',null)">
-                            ${review.id}
-                        </span>
-                    </button>
-                    <div class="dropdown-content" id="myDropdownWriter">
-                        <a href="/mypage/guestVisit?id=${review.id}" target="_blank">마이페이지</a>
-                        <a onclick="openWinMessageWrite('${review.id}')">쪽지 보내기</a>
-                    </div>
-                </div>
-<%--            작성자 드롭다운 끝--%>
-            </div>
-
             <div class="title">
                 [${review.sido}][${review.gugun}] ${review.title}
-            </div>
-            <div class="regDate">
-                ${review.regDate}
-            </div>
-            <div class="content-icon">
-                <span>${review.likeCount}+</span>
-                <button class="like-img">
+                <div class="regDate">
+                    ${review.regDate}
+                </div>
+                <div class="content-icon">
+                    <span>${review.likeCount}+</span>
+                    <button class="like-img">
 
-                    <c:choose>
-                        <c:when test="${sessionScope.id != null and likeYn==1}">
-                            <img id="like-img" src="/img/community/heart2.png"
-                                 onclick="ajaxReviewLikeToggle('${review.reviewNo}',this,'${sessionScope.id}')">
-                        </c:when>
-                        <c:otherwise>
-                            <img id="like-img" src="/img/community/heart.png"
-                                 onclick="ajaxReviewLikeToggle('${review.reviewNo}',this,'${sessionScope.id}')">
-                        </c:otherwise>
+                        <c:choose>
+                            <c:when test="${sessionScope.id != null and likeYn==1}">
+                                <img id="like-img" src="/img/community/heart2.png"
+                                     onclick="ajaxReviewLikeToggle('${review.reviewNo}',this,'${sessionScope.id}')">
+                            </c:when>
+                            <c:otherwise>
+                                <img id="like-img" src="/img/community/heart.png"
+                                     onclick="ajaxReviewLikeToggle('${review.reviewNo}',this,'${sessionScope.id}')">
+                            </c:otherwise>
 
-                    </c:choose>
+                        </c:choose>
 
-                </button>
-            </div>
+                    </button>
+                </div>
 
-            <div class="dropdown">
-                <button class="dropbtn"><img class="dropbtnImg" src="/img/community/menu.png"
-                                             onclick="myFunction('review',null)"></button>
-                <div class="dropdown-content" id="myDropdown">
-                    <a href="/review/modify?reviewNo=${review.reviewNo}">수정하기</a>
-                    <a href="/review/delete?reviewNo=${review.reviewNo}">삭제하기</a>
+                <div class="dropdown">
+                    <button class="dropbtn"><img class="dropbtnImg" src="/img/community/menu.png"
+                                                 onclick="myFunction('review',null)"></button>
+                    <div class="dropdown-content" id="myDropdown">
+                        <a href="/review/modify?reviewNo=${review.reviewNo}">수정하기</a>
+                        <a href="/review/delete?reviewNo=${review.reviewNo}">삭제하기</a>
+                    </div>
                 </div>
             </div>
-
         </div>
     </div>
     <!-- 게시글 내용 -->
