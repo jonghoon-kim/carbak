@@ -1,0 +1,32 @@
+div {
+    display: block;
+}
+
+.pop_content.bg_white, #pop_wrap.bg_white {
+    background: #fff;
+    border-top:0;
+}
+
+#pop_wrap {
+    height:100%;
+}
+
+.pop_header {
+    display: block;
+    top : 0;
+    left : 0;
+    border : 0;
+    background: none;
+}
+
+.pop_header h1 {
+    color : #333;
+    font-size : 14px;
+    padding:15px 0 0 19px;
+    display: block;
+}
+
+.pop_content {
+    padding:0 0 12px 0;
+}
+

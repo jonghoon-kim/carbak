@@ -8,7 +8,7 @@
 <head>
     <meta charset="UTF-8">
     <title>쪽지 보내기</title>
-    <link href="/css/message_write.css" rel="stylesheet">
+    <link href="/css/message_address.css" rel="stylesheet">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
     <script type="text/javascript" src=" http://code.jquery.com/jquery-latest.min.js"></script>
     <script type="text/javascript" src="/js/common.js" charset='UTF-8'></script>
@@ -57,8 +57,15 @@
                 </div>
                 <div class="btn_ctrl">
                     <a href="#" class="addr_remove"><-</a>
-                    <a h
+                    <a href="#" class="addr_add">-></a>
                 </div>
+            </div>
+        </div>
+        <div class="pop_footer">
+            <div class="ft_inct">
+<%--                버튼 대체 고려--%>
+                <a href="#" class="buttonSave">확인</a>
+                <a href="#" class="buttonCancel">취소</a>
             </div>
         </div>
     </div>
