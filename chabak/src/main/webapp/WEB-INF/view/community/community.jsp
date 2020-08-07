@@ -174,8 +174,6 @@
     <div id="reviewListDiv">
         <!-- 게시글 리스트 -->
         <c:forEach var="review" items="${reviewList}">
-
-
             <div class="review">
                 <div class="profile">
                     <div class="thumbnail-wrapper">

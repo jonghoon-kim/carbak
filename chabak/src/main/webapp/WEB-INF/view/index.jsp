@@ -130,7 +130,7 @@
 <div class="review_content">
 
     <c:choose>
-        <c:when test="${sessionScope.id != null}">
+        <c:when test="${sessionScope.id != null && similarUsers != null}" >
             <h1>추천 Reviews 5</h1>
             <h2 class="h2Name">${sessionScope.name}님을 위한 추천리뷰 모아보기</h2>
             <hr>
