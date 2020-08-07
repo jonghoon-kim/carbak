@@ -83,40 +83,43 @@ public class WelcomeController {
                         List<Review> reviewList = null;
 
                         String similarUsers = response.body().string();
-                        //System.out.println(similarUsers);
+                        System.out.println("test : " +similarUsers);
 
-                        String similarUsersId[] = similarUsers.split(", ");
+                        if(similarUsers.contentEquals("null")) {
+                            reviewList = reviewService.selectReviewTop5(null);
 
-                        map.put("id1", similarUsersId[0]);
-                        map.put("id2", similarUsersId[1]);
-                        map.put("id3", similarUsersId[2]);
-                        map.put("id4", similarUsersId[3]);
-                        map.put("id5", similarUsersId[4]);
+                            //리스트의 content에서 이미지 태그 지우기
+                            for(Review review:reviewList){
+                                String modifiedContent = reviewService.deleteImgTag(review.getContent());
+                                review.setContent(modifiedContent);
+                            }
+                            mv1.setViewName("/index");
+                            mv1.addObject("reviewList",reviewList);
 
+                        }else {
+                            String similarUsersId[] = similarUsers.split(", ");
 
-//                        for(int i=0; i < similarUsersId.length; i++) {
-//                            map.put(""+i+"", similarUsersId[i]);
-//                            System.out.println(i+ similarUsersId[i]);
-//                        }
+                            map.put("id1", similarUsersId[0]);
+                            map.put("id2", similarUsersId[1]);
+                            map.put("id3", similarUsersId[2]);
+                            map.put("id4", similarUsersId[3]);
+                            map.put("id5", similarUsersId[4]);
+                            map.put("sessionId", sessionId);
 
-                        map.put("sessionId", sessionId);
+                            System.out.println("mapValues : "+ similarUsers);
 
-                        System.out.println("mapValues : "+ similarUsers);
+                            reviewList = reviewService.selectSimilarUsersReview(map);
 
-                        reviewList = reviewService.selectSimilarUsersReview(map);
+                            //리스트의 content에서 이미지 태그 지우기
+                            for(Review review:reviewList){
+                                String modifiedContent = reviewService.deleteImgTag(review.getContent());
+                                review.setContent(modifiedContent);
+                            }
 
-                        //리스트의 content에서 이미지 태그 지우기
-                        for(Review review:reviewList){
-                            String modifiedContent = reviewService.deleteImgTag(review.getContent());
-                            review.setContent(modifiedContent);
+                            mv1.setViewName("/index");
+                            mv1.addObject("similarUsers", similarUsers);
+                            mv1.addObject("reviewList",reviewList);
                         }
-
-                        mv1.setViewName("/index");
-                        mv1.addObject("similarUsers", similarUsers);
-                        mv1.addObject("reviewList",reviewList);
-
-                        //System.out.println(reviewList);
-
                     }
 
 
