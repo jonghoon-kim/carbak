@@ -257,3 +257,16 @@
     margin-top: 200px;
 }
 
+.messageList {
+    font-size: small;
+    font-family: 'Jeju Gothic', sans-serif;
+    background-color: transparent;
+    border-top: none;
+    border-left: none;
+    border-right: none;
+    border-bottom: 2px solid rgb(105, 179, 149);
+    transition : .35s;
+    margin-top: 50px;
+    margin-left: -96px;
+}
+
