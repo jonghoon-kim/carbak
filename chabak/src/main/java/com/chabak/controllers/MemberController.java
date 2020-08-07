@@ -70,7 +70,12 @@ public class MemberController {
 
             // System.out.println("LoginAction Controller name : " + memberService.getMember(member.getId()).getName());
 
-            return "redirect:/index";
+            if(member.getId().equals("admin")){
+                session.setAttribute("adminChk", false);
+                return "redirect:/admin";
+            }else {
+                return "redirect:/index";
+            }
         } else {
             response.setContentType("text/html; charset=UTF-8");
             PrintWriter out = response.getWriter();
@@ -88,7 +93,7 @@ public class MemberController {
     public String logout(HttpSession session, HttpServletResponse response) throws Exception {
         session.invalidate();
 
-        memberService.logout(response);
+        //memberService.logout(response);
         return "redirect:/index";
     }
 

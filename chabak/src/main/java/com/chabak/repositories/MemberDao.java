@@ -3,9 +3,12 @@ package com.chabak.repositories;
 import com.chabak.vo.Member;
 
 
+import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+
+import java.util.List;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -34,6 +37,11 @@ public class MemberDao {
     /* 로그인한 회원 뽑아오기 - 멤버 1 */
     public Member getMember(String id) {
         return sqlSession.selectOne("member.getMember", id);
+    }
+
+    /* 관리자 회원 정보 조회 */
+    public Member adminMembers() {
+        return (Member) sqlSession.selectList("member.adminMembers");
     }
 
     /* 아이디, 비밀번호 찾기 */

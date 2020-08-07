@@ -1,0 +1,73 @@
+.top_hr{
+    border: 1px solid rgb(105, 179, 149);
+    width: 1535px;
+    display: inline-block;
+    margin: 70px 200px 0px 200px;
+}
+a{
+    text-decoration:none;
+}
+h2{
+    font-family: 'Jeju Gothic', sans-serif;
+    text-align:center;
+    margin-right:30px;
+}
+.admin_aticle{
+    height: 700px;
+}
+.admin_aticle table{
+    border-collapse: collapse;
+    border: 0px;
+    margin: 0px;
+    padding: 0px;
+    width: 1350px;
+    margin-left: 300px;
+    margin-bottom: 50px;
+}
+.admin_aticle table th{
+    border: 3px solid rgb(105, 179, 149);
+    margin-bottom: 20px;
+}
+.admin_aticle table td{
+    border: 1px solid rgb(105, 179, 149);
+    height: 40px;
+    text-align: center;
+}
+.admin_link{
+    margin-top:20px;
+    margin-bottom:35px;
+    margin-right:20px;
+    text-align:center;
+    font-family: 'Jeju Gothic', sans-serif;
+}
+.admin_link button{
+    border: 0px;
+    background-color:#fff;
+    color:rgb(105, 179, 149);
+    font-size:20px;
+}
+.admin_link .fa-angle-left{
+    color:rgb(105, 179, 149);
+    margin-right:15px;
+    font-size:24px;
+}
+.admin_link .fa-angle-left:hover{
+    color:#000;
+}
+.admin_link .fa-angle-right{
+    color:rgb(105, 179, 149);
+    margin-left:15px;
+    font-size:24px;
+}
+.admin_link .fa-angle-right:hover{
+    color:#000;
+}
+.admin_link .fa-circle{
+    color:rgb(105, 179, 149);
+}
+.admin_link fas fa-circle:hover{
+    color:#000;
+}
+.admin_link fas fa-circle:visited{
+    color:#000;
+}
