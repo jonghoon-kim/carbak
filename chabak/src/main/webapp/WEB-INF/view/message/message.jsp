@@ -28,14 +28,14 @@
         <div class="thumbnail-wrapper">
             <div class="thumbnail">
                 <div id="View_area" class="centered">
-                    <!-- 방문 id가 세션 id랑 비교해서 같으면 나의 프로필 사진을 / 아니면 click id 프로필 선택 -->
+
                     <img src="${member.savePath}${member.saveName}">
                 </div>
             </div>
         </div>
         <div class="button_menu">
             <div class="sessionId">
-                <!-- 방문 id가 세션 id랑 비교해서 같으면 나의 id를 / 다르면 click id를 선택 -->
+
                 <div class="pageOwnerId">${member.id}</div>
                 <button class="updateMember" id="btn_updateMember" style="display: inline;"
                         onclick="location.href='/member/memberUpdate?id=${sessionScope.id}';">회원정보수정</button>

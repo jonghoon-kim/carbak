@@ -38,6 +38,10 @@
     function openSearchIdWindow() {
         window.open("/message/searchId", "아이디 검색", "left=900, width=500, height=300, toolbar=no, menubar=no, scrollbars=no, resizable=no" );
     }
+
+    function openAddressIdWindow(){
+
+    }
 </script>
 <body>
 <div class="container">
@@ -52,6 +56,7 @@
                 </span>
                     <input type="text" name="receiveId" id="receiveId" placeholder="보낼 아이디를 입력하세요." value="${receiveId}" onkeyup="checkLengthValidate(this, 50)" >
                     <input type="button" onclick="openSearchIdWindow()" value="아이디 검색">
+                    <input type="button" onclick="openAddressIdWindow()" value="주소록">
                     <input type="text" name="title" id="title" placeholder="제목을 입력하세요." onkeyup="checkLengthValidate(this, 50)">
                     <textarea name="content" id="content" placeholder="내용을 입력하세요." onkeyup="checkLengthValidate(this, 2000)"></textarea>
                     <div class="bottom">
