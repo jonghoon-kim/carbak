@@ -3,6 +3,8 @@ package com.chabak.controllers;
 import com.chabak.services.*;
 import com.chabak.util.Utility;
 import com.chabak.vo.*;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
@@ -14,6 +16,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 @Controller
@@ -22,6 +25,8 @@ public class MessageController {
 
     @Autowired
     MessageService messageService;
+    @Autowired
+    MemberService memberService;
 
     @RequestMapping(value ={"", "/", "/list"}, method=RequestMethod.GET)
     public ModelAndView messageList(HttpSession session,HttpServletResponse response,@RequestParam (defaultValue = "receive") String messageBox){
@@ -32,10 +37,20 @@ public class MessageController {
         String id = Utility.getIdForSessionOrMoveIndex(mv,session,response);
 
         //messageBox값(send||receive)에 따라서 보낸메시지함||받은메시지함 메시지 리스트 출력
-        List<Message> messageList = messageService.selectMessageList(id,messageBox);
+        List<Message> messageList = messageService.selectMessageList(id,messageBox,null);
 
+        //각 메시지함의 메시지 수 출력
+        int sendCount = messageService.countMessageList(id,"send",null);
+        int receiveCount = messageService.countMessageList(id,"receive",null);
+        int toMeCount = messageService.countMessageList(id,"toMe",null);
+        Member member = memberService.getMember(id);
+
+        mv.addObject("member",member);
         mv.addObject("messageList",messageList);
         mv.addObject("messageBox",messageBox);
+        mv.addObject("sendCount",sendCount);
+        mv.addObject("receiveCount",receiveCount);
+        mv.addObject("toMeCount",toMeCount);
         mv.setViewName("message/message");
 
         return mv;
@@ -72,10 +87,32 @@ public class MessageController {
             e.printStackTrace();
             Utility.printAlertMessage("작업 중 에러가 발생했습니다.",null,response);
         }
+        //부모창 새로고침
+        Utility.parentReload(response);
         //새창 닫기
         Utility.closeWindow(response);
         return null;
     } //리뷰 리스트 출력
+
+
+
+    @RequestMapping(value ={"/searchId"}, method=RequestMethod.GET)
+    public ModelAndView searchId(){
+        ModelAndView mv = new ModelAndView();
+        mv.setViewName("message/searchId");
+        return mv;
+    }
+
+    @SneakyThrows
+    @ResponseBody
+    @RequestMapping(value = "/autoCompleteUserId", method = RequestMethod.GET, produces="text/plain;charset=UTF-8")
+    public String autoCompleteUserId(@RequestParam String searchText) {
+        System.out.println("searchText:"+searchText);
+        List<String> userIdList = memberService.getAllMemberId(searchText);
+        ObjectMapper mapper = new ObjectMapper();
+        String jsonString = mapper.writeValueAsString(userIdList);
+        return jsonString;
+    }
 
     @RequestMapping(value ="/detail", method=RequestMethod.GET)
     public ModelAndView detailMessage(@RequestParam (defaultValue = "-1") int messageNo,
@@ -97,20 +134,22 @@ public class MessageController {
         else if(messageBox.equals("receive")){ //messageBox 값이 receive
             authorityYn = id.equals(message.getReceiveId());
         }
-        else{  //messageBox 값이 receive/send 둘다 아니면
-            Utility.printAlertMessage("잘못된 접근입니다.",null,response);
-            return null;
+        else if(messageBox.equals("toMe")){ //messageBox 값이 toMe
+            authorityYn = id.equals(message.getReceiveId());
+        }
+        else{  //그 외의 경우
+            authorityYn = false;
         }
 
         //해당 메시지가 존재하지 않거나 messageBox 값이 들어오지 않으면
-        if(message == null || messageBox.equals("-1") || !authorityYn){
+        if(message == null || !authorityYn){
             Utility.printAlertMessage("잘못된 접근입니다.",null,response);
             return null;
         }
 
         //메시지 읽음 여부 y로 업데이트
         try{
-            //받은 메시지함이고 이전에 해당 메시지를 읽은 적 없으면 
+            //받은 메시지함이고 이전에 해당 메시지를 읽은 적 없으면
             if(messageBox.equals("receive") && message.getReadYn().equals("n")){
                 //메시지를 읽음 상태로 변경
                 messageService.updateReadYn(messageNo);
@@ -157,11 +196,14 @@ public class MessageController {
             else if(messageBox.equals("receive")){ //messageBox 값이 receive
                 authorityYn = id.equals(message.getReceiveId());
             }
-            else{  //messageBox 값이 receive/send 둘다 아니면
+            else if(messageBox.equals("toMe")){ //messageBox 값이 receive
+                authorityYn = id.equals(message.getSendId());
+            }
+            else{  //messageBox 값이 receive/send/toMe 전부 아니면 잘못된 접근
                 Utility.printAlertMessage("잘못된 접근입니다.",null,response);
                 return null;
             }
-           
+
             System.out.println("authorityYn:"+authorityYn);
             //권한 없으면
             if(!authorityYn){
@@ -183,7 +225,7 @@ public class MessageController {
             Utility.printAlertMessage("작업 중 에러가 발생했습니다.",null,response);
             throw e; //트랜젝션을 위해 예외 던짐
         }
-
+        mv.addObject("messageBox",messageBox);
         mv.setViewName("redirect:/message/list");
         return mv;
     }

@@ -61,13 +61,14 @@ public class MemberController {
     public String loginAction(Member member, HttpSession session, HttpServletResponse response, Model model) throws Exception {
         boolean loginFlag = memberService.loginCheck(member); //
 
-        Boolean adminChk = true;
         if (loginFlag) {
             session.setAttribute("id", member.getId());
             session.setAttribute("password", member.getPassword());
             session.setAttribute("name", memberService.getMember(member.getId()).getName());
             session.setAttribute("profile", (memberService.getMember(member.getId())).getSavePath() + (memberService.getMember(member.getId())).getSaveName());
             session.setAttribute("path", (memberService.getMember(member.getId())).getSavePath());
+
+            // System.out.println("LoginAction Controller name : " + memberService.getMember(member.getId()).getName());
 
             if(member.getId().equals("admin")){
                 session.setAttribute("adminChk", false);
