@@ -55,7 +55,7 @@ public class WelcomeController {
         else{
             try{
                 ModelAndView mv1 = new ModelAndView();
-                String requestURL = "http://14.32.18.228:5000/find_similar_users";
+                String requestURL = "http://localhost:5000/find_similar_users";
                 String postBody =""+ "{" + "\"id\":"+ id+"}"+"";
                 String sessionId = id;
 
@@ -91,6 +91,7 @@ public class WelcomeController {
                     }
                     mv1.setViewName("/index");
                     mv1.addObject("reviewList",reviewList);
+                    System.out.println(reviewList);
 
                 }else {
                     String similarUsersId[] = similarUsers.split(", ");
@@ -111,7 +112,7 @@ public class WelcomeController {
                         String modifiedContent = reviewService.deleteImgTag(review.getContent());
                         review.setContent(modifiedContent);
                     }
-
+                    System.out.println(reviewList);
                     mv1.setViewName("/index");
                     mv1.addObject("similarUsers", similarUsers);
                     mv1.addObject("reviewList",reviewList);
