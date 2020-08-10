@@ -153,7 +153,6 @@
             </div>
         </c:otherwise>
     </c:choose>
-
     <div class="best_review">
         <ul>
             <c:forEach var="review" items="${reviewList}" varStatus="loop">
