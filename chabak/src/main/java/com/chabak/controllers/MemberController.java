@@ -355,7 +355,7 @@ public class MemberController {
     }
 
     @PostMapping("/memberUpdate")
-    public String memberUpdateAction(Member member, Model model) throws Exception {
+    public String memberUpdateAction(Member member, Model model, HttpSession session) throws Exception {
 
         MultipartFile f = member.getFile();
 
@@ -376,7 +376,10 @@ public class MemberController {
             member.setSaveName(member.getSaveName());
         }
         System.out.println("controller : "+memberService.memberUpdate(member));
+            session.setAttribute("name", member.getName());
+
             memberService.memberUpdate(member);
+
 
             model.addAttribute("member", memberService.getMember(member.getId()));
 

@@ -269,4 +269,10 @@
     margin-top: 50px;
     margin-left: -96px;
 }
+.messageList:active,
+.messageList:focus,
+.messageList:hover{
+    cursor: pointer;
+    outline: none;
+}
 
