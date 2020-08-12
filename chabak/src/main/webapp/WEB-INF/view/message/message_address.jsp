@@ -20,54 +20,60 @@
 
 </script>
 <body>
-    <div id="pop_wrap" class="bg_white pop_addr">
-        <div class="pop_header">
-            <h1>쪽지 주소록</h1>
-        </div>
-        <div class="pop_content">
-            <div class="addr_list">
-                <h3 id="listHeadLine">@@ 검색결과
-                    <em class="cnt">1</em>
-                </h3>
-                <div class="search_bar">
-                    <form name="addr_search" action="" onsubmit="">
-                        <input type="text" id="addr_search" class="ipt">
-                        <input type="submit" value="검색">
-                    </form>
-                </div>
-                <div class="addr_list_cont">
-                    <ul id="listUL">
-                        <li>user1<input type="checkbox"></li>
-                        <li>user2<input type="checkbox"></li>
-                    </ul>
-                </div>
-                <div class="page_ctrl">
-<%--                    페이징 영역--%>
-                </div>
-            </div>
-            <div class="addr_toitem">
-                <h3>받는 사람
-                    <em class="cnt">0</em>
-                    / 10
-                </h3>
-                <div class="addr_list_cont">
-                    <ul id="toUL">
+<div id="pop_wrap" class="pop_addr">
+    <div class="pop_header">
+        <h1>쪽지 주소록</h1>
+    </div>
+    <div class="pop_content">
+        <div class="addr_category">
 
-                    </ul>
-                </div>
-                <div class="btn_ctrl">
-                    <a href="#" class="addr_remove"><-</a>
-                    <a href="#" class="addr_add">-></a>
-                </div>
+        </div>
+        <div class="addr_list">
+            <h3 id="listHeadLine">@@ 검색결과
+                <em class="cnt">1</em>
+            </h3>
+            <div class="search_bar">
+                <form name="addr_search" action="" onsubmit="">
+                        <span class="search_box">
+                            <input type="text" id="addr_search" class="ipt" value="쪽지 주소 찾기">
+                        </span>
+                    <input type="submit" class="button" value="검색">
+                </form>
+            </div>
+            <div class="addr_list_cont">
+                <ul id="listUL">
+                    <li><input type="checkbox">user1</li>
+                    <li><input type="checkbox">user2</li>
+                </ul>
+            </div>
+            <div class="page_ctrl">
+                <%--                    페이징 영역--%>
             </div>
         </div>
-        <div class="pop_footer">
-            <div class="ft_inct">
-<%--                버튼 대체 고려--%>
-                <a href="#" class="buttonSave">확인</a>
-                <a href="#" class="buttonCancel">취소</a>
+        <div class="addr_toitem">
+            <h3>받는 사람
+                <em class="cnt">0</em>
+                / 10
+            </h3>
+            <div class="addr_list_cont">
+                <ul id="toUL">
+                    <li><input type="checkbox">user3</li>
+                    <li><input type="checkbox">user4</li>
+                </ul>
+            </div>
+            <div class="btn_ctrl">
+                <a href="#" class="addr_remove"><-</a>
+                <a href="#" class="addr_add">-></a>
             </div>
         </div>
     </div>
+    <div class="pop_footer">
+        <div class="ft_inct">
+            <%--                버튼 대체 고려--%>
+            <a href="#" class="buttonSave">확인</a>
+            <a href="#" class="buttonCancel">취소</a>
+        </div>
+    </div>
+</div>
 </body>
 </html>

@@ -40,7 +40,7 @@
     }
 
     function openAddressIdWindow(){
-        window.open("/message/address", "쪽지 주소록", "left=900, width=500, height=300, toolbar=no, menubar=no, scrollbars=no, resizable=no" );
+        window.open("/message/address", "쪽지 주소록", "left=900, width=500, height=600, toolbar=no, menubar=no, scrollbars=no, resizable=no" );
     }
 </script>
 <body>
