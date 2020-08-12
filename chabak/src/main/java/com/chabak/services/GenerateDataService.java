@@ -1,11 +1,13 @@
 package com.chabak.services;
 
 import com.chabak.repositories.GenerateDataDao;
+import com.chabak.util.Utility;
 import com.chabak.vo.*;
 import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.io.PrintWriter;
 import java.sql.Date;
 import java.text.SimpleDateFormat;
 import java.util.List;
@@ -24,7 +26,7 @@ public class GenerateDataService {
     @Autowired
     GenerateDataDao generateDataDao;
 
-    public void generateMemberData(int numberOfGenerate){
+    public int generateMemberData(int numberOfGenerate){
         Member member = new Member();
         try{
 //            SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMddHHmmss");
@@ -51,6 +53,7 @@ public class GenerateDataService {
                 Member getMember = memberService.getMember(member.getId());
                 if(getMember==null){
                     memberService.insert(member);
+                    Thread.sleep(150);
                 }
 
             }
@@ -60,11 +63,12 @@ public class GenerateDataService {
             e.printStackTrace();
         }
 
-
+        return 1;
 
     }
 
-    public void generateReviewData(int numberOfGenerate){
+    @SneakyThrows
+    public int generateReviewData(int numberOfGenerate){
         Review review = new Review();
         List<Member> memberList = generateDataDao.getAllMember();
         int numberOfMember = memberList.size();
@@ -85,14 +89,14 @@ public class GenerateDataService {
             review.setRegDate(null);
             review.setModifyDate(null);
             reviewService.insertReview(review);
+            Thread.sleep(150);
 
         }
-
-
+        return 1;
     }
 
     @SneakyThrows
-    public void generateReadCountData(int readCountRangeStart,int readCountRangeEnd){
+    public int generateReadCountData(int readCountRangeStart,int readCountRangeEnd){
         ReadCount readCount = new ReadCount();
         System.out.println("in test");
         List<Member> memberList = generateDataDao.getAllMember();
@@ -118,18 +122,25 @@ public class GenerateDataService {
                     if(checkReadCount==null){
 
                         generateDataDao.insertReadCountForTest(readCount);
+                        Thread.sleep(150);
                         System.out.println("readCount:"+readCount);
                     }
-                    count++;
-                    generateDataDao.updateReadCountForTest(readCount);
+                    else{
+                        count++;
+                        generateDataDao.updateReadCountForTest(readCount);
+                        Thread.sleep(150);
+                    }
+
                 }
 
             }
         }
         System.out.println("generateReadCountData count :"+count);
+        return 1;
     }
 
-    public void generateReviewLikeData(double likeChance){
+    @SneakyThrows
+    public int generateReviewLikeData(double likeChance){
         int value = (int)(likeChance*100);
         System.out.println("likeChance*100:"+value);
         int randomValue = 0;
@@ -148,6 +159,7 @@ public class GenerateDataService {
                 if(flagReviewLike!=1){
                     System.out.println("like reviewLikeInsert");
                     reviewLikeService.insertReviewLike(reviewLike);
+                    Thread.sleep(150);
                 }
 
             }
@@ -157,7 +169,7 @@ public class GenerateDataService {
             System.out.println("==============for===============");
 
         }
-
+        return 1;
     }
 
 
