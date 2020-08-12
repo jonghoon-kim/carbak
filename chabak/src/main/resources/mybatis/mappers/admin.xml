@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+	<!-- SQL Mapping 설정 -->
+	<mapper namespace="com.chabak.mapper.AdminMapper">
+	<!-- SQL 객체 --><!-- 게시물 추가 sql parameterType은 이미 alias를 설정했으므로 전체경로를 쓸 필요 없다-->
+	<!-- insert,update,delete 객체는 영향받은 레코드의 카운트를 정수로 반환 -->
+
+	<!-- 커뮤니티 리뷰 -->
+	<select id="getlstSelectAdminMemberlist" resultType="Member">
+    SELECT *
+      FROM (
+            SELECT ROW_NUMBER() OVER (ORDER BY ID) NUM
+                 , M.*
+		      FROM MEMBER M
+		     WHERE 1=1
+	         ORDER BY REGDATE DESC
+            )
+      WHERE NUM BETWEEN #{startPageNo} AND #{endPageNo}
+	</select>
+
+	<!-- Admin 페이징 카운트 -->
+	<select id="adminCnt" resultType="int">
+		SELECT
+		     COUNT(*)
+		  FROM
+		     (
+		      SELECT ROW_NUMBER() OVER (ORDER BY ID) NUM
+		      , M.*
+		      FROM MEMBER M
+		      WHERE 1=1
+		      ORDER BY REGDATE DESC
+		     )
+    </select>
+
+	<!-- 멤버 삭제(관리자 권한) -->
+	<delete id="memberDelete" parameterType="String">
+		DELETE
+		  FROM MEMBER
+		 WHERE ID = #{deleteId}
+	</delete>
+	</mapper>

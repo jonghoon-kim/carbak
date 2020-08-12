@@ -71,6 +71,7 @@
 		)
 	</insert>
 
+
 	<update id="updateBoxDeletedYn" parameterType="Map">
 		UPDATE MESSAGE SET ${columnName} = 'y'
 		WHERE MESSAGENO = #{messageNo}

@@ -21,12 +21,12 @@
 /* 타이틀 */
 .top {
     font-family: 'Jeju Gothic', sans-serif;
-    margin-bottom : 50px;
+    margin-bottom: 30px;
     margin-left:20px;
 }
 .second {
-    width: 1700px;
-    margin-top: 70px;
+    width: 965px;
+    margin-top: 20px;
     margin-left: 550px;
 }
 
@@ -35,20 +35,24 @@
     width: 780px;
     position: relative;
 }
-.profile .thumbnail-wrapper {
+.info{
+    display: inline-block;
+    margin-right: 696px;
+}
+.thumbnail-wrapper {
     float: left;
     width: 37px;
     height: 37px;
     margin-top: 4px;
 }
-.profile .thumbnail-wrapper .thumbnail {
+.thumbnail-wrapper .thumbnail {
     border : 2px solid rgb(105, 179, 149);
     border-radius: 50px;
     position: relative;
     padding-top : 100%;
     overflow: hidden;
 }
-.profile .thumbnail-wrapper .thumbnail .centered {
+.thumbnail-wrapper .thumbnail .centered {
     position: absolute;
     top: 0;
     right : 0;
@@ -58,7 +62,7 @@
     -webkit-transform: translate(50%, 50%);
     -ms-transform: translate(50%, 50%);
 }
-.profile .thumbnail-wrapper .thumbnail .centered img {
+.thumbnail-wrapper .thumbnail .centered img {
     max-height: 100%;
     position: absolute;
     top: 0;
@@ -71,20 +75,25 @@
     justify-content: center;
     transform: translate(-50%,-50%);
 }
-.profile .writer {
-    position: relative;
-    float : left;
-    margin: 16px 0px 0px 5px;
-    font-size : 14px;
+.writer {
+    float: left;
+    margin: 15px 0px 0px 5px;
+    font-size: 14px;
 }
 .profile .title {
-    position: relative;
-    float: left;
+    text-align: left;
     padding: 7px;
+    /* margin: 7px 0px 0px 550px; */
     height: 23px;
-    margin: 7px 0px 0px 8px;
     border-left: 8px solid rgb(105, 179, 149);
     font-size: 16px;
+}
+.second .profile .title .regDate{
+    margin: 8px 0px 0px 10px;
+    display: inline-block;
+    /* float: left; */
+    font-size: 12px;
+    font-weight: lighter;
 }
 .content-icon{
     position:relative;
@@ -112,34 +121,32 @@
 }
 
 /* 수정하기 삭제하기 드롭다운*/
-.second .profile>.dropdown {
-    position: absolute;
+.second .profile .title>.dropdown {
     float: right;
-    margin: 5px 0px 0px 445px;
-    width:35px;
-    height:35px;
+    width: 35px;
+    height: 35px;
     background-color: transparent;
 }
-.second .profile>.dropdown .dropbtn {
-    margin: 3px 0px 0px 320px;
+.second .profile .title>.dropdown .dropbtn {
+    margin: 3px 0px 0px 190px;
     border: none;
     outline: none;
     background-color: transparent;
 }
-.second .profile>.dropdown .dropbtn img{
+.second .profile .title>.dropdown .dropbtn img{
     width:30px;
     height:30px;
     outline: none;
     border:none;
 }
-.second .profile>.dropdown .dropbtn img:hover {
+.second .profile .title>.dropdown .dropbtn img:hover {
     cursor: pointer;
     text-decoration: none;
     border: none;
     outline: none;
 }
 
-.second .profile>.dropdown>.dropdown-content {
+.second .profile .title>.dropdown>.dropdown-content {
     display: none;
     position: absolute;
     margin-left:280px;
@@ -155,42 +162,37 @@
     transition: opacity .3s ease-in;
 }
 
-.second .profile>.dropdown>.dropdown-content a {
+.second .profile .title>.dropdown>.dropdown-content a {
     float: none;
+    text-align: center;
     color: black;
     padding: 10px 10px;
     text-decoration: none;
     display: block;
 }
 
-.second .profile>.dropdown>.dropdown-content a:hover {
+.second .profile .title>.dropdown>.dropdown-content a:hover {
     background-color: rgb(105, 179, 149);
     color:white;
 }
-.second .profile .dropdown .show {
+.second .profile .title .dropdown .show {
     display: block;
     z-index: 11;
-    margin: -1px 0px 0px 260px;
+    margin: 3px 0px 0px 144px;
 }
 
 /*작성자 드롭다운*/
 
 #dropdown-review {
-    position: absolute;
-    float: right;
-    margin: 5px 0px 0px 445px;
-    width:35px;
-    height:35px;
     background-color: transparent;
 }
 #dropdown-review .dropbtn {
-    margin: 3px 0px 0px 320px;
-    border: none;
     outline: none;
+    border: none;
     background-color: transparent;
 }
 #dropdown-review .dropbtn span{
-
+    font-size: 16px;
 }
 #dropdown-review .dropbtn span:hover {
 
@@ -227,11 +229,8 @@
 #dropdown-review .show {
     display: block;
     z-index: 11;
-    margin: -1px 0px 0px 260px;
+    margin: 5px 0px 0px 0px;
 }
-
-
-
 
 
 
@@ -247,9 +246,9 @@
     margin: 0 auto;
 }
 .main .content {
-    margin-top : 120px;
+    margin-top: 30px;
     margin-bottom:20px;
-    height: 1200px;
+    height: 900px;
     border-top: 2px solid rgb(105, 179, 149);
     border-bottom: 2px solid rgb(105, 179, 149);
     overflow-x: scroll;
@@ -430,7 +429,7 @@
 .reply-list {
     margin-top : 20px;
     border-top : 1px solid rgb(105, 179, 149);
-    overflow: auto;
+    display : flow-root;
 }
 .reply-list .writer {
     float: left;

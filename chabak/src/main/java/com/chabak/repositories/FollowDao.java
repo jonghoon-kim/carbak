@@ -10,70 +10,65 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-// 프로필 수정(사진 수정 + 개인정보 창 링크 이동)
+@Repository("followDao")
+public class FollowDao {
+    @Autowired
+    SqlSession sqlSession;
 
-    // 게시글 갖고오기 + 뿌리기
+    public List<Follow> followingIdAndProfile(String id) throws Exception {
 
+        return sqlSession.selectList("followingIdAndProfile", id);
+    }
 
-    @Repository("followDao")
-    public class FollowDao {
-        @Autowired
-        SqlSession sqlSession;
+    public List<Follow> followerIdAndProfile(String id) throws Exception {
+        return sqlSession.selectList("followerIdAndProfile", id);
+    }
 
-        public List<Follow> followingIdAndProfile(String id) throws Exception {
+    public int deleteFollowingUser(String id, String followUserId) throws Exception {
+        Map<String, String> map = new HashMap<String, String>();
+        map.put("id", id);
+        map.put("followUserId", followUserId);
 
-            return sqlSession.selectList("followingIdAndProfile", id);
-        }
+        return sqlSession.delete("deleteFollowingUser", map);
+    }
 
-        public List<Follow> followerIdAndProfile(String id) throws Exception {
-            return sqlSession.selectList("followerIdAndProfile", id);
-        }
+    public int deleteFollowerUser(String id, String followerUserId) throws Exception {
+        Map<String, String> map = new HashMap<String, String>();
+        map.put("id", id);
+        map.put("followerUserId", followerUserId);
 
-        public int deleteFollowingUser(String id, String followUserId)  throws Exception {
-            Map<String , String> map = new HashMap<String, String>();
-            map.put("id" , id);
-            map.put("followUserId", followUserId);
+        return sqlSession.delete("deleteFollowerUser", map);
+    }
 
-            return sqlSession.delete("deleteFollowingUser", map);
-        }
+    public int clickFollowBtn(String id, String selectedUserId) throws Exception {
+        Map<String, String> map = new HashMap<String, String>();
+        map.put("id", id);
+        map.put("selectedUserId", selectedUserId);
 
-        public int deleteFollowerUser(String id, String followerUserId)  throws Exception {
-            Map<String , String> map = new HashMap<String, String>();
-            map.put("id" , id);
-            map.put("followerUserId", followerUserId);
+        return sqlSession.insert("clickFollowBtn", map);
+    }
 
-            return sqlSession.delete("deleteFollowerUser", map);
-        }
+    public int clickFollowingBtn(String id, String selectedUserId) throws Exception {
+        Map<String, String> map = new HashMap<String, String>();
+        map.put("id", id);
+        map.put("selectedUserId", selectedUserId);
 
-        public int clickFollowBtn(String id, String selectedUserId)  throws Exception {
-            Map<String , String> map = new HashMap<String, String>();
-            map.put("id" , id);
-            map.put("selectedUserId", selectedUserId);
+        return sqlSession.insert("clickFollowingBtn", map);
+    }
 
-            return sqlSession.insert("clickFollowBtn", map);
-        }
+    public String btnFollowStatus(String sessionId, String userId) throws Exception {
+        Map<String, String> map = new HashMap<String, String>();
+        map.put("sessionId", sessionId);
+        map.put("userId", userId);
 
-        public int clickFollowingBtn(String id, String selectedUserId)  throws Exception {
-            Map<String , String> map = new HashMap<String, String>();
-            map.put("id" , id);
-            map.put("selectedUserId", selectedUserId);
+        return sqlSession.selectOne("follow.btnFollowStatus", map);
+    }
 
-            return sqlSession.insert("clickFollowingBtn", map);
-        }
+    public int countFollower(String pageOwnerId) throws Exception {
+        return sqlSession.selectOne("countFollower", pageOwnerId);
+    }
 
-        public String btnFollowStatus(String sessionId, String userId)  throws Exception {
-            Map<String , String> map = new HashMap<String, String>();
-            map.put("sessionId", sessionId);
-            map.put("userId", userId);
-
-            return sqlSession.selectOne("follow.btnFollowStatus", map);
-        }
-
-        public int countFollower(String pageOwnerId)  throws Exception {
-            return sqlSession.selectOne("countFollower", pageOwnerId);
-        }
-
-        public int countFollowing(String pageOwnerId)  throws Exception {
-            return sqlSession.selectOne("countFollowing", pageOwnerId);
-        }
+    public int countFollowing(String pageOwnerId) throws Exception {
+        return sqlSession.selectOne("countFollowing", pageOwnerId);
+    }
 }

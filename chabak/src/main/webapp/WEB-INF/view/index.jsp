@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-         pageEncoding="UTF-8"%>
+         pageEncoding="UTF-8" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core"
            prefix="c" %>
 <!DOCTYPE html>
@@ -14,34 +14,33 @@
     <script type="text/javascript">
         //배너 롤링
 
-        (function($){
-            jQuery(document).ready(function(){
-                $('.slideshow').FadeWideBgImg({interval:2000});
+        (function ($) {
+            jQuery(document).ready(function () {
+                $('.slideshow').FadeWideBgImg({interval: 2000});
 
                 convertK();
             });
-        }(window.jQuery,window));
+        }(window.jQuery, window));
 
-        function test(){
-            document.querySelector("#test").style.backgroundImage="url('http://www.nnj.kr/data/file/c_photo/2943355932_f8RqZtQW_1.jpg')";
+        function test() {
+            document.querySelector("#test").style.backgroundImage = "url('http://www.nnj.kr/data/file/c_photo/2943355932_f8RqZtQW_1.jpg')";
         }
 
         //반복문을 돌며 조회수를 변환(1000이 넘으면 단위를 K로)
-        function convertK(){
+        function convertK() {
 
             var bestViewTags = $(".best_views_span");
             var readCount;
-            $(bestViewTags).each(function(index,element){
+            $(bestViewTags).each(function (index, element) {
                 readCount = parseInt($(element).text());
-                console.log("index:"+index+" item:"+element+ " readCount:"+readCount)
+                console.log("index:" + index + " item:" + element + " readCount:" + readCount)
                 var resultValue;
-                if(readCount >= 1000){
-                    resultValue = (readCount/1000).toFixed(1) + 'K';
-                }
-                else{
+                if (readCount >= 1000) {
+                    resultValue = (readCount / 1000).toFixed(1) + 'K';
+                } else {
                     resultValue = readCount;
                 }
-                $(element).text("views "+resultValue);
+                $(element).text("views " + resultValue);
             });
 
         }
@@ -55,9 +54,9 @@
     String name = null;
 
     // 세션이 존재하면 아이디값을 받아 관리
-    if(session.getAttribute("id") != null) {
-        id = (String)session.getAttribute("id");
-        name = (String)session.getAttribute("name");
+    if (session.getAttribute("id") != null) {
+        id = (String) session.getAttribute("id");
+        name = (String) session.getAttribute("name");
     }
 %>
 
@@ -123,45 +122,66 @@
 <!--오토 스크롤 버튼-->
 <div class="test_css">
     <span></span>
-    <button class="auto_scroll" type="button" onclick="$('html, body').stop().animate( { scrollTop : '+=1050'} ); "><p class="blinking">Click!!</p>인기리뷰 바로가기</button>
+    <button class="auto_scroll" type="button" onclick="$('html, body').stop().animate( { scrollTop : '+=1050'} ); "><p
+            class="blinking">Click!!</p>인기리뷰 바로가기
+    </button>
 </div>
 
 <div class="review_content">
-    <h1>Best Reviews 5</h1>
-    <h2>인기리뷰 모아보기</h2>
-    <hr>
-    <div class="community_link">
-        <a href="/review/">더보기</a>
-    </div>
+
+    <c:choose>
+        <c:when test="${sessionScope.id != null && similarUsers != null}" >
+            <h1>추천 Reviews 5</h1>
+            <h2 class="h2Name">${sessionScope.name}님을 위한 추천리뷰 모아보기</h2>
+            <hr>
+<%--            <div class="community_link">--%>
+<%--                <a href="/review/recommend">더보기</a>--%>
+<%--            </div>--%>
+            <form METHOD="post" action="/review/recommend">
+                <input type="hidden" value="${similarUsers}" name="similarUsers">
+                <div class="community_link">
+                    <button class="more" type="submit">더보기</button>
+                </div>
+            </form>
+        </c:when>
+        <c:otherwise>
+            <h1>Best Reviews 5</h1>
+            <h2>인기리뷰 모아보기</h2>
+            <hr>
+            <div class="community_link">
+                <a class="more" href="/review/">더보기</a>
+            </div>
+        </c:otherwise>
+    </c:choose>
     <div class="best_review">
         <ul>
-         <c:forEach var="review" items="${reviewList}" varStatus="loop">
-            <li>
-                <p class="best_id">ID:${review.id}</p>
-                <div class="best_img">
-                    <img src="${review.titleImageSrc}">
-                </div>
-                <p class="best_views"><span class="best_views_span">${review.readCount}</span>
-                <c:choose>
-                    <c:when test="${sessionScope.id != null and review.likeYn==1}">
-                        <button class="like-but">
-                            <img class="like-img" src="img/community/heart2.png" onclick="ajaxReviewLikeToggle('${review.reviewNo}',this,'${sessionScope.id}')">
-                        </button>
-                    </c:when>
-                    <c:otherwise>
-                        <button class="like-but">
-                            <img class="like-img" src="img/community/heart.png" onclick="ajaxReviewLikeToggle('${review.reviewNo}',this,'${sessionScope.id}')">
-                        </button>
-                    </c:otherwise>
-                </c:choose>
-
-
-                </p>
-                <p class="best_title">${review.title}</p>
-                <div class="best_content">${review.content}</div>
-                <p class="select_community"><a href="/review/detail?reviewNo=${review.reviewNo}">자세히보기</a></p>
-            </li>
-        </c:forEach>
+            <c:forEach var="review" items="${reviewList}" varStatus="loop">
+                <li>
+                    <p class="best_id">ID:${review.id}</p>
+                    <div class="best_img">
+                        <img src="${review.titleImageSrc}">
+                    </div>
+                    <p class="best_views"><span class="best_views_span">${review.readCount}</span>
+                        <c:choose>
+                            <c:when test="${sessionScope.id != null and review.likeYn==1}">
+                                <button class="like-but">
+                                    <img class="like-img" src="img/community/heart2.png"
+                                         onclick="ajaxReviewLikeToggle('${review.reviewNo}',this,'${sessionScope.id}')">
+                                </button>
+                            </c:when>
+                            <c:otherwise>
+                                <button class="like-but">
+                                    <img class="like-img" src="img/community/heart.png"
+                                         onclick="ajaxReviewLikeToggle('${review.reviewNo}',this,'${sessionScope.id}')">
+                                </button>
+                            </c:otherwise>
+                        </c:choose>
+                    </p>
+                    <p class="best_title">${review.title}</p>
+                    <div class="best_content">${review.content}</div>
+                    <p class="select_community"><a href="/review/detail?reviewNo=${review.reviewNo}">자세히보기</a></p>
+                </li>
+            </c:forEach>
             <c:forEach begin="${reviewList.size()}" end="4">
                 <li>
                 </li>

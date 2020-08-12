@@ -66,4 +66,10 @@
 		WHERE
 		id=#{id}
 	</update>
+
+	<delete id="memberDelete" parameterType="String">
+		DELETE FROM member where id= #{loginId}
+	</delete>
+
+
 </mapper>
