@@ -20,6 +20,7 @@
     <script type="text/javascript" src=" http://code.jquery.com/jquery-latest.min.js"></script>
     <script type="text/javascript" src="/js/common.js" charset='UTF-8'></script>
     <script type="text/javascript" src="/js/reviewScript.js" charset='UTF-8'></script>
+    <script type="text/javascript" src="/js/message.js" charset='UTF-8'></script>
     <script type="text/javascript">
         //로그인 아이디 저장 변수
 
@@ -215,10 +216,6 @@
             }
         }
 
-        //쪽지 작성 팝업 띄움
-        function openWinMessageWrite(receiveId){
-            window.open("/message/write?receiveId="+receiveId, "쪽지 작성", "width=800, height=700, toolbar=no, menubar=no, scrollbars=no, resizable=yes" );
-        }
     </script>
 </head>
 <body>
@@ -250,7 +247,7 @@
                 </button>
                 <div class="dropdown-content" id="myDropdownWriter">
                     <a href="/mypage/guestVisit?id=${review.id}" target="_blank">마이페이지</a>
-                    <a onclick="openWinMessageWrite('${review.id}')">쪽지 보내기</a>
+                    <a onclick="openWinMessageWrite('${review.id}','${sessionScope.id}')">쪽지 보내기</a>
                 </div>
             </div>
             <%--            작성자 드롭다운 끝--%>
