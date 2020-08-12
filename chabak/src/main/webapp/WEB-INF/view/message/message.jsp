@@ -65,7 +65,7 @@
                         <tr>
                             <td class="sendId">${message.sendId}</td>
                             <td class="receiveId">${message.receiveId}</td>
-                            <td class="messageTitle">${message.title}</td>
+                            <td class="messageTitle" onclick="location.href='/message/detail?messageNo=${message.messageNo}&messageBox=${messageBox}'">${message.title}</td>
                         </tr>
             </c:forEach>
             </table>
