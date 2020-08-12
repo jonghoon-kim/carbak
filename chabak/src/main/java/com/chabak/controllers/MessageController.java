@@ -79,9 +79,21 @@ public class MessageController {
         String id = Utility.getIdForSessionOrMoveIndex(mv,session,response);
 
         System.out.println("message:"+message);
-        message.setSendId(id);
+
         try{
-            messageService.insertMessage(message);
+            //receiveId 가 정상적인 아이디인지 체크
+            Member receiveMember = memberService.getMember(message.getReceiveId());
+
+            if(receiveMember==null){
+                //비정상적인 아이디이면
+                Utility.printAlertMessage("쪽지를 보내려는 아이디가 존재하지 않습니다.",null,response);
+                return null;
+            }
+            else{
+                //정상적인 아이디이면
+                message.setSendId(id);
+                messageService.insertMessage(message);
+            }
         }
         catch (Exception e){
             e.printStackTrace();
