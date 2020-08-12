@@ -9,11 +9,8 @@
     <link href="/css/message.css" rel="stylesheet">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
     <script type="text/javascript" src=" http://code.jquery.com/jquery-latest.min.js"></script>
-    <script>
-        function openWinMessageWrite(){
-            window.open("/message/write", "쪽지 작성", "width=800, height=700, toolbar=no, menubar=no, scrollbars=no, resizable=no");
-        }
-    </script>
+    <script type="text/javascript" src="/js/message.js" charset='UTF-8'></script>
+
 </head>
 <body>
 
@@ -38,8 +35,8 @@
     </div>
     <div class="button_menu">
         <ul class="writeMenu">
-            <li class="writeMessgae" onclick="openWinMessageWrite()">쪽지쓰기</li>
-            <li class="" onclick="">내게쓰기</li>
+            <li class="writeMessgae" onclick="openWinMessageWrite(null,'${sessionScope.id}')">쪽지쓰기</li>
+            <li class="" onclick="openWinMessageWrite('${sessionScope.id}','${sessionScope.id}')">내게쓰기</li>
         </ul>
         <ul class="sideMenu">
             <li class="receiveMessageBox" onclick="location.href='/message/list?messageBox=receive'">받은 쪽지함</li>
@@ -68,7 +65,7 @@
                         <tr>
                             <td class="sendId">${message.sendId}</td>
                             <td class="receiveId">${message.receiveId}</td>
-                            <td class="messageTitle">${message.title}</td>
+                            <td class="messageTitle" onclick="location.href='/message/detail?messageNo=${message.messageNo}&messageBox=${messageBox}'">${message.title}</td>
                         </tr>
             </c:forEach>
             </table>
