@@ -46,7 +46,6 @@ public class MemberDao {
         return (Member) sqlSession.selectList("member.adminMembers");
     }
 
-    /* 아이디, 비밀번호 찾기 */
     /* 메시지 보낼 아이디 검색시(ajax) 출력할 리스트*/
     public List<String> getAllMemberId(String searchText){ return  sqlSession.selectList("member.getAllMemberId",searchText);  }
 

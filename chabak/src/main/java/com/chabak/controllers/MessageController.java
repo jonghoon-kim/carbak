@@ -114,6 +114,13 @@ public class MessageController {
         return jsonString;
     }
 
+    @RequestMapping(value ={"/address"}, method=RequestMethod.GET)
+    public ModelAndView address(){
+        ModelAndView mv = new ModelAndView();
+        mv.setViewName("message/message_address");
+        return mv;
+    }
+
     @RequestMapping(value ="/detail", method=RequestMethod.GET)
     public ModelAndView detailMessage(@RequestParam (defaultValue = "-1") int messageNo,
                                       @RequestParam (defaultValue = "-1") String messageBox,
