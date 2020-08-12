@@ -13,9 +13,10 @@ public class ReviewDao {
     @Autowired
     SqlSession sqlSession;
 
-    public int getSequence(){
-        int sequence = sqlSession.selectOne("review.getSequence");
-        return sequence;
+    /* reviewNo 값 가져오기 */
+    public int selectReviewNo(){
+        int reviewNo =sqlSession.selectOne("review.selectReviewNo");
+        return reviewNo;
     }
     public int insertReview(Review review){
         int insertedCount = sqlSession.insert("review.insertReview",review);
@@ -48,6 +49,20 @@ public class ReviewDao {
 
         Review review = sqlSession.selectOne("review.selectReviewDetail",reviewNo);
         return review;
+    }
+
+    // similarUsersReview
+    public List<Review> selectSimilarUsersReview(Map map) {
+        List<Review> reviewList = sqlSession.selectList("review.selectSimilarUsersReview", map);
+        //System.out.println("dao : " +  reviewList);
+        return reviewList;
+    }
+
+    // recommendReview
+    public List<Review> selectRecommendReview(Map map) {
+        List<Review> reviewList = sqlSession.selectList("review.selectRecommendReview", map);
+        System.out.println("dao : " +  reviewList);
+        return reviewList;
     }
 
     public int updateReview(Review review) {

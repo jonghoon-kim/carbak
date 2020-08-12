@@ -8,6 +8,7 @@ import com.chabak.vo.Pagination;
 import com.chabak.vo.ReadCount;
 import com.chabak.vo.Review;
 import lombok.SneakyThrows;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -34,7 +35,7 @@ public class ReviewService {
         Matcher matcher = pattern.matcher(review.getContent());
 
         //리뷰 대표이미지 디폴트 이미지(이미지 등록 안 했을때 보여줄 이미지)
-        String titleImage = "/reviewImages/reviewTitleDefault.png";
+        String titleImage = "/resources/img/campsite/noImage1.png";
 
         while(matcher.find()){
             titleImage = matcher.group(1);
@@ -54,6 +55,11 @@ public class ReviewService {
         String resultString = originalString.replaceAll(regex,"");
 //        System.out.println("deleteImgTag resultString:"+resultString);
         return resultString;
+    }
+
+    public int selectReviewNo() {
+        int reviewNo = reviewDao.selectReviewNo();
+        return reviewNo;
     }
 
     public int insertReview(Review review){
@@ -110,6 +116,20 @@ public class ReviewService {
         return review;
     }
 
+    // similarUsersReview
+    public List<Review> selectSimilarUsersReview(Map map) {
+        List<Review> reviewList = reviewDao.selectSimilarUsersReview(map);
+        // System.out.println("Service :" + map.values());
+        return reviewList;
+    }
+
+    // recommendReview
+    public List<Review> selectRecommendReview(Map map) {
+        List<Review> reviewList = reviewDao.selectRecommendReview(map);
+        System.out.println("Service : " +  map.values());
+        return reviewList;
+    }
+
     public int updateReview(Review review) {
 
         int updateCount = reviewDao.updateReview(review);
@@ -126,7 +146,9 @@ public class ReviewService {
         if(id!=null){
             //로그인 상태면 해당 리뷰의 readCount 테이블 조회수를 확인
             // 조회수가 0이면 insert / 0이 아니면 update
-            ReadCount readCount = new ReadCount(id,reviewNo);
+            ReadCount readCount = new ReadCount();
+            readCount.setId(id);
+            readCount.setReviewNo(reviewNo);
             ReadCount selectedReadCount = readCountDao.selectReadCount(readCount);
             if(selectedReadCount==null){
                 count = readCountDao.insertReadCount(readCount);
@@ -145,8 +167,24 @@ public class ReviewService {
         return deleteCount;
     }
 
-    public int getSequence(){
-        int sequence = reviewDao.getSequence();
-        return sequence;
+    public int increaseReplyCount(int reviewNo){
+        int updateLikeCount = reviewDao.increaseReplyCount(reviewNo);
+        return updateLikeCount;
+    }
+
+    public int decreaseReplyCount(int reviewNo){
+        int updateLikeCount = reviewDao.decreaseReplyCount(reviewNo);
+        return updateLikeCount;
+    }
+
+    //해쉬태그 변환 프로시저
+    public String specialCharacter_replace(String str) {
+        str = StringUtils.replaceChars(str, "-_+=!@#$%^&*()[]{}|\\;:'\"<>,.?/~`） ","");
+
+        if(str.length() < 1) {
+            return null;
+        }
+
+        return str;
     }
 }

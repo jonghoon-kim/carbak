@@ -70,7 +70,7 @@ public class GenerateDataService {
         int numberOfMember = memberList.size();
         int randomValue = 0;
         for(int i=0;i<numberOfGenerate;i++){
-            int sequenceNo = reviewService.getSequence();
+            int sequenceNo = reviewService.selectReviewNo();
             randomValue = (int)(Math.random() * numberOfMember);
             review.setReviewNo(sequenceNo);
             review.setId(memberList.get(randomValue).getId());
@@ -78,7 +78,7 @@ public class GenerateDataService {
             review.setSido("인천광역시");
             review.setGugun("계양구");
             review.setContent("content"+sequenceNo);
-            review.setTitleImageSrc("");
+            review.setTitleImageSrc("/resources/img/campsite/noImage1.png");
             review.setReadCount(0);
             review.setLikeCount(0);
             review.setReplyCount(0);

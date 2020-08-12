@@ -5,6 +5,7 @@ import com.chabak.util.Utility;
 import com.chabak.vo.*;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.SneakyThrows;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -14,9 +15,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 @Controller
 @RequestMapping("/review")
@@ -28,11 +32,11 @@ public class ReviewController {
     @Autowired
     ReplyService replyService;
 
-     @Autowired
+    @Autowired
     ReviewLikeService reviewLikeService;
 
-     @Autowired
-     MemberService memberService;
+    @Autowired
+    MemberService memberService;
 
     @Autowired
     ReadCountService readCountService;
@@ -68,7 +72,7 @@ public class ReviewController {
         mv.addObject("pageOwnerId",pageOwnerId);
 
 //        System.out.println("/list parameter map:"+map);
-        System.out.println("(/review/list)result reviewList:"+reviewList);
+//        System.out.println("(/review/list)result reviewList:"+reviewList);
 //        System.out.println("review/list result pagination:"+pagination);
 
         return mv;
@@ -140,11 +144,20 @@ public class ReviewController {
 
         reviewService.setTitleImg(review);
 
+        int reviewNo = reviewService.selectReviewNo();
+
+        System.out.println("reviewNo"+reviewNo);
+
+        review.setReviewNo(reviewNo);
+
+
+
         try{
-            int sequence = reviewService.getSequence();
-            review.setReviewNo(sequence);
             reviewService.insertReview(review);
+
+            System.out.println("review Controller : ");
         }
+
         catch (Exception e){
             e.printStackTrace();
             Utility.printAlertMessage("작업 중 에러가 발생했습니다.",null,response);
@@ -157,7 +170,6 @@ public class ReviewController {
 
         return mv;
     } //리뷰 저장
-
 
     //리뷰 수정 페이지로 이동
     @SneakyThrows
@@ -193,7 +205,7 @@ public class ReviewController {
             Utility.printAlertMessage("잘못된 접근입니다.",null,response);
             return null;
         }
-   }
+    }
 
     @RequestMapping(value ="/modify", method=RequestMethod.POST)
     public ModelAndView modifyReview(@ModelAttribute Review review,HttpSession session,HttpServletResponse response){
@@ -242,7 +254,7 @@ public class ReviewController {
                 Utility.printAlertMessage("권한이 없습니다.",null,response);
                 return null;
             }
-             //리뷰 삭제
+            //리뷰 삭제
             reviewService.deleteReview(reviewNo);
             mv.setViewName("redirect:/review/list");
             return mv;
@@ -313,4 +325,32 @@ public class ReviewController {
         mv.setViewName("community/community_detail");
         return mv;
     }
+
+    // 추천 리뷰 리스트
+    @RequestMapping(value ="/recommend", method={RequestMethod.GET,RequestMethod.POST})
+    public ModelAndView recommend(HttpServletRequest request, HttpSession session) {
+        ModelAndView mv = new ModelAndView();
+        Map<String, Object> map = new HashMap<>();
+        String similarUsers = request.getParameter("similarUsers");
+        String sessionId = (String)session.getAttribute("id");
+        System.out.println(similarUsers);
+
+        String similarUsersId[] = similarUsers.split(", ");
+
+        map.put("id1", similarUsersId[0]);
+        map.put("id2", similarUsersId[1]);
+        map.put("id3", similarUsersId[2]);
+        map.put("id4", similarUsersId[3]);
+        map.put("id5", similarUsersId[4]);
+        map.put("sessionId", sessionId);
+
+        List<Review> recommendReviewList = reviewService.selectRecommendReview(map);
+
+        System.out.println(recommendReviewList);
+        mv.addObject("recommendReviewList", recommendReviewList);
+        mv.setViewName("community/recommendReview");
+        return mv;
+
+    }
+
 }
