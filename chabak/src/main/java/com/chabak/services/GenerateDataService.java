@@ -27,7 +27,8 @@ public class GenerateDataService {
     public void generateMemberData(int numberOfGenerate){
         Member member = new Member();
         try{
-            SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMddHHmmss");
+//            SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMddHHmmss");
+            SimpleDateFormat formatter = new SimpleDateFormat("MMddHHmmss");
             String today;
             String createdString;
              for(int i=0;i<numberOfGenerate;i++){
@@ -110,15 +111,19 @@ public class GenerateDataService {
                 ///
                 readCount.setReviewNo(review.getReviewNo());
                 randomValue = (int)(Math.random() * readCountRangeEnd) + readCountRangeStart;
-                readCount.setReadCount(randomValue);
+                if(randomValue !=0){  //랜덤 생성 숫자(특정 사용자의 조회수)가 0 이면 insert하지 않음
+                    readCount.setReadCount(randomValue);
 
-                ReadCount checkReadCount = readCountService.selectReadCount(readCount);
-                if(checkReadCount==null){
-                    generateDataDao.insertReadCountForTest(readCount);
-                    System.out.println("readCount:"+readCount);
+                    ReadCount checkReadCount = readCountService.selectReadCount(readCount);
+                    if(checkReadCount==null){
+
+                        generateDataDao.insertReadCountForTest(readCount);
+                        System.out.println("readCount:"+readCount);
+                    }
+                    count++;
+                    generateDataDao.updateReadCountForTest(readCount);
                 }
-                count++;
-                generateDataDao.updateReadCountForTest(readCount);
+
             }
         }
         System.out.println("generateReadCountData count :"+count);
