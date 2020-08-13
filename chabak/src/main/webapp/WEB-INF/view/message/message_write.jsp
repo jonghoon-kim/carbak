@@ -51,17 +51,20 @@
     <div>
         <form action ="/message/write" method="POST" id="writeMessageForm" onsubmit="return beforeSubmit();">
             <div class="message">
-                <span class="tf_tit">받는 사람
-
-                </span>
+                <div>
                     <input type="text" name="receiveId" id="receiveId" placeholder="보낼 아이디를 입력하세요." value="${receiveId}" onkeyup="checkLengthValidate(this, 50)" >
                     <input type="button" onclick="openSearchIdWindow()" value="아이디 검색">
-                    <input type="button" onclick="openAddressIdWindow()" value="주소록">
+<%--                    <input type="button" onclick="openAddressIdWindow()" value="주소록">--%>
+                </div>
+                <div>
                     <input type="text" name="title" id="title" placeholder="제목을 입력하세요." onkeyup="checkLengthValidate(this, 50)">
+                </div>
+                <div>
                     <textarea name="content" id="content" placeholder="내용을 입력하세요." onkeyup="checkLengthValidate(this, 2000)"></textarea>
-                    <div class="bottom">
-                        <input type="submit" class="submitBtn" value="작성완료">
-                    </div>
+                </div>
+                <div class="bottom">
+                    <input type="submit" class="submitBtn" value="작성완료">
+                 </div>
 
             </div>
         </form>
