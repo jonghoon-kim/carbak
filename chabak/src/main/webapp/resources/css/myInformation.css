@@ -29,7 +29,7 @@
 .thumbnail-wrapper {
     width: 150px;
     height: 150px;
-    margin: 0px 0px 0px 550px;
+    margin: 0px 0px 0px 530px;
 }
 .thumbnail {
     border : 2px solid rgb(105, 179, 149);
@@ -67,7 +67,7 @@
 /* myPage 주인 id div */
 .sessionId .pageOwnerId{
     margin: 84px 0px 5px 99px;
-    font-size: 17px;
+    font-size: 20px;
     font-family: 'Roboto', sans-serif;
     font-weight: bold;
     background-color: transparent;
@@ -78,7 +78,7 @@
     border-right: none;
 }
 .button_menu {
-    margin: -75px 0px 0px 450px;
+    margin: -75px 0px 0px 430px;
 }
 .button_menu .profileFollowBtn button {
     width: 150px;
