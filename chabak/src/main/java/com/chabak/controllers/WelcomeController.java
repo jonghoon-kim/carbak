@@ -38,6 +38,7 @@ public class WelcomeController {
 
         String id = (String)session.getAttribute("id");
         List<Review> reviewList = null;
+        List<Review> reviewList1 =null;
         if(id==null){
             reviewList = reviewService.selectReviewTop5(null);
 
@@ -107,15 +108,32 @@ public class WelcomeController {
 
                     reviewList = reviewService.selectSimilarUsersReview(map);
 
-                    //리스트의 content에서 이미지 태그 지우기
-                    for(Review review:reviewList){
-                        String modifiedContent = reviewService.deleteImgTag(review.getContent());
-                        review.setContent(modifiedContent);
+                    if(reviewList.isEmpty()) {
+                        reviewList = reviewService.selectReviewTop5(null);
+
+                        reviewList1 = reviewService.selectSimilarUsersReview(map);
+
+                        //리스트의 content에서 이미지 태그 지우기
+                        for(Review review:reviewList){
+                            String modifiedContent = reviewService.deleteImgTag(review.getContent());
+                            review.setContent(modifiedContent);
+                        }
+                        mv1.setViewName("/index");
+                        mv1.addObject("reviewList1", reviewList1);
+                        mv1.addObject("reviewList",reviewList);
+                        System.out.println(reviewList);
+                    }else {
+                        //리스트의 content에서 이미지 태그 지우기
+                        for(Review review:reviewList){
+                            String modifiedContent = reviewService.deleteImgTag(review.getContent());
+                            review.setContent(modifiedContent);
+                        }
+                        System.out.println(reviewList);
+                        mv1.setViewName("/index");
+                        mv1.addObject("similarUsers", similarUsers);
+                        mv1.addObject("reviewList",reviewList);
                     }
-                    System.out.println(reviewList);
-                    mv1.setViewName("/index");
-                    mv1.addObject("similarUsers", similarUsers);
-                    mv1.addObject("reviewList",reviewList);
+
                 }
 
                 return mv1;
