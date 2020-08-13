@@ -223,22 +223,6 @@ function cancelFunction(link) {
     }
 }
 
-//form에 input type="text" 반드시 1개일때 input이 비어있는지 체크(공통 사용 가능,form의 onsubmit에 사용)
-function commonCheckInputNotEmpty(obj,errorMessage) {
-    var inputText = $(obj).find('input[type=\"text\"]').val();
-    if(inputText == null || inputText == ""){
-        if(arguments.length==2){
-            alert(errorMessage);
-        }
-        else
-            alert("내용을 입력하세요.");
-
-        return false;
-    }
-    return true;
-
-}
-
 function ajaxReviewLikeToggle(reviewNo,imgTag,sessionId){
     if(sessionId == "" || sessionId==null){
         var confirmYn = confirm("로그인이 필요한 서비스입니다.로그인 하시겠습니까?") ;

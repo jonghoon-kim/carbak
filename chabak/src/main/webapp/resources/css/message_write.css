@@ -3,16 +3,7 @@
 #wrap {
     font-family: 'Jeju Gothic', sans-serif;
 }
-/* 헤더 */
-#header {
-    padding-bottom: 200px;
-}
-.top_hr{
-    border: 1px solid rgb(105, 179, 149);
-    width: 1535px;
-    display: inline-block;
-    margin: 70px 200px 0px 200px;
-}
+
 /* 전체 */
 .container {
     text-align: center;

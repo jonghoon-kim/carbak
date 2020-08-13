@@ -11,6 +11,7 @@
     <script type="text/javascript" src=" http://code.jquery.com/jquery-latest.min.js"></script>
     <script type="text/javascript" src="js/jquery.FadeWideBgImg.js"></script>
     <script type="text/javascript" src="/js/reviewScript.js" charset='UTF-8'></script>
+    <script type="text/javascript" src="/js/common.js" charset='UTF-8'></script>
     <script type="text/javascript">
         //배너 롤링
 
