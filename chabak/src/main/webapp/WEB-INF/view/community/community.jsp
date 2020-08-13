@@ -10,6 +10,8 @@
     <link href="/css/community.css" rel="stylesheet">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
     <script type="text/javascript" src=" http://code.jquery.com/jquery-latest.min.js"></script>
+    <script type="text/javascript" src="/js/common.js" charset='UTF-8'></script>
+    <script type="text/javascript" src="/js/message.js" charset='UTF-8'></script>
     <script type="text/javascript" src="/js/reviewScript.js" charset='UTF-8'></script>
     <script>
         //ajax 사용 후 페이지 이동 후 뒤로가기로 돌아왔을 때 변경내용(db)가 화면에 반영 안 되는 것을 고치기(뒤로 가기시 다시 페이지 로드)
@@ -65,15 +67,6 @@
                         openDropdown.classList.remove('show');
                     }
                 }
-            }
-        }
-
-        //쪽지 작성 팝업 띄움
-        function openWinMessageWrite(receiveId,sessionId){
-            if (sessionId == "" || sessionId == null) {
-                askLogin();
-            }else{
-                window.open("/message/write?receiveId="+receiveId, "쪽지 작성", "width=800, height=700, toolbar=no, menubar=no, scrollbars=no, resizable=yes" );
             }
         }
 

@@ -13,6 +13,8 @@ import java.util.List;
 import java.util.HashMap;
 import java.util.Map;
 
+import java.util.List;
+
 @Repository("memberDao")
 public class MemberDao {
     @Autowired
@@ -44,7 +46,10 @@ public class MemberDao {
         return (Member) sqlSession.selectList("member.adminMembers");
     }
 
-    /* 아이디, 비밀번호 찾기 */
+    /* 메시지 보낼 아이디 검색시(ajax) 출력할 리스트*/
+    public List<String> getAllMemberId(String searchText){ return  sqlSession.selectList("member.getAllMemberId",searchText);  }
+
+    /* 아이디 찾기 */
     public Member find(String email) {
 
         return sqlSession.selectOne("member.find", email);

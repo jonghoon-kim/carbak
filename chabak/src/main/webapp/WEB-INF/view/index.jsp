@@ -144,6 +144,14 @@
                 </div>
             </form>
         </c:when>
+        <c:when test="${empty reviewList1}">
+            <h1>Best Reviews 5</h1>
+            <h2>인기리뷰 모아보기</h2>
+            <hr>
+            <div class="community_link">
+                <a class="more" href="/review/">더보기</a>
+            </div>
+        </c:when>
         <c:otherwise>
             <h1>Best Reviews 5</h1>
             <h2>인기리뷰 모아보기</h2>
@@ -153,7 +161,6 @@
             </div>
         </c:otherwise>
     </c:choose>
-
     <div class="best_review">
         <ul>
             <c:forEach var="review" items="${reviewList}" varStatus="loop">

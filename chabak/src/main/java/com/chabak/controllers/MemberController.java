@@ -2,6 +2,7 @@ package com.chabak.controllers;
 
 import com.chabak.services.MemberService;
 import com.chabak.services.ReviewService;
+import com.chabak.util.Utility;
 import com.chabak.vo.Member;
 
 
@@ -21,6 +22,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
+import org.tensorflow.op.math.Mod;
 
 import javax.inject.Inject;
 import javax.mail.internet.MimeMessage;
@@ -345,17 +347,20 @@ public class MemberController {
 
     /* 회원정보 수정 페이지*/
     @GetMapping("/memberUpdate")
-    public ModelAndView memberUpdate(@RequestParam String id, @ModelAttribute("member") Member member) throws Exception {
-        ModelAndView mv = new ModelAndView("/member/memberUpdate");
+    public ModelAndView memberUpdate(@RequestParam String id, @ModelAttribute("member") Member member, HttpSession session, HttpServletResponse response) throws Exception {
+        ModelAndView mv = new ModelAndView();
+
+        Utility.getIdForSessionOrMoveIndex(mv,session,response);
+
 
         mv.addObject("member", memberService.getMember(id));
-
+        mv.setViewName("/member/memberUpdate");
         System.out.println(memberService.getMember(id).toString());
         return mv;
     }
 
     @PostMapping("/memberUpdate")
-    public String memberUpdateAction(Member member, Model model) throws Exception {
+    public String memberUpdateAction(Member member, Model model, HttpSession session) throws Exception {
 
         MultipartFile f = member.getFile();
 
@@ -376,7 +381,10 @@ public class MemberController {
             member.setSaveName(member.getSaveName());
         }
         System.out.println("controller : "+memberService.memberUpdate(member));
+            session.setAttribute("name", member.getName());
+
             memberService.memberUpdate(member);
+
 
             model.addAttribute("member", memberService.getMember(member.getId()));
 

@@ -1,0 +1,189 @@
+@import url(//fonts.googleapis.com/earlyaccess/jejugothic.css);
+@import url(https://fonts.googleapis.com/css2?family=Oldenburg&display=swap);
+
+/* 헤더 */
+#header {
+    padding-bottom: 200px;
+}
+.top_hr{
+    border: 1px solid rgb(105, 179, 149);
+    width: 1535px;
+    display: inline-block;
+    margin: 70px 200px 0px 200px;
+}
+/* 전체 container */
+.container {
+    text-align: center;
+    margin-top:70px;
+    margin-bottom:70px;
+    font-family: 'Jeju Gothic', sans-serif;
+    height : 1500px;
+}
+/* 프로필 사진 설정 */
+.thumbnail-wrapper {
+    width: 170px;
+    height: 170px;
+    margin: 0px 0px 0px 310px;
+}
+.thumbnail {
+    border : 2px solid rgb(105, 179, 149);
+    border-radius: 90px;
+    position: relative;
+    padding-top : 100%;
+    overflow: hidden;
+}
+.thumbnail .centered {
+    position: absolute;
+    top: 0;
+    right : 0;
+    left : 0;
+    bottom :0;
+    transform: translate(50%,50%);
+    -webkit-transform: translate(50%, 50%);
+    -ms-transform: translate(50%, 50%);
+}
+.thumbnail .centered img {
+    max-height: 100%;
+    position: absolute;
+    top: 0;
+    right : 0;
+    left : 0;
+    bottom :0;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transform: translate(-50%,-50%);
+}
+.top .pageOwnerId{
+    float:left;
+    margin: 20px 0px 0px 280px;
+    font-family: inherit;
+    font-size: 28px;
+    font-weight: bold;
+}
+.button_menu {
+    margin: 70px 0px 0px 15px;
+}
+.writeMenu {
+    width: 260px;
+    color: #333;
+    font-size: 1.3rem;
+    font-family: inherit;
+    margin: 0px 0px 0px 250px;
+    padding: 0;
+    vertical-align: baseline;
+    list-style: none;
+}
+.writeMenu li {
+    float: left;
+    padding: 0px 0px 0px 0px;
+    width: 126px;
+    height: 55px;
+    line-height: 55px;
+    border: 2px solid rgb(105, 179, 149);
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    /*border-bottom: 2px solid rgb(105, 179, 149);*/
+    /*border-left: 2px solid rgb(105, 179, 149);*/
+    /*border-right: 2px solid rgb(105, 179, 149);*/
+    font-size: 18px;
+    transition: all 0.3s ease 0s;
+    color: #000;
+    background-position: 225px center;
+    background-repeat: no-repeat;
+    background-image: none;
+    cursor:pointer;
+}
+.writeMenu li:hover {
+    background: rgb(122, 196, 163);
+    color: white;
+    font-weight: bold;
+}
+.sideMenu {
+    position: absolute;
+    width: 260px;
+    color: #333;
+    font-size: 1.3rem;
+    font-family: inherit;
+    margin: 60px 0px 0px 250px;
+    padding: 0;
+    border: 0;
+    vertical-align: baseline;
+    list-style: none;
+}
+
+.sideMenu li {
+    list-style: none;
+    font-family: inherit;
+    margin: 0;
+    padding: 0;
+    vertical-align: baseline;
+    text-decoration: none;
+    display: block;
+    height: 55px;
+    line-height: 55px;
+    border: 2px solid rgb(105, 179, 149);
+    border-top: 0;
+    font-size: 18px;
+    transition: all 0.3s ease 0s;
+    color: #000;
+    background-position: 225px center;
+    background-repeat: no-repeat;
+    background-image: none;
+    cursor:pointer;
+}
+
+.sideMenu li:hover {
+    background: rgb(122, 196, 163);
+    color: white;
+    font-weight: bold;
+}
+.content {
+    margin:-190px 0px 0px 265px;
+}
+.content .title {
+    margin-left:80px;
+}
+.message {
+    margin:80px 0px 0px 350px;
+}
+.message table{
+    border-collapse: collapse;
+    border-top : 3px solid rgb(105, 179, 149);
+    width: 1050px;
+}
+.message table th {
+    color: rgb(52, 123, 96);
+    background: #f0f6f9;
+    text-align: center;
+}
+.message table .sendId,
+.message table .receiveId {
+    padding: 15px 15px 15px 15px;
+    border: 1px solid #ddd;
+    width: 15%;
+}
+.message table td[class='messageTitle'] {
+    padding: 15px 15px 15px 15px;
+    border: 1px solid #ddd;
+    width: 70%;
+    margin-left:25px;
+    text-align: left;
+}
+.message table th:first-child, .message table td:first-child {
+    border-left: 0;
+}
+.message table th:last-child, .message table td:last-child {
+    border-right: 0;
+}
+.message table tr td:first-child{
+    text-align: center;
+}
+.message table caption{caption-side: bottom; display: none;}
+
+/* footer */
+.footer {
+    margin-top: 200px;
+}
+

@@ -18,7 +18,9 @@
     <link href="/css/community_detail.css" rel="stylesheet">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
     <script type="text/javascript" src=" http://code.jquery.com/jquery-latest.min.js"></script>
+    <script type="text/javascript" src="/js/common.js" charset='UTF-8'></script>
     <script type="text/javascript" src="/js/reviewScript.js" charset='UTF-8'></script>
+    <script type="text/javascript" src="/js/message.js" charset='UTF-8'></script>
     <script type="text/javascript">
         //로그인 아이디 저장 변수
 
@@ -214,10 +216,6 @@
             }
         }
 
-        //쪽지 작성 팝업 띄움
-        function openWinMessageWrite(receiveId){
-            window.open("/message/write?receiveId="+receiveId, "쪽지 작성", "width=800, height=700, toolbar=no, menubar=no, scrollbars=no, resizable=yes" );
-        }
     </script>
 </head>
 <body>
@@ -231,67 +229,66 @@
     <div class="top">
         <h1>커뮤니티 리뷰 상세보기</h1>
     </div>
+    <div class="info">
+        <div class="thumbnail-wrapper">
+            <div class="thumbnail">
+                <div class="centered">
+                    <img src="${review.savePath}${review.saveName}">
+                </div>
+            </div>
+        </div>
+        <div class="writer">
+            <%--            작성자 드롭다운 시작--%>
+            <div class="dropdown" id="dropdown-review">
+                <button class="dropbtn">
+                            <span class="dropbtnWriter" id="writerId" onclick="myFunction('writer',null)">
+                                ${review.id}
+                            </span>
+                </button>
+                <div class="dropdown-content" id="myDropdownWriter">
+                    <a href="/mypage/guestVisit?id=${review.id}" target="_blank">마이페이지</a>
+                    <a onclick="openWinMessageWrite('${review.id}','${sessionScope.id}')">쪽지 보내기</a>
+                </div>
+            </div>
+            <%--            작성자 드롭다운 끝--%>
+        </div>
+    </div>
     <!-- 상세 내용 -->
     <div class="second">
         <div class="profile">
-            <div class="thumbnail-wrapper">
-                <div class="thumbnail">
-                    <div class="centered">
-                        <img src="${review.savePath}${review.saveName}">
-                    </div>
-                </div>
-            </div>
-            <div class="writer">
-
-<%--            작성자 드롭다운 시작--%>
-                <div class="dropdown" id="dropdown-review">
-                    <button class="dropbtn">
-                        <span class="dropbtnWriter" id="writerId" onclick="myFunction('writer',null)">
-                            ${review.id}
-                        </span>
-                    </button>
-                    <div class="dropdown-content" id="myDropdownWriter">
-                        <a href="/mypage/guestVisit?id=${review.id}" target="_blank">마이페이지</a>
-                        <a onclick="openWinMessageWrite('${review.id}')">쪽지 보내기</a>
-                    </div>
-                </div>
-<%--            작성자 드롭다운 끝--%>
-            </div>
-
             <div class="title">
                 [${review.sido}][${review.gugun}] ${review.title}
-            </div>
-            <div class="regDate">
-                ${review.regDate}
-            </div>
-            <div class="content-icon">
-                <span>${review.likeCount}+</span>
-                <button class="like-img">
+                <div class="regDate">
+                    ${review.regDate}
+                </div>
+                <div class="content-icon">
+                    <span>${review.likeCount}+</span>
+                    <button class="like-img">
 
-                    <c:choose>
-                        <c:when test="${sessionScope.id != null and likeYn==1}">
-                            <img id="like-img" src="/img/community/heart2.png"
-                                 onclick="ajaxReviewLikeToggle('${review.reviewNo}',this,'${sessionScope.id}')">
-                        </c:when>
-                        <c:otherwise>
-                            <img id="like-img" src="/img/community/heart.png"
-                                 onclick="ajaxReviewLikeToggle('${review.reviewNo}',this,'${sessionScope.id}')">
-                        </c:otherwise>
+                        <c:choose>
+                            <c:when test="${sessionScope.id != null and likeYn==1}">
+                                <img id="like-img" src="/img/community/heart2.png"
+                                     onclick="ajaxReviewLikeToggle('${review.reviewNo}',this,'${sessionScope.id}')">
+                            </c:when>
+                            <c:otherwise>
+                                <img id="like-img" src="/img/community/heart.png"
+                                     onclick="ajaxReviewLikeToggle('${review.reviewNo}',this,'${sessionScope.id}')">
+                            </c:otherwise>
 
-                    </c:choose>
+                        </c:choose>
 
-                </button>
-            </div>
+                    </button>
+                </div>
 
-            <div class="dropdown">
-                <button class="dropbtn"><img class="dropbtnImg" src="/img/community/menu.png"
-                                             onclick="myFunction('review',null)"></button>
-                <div class="dropdown-content" id="myDropdown">
-                    <a href="/review/modify?reviewNo=${review.reviewNo}">수정하기</a>
-                    <a href="/review/delete?reviewNo=${review.reviewNo}">삭제하기</a>
+                <div class="dropdown">
+                    <button class="dropbtn"><img class="dropbtnImg" src="/img/community/menu.png"
+                                                 onclick="myFunction('review',null)"></button>
+                    <div class="dropdown-content" id="myDropdown">
+                        <a href="/review/modify?reviewNo=${review.reviewNo}">수정하기</a>
+                        <a href="/review/delete?reviewNo=${review.reviewNo}">삭제하기</a>
+                    </div>
                 </div>
             </div>
-
         </div>
     </div>
     <!-- 게시글 내용 -->

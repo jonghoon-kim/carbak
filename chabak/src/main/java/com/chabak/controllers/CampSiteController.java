@@ -52,7 +52,12 @@ public class CampSiteController {
 
         List<Review> lstSelectCampsiteReview = campSiteService.getlstSelectCampsiteReview(startPageNo,endPageNo);
         campsiteReviewCnt = campSiteService.pagingCnt();
-
+        //리스트의 content에서 이미지 태그 지우기
+        for(Review review:lstSelectCampsiteReview){
+            String modifiedContent = reviewService.deleteImgTag(review.getContent());
+            System.out.println("modifiedContent : " + modifiedContent);
+            review.setContent(modifiedContent);
+        }
         model.addAttribute("lstSelectCampsiteReview", lstSelectCampsiteReview);
         model.addAttribute("keyword", keyword);
         model.addAttribute("paging",Paging(Integer.parseInt(crntpageNo),5, campsiteReviewCnt));
@@ -73,6 +78,12 @@ public class CampSiteController {
 
         List<Review> lstSelectCampsiteReview = campSiteService.getlstSelectCampsiteReview(startPageNo,endPageNo);
         Object reviewBoolean;
+        //리스트의 content에서 이미지 태그 지우기
+        for(Review review:lstSelectCampsiteReview){
+            String modifiedContent = reviewService.deleteImgTag(review.getContent());
+            System.out.println("modifiedContent : " + modifiedContent);
+            review.setContent(modifiedContent);
+        }
         if(campsiteReviewCnt<1){
             reviewBoolean = "false";
         }
@@ -136,6 +147,12 @@ public class CampSiteController {
             //커뮤니티 호출
             List<Review> getlstSelectCampsiteDetailReview = campSiteService.getlstSelectCampsiteDetailReview(keyword,startPageNo,endPageNo);
             campsiteDetailReviewCnt = campSiteService.detailPagingCnt(keyword);
+            //리스트의 content에서 이미지 태그 지우기
+            for(Review review:getlstSelectCampsiteDetailReview){
+                String modifiedContent = reviewService.deleteImgTag(review.getContent());
+                System.out.println("modifiedContent : " + modifiedContent);
+                review.setContent(modifiedContent);
+            }
             String campsiteDetailReviewBoolean = "true";
             if(campsiteDetailReviewCnt<=1){
                 campsiteDetailReviewBoolean = "false";
@@ -197,6 +214,12 @@ public class CampSiteController {
         Map<String, Object> campsiteCommunityDetailPageChange = new HashMap<String, Object>();
 
         List<Review> lstSelectCampsiteDetailReview = campSiteService.getlstSelectCampsiteDetailReview(keyword,startPageNo,endPageNo);
+        //리스트의 content에서 이미지 태그 지우기
+        for(Review review:lstSelectCampsiteDetailReview){
+            String modifiedContent = reviewService.deleteImgTag(review.getContent());
+            System.out.println("modifiedContent : " + modifiedContent);
+            review.setContent(modifiedContent);
+        }
         Object reviewBoolean;
         if(campsiteDetailReviewCnt<1){
             reviewBoolean = "false";

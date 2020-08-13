@@ -35,7 +35,7 @@ public class Utility {
         out.flush();
     }
 
-    //특정 페이지로 이동함
+    //창 닫기
     @SneakyThrows
     public static void closeWindow(HttpServletResponse response){
         response.setContentType("text/html; charset=UTF-8");
@@ -47,6 +47,17 @@ public class Utility {
         out.flush();
     }
 
+    //부모창 새로고침
+    @SneakyThrows
+    public static void parentReload(HttpServletResponse response){
+        response.setContentType("text/html; charset=UTF-8");
+        PrintWriter out = response.getWriter();
+
+        out.println("<script>");
+        out.println("window.opener.location.reload();");
+        out.println("</script>");
+        out.flush();
+    }
 
     /**기능:비로그인 상태일때 로그인 페이지로 이동<br>리턴 : 로그인 아이디(session)**/
     @SneakyThrows

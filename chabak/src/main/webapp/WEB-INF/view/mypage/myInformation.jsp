@@ -188,6 +188,6 @@
 
 <jsp:include page="/WEB-INF/view/mypage/myInfoFrame.jsp"/>
 <script type="text/javascript" src=" http://code.jquery.com/jquery-latest.min.js"></script>
-<script type="text/javascript" src="/js/myInformation_follow.js"></script>
+<script type="text/javascript" src="/js/myPage.js"></script>
 </body>
 </html>

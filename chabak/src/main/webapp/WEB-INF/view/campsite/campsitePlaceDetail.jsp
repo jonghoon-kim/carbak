@@ -104,7 +104,7 @@
                             <p class="community_best_title">제목 없음</p>
                             <div class="community_best_content">내용 없음</div>
                             <p class="community_select_community">날짜조회 불가
-                                &nbsp;<a href="http://localhost:8030/review/detail?reviewNo=" target="_blank">자세히보기</a>
+                                &nbsp;<a href="http://localhost:8030/review" target="_blank">자세히보기</a>
                             </p>
                         </li>
                     </c:forEach>
