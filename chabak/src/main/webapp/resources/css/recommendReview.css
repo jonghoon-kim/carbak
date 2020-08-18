@@ -134,18 +134,21 @@
     padding:10px 10px 10px 10px;
     background: rgb(105, 179, 149, 0.5) ;
     border-radius: 5px;
+    font-family: 'Jeju Gothic', sans-serif;
 }
 .paginationBut1 {
     padding:10px 10px 10px 10px;
     background: rgb(105, 179, 149, 0.5) ;
     margin-left: 5px;
     border-radius: 5px;
+    font-family:'Jeju Gothic', sans-serif;
 }
 #pagingDiv {
-    margin-bottom: 5px;
+    margin: 0px 0px 0px 900px;
 }
 #pagingDiv span {
     font-weight: bold;
+    font-family: inherit;
 }
 
 /* footer */

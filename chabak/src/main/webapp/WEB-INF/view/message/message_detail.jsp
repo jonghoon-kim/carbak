@@ -51,11 +51,23 @@
         </div>
         <div class="listForm">
             <div class="message">
-                보낸 사람 : ${message.sendId}
-                받은 사람 : ${message.receiveId}
-                제목 : ${message.title}
-                내용 : ${message.content}
-                보낸 시간 : ${message.regDate}
+                <table>
+                    <tr>
+                        <th class="sendId">보낸 사람</th>
+                        <td> ${message.sendId}</td>
+                        <th class="regDate">날짜</th>
+                        <td>${message.regDate}</td>
+                    </tr>
+                    <tr>
+                        <th class="title">제목</th>
+                        <td colspan="3">${message.title}</td>
+                    </tr>
+                    <tr>
+                        <th class="content">내용</th>
+                        <td colspan="3" class="contentTd">${message.content}</td>
+                    </tr>
+                </table>
+
             </div>
         </div>
     </div>
