@@ -388,6 +388,7 @@ public class ReviewController {
         System.out.println(listCnt + ", " +  curPage + ", "+ startIndex+", "+ pageSize);
         mv.addObject("recommendReviewList", recommendReviewList);
         mv.addObject("pagination",pagination);
+        mv.addObject("similarUsers",similarUsers);
         mv.setViewName("community/recommendReview");
         return mv;
 
