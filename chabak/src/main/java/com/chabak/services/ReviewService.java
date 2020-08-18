@@ -123,6 +123,11 @@ public class ReviewService {
         return reviewList;
     }
 
+    public int countRecommendReview(Map map){
+        int count = reviewDao.countRecommendReview(map);
+        return count;
+    }
+
     // recommendReview
     public List<Review> selectRecommendReview(Map map) {
         List<Review> reviewList = reviewDao.selectRecommendReview(map);

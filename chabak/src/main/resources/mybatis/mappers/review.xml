@@ -173,18 +173,45 @@
 		where rownum <![CDATA[<=]]> 5
 	</select>
 
+	<select id="countRecommendReview" parameterType="Map" resultType="int">
+						SELECT count(*)
+						FROM review
+						where reviewno in
+							((SELECT distinct reviewno
+							FROM reviewlike
+							WHERE id = #{id1} or id = #{id2} or id = #{id3} or id = #{id4} or id = #{id5})
+							minus
+							(select reviewno
+							from reviewlike
+							where id = #{sessionId}))
+						order by regdate desc
+	</select>
 	<select id="selectRecommendReview" parameterType="Map" resultType="Review">
-		SELECT *
-		FROM review
-		where reviewno in
-			((SELECT distinct reviewno
-			FROM reviewlike
-			WHERE id = #{id1} or id = #{id2} or id = #{id3} or id = #{id4} or id = #{id5})
-			minus
-			(select reviewno
-			from reviewlike
-			where id = #{sessionId}))
-		order by regdate desc
+		select *
+		from
+			(
+				select *
+				from
+				(
+					select rownum as num, A.*
+					from
+					(
+						SELECT *
+						FROM review
+						where reviewno in
+							((SELECT distinct reviewno
+							FROM reviewlike
+							WHERE id = #{id1} or id = #{id2} or id = #{id3} or id = #{id4} or id = #{id5})
+							minus
+							(select reviewno
+							from reviewlike
+							where id = #{sessionId}))
+						order by regdate desc
+					) A
+				)
+				where num <![CDATA[>=]]>  #{startIndex}
+		    )
+		    where rownum <![CDATA[<=]]> #{pageSize}
 	</select>
 
 	<update id="updateReview" parameterType="Review">

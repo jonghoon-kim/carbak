@@ -56,7 +56,7 @@ public class WelcomeController {
         else{
             try{
                 ModelAndView mv1 = new ModelAndView();
-                String requestURL = "http://localhost:5000/find_similar_users";
+                String requestURL = "http://14.32.18.228:5000/find_similar_users";
                 String postBody =""+ "{" + "\"id\":"+ id+"}"+"";
                 String sessionId = id;
 
