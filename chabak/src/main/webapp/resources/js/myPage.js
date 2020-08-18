@@ -14,7 +14,6 @@ function followList(clickedId, option){//option: "follower" 이거나 "following
         }
     })
 }
-
 //팔로잉 삭제 매서드
 function deleteFollowUser(clickedId, option){
     $.ajax({
@@ -24,28 +23,38 @@ function deleteFollowUser(clickedId, option){
         datatype: "json",   // ex) {"name":"age":"address"} 와 같은 형식
         url: "deleteFollowUser",
         success : function(data) { // ajax가 controller로 부터 받는
-            printList(data, option , clickedId);
+            var sessionId = document.getElementById("sessionId").value;
 
-            alert("delete following success");
+            printList(data, option, sessionId);
+
+
         }, error: function (data) {
         }
     })
+
 }
 
 //리스트 출력 매서드
 function printList(data, option, pageOwnerId){
     var sessionId = document.getElementById("sessionId").value;
     var HashMapList = data.HashMapList;
+    var followCount = data.HashMapList.length;
 
-    console.log(HashMapList.length);
+    if(option == "following"){
+        document.getElementById("followingCount").innerHTML=followCount;
+    }
+    else if(option == "follower"){
+        document.getElementById("followerCount").innerHTML=followCount;
+    }
+
     $('.listForm').empty();
     // HTMLframe 가져오는 매서드
     for (var listNum = 0; listNum < HashMapList.length; listNum++) { // 팔로워 프로필사진, 아이디 리스트로 출력
         var htmlFrame = $('#selectPosition').clone(true);
         $('.listForm').append(htmlFrame);
-
         var userProfileImage = "/profileImages/" +HashMapList[listNum].SAVENAME;
         var clickedId = HashMapList[listNum].ID;
+        console.log(listNum +  ' : '+ HashMapList[listNum].ID);
 
         $('#imageId').attr('id', "imageId"+listNum);
         $('#userIdId').attr('onclick', "location.href='/mypage/guestVisit?id="+clickedId+"';");
@@ -58,10 +67,17 @@ function printList(data, option, pageOwnerId){
         $('#imageId'+listNum).attr('src', userProfileImage);
         $('#userIdId'+listNum).text(clickedId);
 
+        // 08-18 test  $('body').children('.red');
+
+        $('body').children('.following_btn').attr('value', "${countFollower}");
+
         if(sessionId!= pageOwnerId) { // 다른 사용자 아이디일 경우
             btnFollowStatus(clickedId,listNum, option, pageOwnerId); // 조건 function 만들기 :: $('#buttonId'+i).text("팔로잉/팔로우");
-        }else { // 마이페이지인 경우
-            $('#buttonId').attr('onclick', "deleteFollowUser("+"'"+clickedId+"','"+option+"')");
+        }else if(pageOwnerId == "") { // 마이페이지인 경우
+            $('#buttonId'+listNum).attr('onclick', "deleteFollowUser("+"'"+clickedId+"','"+option+"')");
+            $('#buttonId'+listNum).text("삭제");
+        }else{
+            $('#buttonId'+listNum).attr('onclick', "deleteFollowUser("+"'"+clickedId+"','"+option+"')");
             $('#buttonId'+listNum).text("삭제");
         }
         $('.listForm').append(htmlFrame);
@@ -69,6 +85,7 @@ function printList(data, option, pageOwnerId){
         htmlFrame.show();
     }
 }
+
 
 function btnFollowStatus(clickedId, i, option, pageOwnerId){// i: 리스트 인덱스
     $.ajax ({
@@ -107,7 +124,7 @@ function clickFollowBtn(clickedId, option, pageOwnerId){
         success : function(data) {
             printList(data, option , pageOwnerId);
 
-            alert("clickFollowBtn success");
+            // alert("clickFollowBtn success");
         }, error: function (data) {
         }
     })
@@ -125,7 +142,7 @@ function clickFollowingBtn(clickedId, option, pageOwnerId){
         success : function(data) {
             printList(data, option , pageOwnerId);
 
-            alert("clickFollowBtn success");
+            // alert("clickFollowBtn success");
         }, error: function (data) {
         }
     })
