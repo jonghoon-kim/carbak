@@ -92,20 +92,21 @@
         <h1>커뮤니티</h1>
     </div>
     <div class="search">
+        <!-- 글쓰기, 정렬 버튼 -->
+        <div class="insert">
+            <button type="submit" onclick="location.href='/review/writeForm'">글쓰기</button>
+        </div>
 <%--        pageOwnerId 저장하는 hidden input--%>
         <input type = "hidden" id="pageOwnerIdSaved" value="${pageOwnerId}">
 <%--    팔로워 리뷰 글 검색용 체크박스--%>
-        <input type = "checkbox" id="isFollowerSearch" value="y" onchange="ajaxReviewList('${sessionScope.id}',false,'1')">
+        <span class="followerSearchBox">
+            <input type="checkbox" id="isFollowerSearch" value="y" onchange="ajaxReviewList('${sessionScope.id}',false,'1')">
+            <label for="isFollowerSearch"><span>팔로우 모아보기</span></label>
+        </span>
         <input type="text" class="search_text" placeholder=" 지역 검색" name="searchText" id="search_text" value="${searchText}">
         <%--        검색버튼 눌렀을 때 검색어 저장 input--%>
         <input type="hidden" name="search_text_saved" id="search_text_saved" value="${searchText}">
         <button type="button" class="search_but" onclick="ajaxReviewList('${sessionScope.id}',true,'${pagination.curPage}')"></button>
-    </div>
-    <!-- 글쓰기, 정렬 버튼 -->
-    <div class="second">
-        <div class="insert">
-            <button type="submit" onclick="location.href='/review/writeForm'">글쓰기</button>
-        </div>
         <div class="sort" onchange="ajaxReviewList('${sessionScope.id}',false,'${pagination.curPage}')">
             <select id="sortType" name="sortType">
                 <option value="regDate">최신 순</option>
@@ -114,6 +115,7 @@
             </select>
         </div>
     </div>
+
 
     <%--리뷰글 원형 시작--%>
     <%--            원형 복사시 수정할 부분: #dummy-review(id),#writer-id(value),#review-img(src,onclick) #review-content(value)--%>
@@ -137,8 +139,8 @@
                         <a class="message" onclick="">쪽지 보내기</a>
                     </div>
                 </div>
-            </div>
-            <div class="regDate">
+                <div class="regDate">
+                </div>
             </div>
         </div>
         <div class="content">
@@ -189,9 +191,9 @@
                                 <a onclick="openWinMessageWrite('${review.id}','${sessionScope.id}')">쪽지 보내기</a>
                             </div>
                         </div>
-                    </div>
-                    <div class="regDate">
-                        ${review.regDate}
+                        <div class="regDate">
+                                ${review.regDate}
+                        </div>
                     </div>
                 </div>
 

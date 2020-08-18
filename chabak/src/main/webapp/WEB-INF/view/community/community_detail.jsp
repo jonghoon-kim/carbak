@@ -82,12 +82,16 @@
                     return;
                 }
                 var reviewWriterId = $("#writerId").text().trim();
-                if("${sessionScope.id}" != reviewWriterId){
-                    console.log("sessionId ne writerId");
-                    alert("작성자만 수정,삭제가 가능합니다.");
-                    return;
+                if("${sessionScope.id}" != "admin"){
+                    if("${sessionScope.id}" != reviewWriterId){
+                        console.log("sessionId ne writerId");
+                        alert("작성자만 수정,삭제가 가능합니다.");
+                        return;
+                    }
                 }
-
+                else{
+                    console.log("어드민 확인");
+                }
                 document.getElementById("myDropdown").classList.toggle("show");
 
             }
@@ -283,10 +287,19 @@
                 <div class="dropdown">
                     <button class="dropbtn"><img class="dropbtnImg" src="/img/community/menu.png"
                                                  onclick="myFunction('review',null)"></button>
-                    <div class="dropdown-content" id="myDropdown">
-                        <a href="/review/modify?reviewNo=${review.reviewNo}">수정하기</a>
-                        <a href="/review/delete?reviewNo=${review.reviewNo}">삭제하기</a>
-                    </div>
+                    <c:choose>
+                        <c:when test="${sessionScope.id != null and sessionScope.id !='' and sessionScope.id == 'admin'}">
+                            <div class="dropdown-content" id="myDropdown">
+                                <a href="/review/delete?reviewNo=${review.reviewNo}">삭제하기</a>
+                            </div>
+                        </c:when>
+                        <c:otherwise>
+                            <div class="dropdown-content" id="myDropdown">
+                                <a href="/review/modify?reviewNo=${review.reviewNo}">수정하기</a>
+                                <a href="/review/delete?reviewNo=${review.reviewNo}">삭제하기</a>
+                            </div>
+                        </c:otherwise>
+                    </c:choose>
                 </div>
             </div>
         </div>
@@ -341,7 +354,9 @@
                         <button class="dropbtn"><img class="dropbtnImgRe" src="/img/community/menu.png"
                                                      onclick="myFunction('reply',${list.replyNo})"></button>
                         <div class="dropdown-content" id="myDropdown${list.replyNo}">
-
+                            <c:if test="${sessionScope.id != null and sessionScope.id !='' and sessionScope.id == 'admin'}">
+                                <a onclick="checkChildReplyAjax(${list.replyNo})">삭제하기</a>
+                            </c:if>
                             <c:if test="${sessionScope.id != null and sessionScope.id !='' and sessionScope.id == list.id}">
                                 <a onclick="createModifyReplyForm(${list.replyNo})">수정하기</a>
                                 <a onclick="checkChildReplyAjax(${list.replyNo})">삭제하기</a>
@@ -456,7 +471,9 @@
                                                                  onclick="myFunction('reply',${relist.replyNo})">
                                     </button>
                                     <div class="dropdown-content" id="myDropdown${relist.replyNo}">
-
+                                        <c:if test="${sessionScope.id != null and sessionScope.id !='' and sessionScope.id == 'admin'}">
+                                            <a onclick="checkChildReplyAjax(${list.replyNo})">삭제하기</a>
+                                        </c:if>
                                         <c:if test="${sessionScope.id != null and sessionScope.id !='' and sessionScope.id == relist.id}">
                                             <a onclick="createModifyReplyForm(${relist.replyNo})">수정하기</a>
                                             <a onclick="checkChildReplyAjax(${relist.replyNo})">삭제하기</a>

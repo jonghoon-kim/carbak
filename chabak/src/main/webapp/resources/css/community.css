@@ -26,7 +26,7 @@
 /* 검색창 */
 .search {
     position: relative;
-    margin : 50px 0px 20px 840px;
+    /*margin : 50px 0px 20px 840px;*/
 }
 .search:after {
     content:"";
@@ -84,6 +84,7 @@
     float :left;
     box-sizing: border-box;
     margin-left: 30em;
+    margin-right: 30px;
 }
 .insert button {
     background: rgb(105, 179, 149);
@@ -110,7 +111,7 @@
 .sort {
     float:right;
     box-sizing: border-box;
-    margin-right: 8em;
+    margin-right: 28.5em;
 }
 .sort select {
     font-family: 'Jeju Gothic', sans-serif;
@@ -124,7 +125,35 @@
 .sort select:active {
     outline:none;
 }
-
+.search .followerSearchBox{
+    display: inline-block;
+    margin-left: 280px;
+}
+.search .followerSearchBox input[type="checkbox"] {display: none;}
+.search .followerSearchBox input[type="checkbox"] + label {
+    display: inline-block;
+    width:120px;
+    height: 27px;
+    border: 2px solid rgb(105, 179, 149);
+    cursor: pointer;
+    background: none;
+    transition: .3s linear;
+    outline: none;
+    border-radius: 10px;
+}
+.search .followerSearchBox input[type="checkbox"]:checked + label {
+    background: rgb(105, 179, 149);
+}
+.search .followerSearchBox input[type="checkbox"]:checked + label span{
+    color: white;
+}
+.search .followerSearchBox span {
+    font-family: 'Jeju Gothic', sans-serif;
+    font-size: 13px;
+    color: gray;
+    vertical-align: sub;
+}
+.search .followerSearchBox:after {display:block; clear:both; content:"";}
 /* 게시글 리스트 */
 .review {
     position: relative;
@@ -261,19 +290,19 @@
 
 /*드롭다운*/
 .dropdown {
-    position: relative;
-    position: absolute;
     float: left;
-    margin: 5px 0px 0px 0px;
+    /*margin: 5px 0px 0px 0px;*/
     width:35px;
     height:35px;
     background-color: transparent;
 }
 .dropdown .dropbtn {
-    margin: 3px 0px 0px 0px;
     border: none;
     outline: none;
     background-color: transparent;
+}
+.dropdown .dropbtn span{
+    font-size: 20px;
 }
 /*.dropdown .dropbtn img{*/
 /*    width:30px;*/
@@ -287,7 +316,10 @@
 /*    border: none;*/
 /*    outline: none;*/
 /*}*/
-
+.writer .regDate{
+    margin: 9px 0px 0px 90px;
+    font-size: 12px;
+}
 .dropdown-content {
     display: none;
     position: absolute;
