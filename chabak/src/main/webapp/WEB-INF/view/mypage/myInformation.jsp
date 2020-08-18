@@ -108,8 +108,8 @@
                 <!-- 팔로워 버튼 본인 id인 경우, 방문자 id인 경우 -->
                 <c:choose>
                     <c:when test="${empty pageOwner.id}">
-                        <div class="follower_btn">
-                            <div class="countMenu">${countFollower}</div>
+                        <div class="follower_btn" >
+                            <div class="countMenu" id="followerCount">${countFollower}</div>
                             <button type="button" class="follower"
                                     onclick="followList('${sessionScope.id}', 'follower')">팔로워
                             </button>
@@ -117,7 +117,7 @@
                     </c:when>
                     <c:when test="${sessionScope.id ne pageOwner.id}">
                         <div class="follower_btn">
-                            <div class="countMenu">${countFollower}</div>
+                            <div class="countMenu" id="followerCount">${countFollower}</div>
                             <button type="button" class="follower" onclick="followList('${pageOwner.id}', 'follower')">
                                 팔로워
                             </button>
@@ -137,7 +137,7 @@
                 <c:choose>
                     <c:when test="${empty pageOwner.id}">
                         <div class="following_btn">
-                            <div class="countMenu">${countFollowing}</div>
+                            <div class="countMenu" id="followingCount">${countFollowing}</div>
                             <button type="button" class="following"
                                     onclick="followList('${sessionScope.id}', 'following')">팔로잉
                             </button>
@@ -145,7 +145,7 @@
                     </c:when>
                     <c:when test="${sessionScope.id ne pageOwner.id}">
                         <div class="following_btn">
-                            <div class="countMenu">${countFollowing}</div>
+                            <div class="countMenu" id="followingCount">${countFollowing}</div>
                             <button type="button" class="following"
                                     onclick="followList('${pageOwner.id}', 'following')">팔로잉
                             </button>
@@ -153,7 +153,7 @@
                     </c:when>
                     <c:otherwise>
                         <div class="following_btn">
-                            <div class="countMenu">${countFollowing}</div>
+                            <div class="countMenu" id="followingCount">${countFollowing}</div>
                             <button type="button" class="following"
                                     onclick="followList('${sessionScope.id}', 'following')">팔로잉
                             </button>

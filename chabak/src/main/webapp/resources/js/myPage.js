@@ -14,7 +14,6 @@ function followList(clickedId, option){//option: "follower" 이거나 "following
         }
     })
 }
-
 //팔로잉 삭제 매서드
 function deleteFollowUser(clickedId, option){
     $.ajax({
@@ -25,31 +24,34 @@ function deleteFollowUser(clickedId, option){
         url: "deleteFollowUser",
         success : function(data) { // ajax가 controller로 부터 받는
             var sessionId = document.getElementById("sessionId").value;
-            // setTimeout(function(){location.reload()},300);
-            // printList(data, option, sessionId);
 
-            location.reload();
-            console.log("reload");
-            followList(sessionId, option);
-            console.log("list");
             printList(data, option, sessionId);
+
 
         }, error: function (data) {
         }
     })
+
 }
 
 //리스트 출력 매서드
 function printList(data, option, pageOwnerId){
     var sessionId = document.getElementById("sessionId").value;
     var HashMapList = data.HashMapList;
+    var followCount = data.HashMapList.length;
+
+    if(option == "following"){
+        document.getElementById("followingCount").innerHTML=followCount;
+    }
+    else if(option == "follower"){
+        document.getElementById("followerCount").innerHTML=followCount;
+    }
 
     $('.listForm').empty();
     // HTMLframe 가져오는 매서드
     for (var listNum = 0; listNum < HashMapList.length; listNum++) { // 팔로워 프로필사진, 아이디 리스트로 출력
         var htmlFrame = $('#selectPosition').clone(true);
         $('.listForm').append(htmlFrame);
-
         var userProfileImage = "/profileImages/" +HashMapList[listNum].SAVENAME;
         var clickedId = HashMapList[listNum].ID;
         console.log(listNum +  ' : '+ HashMapList[listNum].ID);
@@ -64,6 +66,10 @@ function printList(data, option, pageOwnerId){
 
         $('#imageId'+listNum).attr('src', userProfileImage);
         $('#userIdId'+listNum).text(clickedId);
+
+        // 08-18 test  $('body').children('.red');
+
+        $('body').children('.following_btn').attr('value', "${countFollower}");
 
         if(sessionId!= pageOwnerId) { // 다른 사용자 아이디일 경우
             btnFollowStatus(clickedId,listNum, option, pageOwnerId); // 조건 function 만들기 :: $('#buttonId'+i).text("팔로잉/팔로우");
@@ -118,7 +124,7 @@ function clickFollowBtn(clickedId, option, pageOwnerId){
         success : function(data) {
             printList(data, option , pageOwnerId);
 
-            alert("clickFollowBtn success");
+            // alert("clickFollowBtn success");
         }, error: function (data) {
         }
     })
@@ -136,7 +142,7 @@ function clickFollowingBtn(clickedId, option, pageOwnerId){
         success : function(data) {
             printList(data, option , pageOwnerId);
 
-            alert("clickFollowBtn success");
+            // alert("clickFollowBtn success");
         }, error: function (data) {
         }
     })
