@@ -37,7 +37,11 @@
 			and #{id} = f.FOLLOWINGID
 		</if>
 		<if test="searchText !=null and searchText !=''">
-			and sido||' '||gugun LIKE '%'||#{searchText}||'%'
+			and
+			(
+				sido||' '||gugun LIKE '%'||#{searchText}||'%'
+				OR id LIKE '%'||#{searchText}||'%'
+			)
 		</if>
 		<if test="pageOwnerId !=null and pageOwnerId !=''">
 			and id = #{pageOwnerId}
@@ -108,7 +112,11 @@
 							and r.id = #{pageOwnerId}
 						</if>
 						<if test="searchText !=null and searchText !=''">
-						and r.sido||' '||r.gugun LIKE '%'||#{searchText}||'%'
+							and
+							(
+								r.sido||' '||r.gugun LIKE '%'||#{searchText}||'%'
+								OR r.id LIKE '%'||#{searchText}||'%'
+							)
 						</if>
 						<if test="sortType !=null and sortType !=''">
 						order by ${sortType} desc
