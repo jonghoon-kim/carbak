@@ -349,8 +349,12 @@ public class ReviewController {
 
     // 추천 리뷰 리스트
     @RequestMapping(value ="/recommend", method={RequestMethod.GET,RequestMethod.POST})
-    public ModelAndView recommend(HttpServletRequest request, HttpSession session) {
+    public ModelAndView recommend(HttpServletRequest request, HttpSession session, HttpServletResponse response) {
         ModelAndView mv = new ModelAndView();
+
+        //region checkLogin(세션에서 로그인한 아이디 가져와 설정+비로그인시 로그인 페이지로 이동(return: id or null))
+        Utility.getIdForSessionOrMoveIndex(mv,session,response);
+
         Map<String, Object> map = new HashMap<>();
         String similarUsers = request.getParameter("similarUsers");
         String sessionId = (String)session.getAttribute("id");

@@ -19,141 +19,10 @@
 .top {
     font-family: 'Jeju Gothic', sans-serif;
     margin-top: 50px;
-    margin-bottom : 20px;
+    margin-bottom : 70px;
     margin-left:20px;
 }
 
-/* 검색창 */
-.search {
-    position: relative;
-    margin : 60px 0px 20px 0px;
-}
-.search:after {
-    content:"";
-    clear:both;
-    display:table;
-}
-.search .search_text {
-    float: left;
-    width: 200px;
-    height: 30px;
-    padding-left: 15px;
-    border-radius: 10px;
-    background: white;
-    outline: none;
-    position: relative;
-    transition: .3s linear;
-    margin-right: 3px;
-    opacity: 0.8;
-    border: 2px solid rgb(105, 179, 149);
-}
-.search input:focus {
-    background-color: rgb(246, 253, 241);
-    opacity: 1;
-}
-.search .search_but {
-    float: left;
-    width: 35px;
-    height: 35px;
-    border-radius: 42px;
-    background: rgb(105, 179, 149);
-    border:2px solid rgb(105, 179, 149);
-    position: relative;
-    top: 0px;
-    opacity: 0.8;
-}
-.search .search_but:hover {
-    outline:none;
-    background :#ECF8E0;
-}
-.search .search_but:active,
-.search .search_but:focus {
-    outline:none;
-}
-.search .search_but:before{
-    content: "\f002";
-    font-family: FontAwesome;
-    color: gray;
-}
-
-/* 글작성 버튼 */
-.second {
-    width: 1550px;
-}
-.insert {
-    float :left;
-    box-sizing: border-box;
-    margin-left: 30em;
-    margin-right: 30px;
-}
-.insert button {
-    background: rgb(105, 179, 149);
-    border: 2px solid #fff;
-    border-radius: 10px;
-    padding: 10px;
-    width: 100px;
-    height: 35px;
-    cursor: pointer;
-    position: relative;
-    overflow: hidden;
-    color :white;
-    font-weight: normal;
-    font-size: small;
-    font-family: 'Jeju Gothic', sans-serif;
-}
-.insert button:focus {
-    outline:none;
-}
-.insert button:hover {
-    font-size:14px;
-}
-/* 정렬 */
-.sort {
-    float:right;
-    box-sizing: border-box;
-    margin-right: 28.5em;
-}
-.sort select {
-    font-family: 'Jeju Gothic', sans-serif;
-    border : 2px solid rgb(105, 179, 149);
-    border-radius: 10px;
-    width: 100px;
-    height : 30px;
-    color: gray;
-}
-.sort select:focus,
-.sort select:active {
-    outline:none;
-}
-.search .followerSearchBox{
-    display: inline-block;
-    margin-left: 280px;
-}
-.search .followerSearchBox input[type="checkbox"] {display: none;}
-.search .followerSearchBox input[type="checkbox"] + label {
-    display: inline-block;
-    width:120px;
-    height: 27px;
-    border: 2px solid rgb(105, 179, 149);
-    cursor: pointer;
-    background: none;
-    transition: .3s linear;
-    outline: none;
-    border-radius: 10px;
-}
-.search .followerSearchBox input[type="checkbox"]:checked + label {
-    background: rgb(105, 179, 149);
-}
-.search .followerSearchBox input[type="checkbox"]:checked + label span{
-    color: white;
-}
-.search .followerSearchBox span {
-    font-family: 'Jeju Gothic', sans-serif;
-    font-size: 13px;
-    color: gray;
-    vertical-align: sub;
-}
-.search .followerSearchBox:after {display:block; clear:both; content:"";}
 
 /* 사용자 이름 */
 .profile {
@@ -207,11 +76,6 @@
     color: black;
 }
 
-/* 게시글 리스트 */
-#reviewListDiv {
-    margin-top: 95px;
-    margin-bottom: 50px;
-}
 /* 게시글 리스트 */
 .review {
     position: relative;
@@ -292,7 +156,7 @@
 /*드롭다운*/
 .dropdown {
     float: left;
-    /*margin: 5px 0px 0px 0px;*/
+    margin: 15px 0px 0px 0px;
     width:35px;
     height:35px;
     background-color: transparent;
@@ -305,21 +169,10 @@
 .dropdown .dropbtn span{
     font-size: 20px;
 }
-/*.dropdown .dropbtn img{*/
-/*    width:30px;*/
-/*    height:30px;*/
-/*    outline: none;*/
-/*    border:none;*/
-/*}*/
-/*.dropdown .dropbtn img:hover {*/
-/*    cursor: pointer;*/
-/*    text-decoration: none;*/
-/*    border: none;*/
-/*    outline: none;*/
-/*}*/
-.writer .regDate{
-    margin: 9px 0px 0px 130px;
+.regDate{
+    margin: 25px 0px 0px 100px;
     font-size: 12px;
+    float: left;
 }
 .dropdown-content {
     display: none;
