@@ -12,7 +12,8 @@
     <script type="text/javascript" src=" http://code.jquery.com/jquery-latest.min.js"></script>
     <script>
         function fn_paging(curPage) {
-            location.href="/review/recommend?curPage="+curPage;
+            document.getElementById("curPageId").value = curPage;
+            document.getElementById("formId").submit();
         }
 
         //드롭다운 영역 클릭시 드롭다운 보이게
@@ -72,6 +73,11 @@
     <div class="top">
         <h1>추천 리뷰</h1>
     </div>
+    <form id="formId" action="/review/recommend" method="POST">
+        <input type="hidden" name="similarUsers" value="${similarUsers}">
+        <input type="hidden" name="curPage" id="curPageId">
+    </form>
+
     <c:forEach var="review" items="${recommendReviewList}">
     <div class="review">
         <div class="profile">
