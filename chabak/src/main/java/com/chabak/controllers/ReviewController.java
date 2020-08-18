@@ -349,15 +349,18 @@ public class ReviewController {
 
     // 추천 리뷰 리스트
     @RequestMapping(value ="/recommend", method={RequestMethod.GET,RequestMethod.POST})
-    public ModelAndView recommend(HttpServletRequest request, HttpSession session, HttpServletResponse response) {
+    public ModelAndView recommend(HttpServletRequest request,
+                                  HttpSession session,
+                                  HttpServletResponse response,
+                                  @RequestParam (required = false,defaultValue = "1") int curPage) {
         ModelAndView mv = new ModelAndView();
 
         //region checkLogin(세션에서 로그인한 아이디 가져와 설정+비로그인시 로그인 페이지로 이동(return: id or null))
-        Utility.getIdForSessionOrMoveIndex(mv,session,response);
+        String sessionId = Utility.getIdForSessionOrMoveIndex(mv,session,response);
 
         Map<String, Object> map = new HashMap<>();
         String similarUsers = request.getParameter("similarUsers");
-        String sessionId = (String)session.getAttribute("id");
+
         System.out.println(similarUsers);
 
         String similarUsersId[] = similarUsers.split(", ");
@@ -369,10 +372,20 @@ public class ReviewController {
         map.put("id5", similarUsersId[4]);
         map.put("sessionId", sessionId);
 
+        //페이징 설정
+        int listCnt = reviewService.countRecommendReview(map);
+        Pagination pagination = new Pagination(listCnt,curPage);
+        int startIndex = pagination.getStartIndex();
+        int pageSize = pagination.getPageSize();
+
+        map.put("startIndex",startIndex);
+        map.put("pageSize",pageSize);
+
         List<Review> recommendReviewList = reviewService.selectRecommendReview(map);
 
         System.out.println(recommendReviewList);
         mv.addObject("recommendReviewList", recommendReviewList);
+        mv.addObject("pagination",pagination);
         mv.setViewName("community/recommendReview");
         return mv;
 

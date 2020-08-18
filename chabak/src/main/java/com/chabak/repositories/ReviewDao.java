@@ -58,6 +58,10 @@ public class ReviewDao {
         return reviewList;
     }
 
+    public int countRecommendReview(Map map) {
+        int count = sqlSession.selectOne("review.countRecommendReview", map);
+        return count;
+    }
     // recommendReview
     public List<Review> selectRecommendReview(Map map) {
         List<Review> reviewList = sqlSession.selectList("review.selectRecommendReview", map);
