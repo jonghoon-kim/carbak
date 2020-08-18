@@ -7,9 +7,10 @@ import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.io.PrintWriter;
+import java.io.*;
 import java.sql.Date;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -53,7 +54,7 @@ public class GenerateDataService {
                 Member getMember = memberService.getMember(member.getId());
                 if(getMember==null){
                     memberService.insert(member);
-                    Thread.sleep(150);
+                    Thread.sleep(100);
                 }
 
             }
@@ -73,23 +74,49 @@ public class GenerateDataService {
         List<Member> memberList = generateDataDao.getAllMember();
         int numberOfMember = memberList.size();
         int randomValue = 0;
+
+        //파일에서 읽은 이미지 리스트
+        List<String> imageNameList = this.readImageFromTextFile();
+        //파일에서 읽은 리뷰 타이틀 리스트
+        List<String> titleList = this.readTitleFromTextFile();
+
+        System.out.println("imageNameList:"+imageNameList);
         for(int i=0;i<numberOfGenerate;i++){
+            System.out.println("for i="+i);
             int sequenceNo = reviewService.selectReviewNo();
             randomValue = (int)(Math.random() * numberOfMember);
             review.setReviewNo(sequenceNo);
             review.setId(memberList.get(randomValue).getId());
-            review.setTitle("title"+sequenceNo);
+
+            //리뷰 타이틀
+            if(titleList.size()-1 >= i){
+                review.setTitle(titleList.get(i));
+            }
+            else{
+                review.setTitle("타이틀"+i);
+            }
+
             review.setSido("인천광역시");
             review.setGugun("계양구");
-            review.setContent("content"+sequenceNo);
-            review.setTitleImageSrc("/resources/img/campsite/noImage1.png");
+
+            //이미지
+            if(imageNameList.size()-1 >= i){
+                review.setContent("<p><img src='/resources/editor/upload/"+imageNameList.get(i)+"'></p>");
+                review.setTitleImageSrc("/resources/editor/upload/"+imageNameList.get(i));
+            }
+            else{
+                review.setContent("<p></p>");
+                review.setTitleImageSrc("/resources/img/campsite/noImage1.png");
+            }
+
+            System.out.println("debug1");
             review.setReadCount(0);
             review.setLikeCount(0);
             review.setReplyCount(0);
             review.setRegDate(null);
             review.setModifyDate(null);
             reviewService.insertReview(review);
-            Thread.sleep(150);
+            Thread.sleep(100);
 
         }
         return 1;
@@ -122,13 +149,13 @@ public class GenerateDataService {
                     if(checkReadCount==null){
 
                         generateDataDao.insertReadCountForTest(readCount);
-                        Thread.sleep(150);
+                        Thread.sleep(100);
                         System.out.println("readCount:"+readCount);
                     }
                     else{
                         count++;
                         generateDataDao.updateReadCountForTest(readCount);
-                        Thread.sleep(150);
+                        Thread.sleep(100);
                     }
 
                 }
@@ -159,7 +186,7 @@ public class GenerateDataService {
                 if(flagReviewLike!=1){
                     System.out.println("like reviewLikeInsert");
                     reviewLikeService.insertReviewLike(reviewLike);
-                    Thread.sleep(150);
+                    Thread.sleep(100);
                 }
 
             }
@@ -172,5 +199,31 @@ public class GenerateDataService {
         return 1;
     }
 
+    @SneakyThrows
+    public List<String> readImageFromTextFile(){
+        File file = new File("C:"+File.separator+"review"+File.separator+"reviewImage"+File.separator+"list.txt");
+        List<String> imagePathList = new ArrayList<>();
+        if(file.exists()) {
+            System.out.println("FILE EXIST");
+            BufferedReader inFile = new BufferedReader(new InputStreamReader(new FileInputStream(file),"UTF8"));
+            String sLine = null;
+            while( (sLine = inFile.readLine()) != null )
+                imagePathList.add(sLine);
+        }
+        return imagePathList;
+    }
 
+    @SneakyThrows
+    public List<String> readTitleFromTextFile(){
+        File file = new File("C:"+File.separator+"review"+File.separator+"reviewTitle"+File.separator+"list.txt");
+        List<String> titleList = new ArrayList<>();
+        if(file.exists()) {
+            System.out.println("FILE EXIST");
+            BufferedReader inFile = new BufferedReader(new InputStreamReader(new FileInputStream(file),"UTF8"));
+            String sLine = null;
+            while( (sLine = inFile.readLine()) != null )
+                titleList.add(sLine);
+        }
+        return titleList;
+    }
 }

@@ -17,12 +17,19 @@
         return true;
 
     }
+
+    function showUsage() {
+        alert();
+    }
 </script>
 <body>
+<button type="button" onclick="showUsage();">사용법</button>
 <button type="button" onclick="beforeSubmit(1);">Member 생성</button>
+
 <button type="button" onclick="beforeSubmit(2);">Review 생성</button>
 <button type="button" onclick="beforeSubmit(3);">ReadCount 생성</button>
 <button type="button" onclick="beforeSubmit(4);">ReviewLike 생성</button>
+
 <br>
 <form action = '/test' method="GET" id="myForm">
     <input type="text" name="numMember" placeholder="member 생성 수">
