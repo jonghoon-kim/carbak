@@ -147,6 +147,9 @@ public class CampSiteController {
             //커뮤니티 호출
             List<Review> getlstSelectCampsiteDetailReview = campSiteService.getlstSelectCampsiteDetailReview(keyword,startPageNo,endPageNo);
             campsiteDetailReviewCnt = campSiteService.detailPagingCnt(keyword);
+            System.out.println("keyword : " + keyword);
+            System.out.println("getlstSelectCampsiteDetailReview : " + getlstSelectCampsiteDetailReview);
+            System.out.println("campsiteDetailReviewCnt :" + campsiteDetailReviewCnt);
             //리스트의 content에서 이미지 태그 지우기
             for(Review review:getlstSelectCampsiteDetailReview){
                 String modifiedContent = reviewService.deleteImgTag(review.getContent());

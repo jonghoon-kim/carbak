@@ -77,7 +77,7 @@
         <ul id="blogUl">
         <c:set var="tie" value="${campsiteDetailReviewBoolean}"/>
             <c:choose>
-                <c:when test="${tie ne 'false'}">
+                <c:when test="${tie eq 'false'}">
                     <c:forEach var="re" items="${getlstSelectCampsiteDetailReview}" varStatus="status" begin="0" end="4">
                             <li id="communityLi">
                                 <p class="community_best_id">ID : ${re.id}</p>
@@ -112,7 +112,7 @@
             </c:choose>
         </ul>
         <c:choose>
-            <c:when test="${tie ne 'false'}">
+            <c:when test="${tie eq 'false'}">
                 <!-- 페이지 버튼 -->
                 <div class="community_link" data-pl="<c:out value="${plname}"/>">
                     <button class='fas fa-angle-left' onClick="javascript:CommunityDetailPage(${paging.grStartPageNo})"></button>

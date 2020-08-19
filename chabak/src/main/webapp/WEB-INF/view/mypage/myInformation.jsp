@@ -40,7 +40,7 @@
                                 <img src="${pageOwner.savePath}${pageOwner.saveName}">
                             </c:when>
                             <c:otherwise>
-                                <img src="${member.savePath}${member.saveName}"><!-- 다른사람 계정에서 내 아이디 클릭한 경우 -->
+                                <img src="${pageOwner.savePath}${pageOwner.saveName}"><!-- 다른사람 계정에서 내 아이디 클릭한 경우 -->
                             </c:otherwise>
                         </c:choose>
                     </div>
@@ -69,6 +69,10 @@
                             <button class="updateMember" id="btn_updateMember" style="display: inline;"
                                     onclick="location.href='/member/memberUpdate?id=${sessionScope.id}';">
                                 회원정보수정
+                            </button>
+                            <button class="messageList" id="btn_messageList" style="display: inline;"
+                                    onclick="location.href='/message/list';">
+                                쪽지함
                             </button>
                         </c:otherwise>
                     </c:choose>
@@ -125,7 +129,7 @@
                     </c:when>
                     <c:otherwise>
                         <div class="follower_btn">
-                            <div class="countMenu">${countFollower}</div>
+                            <div class="countMenu" id="followerCount">${countFollower}</div>
                             <button type="button" class="follower"
                                     onclick="followList('${sessionScope.id}', 'follower')">팔로워
                             </button>
@@ -181,11 +185,11 @@
         </div>
     </div>
 
-    <div class="footer">
-        <img src="/img/footer/footer.png">
-    </div>
-</div>
 
+</div>
+<div class="footer">
+    <img src="/img/footer/footer.png">
+</div>
 <jsp:include page="/WEB-INF/view/mypage/myInfoFrame.jsp"/>
 <script type="text/javascript" src=" http://code.jquery.com/jquery-latest.min.js"></script>
 <script type="text/javascript" src="/js/myPage.js"></script>

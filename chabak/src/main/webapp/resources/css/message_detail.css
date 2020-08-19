@@ -191,6 +191,32 @@
 }
 .message table caption{caption-side: bottom; display: none;}
 
+.deleteButton {
+    font-family: 'Roboto', sans-serif;
+    background: rgb(105, 179, 149);
+    border: 2px solid #fff;
+    border-radius: 35px;
+    padding: 2px;
+    cursor: pointer;
+    display: block;
+    position: relative;
+    overflow: hidden;
+    transition: all .35s ease-in-out .35s;
+    width: 120px;
+    height:35px;
+    text-align: center;
+    color :white;
+    font-weight: bolder;
+    margin-top: 50px;
+    margin-left: 500px;
+}
+.deleteButton:hover{
+    font-size: medium;
+}
+.deleteButton:focus{
+    outline: none;
+}
+
 /* footer */
 .footer {
     margin-top: 200px;
