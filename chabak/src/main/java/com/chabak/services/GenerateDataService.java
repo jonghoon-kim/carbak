@@ -77,7 +77,7 @@ public class GenerateDataService {
                 Member getMember = memberService.getMember(member.getId());
                 if(getMember==null){
                     memberService.insert(member);
-                    Thread.sleep(100);
+                    Thread.sleep(10);
                 }
 
             }
@@ -143,7 +143,7 @@ public class GenerateDataService {
             review.setRegDate(null);
             review.setModifyDate(null);
             reviewService.insertReview(review);
-            Thread.sleep(100);
+            Thread.sleep(10);
 
         }
         return 1;
@@ -166,9 +166,9 @@ public class GenerateDataService {
 
 
             for(Review review:reviewList){
-                ///사용자가 해당 리뷰를 읽는지 안 읽는지 결정(약 30%만 읽음)
+                ///사용자가 해당 리뷰를 읽는지 안 읽는지 결정(약 20%만 읽음)
                 int checkReadValue = (int)(Math.random() * 100) + 1;
-                if(checkReadValue <= 30){ //사용자가 해당 리뷰를 읽음
+                if(checkReadValue <= 20){ //사용자가 해당 리뷰를 읽음
 
                     readCount.setReviewNo(review.getReviewNo());
                     randomValue = (int)(Math.random() * readCountRangeEnd) + readCountRangeStart;
@@ -176,16 +176,22 @@ public class GenerateDataService {
                         readCount.setReadCount(randomValue);
 
                         ReadCount checkReadCount = readCountService.selectReadCount(readCount);
-                        if(checkReadCount==null){
 
+                        //review 테이블 조회수 update
+                        Review updateReview = review;
+                        updateReview.setReadCount(randomValue);
+
+                        if(checkReadCount==null){
+                            generateDataDao.updateReadCountFromReview(updateReview);
                             generateDataDao.insertReadCountForTest(readCount);
-                            Thread.sleep(100);
+                            Thread.sleep(10);
                             System.out.println("readCount:"+readCount);
                         }
                         else{
                             count++;
+                            generateDataDao.updateReadCountFromReview(updateReview);
                             generateDataDao.updateReadCountForTest(readCount);
-                            Thread.sleep(100);
+                            Thread.sleep(10);
                         }
 
                     }
@@ -220,7 +226,7 @@ public class GenerateDataService {
                 if(flagReviewLike!=1){
                     System.out.println("like reviewLikeInsert");
                     reviewLikeService.insertReviewLike(reviewLike);
-                    Thread.sleep(100);
+                    Thread.sleep(10);
                 }
 
             }

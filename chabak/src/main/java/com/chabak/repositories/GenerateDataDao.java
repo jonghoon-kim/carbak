@@ -37,4 +37,9 @@ public class GenerateDataDao {
     public int updateReadCountForTest(ReadCount readCount){
         return sqlSession.update("generateData.updateReadCountForTest",readCount);
     }
+
+    public int updateReadCountFromReview(Review review){
+        return sqlSession.update("generateData.updateReadCountFromReview",review);
+    }
+
 }

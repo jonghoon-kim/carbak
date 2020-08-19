@@ -36,6 +36,12 @@
 		WHERE REVIEWNO = #{reviewNo}
 		and id = #{id}
 	</update>
+
+	<update id="updateReadCountFromReview" parameterType="Review">
+		UPDATE Review SET READCOUNT = #{readCount}
+		WHERE REVIEWNO = #{reviewNo}
+	</update>
+
 	<select id="getAllMember" resultType="Member">
 		select * from member
 	</select>
