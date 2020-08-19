@@ -347,6 +347,15 @@ header{
 	color:#A3D16E;
 	margin-bottom:30px;
 }
+.review_content h2[class="h2Name"]{
+  margin-left: 727px;
+  margin-right: 620px;
+  font-size:30px;
+  font-family: 'Roboto', sans-serif;
+  color:#A3D16E;
+  margin-bottom:30px;
+}
+
 .review_content hr{
   margin-left:200px;
   width:1520px;
@@ -445,6 +454,18 @@ header{
   margin-right:200px;
   text-align:right;
   font-family: 'Jeju Gothic', sans-serif;
+}
+.community_link .more {
+  background-color: transparent;
+  font-size: 17px;
+  font-family: 'Jeju Gothic', sans-serif;
+}
+
+.community_link .more:visited,
+.community_link .more:active,
+.community_link .more:hover{
+  color: black;
+  outline:none;
 }
 
 /*footer*/

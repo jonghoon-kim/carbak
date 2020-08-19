@@ -3,6 +3,8 @@ package com.chabak.controllers;
 import com.chabak.services.*;
 import com.chabak.util.Utility;
 import com.chabak.vo.*;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
@@ -14,6 +16,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 @Controller
@@ -76,9 +79,21 @@ public class MessageController {
         String id = Utility.getIdForSessionOrMoveIndex(mv,session,response);
 
         System.out.println("message:"+message);
-        message.setSendId(id);
+
         try{
-            messageService.insertMessage(message);
+            //receiveId 가 정상적인 아이디인지 체크
+            Member receiveMember = memberService.getMember(message.getReceiveId());
+
+            if(receiveMember==null){
+                //비정상적인 아이디이면
+                Utility.printAlertMessage("쪽지를 보내려는 아이디가 존재하지 않습니다.",null,response);
+                return null;
+            }
+            else{
+                //정상적인 아이디이면
+                message.setSendId(id);
+                messageService.insertMessage(message);
+            }
         }
         catch (Exception e){
             e.printStackTrace();
@@ -91,6 +106,33 @@ public class MessageController {
         return null;
     } //리뷰 리스트 출력
 
+
+
+    @RequestMapping(value ={"/searchId"}, method=RequestMethod.GET)
+    public ModelAndView searchId(){
+        ModelAndView mv = new ModelAndView();
+        mv.setViewName("message/searchId");
+        return mv;
+    }
+
+    @SneakyThrows
+    @ResponseBody
+    @RequestMapping(value = "/autoCompleteUserId", method = RequestMethod.GET, produces="text/plain;charset=UTF-8")
+    public String autoCompleteUserId(@RequestParam String searchText) {
+        System.out.println("searchText:"+searchText);
+        List<String> userIdList = memberService.getAllMemberId(searchText);
+        ObjectMapper mapper = new ObjectMapper();
+        String jsonString = mapper.writeValueAsString(userIdList);
+        return jsonString;
+    }
+
+    @RequestMapping(value ={"/address"}, method=RequestMethod.GET)
+    public ModelAndView address(){
+        ModelAndView mv = new ModelAndView();
+        mv.setViewName("message/message_address");
+        return mv;
+    }
+
     @RequestMapping(value ="/detail", method=RequestMethod.GET)
     public ModelAndView detailMessage(@RequestParam (defaultValue = "-1") int messageNo,
                                       @RequestParam (defaultValue = "-1") String messageBox,
@@ -102,6 +144,12 @@ public class MessageController {
 
         //메시지 선택
         Message message = messageService.selectMessageDetail(messageNo);
+
+        //검색된 메시지가 없으면(잘못된 messageNo 입력)
+        if(message==null){
+            Utility.printAlertMessage("잘못된 접근입니다.",null,response);
+            return null;
+        }
 
         //권한 체크용 변수
         boolean authorityYn;
@@ -118,19 +166,26 @@ public class MessageController {
             authorityYn = false;
         }
 
-        //해당 메시지가 존재하지 않거나 messageBox 값이 들어오지 않으면
-        if(message == null || !authorityYn){
+        //유저가 특정 메시지에 대해서 특정 messageBox(보낸메시지함,받은메시지함,내게쓴메시지함)에 맞는 권한이 없으면
+        if(!authorityYn){
             Utility.printAlertMessage("잘못된 접근입니다.",null,response);
             return null;
         }
 
         //메시지 읽음 여부 y로 업데이트
         try{
-            //받은 메시지함이고 이전에 해당 메시지를 읽은 적 없으면 
+            //받은 메시지함이고 이전에 해당 메시지를 읽은 적 없으면
             if(messageBox.equals("receive") && message.getReadYn().equals("n")){
                 //메시지를 읽음 상태로 변경
                 messageService.updateReadYn(messageNo);
-            }
+           }
+
+            Member member = memberService.getMember(id);
+            mv.addObject("member",member);
+            mv.addObject("message",message);
+            mv.addObject("messageBox",messageBox);
+            mv.setViewName("message/message_detail");
+            return mv;
         }
         catch (Exception e){
             e.printStackTrace();
@@ -138,10 +193,6 @@ public class MessageController {
             return null;
         }
 
-        mv.addObject("message",message);
-        mv.addObject("messageBox",messageBox);
-        mv.setViewName("message/message_detail");
-        return mv;
     }
 
     @RequestMapping(value ="/delete", method=RequestMethod.GET)
@@ -175,12 +226,12 @@ public class MessageController {
             }
             else if(messageBox.equals("toMe")){ //messageBox 값이 receive
                 authorityYn = id.equals(message.getSendId());
-            }            
+            }
             else{  //messageBox 값이 receive/send/toMe 전부 아니면 잘못된 접근
                 Utility.printAlertMessage("잘못된 접근입니다.",null,response);
                 return null;
             }
-           
+
             System.out.println("authorityYn:"+authorityYn);
             //권한 없으면
             if(!authorityYn){
@@ -192,12 +243,7 @@ public class MessageController {
                 messageService.deleteMessage(messageBox,messageNo);
 
             }
-        } //메시지 받은 아이디가 없으면
-        catch (NullPointerException e){
-            Utility.printAlertMessage("잘못된 접근입니다.",null,response);
-            return null;
-        }
-        catch (Exception e){
+        }catch (Exception e){
             e.printStackTrace();
             Utility.printAlertMessage("작업 중 에러가 발생했습니다.",null,response);
             throw e; //트랜젝션을 위해 예외 던짐

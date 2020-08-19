@@ -1,0 +1,52 @@
+@import url(//fonts.googleapis.com/earlyaccess/jejugothic.css);
+
+/* 전체 */
+.container {
+    text-align: center;
+    margin-top: 40px;
+    margin-bottom:70px;
+}
+
+/* 타이틀 */
+.top {
+    font-family: 'Jeju Gothic', sans-serif;
+}
+
+.search_wrap {
+    margin-top: 40px;
+}
+
+input[type="text"] {
+    padding-left: 15px;
+    height: 42px;
+    border-top : none;
+    border-right :none;
+    border-left:none;
+    border-bottom: 2px solid rgb(105, 179, 149);
+    font-family: 'Jeju Gothic', sans-serif;
+    margin-left: 16px;
+    width: 235px;
+    box-sizing: border-box;
+}
+
+input[type="text"]:focus {
+    outline: none;
+}
+
+button {
+    width: 100px;
+    height : 35px;
+    font-size: 18px;
+    font-family: 'Jeju Gothic', sans-serif;
+    background-color: rgb(105, 179, 149);
+    border : 2px solid rgb(105, 179, 149);
+    border-radius: 10px;
+    color : white;
+    transition : .35s;
+}
+button:hover{
+    font-size: 20px;
+}
+button:focus {
+    outline: none;
+}

@@ -24,35 +24,6 @@ function checkReviewValidate(){
     return true;
 }
 
-//필드 글자 수 제한
-function checkLengthValidate(obj, maxLen) {
-
-    var strValue = obj.value;
-    var strLen = strValue.length;
-    var totalLen = 0;
-    var len = 0;
-    var oneChar = "";
-    var str2 = "";
-
-    for (var i = 0; i < strLen; i++) {
-
-        totalLen++;
-        // 입력한 문자 길이보다 넘치면 잘라내기 위해 저장
-        if (totalLen <= maxLen) {
-            len = i + 1;
-        }
-    }
-
-    // 넘어가는 글자는 자른다.
-    if (totalLen > maxLen) {
-        alert(maxLen + "글자를 초과 입력 할 수 없습니다.");
-        str2 = strValue.substr(0, len);
-        obj.value = str2;
-        checkLengthValidate(obj, maxLen);
-    }
-
-}
-
 //페이징 시 url String 설정(예: "/review"+getUrlString(curPage)    )
 function getUrlString(searchText,sortType){
 
@@ -70,14 +41,7 @@ function getUrlString(searchText,sortType){
 
 }
 
-function getFormatDate(date) {
-    var year = date.getFullYear();              //yyyy
-    var month = (1 + date.getMonth());          //M
-    month = month >= 10 ? month : '0' + month;  //month 두자리로 저장
-    var day = date.getDate();                   //d
-    day = day >= 10 ? day : '0' + day;          //day 두자리로 저장
-    return  year + '-' + month + '-' + day;       //'-' 추가하여 yyyy-mm-dd 형태 생성 가능
-}
+
 
 // 리뷰 리스트를 ajax로 출력
 function ajaxReviewList(sessionId,isSearchButton,curPage) {
@@ -151,7 +115,7 @@ function ajaxReviewList(sessionId,isSearchButton,curPage) {
 
                 //등록일자 추가
                 var regDate = newReview.find(".regDate");
-                regDate.text(getFormatDate(new Date(this["regDate"])));
+                regDate.text(getFormatDate(new Date(this["regDate"]),"/"));
 
                 //좋아요 토글될 이미지 선택
                 var toggleImage = newReview.find(".toggle-like-img");
@@ -257,22 +221,6 @@ function cancelFunction(link) {
         location.href=link;
 
     }
-}
-
-//form에 input type="text" 반드시 1개일때 input이 비어있는지 체크(공통 사용 가능,form의 onsubmit에 사용)
-function commonCheckInputNotEmpty(obj,errorMessage) {
-    var inputText = $(obj).find('input[type=\"text\"]').val();
-    if(inputText == null || inputText == ""){
-        if(arguments.length==2){
-            alert(errorMessage);
-        }
-        else
-            alert("내용을 입력하세요.");
-
-        return false;
-    }
-    return true;
-
 }
 
 function ajaxReviewLikeToggle(reviewNo,imgTag,sessionId){

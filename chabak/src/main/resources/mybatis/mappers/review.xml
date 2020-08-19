@@ -22,7 +22,7 @@
 		select REVIEWNO_SEQ.nextval from dual
 	</select>
 
-	<!--	변수값이 칼럼명일 경우 ${}를 사용한다.-->
+<!--	변수값이 칼럼명일 경우 ${}를 사용한다.-->
 
 	<select id="maxReviewCount" parameterType="Map" resultType="int">
 		select count(*) from review r
@@ -37,7 +37,11 @@
 			and #{id} = f.FOLLOWINGID
 		</if>
 		<if test="searchText !=null and searchText !=''">
-			and sido||' '||gugun LIKE '%'||#{searchText}||'%'
+			and
+			(
+				sido||' '||gugun LIKE '%'||#{searchText}||'%'
+				OR id LIKE '%'||#{searchText}||'%'
+			)
 		</if>
 		<if test="pageOwnerId !=null and pageOwnerId !=''">
 			and id = #{pageOwnerId}
@@ -70,54 +74,58 @@
 	<select id="selectReviewList" parameterType="Map" resultType="Review">
 		select *
 		from
-		(
-		select *
-		from
-		(
-		select rownum as num, A.*
-		from
-		(
-		select r.reviewNo,r.id,r.title,r.sido,r.gugun,r.content,r.titleImageSrc,r.readCount,r.likeCount,r.replyCount,r.regDate,r.modifyDate,
-		nvl2(l.reviewNo,1,0) as likeYn,m.name,m.saveName, m.savePath
-		from Review r,ReviewLike l,Member m
-		<!--	isFollowerSearch : 로그인시 isFollowerSearch 값이 있으면 팔로워가 쓴 글 검색 -->
-		<if test="id !=null and id !='' and isFollowerSearch !=null and isFollowerSearch !=''">
-			,Follow f
-		</if>
-		where
-		<!--	isFollowerSearch : 로그인시 isFollowerSearch 값이 있으면 팔로워가 쓴 글 검색 -->
-		<if test="id !=null and id !='' and isFollowerSearch !=null and isFollowerSearch !=''">
-			r.id = f.followerId
-			and #{id} = f.FOLLOWINGID
-			and
-		</if>
-		r.reviewNo = l.reviewNo(+)
-		and r.id = m.id
-		<choose>
-			<!--	사용자 로그인시 -->
-			<when test="id != null and id != ''">
-				and #{id} = l.id(+)
-			</when>
-			<!--	비로그인시 -->
-			<otherwise>
-				and l.id(+) is null
-			</otherwise>
-		</choose>
+			(
+				select *
+				from
+				(
+					select rownum as num, A.*
+					from
+					(
+						select r.reviewNo,r.id,r.title,r.sido,r.gugun,r.content,r.titleImageSrc,r.readCount,r.likeCount,r.replyCount,r.regDate,r.modifyDate,
+						nvl2(l.reviewNo,1,0) as likeYn,m.name,m.saveName, m.savePath
+						from Review r,ReviewLike l,Member m
+						<!--	isFollowerSearch : 로그인시 isFollowerSearch 값이 있으면 팔로워가 쓴 글 검색 -->
+						<if test="id !=null and id !='' and isFollowerSearch !=null and isFollowerSearch !=''">
+							,Follow f
+						</if>
+						where
+						<!--	isFollowerSearch : 로그인시 isFollowerSearch 값이 있으면 팔로워가 쓴 글 검색 -->
+						<if test="id !=null and id !='' and isFollowerSearch !=null and isFollowerSearch !=''">
+							r.id = f.followerId
+							and #{id} = f.FOLLOWINGID
+							and
+						</if>
+						r.reviewNo = l.reviewNo(+)
+						and r.id = m.id
+						<choose>
+							<!--	사용자 로그인시 -->
+							<when test="id != null and id != ''">
+							and #{id} = l.id(+)
+							</when>
+							<!--	비로그인시 -->
+							<otherwise>
+							and l.id(+) is null
+							</otherwise>
+						</choose>
 
-		<if test="pageOwnerId !=null and pageOwnerId !=''">
-			and r.id = #{pageOwnerId}
-		</if>
-		<if test="searchText !=null and searchText !=''">
-			and r.sido||' '||r.gugun LIKE '%'||#{searchText}||'%'
-		</if>
-		<if test="sortType !=null and sortType !=''">
-			order by ${sortType} desc
-		</if>
-		) A
-		)
-		where num <![CDATA[>=]]>  #{startIndex}
-		)
-		where rownum <![CDATA[<=]]> #{pageSize}
+						<if test="pageOwnerId !=null and pageOwnerId !=''">
+							and r.id = #{pageOwnerId}
+						</if>
+						<if test="searchText !=null and searchText !=''">
+							and
+							(
+								r.sido||' '||r.gugun LIKE '%'||#{searchText}||'%'
+								OR r.id LIKE '%'||#{searchText}||'%'
+							)
+						</if>
+						<if test="sortType !=null and sortType !=''">
+						order by ${sortType} desc
+						</if>
+					) A
+				)
+				where num <![CDATA[>=]]>  #{startIndex}
+		    )
+		    where rownum <![CDATA[<=]]> #{pageSize}
 	</select>
 
 	<select id="selectReviewListMyPage" parameterType="string" resultType="Review">
@@ -137,7 +145,7 @@
 		<if test="pageOwnerId !=null and pageOwnerId !=''">
 			and r.id = #{pageOwnerId}
 		</if>
-		order by regDate desc
+			order by regDate desc
 
 	</select>
 
@@ -159,32 +167,51 @@
 			WHERE id = #{id1} or id = #{id2} or id = #{id3} or id = #{id4} or id = #{id5})
 			minus
 			(select reviewno
-			from readcount
-			where id = #{sessionId}
-			union
-			select reviewno
 			from reviewlike
 			where id =#{sessionId}))
 			order by regdate desc)
 		where rownum <![CDATA[<=]]> 5
 	</select>
 
+	<select id="countRecommendReview" parameterType="Map" resultType="int">
+						SELECT count(*)
+						FROM review
+						where reviewno in
+							((SELECT distinct reviewno
+							FROM reviewlike
+							WHERE id = #{id1} or id = #{id2} or id = #{id3} or id = #{id4} or id = #{id5})
+							minus
+							(select reviewno
+							from reviewlike
+							where id = #{sessionId}))
+						order by regdate desc
+	</select>
 	<select id="selectRecommendReview" parameterType="Map" resultType="Review">
-		SELECT *
-		FROM review
-		where reviewno in
-			((SELECT distinct reviewno
-			FROM reviewlike
-			WHERE id = #{id1} or id = #{id2} or id = #{id3} or id = #{id4} or id = #{id5})
-			minus
-			(select reviewno
-			from readcount
-			where id = #{sessionId}
-			union
-			select reviewno
-			from reviewlike
-			where id = #{sessionId}))
-		order by regdate desc
+		select *
+		from
+			(
+				select *
+				from
+				(
+					select rownum as num, A.*
+					from
+					(
+						SELECT *
+						FROM review
+						where reviewno in
+							((SELECT distinct reviewno
+							FROM reviewlike
+							WHERE id = #{id1} or id = #{id2} or id = #{id3} or id = #{id4} or id = #{id5})
+							minus
+							(select reviewno
+							from reviewlike
+							where id = #{sessionId}))
+						order by regdate desc
+					) A
+				)
+				where num <![CDATA[>=]]>  #{startIndex}
+		    )
+		    where rownum <![CDATA[<=]]> #{pageSize}
 	</select>
 
 	<update id="updateReview" parameterType="Review">

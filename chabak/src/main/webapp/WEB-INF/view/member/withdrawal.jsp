@@ -12,9 +12,10 @@
 <div class="withdrawal">
     <form method="POST">
         <p class="withdrawal_msg">비밀번호를 입력해주세요</p><BR><BR>
-        <input type="password" class="withdrawal_pw" name="password" placeholder="비밀번호"><BR><BR>
+        <input type="hidden" name="id" value="">
+        <input type="password" class="withdrawal_pw" name="password" id="password" placeholder="비밀번호"><BR><BR>
         <input type="button" onclick="passwordCheck()" value="회원탈퇴"><BR>
-        <button type="button" class="withdrawal" onclick="passwordCheck()"><span>회원탈퇴</span></button> <BR>
+<%--        <button type="button" class="withdrawal" onclick="passwordCheck()"><span>회원탈퇴</span></button> <BR>--%>
     </form>
 </div>
 

@@ -12,6 +12,14 @@ public class Campsite {
     private String address;                 //상세 주소
     private String convenience1;            //편의 시설
     private String convenience2;            //부가 시설
+    private int dNUM;				        //페이지 컬럼 수
+
+    public int getdNUM() {
+        return dNUM;
+    }
+    public void setdNUM(int dNUM) {
+        this.dNUM = dNUM;
+    }
 
     public String getCampsitename() {
         return campsitename;

@@ -15,11 +15,13 @@
 	<typeAlias alias="ReviewLike" type="com.chabak.vo.ReviewLike"/>
 	<typeAlias alias="Message" type="com.chabak.vo.Message"/>
 	<typeAlias alias="ReadCount" type="com.chabak.vo.ReadCount"/>
+		<typeAlias alias="HashTag" type="com.chabak.vo.HashTag"/>
 	</typeAliases>
 	
 	<!-- 실제 SQL과 객체 매핑을 위한 매핑 정보 xml -->
 	<mappers>
 		<mapper resource = "/mybatis/mappers/member.xml"/>
+		<mapper resource = "/mybatis/mappers/admin.xml"/>
 		<mapper resource = "/mybatis/mappers/follow.xml"/>
 		<mapper resource = "/mybatis/mappers/review.xml"/>
 		<mapper resource = "/mybatis/mappers/reviewLike.xml"/>
@@ -27,6 +29,6 @@
 		<mapper resource = "/mybatis/mappers/campSite.xml"/>
 		<mapper resource = "/mybatis/mappers/message.xml"/>
 		<mapper resource = "/mybatis/mappers/readCount.xml"/>
-		<mapper resource = "/mybatis/mappers/generateData.xml"/>
+		<mapper resource = "/mybatis/mappers/hashTag.xml"/>
 	</mappers>
 </configuration>

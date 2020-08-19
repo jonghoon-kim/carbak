@@ -1,16 +1,18 @@
 package com.chabak.services;
 
+import com.chabak.mapper.AdminMapper;
 import com.chabak.repositories.MemberDao;
 import com.chabak.vo.Member;
-//import com.sun.org.apache.bcel.internal.ExceptionConst;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.PrintWriter;
+import java.util.List;
 import java.util.Map;
+import java.util.List;
 
-@Service
+@Service("memberService")
 public class MemberService {
     @Autowired
     MemberDao memberDao;
@@ -23,19 +25,11 @@ public class MemberService {
         return memberDao.getMember(id);
     }
 
+    public List<String> getAllMemberId(String searchText) { return memberDao.getAllMemberId(searchText); }
+
     /* 아이디 중복 체크 */
     public Member idCheck(String id) throws Exception {
         return memberDao.idCheck(id);
-    }
-
-    /* 로그아웃 */
-    public void logout(HttpServletResponse response) throws Exception {
-        response.setContentType("text/html; charset=UTF-8");
-        PrintWriter out = response.getWriter();
-        out.println("<script>");
-        out.println("location.href=document.referrer;");
-        out.println("</script>");
-        out.close();
     }
 
     /* 이메일 중복 확인*/
@@ -51,7 +45,7 @@ public class MemberService {
 
         if(dbMember != null) {
             if(dbMember.getPassword().contentEquals(member.getPassword())) {
-                System.out.println(dbMember.getSavePath());
+              //  System.out.println(dbMember.getSavePath());
 //                String saveName = (memberDao.getMember(member.getId())).getSaveName();
 //                String savePath = (memberDao.getMember(member.getId())).getSavePath();
                 return true;
@@ -113,8 +107,25 @@ public class MemberService {
     }
 
     // 비밀번호 확인
-//
-//    public boolean passwordCheck(String sessionId, String password){
-//
-//    }
+    public boolean confirmPassword(Member member){
+        // member : 입력값
+        // dbMember : db에 있는 값
+        Member dbMember = memberDao.find(member.getEmail());
+        // System.out.println(memberDao.id_find(member.getEmail()));
+
+        if(dbMember != null) {
+            if(dbMember.getName().contentEquals(member.getName())) {
+                return true;
+            }else {
+                return false;
+            }
+        } else {
+            return false;
+        }
+    }
+
+    // 회원 삭제
+    public int memberDelete(String loginId){
+        return memberDao.memberDelete(loginId);
+    }
 }

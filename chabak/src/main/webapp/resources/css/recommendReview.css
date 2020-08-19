@@ -1,0 +1,212 @@
+@import url(//fonts.googleapis.com/earlyaccess/jejugothic.css);
+/* 헤더 */
+#header {
+    padding-bottom: 200px;
+}
+.top_hr{
+    border: 1px solid rgb(105, 179, 149);
+    width: 1535px;
+    display: inline-block;
+    margin: 70px 200px 0px 200px;
+}
+/* 전체 */
+.container {
+    text-align: center;
+    font-family: 'Jeju Gothic', sans-serif;
+}
+
+/* 타이틀 */
+.top {
+    font-family: 'Jeju Gothic', sans-serif;
+    margin-top: 50px;
+    margin-bottom : 70px;
+    margin-left:20px;
+}
+
+
+/* 사용자 이름 */
+.profile {
+    width: 40%;
+    position: relative;
+}
+.profile .thumbnail-wrapper {
+    float: left;
+    width: 40px;
+    height: 40px;
+    margin-bottom: 5px;
+}
+.thumbnail {
+    border : 2px solid rgb(105, 179, 149);
+    border-radius: 55px;
+    position: relative;
+    padding-top : 100%;
+    overflow: hidden;
+}
+.thumbnail .centered {
+    position: absolute;
+    top: 0;
+    right : 0;
+    left : 0;
+    bottom :0;
+    transform: translate(50%,50%);
+    -webkit-transform: translate(50%, 50%);
+    -ms-transform: translate(50%, 50%);
+}
+.thumbnail .centered img {
+    max-height: 100%;
+    position: absolute;
+    top: 0;
+    right : 0;
+    left : 0;
+    bottom :0;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transform: translate(-50%,-50%);
+}
+.profile .writer {
+    position: relative;
+    float: left;
+    margin: 15px 0px 0px 5px;
+    font-size: 19px;
+}
+.profile .writer a {
+    text-decoration: none;
+    color: black;
+}
+
+/* 게시글 리스트 */
+.review {
+    position: relative;
+    width: 950px;
+    height: auto;
+    margin-left: 480px;
+    margin-bottom: 50px;
+}
+/* 게시글 사진 */
+.review-img {
+    width: 100%;
+    height: 300px;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-top: 2px solid rgb(105, 179, 149);
+    border-bottom: 2px solid rgb(105, 179, 149);
+}
+.review-img img {
+    max-height: 100%;
+}
+/* 게시글 제목, 좋아요, 댓글 아이콘*/
+.review-content{
+    height: 40px;
+    margin-top:10px;
+    border-bottom: 2px solid rgb(105, 179, 149);
+}
+.content-title {
+    float: left;
+    margin-top:5px;
+}
+.content-icon{
+    float: right;
+    margin-left:2px;
+    margin-right:2px;
+    margin-top:-4px;
+}
+.content-icon .like-img,
+.content-icon .comment-img{
+    width:35px;
+    height:35px;
+    border: none;
+    background-color: transparent;
+    margin-right: 10px;
+    outline: none;
+}
+.content-icon img {
+    width:35px;
+    height:35px;
+
+}
+
+/* pagination css */
+.paginationBut {
+    padding:10px 10px 10px 10px;
+    background: rgb(105, 179, 149, 0.5) ;
+    border-radius: 5px;
+    font-family: 'Jeju Gothic', sans-serif;
+}
+.paginationBut1 {
+    padding:10px 10px 10px 10px;
+    background: rgb(105, 179, 149, 0.5) ;
+    margin-left: 5px;
+    border-radius: 5px;
+    font-family:'Jeju Gothic', sans-serif;
+}
+#pagingDiv {
+    margin: 0px 0px 0px 900px;
+}
+#pagingDiv span {
+    font-weight: bold;
+    font-family: inherit;
+}
+
+/* footer */
+.footer {
+    margin-top: 200px;
+}
+
+/*드롭다운*/
+.dropdown {
+    float: left;
+    margin: 15px 0px 0px 0px;
+    width:35px;
+    height:35px;
+    background-color: transparent;
+}
+.dropdown .dropbtn {
+    border: none;
+    outline: none;
+    background-color: transparent;
+}
+.dropdown .dropbtn span{
+    font-size: 20px;
+}
+.regDate{
+    margin: 25px 0px 0px 100px;
+    font-size: 12px;
+    float: left;
+}
+.dropdown-content {
+    display: none;
+    position: absolute;
+    margin-left:280px;
+    background-color:white;
+    color:black;
+    font-size:12px;
+    min-width: 80px;
+    box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+    z-index: 1;
+    -webkit-transition: opacity .3s ease-in;
+    -moz-transition: opacity .3s ease-in;
+    -o-transition: opacity .3s ease-in;
+    transition: opacity .3s ease-in;
+}
+
+.dropdown-content a {
+    float: none;
+    color: black;
+    padding: 10px 10px;
+    text-decoration: none;
+    display: block;
+}
+
+.dropdown-content a:hover {
+    background-color: rgb(105, 179, 149);
+    color:white;
+}
+.dropdown .show {
+    display: block;
+    z-index: 11;
+    margin: -1px 0px 0px 0px;
+}

@@ -22,6 +22,7 @@ import java.io.PrintWriter;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.DoubleStream;
 
 @Controller
 @RequestMapping("/mypage")
@@ -64,7 +65,6 @@ public class MyPageController {
             mv.addObject("member", memberService.getMember(loginId));
             mv.addObject("countReview", list.size());
             mv.addObject("reviewList", list);
-
             return mv;
         }
     }
@@ -80,9 +80,11 @@ public class MyPageController {
             map.put("HashMapList", list);
 
             return map;
+
         } else if (option.equals("following")) {
             List<Follow> list = followService.followingIdAndProfile(clickedId);
             map.put("HashMapList", list);
+            System.out.println(map);
 
             return map;
         }
@@ -102,14 +104,14 @@ public class MyPageController {
             List<Follow> list = followService.followerIdAndProfile(loginId);
 
             map.put("HashMapList", list);
-
-            System.out.println(list);
             return map;
         } else if (option.equals("following")) {
             followService.deleteFollowingUser(loginId, clickedId);
             List<Follow> list = followService.followingIdAndProfile(loginId);
 
+
             map.put("HashMapList", list);
+
             return map;
         }
         return map;
@@ -160,6 +162,7 @@ public class MyPageController {
         if (option.equals("follower")) {
             followService.clickFollowBtn(loginId, clickedId);
             List<Follow> list = followService.followerIdAndProfile(pageOwnerId);
+            int count = followService.countFollower(loginId);
 
             map.put("HashMapList", list);
 

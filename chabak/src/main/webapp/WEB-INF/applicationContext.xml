@@ -31,7 +31,6 @@
 <!--		<property name="connectionCachingEnabled" value="true" />-->
 	</bean>
 
-
 	<bean id="jsonView" class="net.sf.json.spring.web.servlet.view.JsonView"/>
 	<bean id="viewResolver" class="org.springframework.web.servlet.view.BeanNameViewResolver">
 		<property name="order" value="1"/>
@@ -44,8 +43,6 @@
 		<!-- MyBatis 설정 파일 위치 지정 -->
 		<property name="configLocation" value="classpath:mybatis/configuration.xml" />
 	</bean>
-
-
 
 	<!-- 3. MyBatis SqlSessionTemplate -->
 	<bean id="sqlSession" class="org.mybatis.spring.SqlSessionTemplate">

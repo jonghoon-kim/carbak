@@ -32,11 +32,14 @@ public class ReviewController {
     @Autowired
     ReplyService replyService;
 
-    @Autowired
+     @Autowired
     ReviewLikeService reviewLikeService;
 
-    @Autowired
-    MemberService memberService;
+     @Autowired
+     MemberService memberService;
+
+     @Autowired
+     HashTagService hashTagService;
 
     @Autowired
     ReadCountService readCountService;
@@ -150,11 +153,29 @@ public class ReviewController {
 
         review.setReviewNo(reviewNo);
 
+        HashTag hashTag = new HashTag();
+        // 해쉬태그 저장   todo: 수정했을 경우에 작동 생각하기 delete hashtag where(select reviewNo ~) 후 insert
+        String hashtag = null;
+        Pattern tag = Pattern.compile("\\#([0-9a-zA-Z가-힣]*)");
+        Matcher matcher = tag.matcher(review.getContent());
+        int result = 0; // 해쉬태그 성공 row 갯수 저장
 
+
+
+        System.out.println(result);
 
         try{
             reviewService.insertReview(review);
 
+            while(matcher.find()){
+
+                hashtag = reviewService.specialCharacter_replace(matcher.group());
+                hashTag.setReviewNo(reviewNo);
+                hashTag.setHashTag(hashtag);
+                result += hashTagService.insertHashTag(hashtag);
+
+                System.out.println("hashtag " + hashtag);
+            }
             System.out.println("review Controller : ");
         }
 
@@ -205,7 +226,7 @@ public class ReviewController {
             Utility.printAlertMessage("잘못된 접근입니다.",null,response);
             return null;
         }
-    }
+   }
 
     @RequestMapping(value ="/modify", method=RequestMethod.POST)
     public ModelAndView modifyReview(@ModelAttribute Review review,HttpSession session,HttpServletResponse response){
@@ -254,7 +275,7 @@ public class ReviewController {
                 Utility.printAlertMessage("권한이 없습니다.",null,response);
                 return null;
             }
-            //리뷰 삭제
+             //리뷰 삭제
             reviewService.deleteReview(reviewNo);
             mv.setViewName("redirect:/review/list");
             return mv;
@@ -328,11 +349,18 @@ public class ReviewController {
 
     // 추천 리뷰 리스트
     @RequestMapping(value ="/recommend", method={RequestMethod.GET,RequestMethod.POST})
-    public ModelAndView recommend(HttpServletRequest request, HttpSession session) {
+    public ModelAndView recommend(HttpServletRequest request,
+                                  HttpSession session,
+                                  HttpServletResponse response,
+                                  @RequestParam (required = false,defaultValue = "1") int curPage) {
         ModelAndView mv = new ModelAndView();
+
+        //region checkLogin(세션에서 로그인한 아이디 가져와 설정+비로그인시 로그인 페이지로 이동(return: id or null))
+        String sessionId = Utility.getIdForSessionOrMoveIndex(mv,session,response);
+
         Map<String, Object> map = new HashMap<>();
         String similarUsers = request.getParameter("similarUsers");
-        String sessionId = (String)session.getAttribute("id");
+
         System.out.println(similarUsers);
 
         String similarUsersId[] = similarUsers.split(", ");
@@ -344,10 +372,23 @@ public class ReviewController {
         map.put("id5", similarUsersId[4]);
         map.put("sessionId", sessionId);
 
+        //페이징 설정
+        int listCnt = reviewService.countRecommendReview(map);
+        Pagination pagination = new Pagination(listCnt,curPage);
+        int startIndex = pagination.getStartIndex();
+        int pageSize = pagination.getPageSize();
+
+        map.put("startIndex",startIndex);
+        map.put("pageSize",pageSize);
+
         List<Review> recommendReviewList = reviewService.selectRecommendReview(map);
 
         System.out.println(recommendReviewList);
+        System.out.println(recommendReviewList.size());
+        System.out.println(listCnt + ", " +  curPage + ", "+ startIndex+", "+ pageSize);
         mv.addObject("recommendReviewList", recommendReviewList);
+        mv.addObject("pagination",pagination);
+        mv.addObject("similarUsers",similarUsers);
         mv.setViewName("community/recommendReview");
         return mv;
 

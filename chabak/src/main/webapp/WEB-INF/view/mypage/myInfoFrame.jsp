@@ -15,6 +15,7 @@
     </div>
     <%--    </div>--%>
     <input type="hidden" id="sessionId" value="${sessionScope.id}">
+
 </div>
 
 <!-- 리뷰 리스트 frame -->
