@@ -51,6 +51,7 @@
         </div>
         <div class="listForm">
             <div class="message">
+                <button type="button" onclick="location.href='/message/delete?messageNo=${message.messageNo}&messageBox=${messageBox}'">삭제</button>
                 <table>
                     <tr>
                         <th class="sendId">보낸 사람</th>
