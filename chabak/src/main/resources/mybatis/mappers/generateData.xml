@@ -38,7 +38,7 @@
 	</update>
 
 	<update id="updateReadCountFromReview" parameterType="Review">
-		UPDATE Review SET READCOUNT = #{readCount}
+		UPDATE Review SET READCOUNT = READCOUNT + #{readCount}
 		WHERE REVIEWNO = #{reviewNo}
 	</update>
 
