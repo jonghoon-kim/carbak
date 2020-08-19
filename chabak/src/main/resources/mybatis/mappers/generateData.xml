@@ -10,6 +10,10 @@
 		SELECT * FROM ReadCount
 	</select>
 
+	<select id="selectAllReview" resultType="Review">
+		select * from review
+	</select>
+
 	<select id="selectReadCount" parameterType="ReadCount" resultType="ReadCount">
 		SELECT * FROM ReadCount
 		WHERE reviewNo = #{reviewNo}

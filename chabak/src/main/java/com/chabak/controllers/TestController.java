@@ -64,7 +64,7 @@ GenerateDataService generateDataService;
                     }
                     break;
                 case 3:
-                    complete = generateDataService.generateReadCountData(0,30);
+                    complete = generateDataService.generateReadCountData(1,30);
                     if(complete == 1){
                         response.setContentType("text/html; charset=UTF-8");
                         PrintWriter out = response.getWriter();

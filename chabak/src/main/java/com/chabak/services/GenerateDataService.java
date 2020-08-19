@@ -156,7 +156,7 @@ public class GenerateDataService {
         List<Member> memberList = generateDataDao.getAllMember();
         int listCnt = reviewService.maxReviewCount(null,null,null,null);
         Pagination pagination = new Pagination(listCnt,1);
-        List<Review> reviewList = reviewService.selectReviewList(null,null,null,null,null,pagination.getStartIndex(),pagination.getPageSize());
+        List<Review> reviewList = generateDataDao.selectAllReview();
         int randomValue = 0;
         int count=0;
 
@@ -166,26 +166,33 @@ public class GenerateDataService {
 
 
             for(Review review:reviewList){
-                ///
-                readCount.setReviewNo(review.getReviewNo());
-                randomValue = (int)(Math.random() * readCountRangeEnd) + readCountRangeStart;
-                if(randomValue !=0){  //랜덤 생성 숫자(특정 사용자의 조회수)가 0 이면 insert하지 않음
-                    readCount.setReadCount(randomValue);
+                ///사용자가 해당 리뷰를 읽는지 안 읽는지 결정(약 30%만 읽음)
+                int checkReadValue = (int)(Math.random() * 100) + 1;
+                if(checkReadValue <= 30){ //사용자가 해당 리뷰를 읽음
 
-                    ReadCount checkReadCount = readCountService.selectReadCount(readCount);
-                    if(checkReadCount==null){
+                    readCount.setReviewNo(review.getReviewNo());
+                    randomValue = (int)(Math.random() * readCountRangeEnd) + readCountRangeStart;
+                    if(randomValue !=0){  //랜덤 생성 숫자(특정 사용자의 조회수)가 0 이면 insert하지 않음
+                        readCount.setReadCount(randomValue);
 
-                        generateDataDao.insertReadCountForTest(readCount);
-                        Thread.sleep(100);
-                        System.out.println("readCount:"+readCount);
-                    }
-                    else{
-                        count++;
-                        generateDataDao.updateReadCountForTest(readCount);
-                        Thread.sleep(100);
+                        ReadCount checkReadCount = readCountService.selectReadCount(readCount);
+                        if(checkReadCount==null){
+
+                            generateDataDao.insertReadCountForTest(readCount);
+                            Thread.sleep(100);
+                            System.out.println("readCount:"+readCount);
+                        }
+                        else{
+                            count++;
+                            generateDataDao.updateReadCountForTest(readCount);
+                            Thread.sleep(100);
+                        }
+
                     }
 
                 }
+                //
+
 
             }
         }

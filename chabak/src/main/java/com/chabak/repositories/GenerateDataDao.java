@@ -2,6 +2,7 @@ package com.chabak.repositories;
 
 import com.chabak.vo.Member;
 import com.chabak.vo.ReadCount;
+import com.chabak.vo.Review;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -16,6 +17,10 @@ public class GenerateDataDao {
 
     public List<Member> getAllMember(){
         return sqlSession.selectList("generateData.getAllMember");
+    }
+
+    public List<Review> selectAllReview(){
+        return sqlSession.selectList("generateData.selectAllReview");
     }
 
     public Member getLastCreateMemberByTest(){
