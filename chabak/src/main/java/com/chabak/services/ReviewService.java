@@ -173,12 +173,17 @@ public class ReviewService {
     }
 
     public int increaseReplyCount(int reviewNo){
-        int updateLikeCount = reviewDao.increaseReplyCount(reviewNo);
-        return updateLikeCount;
+        int updateReplyCount = reviewDao.increaseReplyCount(reviewNo);
+        return updateReplyCount;
     }
 
     public int decreaseReplyCount(int reviewNo){
-        int updateLikeCount = reviewDao.decreaseReplyCount(reviewNo);
+        int updateReplyCount = reviewDao.decreaseReplyCount(reviewNo);
+        return updateReplyCount;
+    }
+
+    public int increaseLikeCount(int reviewNo){
+        int updateLikeCount = reviewDao.increaseLikeCount(reviewNo);
         return updateLikeCount;
     }
 
@@ -192,4 +197,6 @@ public class ReviewService {
 
         return str;
     }
+
+
 }

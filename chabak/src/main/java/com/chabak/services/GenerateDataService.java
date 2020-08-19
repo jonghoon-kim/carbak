@@ -28,6 +28,7 @@ public class GenerateDataService {
     @Autowired
     GenerateDataDao generateDataDao;
 
+
     public int generateMemberData(int numberOfGenerate){
         Member member = new Member();
         try{
@@ -226,6 +227,7 @@ public class GenerateDataService {
                 if(flagReviewLike!=1){
                     System.out.println("like reviewLikeInsert");
                     reviewLikeService.insertReviewLike(reviewLike);
+                    reviewService.increaseLikeCount(readCount.getReviewNo());
                     Thread.sleep(10);
                 }
 
