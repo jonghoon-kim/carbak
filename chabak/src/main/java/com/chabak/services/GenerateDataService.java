@@ -307,7 +307,8 @@ public class GenerateDataService {
         int sidoSize = sido.length;
 
         int randomIndex1 = (int)(Math.random() * sidoSize);
-        ("gugun"+randomIndex1)[1];
+//        ("gugun"+randomIndex1)[1];
+        return null;
 
     }
 }
