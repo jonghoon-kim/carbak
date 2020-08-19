@@ -21,6 +21,7 @@ import javax.servlet.http.HttpSession;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 @Controller
 public class WelcomeController {
@@ -66,7 +67,12 @@ public class WelcomeController {
                         .add("id", sessionId)
                         .build();
 
-                OkHttpClient client = new OkHttpClient();
+                OkHttpClient client = new OkHttpClient()
+                        .newBuilder()
+                        .connectTimeout(60, TimeUnit.SECONDS)
+                        .writeTimeout(60, TimeUnit.SECONDS)
+                        .readTimeout(60, TimeUnit.SECONDS)
+                        .build();
 
                 Request request = new Request.Builder()
                         .url(requestURL)
@@ -77,6 +83,7 @@ public class WelcomeController {
 
                 //동기 처리시 execute함수 사용
                 Response response = client.newCall(request).execute();
+
 
                 //출력
                 String similarUsers = response.body().string();

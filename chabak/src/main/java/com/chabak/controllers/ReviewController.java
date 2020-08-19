@@ -384,9 +384,14 @@ public class ReviewController {
         List<Review> recommendReviewList = reviewService.selectRecommendReview(map);
 
         System.out.println(recommendReviewList);
-        System.out.println(recommendReviewList.size());
-        System.out.println(listCnt + ", " +  curPage + ", "+ startIndex+", "+ pageSize);
+        List<Member> memberList = new ArrayList<>();
+        for( Review review : recommendReviewList){
+            Member member = memberService.getMember(review.getId());
+            memberList.add(member);
+        }
+
         mv.addObject("recommendReviewList", recommendReviewList);
+        mv.addObject("memberList",memberList);
         mv.addObject("pagination",pagination);
         mv.addObject("similarUsers",similarUsers);
         mv.setViewName("community/recommendReview");

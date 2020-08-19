@@ -10,6 +10,7 @@
     <link href="/css/recommendReview.css" rel="stylesheet">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
     <script type="text/javascript" src=" http://code.jquery.com/jquery-latest.min.js"></script>
+    <script type="text/javascript" src="/js/reviewScript.js" charset='UTF-8'></script>
     <script>
         function fn_paging(curPage) {
             document.getElementById("curPageId").value = curPage;
@@ -78,7 +79,7 @@
         <input type="hidden" name="curPage" id="curPageId">
     </form>
 
-    <c:forEach var="review" items="${recommendReviewList}">
+    <c:forEach var="review" items="${recommendReviewList}" varStatus="i">
     <div class="review">
         <div class="profile">
             <div class="thumbnail-wrapper">

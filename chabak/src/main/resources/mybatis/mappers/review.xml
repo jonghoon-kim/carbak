@@ -196,9 +196,9 @@
 					select rownum as num, A.*
 					from
 					(
-						SELECT *
-						FROM review
-						where reviewno in
+						SELECT r.reviewNo,r.id,r.title,r.sido,r.gugun,r.content,r.titleimagesrc,r.readcount,r.likecount,r.replycount,r.regdate,r.modifydate,m.savename,m.savepath
+						FROM review r,Member m
+						where r.reviewno in
 							((SELECT distinct reviewno
 							FROM reviewlike
 							WHERE id = #{id1} or id = #{id2} or id = #{id3} or id = #{id4} or id = #{id5})
@@ -206,6 +206,7 @@
 							(select reviewno
 							from reviewlike
 							where id = #{sessionId}))
+							and r.id = m.id
 						order by regdate desc
 					) A
 				)
