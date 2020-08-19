@@ -34,21 +34,43 @@ public class GenerateDataService {
             SimpleDateFormat formatter = new SimpleDateFormat("MMddHHmmss");
             String today;
             String createdString;
+            List<String> idList = this.readIdFromTextFile();
+            List<String> profileList = this.readProfileFromTextFile();
+
+            //idList 크기만큼만 반복
+            numberOfGenerate = idList.size();
+            System.out.println("idList.size():"+idList.size());
+            System.out.println("profileList size:"+profileList.size());
+
              for(int i=0;i<numberOfGenerate;i++){
-                today= formatter.format(new java.util.Date());
-                createdString = today+"-"+i;
+//                today= formatter.format(new java.util.Date());
+//                createdString = today+"-"+i;
 
 
-                member.setId("id"+createdString);
-                member.setName("name"+createdString);
+                member.setId(idList.get(i));
+                member.setName(idList.get(i));
                 member.setPassword("1");
-                member.setGender("m");
+                if(i%2==0){
+                    member.setGender("m");
+                }
+                else{
+                    member.setGender("f");
+                }
+
                 member.setSido("");
                 member.setGugun("");
-                member.setName("name"+createdString);
-                member.setEmail("email"+createdString);
-                member.setSaveName("");
-                member.setSavePath("");
+                member.setEmail(idList.get(i)+"@naver.com");
+                if(profileList.size()-1 >= i){
+                    member.setSaveName(profileList.get(i));
+                    member.setSavePath("/profileImages/");
+                }
+                else{
+                    int index = i % profileList.size();
+                    member.setSaveName(profileList.get(index));
+                    member.setSavePath("/profileImages/");
+                }
+
+
                 System.out.println("member:"+member);
 
                 Member getMember = memberService.getMember(member.getId());
@@ -101,12 +123,15 @@ public class GenerateDataService {
 
             //이미지
             if(imageNameList.size()-1 >= i){
-                review.setContent("<p><img src='/resources/editor/upload/"+imageNameList.get(i)+"'></p>");
+                review.setContent("<p><img src='/resources/editor/upload/"+imageNameList.get(i)+"'>#여기는 야영장 #어디게</p>");
                 review.setTitleImageSrc("/resources/editor/upload/"+imageNameList.get(i));
             }
             else{
-                review.setContent("<p></p>");
-                review.setTitleImageSrc("/resources/img/campsite/noImage1.png");
+//                review.setContent("<p></p>");
+////                review.setTitleImageSrc("/resources/img/campsite/noImage1.png");
+                int index = i % imageNameList.size();
+                review.setContent("<p><img src='/resources/editor/upload/"+imageNameList.get(index)+"'>#여기는 야영장 #어디게</p>");
+                review.setTitleImageSrc("/resources/editor/upload/"+imageNameList.get(index));
             }
 
             System.out.println("debug1");
@@ -225,5 +250,32 @@ public class GenerateDataService {
                 titleList.add(sLine);
         }
         return titleList;
+    }
+    @SneakyThrows
+    public List<String> readIdFromTextFile(){
+        File file = new File("C:"+File.separator+"review"+File.separator+"id"+File.separator+"list.txt");
+        List<String> idList = new ArrayList<>();
+        if(file.exists()) {
+            System.out.println("FILE EXIST");
+            BufferedReader inFile = new BufferedReader(new InputStreamReader(new FileInputStream(file),"UTF8"));
+            String sLine = null;
+            while( (sLine = inFile.readLine()) != null )
+                idList.add(sLine);
+        }
+        return idList;
+    }
+
+    @SneakyThrows
+    public List<String> readProfileFromTextFile(){
+        File file = new File("C:"+File.separator+"review"+File.separator+"profileList"+File.separator+"list.txt");
+        List<String> profileList = new ArrayList<>();
+        if(file.exists()) {
+            System.out.println("FILE EXIST");
+            BufferedReader inFile = new BufferedReader(new InputStreamReader(new FileInputStream(file),"UTF8"));
+            String sLine = null;
+            while( (sLine = inFile.readLine()) != null )
+                profileList.add(sLine);
+        }
+        return profileList;
     }
 }
