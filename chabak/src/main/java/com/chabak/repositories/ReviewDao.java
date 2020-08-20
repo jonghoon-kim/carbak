@@ -4,7 +4,6 @@ import com.chabak.vo.Review;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
-
 import java.util.List;
 import java.util.Map;
 
@@ -54,7 +53,6 @@ public class ReviewDao {
     // similarUsersReview
     public List<Review> selectSimilarUsersReview(Map map) {
         List<Review> reviewList = sqlSession.selectList("review.selectSimilarUsersReview", map);
-        //System.out.println("dao : " +  reviewList);
         return reviewList;
     }
 
@@ -65,12 +63,10 @@ public class ReviewDao {
     // recommendReview
     public List<Review> selectRecommendReview(Map map) {
         List<Review> reviewList = sqlSession.selectList("review.selectRecommendReview", map);
-        System.out.println("dao : " +  reviewList);
         return reviewList;
     }
 
     public int updateReview(Review review) {
-        System.out.println("review in ReviewDao:"+review);
         int updateCount = sqlSession.update("review.updateReview",review);
         return updateCount;
     }

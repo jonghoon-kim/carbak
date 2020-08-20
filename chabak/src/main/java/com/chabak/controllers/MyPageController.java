@@ -1,28 +1,20 @@
 package com.chabak.controllers;
 
-import com.chabak.repositories.ReviewDao;
 import com.chabak.services.FollowServiceImpl;
 import com.chabak.services.MemberService;
 import com.chabak.services.ReviewService;
-import com.chabak.util.Utility;
 import com.chabak.vo.Follow;
-import com.chabak.vo.Pagination;
 import com.chabak.vo.Review;
-import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
-
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.PrintWriter;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.DoubleStream;
 
 @Controller
 @RequestMapping("/mypage")

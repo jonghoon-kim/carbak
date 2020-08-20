@@ -3,18 +3,12 @@ package com.chabak.services;
 
 import com.chabak.repositories.ReadCountDao;
 import com.chabak.repositories.ReviewDao;
-import com.chabak.util.Utility;
-import com.chabak.vo.Pagination;
 import com.chabak.vo.ReadCount;
 import com.chabak.vo.Review;
-import lombok.SneakyThrows;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -50,10 +44,8 @@ public class ReviewService {
 
     //index 페이지 top5 리뷰 content에서 이미지는 출력되지 않도록 제외
     public String deleteImgTag(String originalString){
-
         String regex = "<img[^>]*src=[\"']?([^>\"']+)[\"']?[^>]*>"; //img 태그 src 추출 정규표현식
         String resultString = originalString.replaceAll(regex,"");
-//        System.out.println("deleteImgTag resultString:"+resultString);
         return resultString;
     }
 
@@ -67,8 +59,11 @@ public class ReviewService {
         return insertedCount;
     }
 
-    /**파라미터<br>1.isFollowerSearch : 값 있으면 팔로워 리뷰 검색<br>
-     * 2.searchText : 검색어<br>3. pageOwnerId : 마이페이지 관련<br>4. id : 로그인 아이디**/
+    /**파라미터<br>
+     * 1.isFollowerSearch : 값 있으면 팔로워 리뷰 검색<br>
+     * 2.searchText : 검색어<br>
+     * 3. pageOwnerId : 마이페이지에서 보여줄 페이지 주인 id<br>
+     * 4. id : 로그인 아이디**/
     public int maxReviewCount(String isFollowerSearch,String searchText,String pageOwnerId,String id){
         Map map = new HashMap<String,String>();
         map.put("isFollowerSearch",isFollowerSearch);
@@ -85,10 +80,14 @@ public class ReviewService {
         return reviewList;
     }
 
-    /**파라미터<br>1.isFollowerSearch : 값 있으면 팔로워 리뷰 검색<br>
-     * 2.searchText : 검색어<br>3. pageOwnerId : 마이페이지 관련<br>
-     * 4. id : 로그인 아이디<br>5. sortType 정렬타입(regDate||readCount||likeCount)<br>
-     *6. startIndex : Pagination의 startIndex(필수)<br>7. pageSize : 한페이지에 들어가는 리뷰 개수(필수)**/
+    /**파라미터<br>
+     * 1.isFollowerSearch : 값 있으면 팔로워 리뷰 검색<br>
+     * 2.searchText : 검색어<br>
+     * 3. pageOwnerId : 마이페이지에서 보여줄 페이지 주인 id<br>
+     * 4. id : 로그인 아이디<br>
+     * 5. sortType 정렬타입(regDate||readCount||likeCount)<br>
+     * 6. startIndex : Pagination의 startIndex(필수)<br>
+     * 7. pageSize : 한페이지에 들어가는 리뷰 개수(필수)**/
     public List<Review> selectReviewList(String isFollowerSearch,String searchText,String pageOwnerId,String id,
                                          String sortType,int startIndex,int pageSize){
         Map map = new HashMap<String,String>();
@@ -119,7 +118,6 @@ public class ReviewService {
     // similarUsersReview
     public List<Review> selectSimilarUsersReview(Map map) {
         List<Review> reviewList = reviewDao.selectSimilarUsersReview(map);
-        // System.out.println("Service :" + map.values());
         return reviewList;
     }
 
@@ -131,7 +129,6 @@ public class ReviewService {
     // recommendReview
     public List<Review> selectRecommendReview(Map map) {
         List<Review> reviewList = reviewDao.selectRecommendReview(map);
-        System.out.println("Service : " +  map.values());
         return reviewList;
     }
 
